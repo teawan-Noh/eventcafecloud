@@ -1,6 +1,6 @@
 package com.eventcafecloud.event.domain;
 
-import com.eventcafecloud.cafe.Cafe;
+import com.eventcafecloud.cafe.domain.Cafe;
 import com.eventcafecloud.common.base.BaseTimeEntity;
 import com.eventcafecloud.event.domain.type.EventCategory;
 import com.eventcafecloud.event.dto.EventCreateRequestDto;

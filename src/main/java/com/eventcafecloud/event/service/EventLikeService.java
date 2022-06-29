@@ -1,10 +1,8 @@
 package com.eventcafecloud.event.service;
 
-import com.eventcafecloud.common.bookmark.BookmarkResponse;
 import com.eventcafecloud.common.like.LikeResponse;
 import com.eventcafecloud.common.like.LikeService;
 import com.eventcafecloud.event.domain.Event;
-import com.eventcafecloud.event.domain.EventBookmark;
 import com.eventcafecloud.event.domain.EventLike;
 import com.eventcafecloud.event.repository.EventLikeRepository;
 import com.eventcafecloud.event.repository.EventRepository;

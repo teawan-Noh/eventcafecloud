@@ -1,5 +1,8 @@
 package com.eventcafecloud.event.controller;
 
+import com.eventcafecloud.event.dto.*;
+import com.eventcafecloud.event.service.EventService;
+import com.eventcafecloud.user.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

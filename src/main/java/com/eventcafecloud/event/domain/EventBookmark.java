@@ -23,7 +23,7 @@ public class EventBookmark extends Bookmark {
         super.user = user;
         this.event = event;
 
-        super.user.getEventBookmarks().add(this);
+//        super.user.getEventBookmarks().add(this);
         this.event.getEventBookmarks().add(this);
     }
 }
