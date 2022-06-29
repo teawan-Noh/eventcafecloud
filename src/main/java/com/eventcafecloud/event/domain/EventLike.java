@@ -21,7 +21,7 @@ public class EventLike extends Like {
         super.user = user;
         this.event = event;
 
-        super.user.getEventLikes().add(this);
+//        super.user.getEventLikes().add(this);
         this.event.getEventLikes().add(this);
     }
 }

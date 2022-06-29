@@ -12,7 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-public class EventCreateResponse {
+public class EventCreateResponseDto {
     private String eventName;
     private EventCategory eventCategory;
     private LocalDate eventStartDate;
@@ -21,7 +21,7 @@ public class EventCreateResponse {
     private List<EventImage> eventImage;
 
     @Builder
-    public EventCreateResponse(Event event) {
+    public EventCreateResponseDto(Event event) {
         this.eventName = event.getEventName();
         this.eventCategory = event.getEventCategory();
         this.eventStartDate = event.getEventStartDate();
@@ -30,7 +30,7 @@ public class EventCreateResponse {
         this.eventImage = event.getEventImage();
     }
 
-    public static EventCreateResponse from(Event event) {
+    public static EventCreateResponseDto from(Event event) {
         String eventName = event.getEventName();
         EventCategory eventCategory = event.getEventCategory();
         LocalDate eventStartDate = event.getEventStartDate();
@@ -38,7 +38,7 @@ public class EventCreateResponse {
         String eventInfo = event.getEventInfo();
         List<EventImage> eventImage = event.getEventImage();
 
-        EventCreateResponse eventCreateResponse = new EventCreateResponse(eventName, eventCategory, eventStartDate, eventEndDate, eventInfo, eventImage);
+        EventCreateResponseDto eventCreateResponse = new EventCreateResponseDto(eventName, eventCategory, eventStartDate, eventEndDate, eventInfo, eventImage);
 
         return eventCreateResponse;
     }
