@@ -6,7 +6,10 @@ spring:
     password: 1234
 
   profiles:
-    include: oauth, s3
+    include:
+      - oauth
+      - s3
+
 
   jpa:
     database: mysql
@@ -14,7 +17,7 @@ spring:
     generate-ddl: true
     show-sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
 
   thymeleaf:
     prefix: classpath:/templates/

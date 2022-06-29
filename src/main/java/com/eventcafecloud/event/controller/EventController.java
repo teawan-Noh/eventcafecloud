@@ -29,6 +29,7 @@ public class EventController {
     }
 
     @PutMapping("/api/events/{evnetNumber}")
+//    public EventUpdateResponseDto updateEvent(@PathVariable Long eventNumber, EventUpdateRequestDto requestDto){
     public EventUpdateResponseDto updateEvent(@PathVariable Long eventNumber, EventUpdateRequestDto requestDto){
         return eventService.updateEvent(eventNumber, requestDto);
     }
