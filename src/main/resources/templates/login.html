@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EventCafeCloud | Login</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <style>
+        body {
+            width: 100vw;
+            height: 100vh;
+            background-color: #ffffff;
+        }
+
+        div.left {
+            width: 50%;
+            height: 100vh;
+            float: left;
+            box-sizing: border-box;
+        }
+
+        div.right {
+            width: 50%;
+            height: 100vh;
+            float: right;
+            box-sizing: border-box;
+            background: #774B00;
+        }
+
+        .banner_image {
+            margin-right: auto;
+            margin-left: auto;
+            margin-top: 45vh;
+            text-align: center;
+        }
+
+        .login-form {
+            width: 300px;
+            background-color: #EEEFF1;
+            margin-right: auto;
+            margin-left: auto;
+            margin-top: 30vh;
+            padding: 20px;
+            text-align: center;
+            border: none;
+            border-radius: 5%;
+        }
+
+        .text-field {
+            font-size: 14px;
+            padding: 10px;
+            border: none;
+            width: 260px;
+            margin-bottom: 10px;
+        }
+
+        .submit-btn {
+            font-size: 14px;
+            border: none;
+            padding: 10px;
+            width: 260px;
+            background-color: #4C7A01;
+            margin-bottom: 5px;
+            color: white;
+        }
+
+        .submit-btn-outline {
+            font-size: 14px;
+            border: 1px solid #4C7A01;
+            padding: 10px;
+            width: 260px;
+            background-color: #ffffff;
+            margin-bottom: 5px;
+            color: black;
+        }
+
+        .links {
+            text-align: center;
+        }
+
+        .links a {
+            font-size: 12px;
+            color: #9B9B9B;
+        }
+
+    </style>
+</head>
+<div>
+    <div class="left">
+        <div class="banner_image">
+            <img src="ec2logo.png">
+        </div>
+    </div>
+    <div class="right">
+        <div class="login-form">
+            <form>
+                <input type="text" name="email" class="text-field" placeholder="아이디">
+                <input type="password" name="password" class="text-field" placeholder="비밀번호">
+                <input type="submit" value="로그인" class="submit-btn">
+                <div class="links">
+                    <a href="#">아직 회원이 아니신가요?</a>
+                </div>
+                <hr>
+                <div class="submit-btn-outline" onclick="location.href='/oauth2/authorization/google'">
+                    구글로 시작하기
+                </div>
+                <div class="submit-btn-outline" onclick="location.href='/oauth2/authorization/naver'">
+                    네이버로 시작하기
+                </div>
+                <div class="submit-btn-outline" onclick="location.href='/oauth2/authorization/kakao'">
+                    카카오로 시작하기
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

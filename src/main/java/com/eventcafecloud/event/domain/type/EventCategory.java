@@ -4,3 +4,4 @@ public enum EventCategory {
     KPOP, INFLUENCER, ANNIMATION, WEBTOON, NOVEL
 }
 
+

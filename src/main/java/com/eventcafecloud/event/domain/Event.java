@@ -55,6 +55,7 @@ public class Event extends BaseTimeEntity {
     private Cafe cafe;
 
     @OneToMany(mappedBy = "event")
+
     private List<EventImage> eventImage = new ArrayList<>();
 
     @OneToMany(mappedBy = "event")
@@ -62,7 +63,6 @@ public class Event extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "event")
     private List<EventLike> eventLikes = new ArrayList<>();
-
 
     public Event(EventCreateRequestDto requestDto, User user, Cafe cafe) {
         this.eventName = requestDto.getEventName();
