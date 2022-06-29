@@ -24,7 +24,7 @@ public class EventBookmark extends Bookmark {
         this.event = event;
 
 //        super.user.getEventBookmarks().add(this);
-        this.event.getEventBookmarks().add(this);
+//        this.event.getEventBookmarks().add(this);
     }
 }
 
