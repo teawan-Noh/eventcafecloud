@@ -58,11 +58,11 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private StatusType userStatus;
 
-    @OneToMany(mappedBy = "user")
-    private List<Post> posts = new ArrayList<>();
-    
-    @OneToMany(mappedBy = "user")
-    private List<EventBookmark> eventBookmarks = new ArrayList<>();
+//    @OneToMany(mappedBy = "user")
+//    private List<Post> posts = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "user")
+//    private List<EventBookmark> eventBookmarks = new ArrayList<>();
 
     @Builder
     public User(String userEmail, String userNickname, String userGender, String userImage,

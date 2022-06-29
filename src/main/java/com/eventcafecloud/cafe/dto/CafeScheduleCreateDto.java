@@ -1,6 +1,6 @@
 package com.eventcafecloud.cafe.dto;
 
-import com.sparta.springcore.cafe.domain.CafeScheduleType;
+import com.eventcafecloud.cafe.domain.CafeScheduleType;
 import lombok.Data;
 
 import java.time.LocalDate;
