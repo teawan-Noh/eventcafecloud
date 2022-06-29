@@ -1,10 +1,14 @@
 package com.eventcafecloud.cafe.service;
 
+
 import com.eventcafecloud.cafe.domain.Cafe;
 import com.eventcafecloud.cafe.domain.CafeImage;
 import com.eventcafecloud.cafe.dto.CafeCreatRequestDto;
 import com.eventcafecloud.cafe.repository.CafeImageRepository;
 import com.eventcafecloud.cafe.repository.CafeRepository;
+import com.eventcafecloud.s3.S3Service;
+import com.eventcafecloud.user.domain.User;
+import com.eventcafecloud.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 //@Transactional(readOnly = true)
 //@Transactional
@@ -34,7 +39,7 @@ public class CafeService {
 
         // jwt token 사용 유저 정보 - ByEmail
         String userEmail = "token으로 이메일 받아올 것";
-        User user = userRepoistory.getByEmail(userEmail);
+        User user = userRepoistory.findByUserEmail(userEmail).orElseThrow();
 
         List<MultipartFile> files = requestDto.getFiles();
         // s3저장 후 url 반환받음
