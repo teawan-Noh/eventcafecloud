@@ -9,6 +9,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import javax.validation.Valid;
+
 @Controller
 @RequiredArgsConstructor
 public class CafeController {
@@ -26,7 +28,7 @@ public class CafeController {
     // @RequestBody 넣은 경우 Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported
     // ajax 호춣이 아니라서 ContentType 지정을 json으로 못함. -> 데이터 타입 에러
     @PostMapping("/cafes")
-    public String cafeCreate(CafeCreatRequestDto requestDto, BindingResult result){
+    public String cafeCreate(@Valid CafeCreatRequestDto requestDto, BindingResult result){
         if(result.hasErrors()){
             return "cafe/createCafeForm";
         }
