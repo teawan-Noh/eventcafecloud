@@ -1,18 +1,18 @@
 package com.eventcafecloud.event.repository;
 
-import com.eventcafecloud.event.domain.EventBookmark;
+import com.eventcafecloud.event.domain.EventLike;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
-public interface EventBookmarkRepository extends JpaRepository<EventBookmark, Long> {
+public interface EventLikeRepository extends JpaRepository<EventLike,Long> {
     long countByEventEventNumber(Long eventNumber);
 
-    @Query("SELECT evb FROM EventBookmark evb " +
+    @Query("SELECT el FROM EventLike el " +
             "JOIN User u " +
             "JOIN Event e " +
             "WHERE u.userEmail = :userEmail " +
             "AND e.eventNumber = :eventNumber")
-    Optional<EventBookmark> findEventBookmarkByUserAndEvent(String userEmail, Long eventNumber);
+    Optional<EventLike> findEventBookmarkByUserAndEvent(String userEmail, Long eventNumber);
 }
