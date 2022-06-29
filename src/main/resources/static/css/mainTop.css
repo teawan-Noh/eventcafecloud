@@ -1,0 +1,34 @@
+.nav {
+    float: left;
+}
+
+.nav-item {
+    padding: 20px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+a:link {
+    color: black
+}
+
+a:visited {
+    color: black
+}
+
+.user_status {
+    float: right;
+    padding: 25px;
+    font-size: 15px;
+}
+
+.submit {
+    font-size: 15px;
+    border: none;
+    margin-left: 10px;
+    padding: 5px 10px;
+    width: 60px;
+    background-color: #4C7A01;
+    margin-bottom: 5px;
+    color: white;
+}
