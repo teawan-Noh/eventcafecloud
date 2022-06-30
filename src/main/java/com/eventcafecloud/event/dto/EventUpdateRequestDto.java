@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -14,5 +15,5 @@ import java.util.List;
 public class EventUpdateRequestDto {
     private String eventName;
     private String eventInfo;
-    private List<EventImage> eventImage;
+   //  private List<MultipartFile> files;
 }

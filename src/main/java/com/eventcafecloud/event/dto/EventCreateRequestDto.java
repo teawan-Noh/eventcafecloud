@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -21,6 +22,5 @@ public class EventCreateRequestDto {
     private String eventInfo;
     private int eventPrice;
     private boolean eventCancelAvail;
-    private List<EventImage> eventImages;
-    private Long cafeNumber;
+    private List<MultipartFile> files;
 }

@@ -35,18 +35,14 @@ public class EventService {
     }
 
     @Transactional
-    public EventCreateResponseDto createEvent(EventCreateRequestDto requestDto, User user) {
-        Long cafeNumber = requestDto.getCafeNumber();
-        Cafe cafe = cafeRepository.getById(cafeNumber);
+    public void createEvent(EventCreateRequestDto requestDto, User user, Cafe cafe) {
         Event event = new Event(requestDto, user, cafe);
-        Event eventResult = eventRepository.save(event);
-//        return EventCreateResponseDto.from(eventResult);
-        return null;
+        eventRepository.save(event);
     }
 
     @Transactional
-    public EventUpdateResponseDto updateEvent(Long eventNumber, EventUpdateRequestDto request) {
-        Event event =  eventRepository.findById(eventNumber).orElseThrow(
+    public EventUpdateResponseDto updateEvent(Long id, EventUpdateRequestDto request) {
+        Event event =  eventRepository.findById(id).orElseThrow(
                 () -> new NullPointerException("해당 이벤트가 존재하지 않습니다.")
         );
 
