@@ -6,7 +6,10 @@ spring:
     password: 1234
 
   profiles:
-    include: oauth, s3
+    include:
+      - oauth
+      - s3
+
 
   jpa:
     database: mysql

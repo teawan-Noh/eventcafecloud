@@ -20,26 +20,26 @@ public class EventCreateResponseDto {
     private String eventInfo;
     private List<EventImage> eventImage;
 
-    @Builder
     public EventCreateResponseDto(Event event) {
         this.eventName = event.getEventName();
         this.eventCategory = event.getEventCategory();
         this.eventStartDate = event.getEventStartDate();
         this.eventEndDate = event.getEventEndDate();
         this.eventInfo = event.getEventInfo();
-        this.eventImage = event.getEventImage();
+        // TODO 변경
+//        this.eventImage = event.getEventImage();
     }
 
-    public static EventCreateResponseDto from(Event event) {
-        String eventName = event.getEventName();
-        EventCategory eventCategory = event.getEventCategory();
-        LocalDate eventStartDate = event.getEventStartDate();
-        LocalDate eventEndDate = event.getEventEndDate();
-        String eventInfo = event.getEventInfo();
-        List<EventImage> eventImage = event.getEventImage();
-
-        EventCreateResponseDto eventCreateResponse = new EventCreateResponseDto(eventName, eventCategory, eventStartDate, eventEndDate, eventInfo, eventImage);
-
-        return eventCreateResponse;
-    }
+//    public static EventCreateResponseDto from(Event event) {
+//        String eventName = event.getEventName();
+//        EventCategory eventCategory = event.getEventCategory();
+//        LocalDate eventStartDate = event.getEventStartDate();
+//        LocalDate eventEndDate = event.getEventEndDate();
+//        String eventInfo = event.getEventInfo();
+//        // TODO 변경
+////        List<EventImage> eventImage = event.getEventImage();
+//
+//
+//        return eventCreateResponse;
+//    }
 }

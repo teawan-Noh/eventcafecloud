@@ -13,4 +13,10 @@ public class EventUpdateResponseDto {
     private String eventName;
     private String eventInfo;
     private List<EventImage> eventImage;
+
+    public EventUpdateResponseDto(String eventName, String eventInfo){
+        this.eventName = eventName;
+        this.eventInfo = eventInfo;
+
+    }
 }

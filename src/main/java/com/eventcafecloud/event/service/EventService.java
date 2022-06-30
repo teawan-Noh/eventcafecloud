@@ -1,16 +1,13 @@
 package com.eventcafecloud.event.service;
 
 import com.eventcafecloud.cafe.domain.Cafe;
-import com.eventcafecloud.cafe.domain.CafeImage;
 import com.eventcafecloud.cafe.repository.CafeRepository;
 import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.event.dto.*;
 import com.eventcafecloud.event.repository.EventRepository;
 import com.eventcafecloud.user.domain.User;
-import com.sun.xml.bind.v2.TODO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -34,7 +31,6 @@ public class EventService {
             EventReadResponseDto eventReadResponseDto = new EventReadResponseDto(event.get(i), cafe);
             result.add(eventReadResponseDto);
         }
-
         return result;
     }
 
@@ -44,7 +40,8 @@ public class EventService {
         Cafe cafe = cafeRepository.getById(cafeNumber);
         Event event = new Event(requestDto, user, cafe);
         Event eventResult = eventRepository.save(event);
-        return EventCreateResponseDto.from(eventResult);
+//        return EventCreateResponseDto.from(eventResult);
+        return null;
     }
 
     @Transactional
@@ -54,7 +51,7 @@ public class EventService {
         );
 
         event.updateEvent(request);
-        EventUpdateResponseDto eventUpdateResponse = new EventUpdateResponseDto(event.getEventName(), event.getEventInfo(), event.getEventImage());
+        EventUpdateResponseDto eventUpdateResponse = new EventUpdateResponseDto(event.getEventName(), event.getEventInfo());
         return eventUpdateResponse;
     }
 
