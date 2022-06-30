@@ -5,7 +5,6 @@ import com.eventcafecloud.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -26,15 +25,15 @@ public class PostController {
         return postService.getPost();
     }
 
-    @PutMapping("/board/{postNumber}")
+    @PutMapping("/board/{id}")
     @ResponseBody
-    public PostUpdateResponseDto updatePost(@PathVariable Long postNumber, @RequestBody PostUpdateRequestDto requestDto) {
-        return postService.updatePost(postNumber, requestDto);
+    public Long updatePost(@PathVariable Long id, @RequestBody PostUpdateRequestDto requestDto) {
+        return postService.updatePost(id, requestDto);
     }
 
-    @DeleteMapping("/board/{postNumber}")
+    @DeleteMapping("/board/{id}")
     @ResponseBody
-    public PostDeleteResponseDto deletePost(@PathVariable Long postNumber) {
-        return postService.deletePost(postNumber);
+    public Long deletePost(@PathVariable Long id) {
+        return postService.deletePost(id);
     }
 }

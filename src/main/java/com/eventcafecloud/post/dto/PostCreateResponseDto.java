@@ -7,17 +7,9 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-
+@Builder
 public class PostCreateResponseDto {
     private String postTitle;
     private String postContent;
     private PostType postType;
-
-    @Builder
-    public PostCreateResponseDto(String postTitle, String postContent, PostType postType) {
-        this.postTitle = postTitle;
-        this.postContent = postContent;
-        this.postType = postType;
-
-    }
 }

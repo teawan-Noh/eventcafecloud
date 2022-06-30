@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -29,15 +28,15 @@ public class CommentController {
         return commentService.getComment();
     }
 
-    @PutMapping("/comment/{commentNumber}")
+    @PutMapping("/comment/{id}")
     @ResponseBody
-    public CommentUpdateResponseDto updateComment(@PathVariable Long commentNumber, @RequestBody CommentUpdateRequestDto requestDto) {
-        return commentService.updateComment(commentNumber, requestDto);
+    public Long updateComment(@PathVariable Long id, @RequestBody CommentUpdateRequestDto requestDto) {
+        return commentService.updateComment(id, requestDto);
     }
 
-    @DeleteMapping("/comment/{commentNumber}")
+    @DeleteMapping("/comment/{id}")
     @ResponseBody
-    public CommentDeleteResponseDto deleteComment(@PathVariable Long commentNumber){
-        return commentService.deleteComment(commentNumber);
+    public Long deleteComment(@PathVariable Long id){
+        return commentService.deleteComment(id);
     }
 }

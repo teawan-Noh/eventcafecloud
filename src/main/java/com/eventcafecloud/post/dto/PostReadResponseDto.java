@@ -7,10 +7,9 @@ import lombok.Setter;
 @Setter
 @Getter
 public class PostReadResponseDto {
-    private Long postNumber;
+    private Long id;
     private String postTitle;
     private String postContent;
     private PostType postType;
     private Long postCount;
-
 }

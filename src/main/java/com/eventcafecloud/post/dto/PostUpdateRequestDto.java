@@ -1,6 +1,5 @@
 package com.eventcafecloud.post.dto;
 
-import com.eventcafecloud.user.domain.User;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

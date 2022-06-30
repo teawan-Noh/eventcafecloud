@@ -13,11 +13,9 @@ import java.util.List;
 
 import static com.eventcafecloud.exception.ExceptionStatus.COMMENT_NOT_FOUND;
 
-
 @RequiredArgsConstructor
 @Service
 @Transactional
-
 public class CommentService {
 
     private final CommentRepository commentRepository;
@@ -26,7 +24,6 @@ public class CommentService {
         Comment comment = new Comment();
         comment.setCommentContent(requestDto.getCommentContent());
         Comment commentResult = commentRepository.save(comment);
-
         return CommentCreateResponseDto.builder()
                 .commentContent(commentResult.getCommentContent())
                 .build();
@@ -39,29 +36,26 @@ public class CommentService {
         for (Comment comment : comments) {
             CommentReadResponseDto commentReadResponseDto = new CommentReadResponseDto();
             commentReadResponseDto.setCommentContent(comment.getCommentContent());
-            commentReadResponseDto.setCommentNumber(comment.getCommentNumber());
+            commentReadResponseDto.setId(comment.getId());
             output.add(commentReadResponseDto);
         }
         return output;
     }
 
     @Transactional(readOnly = true)
-    public CommentUpdateResponseDto updateComment(@PathVariable Long CommentNumber, CommentUpdateRequestDto requestDto) {
-        Comment comment = commentRepository.findById(CommentNumber).orElseThrow(() -> new IllegalArgumentException(COMMENT_NOT_FOUND.getMessage()));
+    public Long updateComment(@PathVariable Long id, CommentUpdateRequestDto requestDto) {
+        Comment comment = commentRepository.findById(id).orElseThrow(()
+                -> new IllegalArgumentException(COMMENT_NOT_FOUND.getMessage()));
         comment.updateComment(requestDto);
-        return CommentUpdateResponseDto.builder()
-                .commentNumber(comment.getCommentNumber())
-                .build();
+        return id;
     }
 
-    public CommentDeleteResponseDto deleteComment(Long commentNumber) {
-        CommentDeleteResponseDto commentDeleteResponseDto = new CommentDeleteResponseDto(commentNumber);
+    public Long deleteComment(Long id) {
         try {
-            commentRepository.deleteById(commentNumber);
+            commentRepository.deleteById(id);
         } catch (Exception e) {
             throw new IllegalArgumentException(COMMENT_NOT_FOUND.getMessage());
         }
-        return commentDeleteResponseDto;
+        return id;
     }
-
 }
