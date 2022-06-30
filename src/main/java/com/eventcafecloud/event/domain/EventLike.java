@@ -1,4 +1,14 @@
-//package com.eventcafecloud.event.domain;
+package com.eventcafecloud.event.domain;
+
+import com.eventcafecloud.user.domain.User;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 //
 //import com.eventcafecloud.common.like.Like;
 //import com.eventcafecloud.user.domain.User;

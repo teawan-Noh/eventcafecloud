@@ -1,7 +1,9 @@
 package com.eventcafecloud.user.domain;
 
+import com.eventcafecloud.cafe.domain.Cafe;
+import com.eventcafecloud.comment.Comment;
 import com.eventcafecloud.common.base.BaseTimeEntity;
-import com.eventcafecloud.event.domain.EventBookmark;
+import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.post.domain.Post;
 import com.eventcafecloud.user.domain.type.ProviderType;
 import com.eventcafecloud.user.domain.type.RoleType;
@@ -19,7 +21,7 @@ import java.util.List;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "USER")
+//@Table(name = "USERS")
 public class User extends BaseTimeEntity {
     @JsonIgnore
     @Id
@@ -27,7 +29,7 @@ public class User extends BaseTimeEntity {
     @Column(name = "user_number")
     private Long id;
 
-    @Column(length = 100, unique = true, nullable = false)
+//    @Column(length = 100, unique = true, nullable = false)
     private String userEmail;
 
     @JsonIgnore
@@ -58,11 +60,23 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private StatusType userStatus;
 
+    @OneToMany(mappedBy = "user")
+    private List<Event> events = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<Cafe> cafes = new ArrayList<>();
+
 //    @OneToMany(mappedBy = "user")
 //    private List<Post> posts = new ArrayList<>();
-//
+
+//    @OneToMany(mappedBy = "user")
+//    private List<Comment> comments = new ArrayList<>();
+
 //    @OneToMany(mappedBy = "user")
 //    private List<EventBookmark> eventBookmarks = new ArrayList<>();
+//
+//    @OneToMany(mappedBy = "user")
+//    private List<EventLike> eventLikes = new ArrayList<>();
 
     @Builder
     public User(String userEmail, String userNickname, String userGender, String userImage,
