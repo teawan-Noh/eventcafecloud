@@ -54,9 +54,8 @@ public class Event extends BaseTimeEntity {
     @JoinColumn(name = "cafe_number")
     private Cafe cafe;
 
-//    @OneToMany(mappedBy = "event")
-//
-//    private List<EventImage> eventImage = new ArrayList<>();
+    @OneToMany(mappedBy = "event")
+    private List<EventImage> eventImage = new ArrayList<>();
 //
 //    @OneToMany(mappedBy = "event")
 //    private List<EventBookmark> eventBookmarks = new ArrayList<>();
