@@ -2,12 +2,14 @@ package com.eventcafecloud.cafe.domain;
 
 
 import com.eventcafecloud.cafe.dto.CafeCreatRequestDto;
+import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.user.domain.User;
 import lombok.*;
 
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -53,20 +55,20 @@ public class Cafe {
     @JoinColumn(name = "user_number")
     private User user;
 
-//    @OneToMany(mappedBy = "cafe")
-//    private List<CafeOption> cafeOptions = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "cafe")
-//    private List<CafeImage> cafeImages = new ArrayList<>();
-//
+    @OneToMany(mappedBy = "cafe")
+    private List<CafeOption> cafeOptions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cafe")
+    private List<CafeImage> cafeImages = new ArrayList<>();
+
 //    @OneToMany(mappedBy = "cafe")
 //    private List<CafeReview> cafeReviews = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "cafe")
-//    private List<CafeSchedule> cafeSchedules = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "cafe")
-//    private List<Event> events = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cafe")
+    private List<CafeSchedule> cafeSchedules = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cafe")
+    private List<Event> events = new ArrayList<>();
 
     public Cafe(CafeCreatRequestDto requestDto, User user) {
         this.cafeName = requestDto.getCafeName();
