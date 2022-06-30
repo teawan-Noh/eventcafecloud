@@ -1,7 +1,6 @@
 package com.eventcafecloud.user.domain;
 
 import com.eventcafecloud.cafe.domain.Cafe;
-import com.eventcafecloud.comment.Comment;
 import com.eventcafecloud.common.base.BaseTimeEntity;
 import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.post.domain.Post;
