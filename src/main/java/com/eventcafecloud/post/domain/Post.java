@@ -15,11 +15,11 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
-
 public class Post extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "post_number")
     private Long id;
 
     @Column(nullable = false)
