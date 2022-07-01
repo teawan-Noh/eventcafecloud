@@ -20,8 +20,13 @@ public class CafeOption {
     @JoinColumn(name = "cafe_number")
     private Cafe cafe;
 
-    @Column(nullable = false)
-    private String cafeOptionName;
+    @Enumerated(EnumType.STRING)
+    private CafeOptionType cafeOptionType;
 
     private String cafeOptionIcon;
+
+    public CafeOption(CafeOptionType opntion, Cafe cafe){
+        this.cafeOptionType = opntion;
+        this.cafe = cafe;
+    }
 }

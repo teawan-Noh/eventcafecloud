@@ -32,7 +32,7 @@ public class CafeController {
         if(result.hasErrors()){
             return "cafe/createCafeForm";
         }
-        // service로직에서 userDetails을 활용 할 경우를 고려하여 id가 아닌 userDetails 자체를 넘기.
+
         cafeService.createCafe(requestDto);
 
         return "redirect:/";
