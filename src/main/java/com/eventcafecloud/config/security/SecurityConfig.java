@@ -64,7 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers("/", "/favicon.ico", "/**/*.png", "/**/*.gif", "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js").permitAll()
-                .antMatchers("/").permitAll()   //권한관리대상을 지정, URL, HTTP 메소드별로 관리 가능
+                .antMatchers("/**").permitAll()   //권한관리대상을 지정, URL, HTTP 메소드별로 관리 가능
                 .antMatchers("/login").permitAll()
                 .antMatchers("/api/**").hasAnyAuthority(RoleType.GUEST.getCode())
                 .antMatchers("/api/**/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
