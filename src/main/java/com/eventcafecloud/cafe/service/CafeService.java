@@ -3,8 +3,11 @@ package com.eventcafecloud.cafe.service;
 
 import com.eventcafecloud.cafe.domain.Cafe;
 import com.eventcafecloud.cafe.domain.CafeImage;
+import com.eventcafecloud.cafe.domain.CafeOption;
+import com.eventcafecloud.cafe.domain.CafeOptionType;
 import com.eventcafecloud.cafe.dto.CafeCreatRequestDto;
 import com.eventcafecloud.cafe.repository.CafeImageRepository;
+import com.eventcafecloud.cafe.repository.CafeOptionRepository;
 import com.eventcafecloud.cafe.repository.CafeRepository;
 import com.eventcafecloud.s3.S3Service;
 import com.eventcafecloud.user.domain.User;
@@ -16,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 //@Transactional(readOnly = true)
 //@Transactional
@@ -27,6 +29,7 @@ public class CafeService {
     private final CafeRepository cafeRepository;
     private final UserRepository userRepoistory;
     private final CafeImageRepository cafeImageRepository;
+    private final CafeOptionRepository cafeOptionRepository;
     private final S3Service s3Service;
 
     @Transactional
@@ -38,27 +41,39 @@ public class CafeService {
 //        User user2 = userRepoistory.getById(userId);
 
         // jwt token 사용 유저 정보 - ByEmail
-        String userEmail = "token으로 이메일 받아올 것";
+        String userEmail = "123";
         User user = userRepoistory.findByUserEmail(userEmail).orElseThrow();
 
         List<MultipartFile> files = requestDto.getFiles();
         // s3저장 후 url 반환받음
         List<String> cafeImageUrlList = s3Service.upload(files, "cafeImage");
 
-        // 1번 case : cafe
+        // 카페 생성 1번 case : cafe
         Cafe cafe = new Cafe(requestDto, user);
         cafeRepository.save(cafe);
 
-        List<CafeImage> cafeImageEntityList = new ArrayList<>();
+        // 카페 이미지 생성
+        List<CafeImage> cafeImageObjectList = new ArrayList<>();
         MultipartFile file;
         String cafeImageUrl;
         for (int i = 0; i < files.size(); i++){
             file = files.get(i);
             cafeImageUrl = cafeImageUrlList.get(i);
             CafeImage cafeImage = new CafeImage(file.getOriginalFilename(), cafeImageUrl, cafe);
-            cafeImageEntityList.add(cafeImage);
+            cafeImageObjectList.add(cafeImage);
         }
-        cafeImageRepository.saveAll(cafeImageEntityList);
+        cafeImageRepository.saveAll(cafeImageObjectList);
+
+        // 카페 옵션 생성성
+       List<CafeOptionType> optionList = requestDto.getOptions();
+       List<CafeOption> cafeOptionObjectList = new ArrayList<>();
+        for (int i = 0; i < optionList.size() ; i++) {
+            CafeOptionType option = optionList.get(i);
+            CafeOption cafeOption = new CafeOption(option ,cafe);
+            cafeOptionObjectList.add(cafeOption);
+        }
+        cafeOptionRepository.saveAll(cafeOptionObjectList);
+
 
         // 2번 case : service에서 빌더로 생성 -> 단점 : 데이터의 변경처리를 한다.
 //        Cafe cafe = Cafe.builder()

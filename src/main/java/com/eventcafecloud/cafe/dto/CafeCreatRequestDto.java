@@ -1,5 +1,6 @@
 package com.eventcafecloud.cafe.dto;
 
+import com.eventcafecloud.cafe.domain.CafeOptionType;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,6 +38,6 @@ public class CafeCreatRequestDto {
 
     private List<MultipartFile> files;
 
-    private List<String> options;
+    private List<CafeOptionType> options;
 
 }
