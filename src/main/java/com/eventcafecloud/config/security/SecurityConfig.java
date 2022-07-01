@@ -67,6 +67,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/**").permitAll()   //권한관리대상을 지정, URL, HTTP 메소드별로 관리 가능
                 .antMatchers("/login").permitAll()
                 .antMatchers("/cafes/**").permitAll()
+                .antMatchers("/post/**").permitAll()
+                .antMatchers("/board/**").permitAll()
                 .antMatchers("/api/**").hasAnyAuthority(RoleType.GUEST.getCode())
                 .antMatchers("/api/**/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
                 .anyRequest().authenticated() //설정된 값 이외의 나머지 URL, 인증된 사용자, 로그인한 사용자만 볼 수 있음
