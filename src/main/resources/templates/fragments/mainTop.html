@@ -2,9 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <div th:fragment="mainTop">
     <ul class="nav">
-        <a href="/">
+        <div onclick="location.href='/'">
             <img src="ec2logo.png" height="70">
-        </a>
+        </div>
         <li class="nav-item">
             <a class="nav-link active" href="#">카페</a>
         </li>
@@ -19,8 +19,11 @@
         </li>
     </ul>
     <div class="user_status">
-        GUEST님 환영합니다
-        <button class="submit" onclick="location.href='/login'">로그인</button>
+        <div>
+            GUEST님 환영합니다. &nbsp;
+            <p th:text="${userEmail}"></p>
+            <button class="submit" th:onclick="|location.href='@{/login}'|">로그인</button>
+        </div>
     </div>
 </div>
 
