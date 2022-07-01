@@ -13,7 +13,6 @@ import java.util.List;
 
 import static com.eventcafecloud.exception.ExceptionStatus.POST_NOT_FOUND;
 
-
 @RequiredArgsConstructor
 @Service
 @Transactional
@@ -44,29 +43,25 @@ public class PostService {
             PostReadResponseDto postReadResponseDto = new PostReadResponseDto();
             postReadResponseDto.setPostTitle(post.getPostTitle());
             postReadResponseDto.setPostContent(post.getPostContent());
-            postReadResponseDto.setPostNumber(post.getPostNumber());
+            postReadResponseDto.setId(post.getId());
             postReadResponseDto.setPostCount(post.getPostCount());
             output.add(postReadResponseDto);
         }
         return output;
     }
 
-
-    public PostUpdateResponseDto updatePost(@PathVariable Long PostNumber, PostUpdateRequestDto requestDto){
-        Post post = postRepository.findById(PostNumber).orElseThrow(() -> new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
+    public Long updatePost(@PathVariable Long id, PostUpdateRequestDto requestDto){
+        Post post = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
         post.updatePost(requestDto);
-        return PostUpdateResponseDto.builder()
-                .postNumber(post.getPostNumber())
-                .build();
+        return id;
     }
 
-    public PostDeleteResponseDto deletePost(Long postNumber) {
-        PostDeleteResponseDto postDeleteResponseDto = new PostDeleteResponseDto(postNumber);
+    public Long deletePost(Long id) {
         try {
-            postRepository.deleteById(postNumber);
+            postRepository.deleteById(id);
         }catch (Exception e) {
            throw new IllegalArgumentException(POST_NOT_FOUND.getMessage());
         }
-        return postDeleteResponseDto;
+        return id;
     }
 }

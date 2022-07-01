@@ -4,9 +4,11 @@ import com.eventcafecloud.post.dto.*;
 import com.eventcafecloud.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @Controller
@@ -16,25 +18,37 @@ public class PostController {
 
     @PostMapping("/board")
     @ResponseBody
-    public PostCreateResponseDto createPost(@RequestBody PostCreateRequestDto requestDto) {
-        return postService.createPost(requestDto);
+    public String createPost(@Valid PostCreateRequestDto requestDto, BindingResult result) {
+        if(result.hasErrors()){
+            return "cafe/createPostForm";
+        }
+        postService.createPost(requestDto);
+
+        return "redirect:/";
     }
 
     @GetMapping("/board")
-    @ResponseBody
-    public List<PostReadResponseDto> getPost() {
-        return postService.getPost();
+    public String getPost(Model model) {
+        model.addAttribute("posts", postService.getPost());
+        return  "post/userBoard";
     }
 
-    @PutMapping("/board/{postNumber}")
+    @PutMapping("/board/{id}")
     @ResponseBody
-    public PostUpdateResponseDto updatePost(@PathVariable Long postNumber, @RequestBody PostUpdateRequestDto requestDto) {
-        return postService.updatePost(postNumber, requestDto);
+    public Long updatePost(@PathVariable Long id, @RequestBody PostUpdateRequestDto requestDto) {
+        return postService.updatePost(id, requestDto);
     }
 
-    @DeleteMapping("/board/{postNumber}")
+    @DeleteMapping("/board/{id}")
     @ResponseBody
-    public PostDeleteResponseDto deletePost(@PathVariable Long postNumber) {
-        return postService.deletePost(postNumber);
+    public Long deletePost(@PathVariable Long id) {
+        return postService.deletePost(id);
+    }
+
+    @GetMapping("/post/create")
+    public String postCreateForm(Model model){
+        model.addAttribute("postCreateRequestDto", new PostCreateRequestDto());
+
+        return "post/createPostForm";
     }
 }

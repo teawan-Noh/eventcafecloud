@@ -5,18 +5,16 @@ import com.eventcafecloud.post.domain.Post;
 import com.eventcafecloud.user.domain.User;
 import lombok.Getter;
 import lombok.Setter;
-
 import javax.persistence.*;
 
 @Getter
 @Setter
 @Entity
-
 public class Comment extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long commentNumber;
+    private Long id;
 
     @Column(nullable = false)
     private String commentContent;
