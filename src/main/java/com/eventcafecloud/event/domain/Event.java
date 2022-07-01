@@ -22,7 +22,7 @@ public class Event extends BaseTimeEntity {
 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    private Long eventNumber;
+    private Long id;
 
     @Column(nullable = false)
     private String eventName;
@@ -78,5 +78,6 @@ public class Event extends BaseTimeEntity {
     public void updateEvent(EventUpdateRequestDto requestDto) {
         this.eventName = requestDto.getEventName();
         this.eventInfo = requestDto.getEventInfo();
+        // this.eventImage = requestDto.getFiles();
     }
 }

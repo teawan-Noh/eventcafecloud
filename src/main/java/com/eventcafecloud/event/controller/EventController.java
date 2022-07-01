@@ -1,5 +1,6 @@
 package com.eventcafecloud.event.controller;
 
+import com.eventcafecloud.cafe.domain.Cafe;
 import com.eventcafecloud.event.dto.*;
 import com.eventcafecloud.event.service.EventService;
 import com.eventcafecloud.user.domain.User;
@@ -21,11 +22,6 @@ public class EventController {
     @GetMapping("/api/events")
     public List<EventReadResponseDto> getEvents() {
         return eventService.getEvents();
-    }
-
-    @PostMapping("/api/events")
-    public EventCreateResponseDto createEvent(@RequestBody EventCreateRequestDto requestDto, User user) {
-        return eventService.createEvent(requestDto, user);
     }
 
     @PutMapping("/api/events/{evnetNumber}")
