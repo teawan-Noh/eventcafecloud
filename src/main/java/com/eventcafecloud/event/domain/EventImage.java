@@ -1,16 +1,10 @@
 package com.eventcafecloud.event.domain;
 
-import com.eventcafecloud.cafe.domain.Cafe;
-import com.eventcafecloud.common.fileutil.Image;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter

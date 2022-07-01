@@ -1,13 +1,24 @@
 package com.eventcafecloud.post.domain;
 
-import com.eventcafecloud.common.fileutil.Image;
+import lombok.Getter;
+import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
-public class PostImage extends Image {
+@Getter
+@Setter
+public class PostImage {
+
+    @Id
+    @GeneratedValue
+    @Column(name = "post_image_number")
+    private Long id;
+
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_number")
     private Post post;
+
+    private String postImageName;
+    private String cafeImageUrl;
 }
