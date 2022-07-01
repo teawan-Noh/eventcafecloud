@@ -2,6 +2,7 @@ package com.eventcafecloud.oauth.token;
 
 import com.eventcafecloud.oauth.exception.TokenValidFailedException;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -55,6 +56,10 @@ public class AuthTokenProvider {
         } else {
             throw new TokenValidFailedException();
         }
+    }
+
+    public String getUserEmailByToken(String token) {
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject();
     }
 }
 
