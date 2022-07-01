@@ -45,6 +45,9 @@ dependencies {
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.security:spring-security-test'
+    // https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity5
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.0.4.RELEASE'
+
 }
 
 configurations {
