@@ -30,8 +30,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
 
-import static com.eventcafecloud.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
-import static com.eventcafecloud.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository.REFRESH_TOKEN;
+import static com.eventcafecloud.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository.*;
 
 @Component
 @RequiredArgsConstructor
@@ -67,7 +66,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             throw new IllegalArgumentException("잘못된 리다이렉트 경로입니다. 인증을 진행할 수 없습니다.");
         }
 
-        String targetUrl = redirectUri.orElse(getDefaultTargetUrl());
+        String targetUrl = redirectUri.orElse("/");
 
         OAuth2AuthenticationToken authToken = (OAuth2AuthenticationToken) authentication;
         ProviderType providerType = ProviderType.valueOf(authToken.getAuthorizedClientRegistrationId().toUpperCase());
@@ -103,18 +102,23 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
             userRefreshTokenRepository.saveAndFlush(userRefreshToken);
         }
 
-        // int cookieMaxAgeAccess = 100000;
-        // int cookieMaxAgeRefresh = 100000;
         int cookieMaxAge = (int) refreshTokenExpiry / 60;
+        int cookieMaxAgeForAccess = (int) appProperties.getAuth().getTokenExpiry() / 60;
 
-//        CookieUtil.deleteCookie(request, response, ACCESS_TOKEN);
-//        CookieUtil.addCookie(response, ACCESS_TOKEN, accessToken.getToken(), cookieMaxAge);
+        /*
+        Access Token 저장
+         */
+        CookieUtil.deleteCookie(request, response, ACCESS_TOKEN);
+        CookieUtil.addCookieForAccess(response, ACCESS_TOKEN, accessToken.getToken(), cookieMaxAgeForAccess);
 
+        /*
+        Refresh Token 저장
+         */
         CookieUtil.deleteCookie(request, response, REFRESH_TOKEN);
         CookieUtil.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), cookieMaxAge);
 
         return UriComponentsBuilder.fromUriString(targetUrl)
-                //.queryParam("token", accessToken.getToken())
+                .queryParam("token", accessToken.getToken())
                 .build().toUriString();
     }
 
