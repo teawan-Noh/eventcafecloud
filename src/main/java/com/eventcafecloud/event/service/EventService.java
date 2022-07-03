@@ -4,14 +4,17 @@ import com.eventcafecloud.cafe.domain.Cafe;
 import com.eventcafecloud.cafe.repository.CafeRepository;
 import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.event.dto.*;
+import com.eventcafecloud.event.repository.EventImageRepository;
 import com.eventcafecloud.event.repository.EventRepository;
+import com.eventcafecloud.s3.S3Service;
 import com.eventcafecloud.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -19,18 +22,14 @@ public class EventService {
 
     private final EventRepository eventRepository;
     private final CafeRepository cafeRepository;
+    private final EventImageRepository eventImageRepository;
+    private final S3Service s3Service;
 
-    public List<EventReadResponseDto> getEvents() {
-        List<Event> event = eventRepository.findAll();
-        List<EventReadResponseDto> result = new ArrayList<>();
-        // TODO 수정필요
-        Cafe cafe = cafeRepository.getById(1L);
-
-        for (int i = 0; i < event.size(); i++) {
-            // TODO 수정필요
-            EventReadResponseDto eventReadResponseDto = new EventReadResponseDto(event.get(i), cafe);
-            result.add(eventReadResponseDto);
-        }
+    public List<EventListResponseDto> getEvents() {
+        List<Event> events = eventRepository.findAll();
+        List<EventListResponseDto> result = events.stream()
+                .map(e  -> new EventListResponseDto(e))
+                .collect(Collectors.toList());
         return result;
     }
 
