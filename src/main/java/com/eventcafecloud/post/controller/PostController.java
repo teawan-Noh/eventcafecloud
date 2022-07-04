@@ -6,9 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @Controller
@@ -17,20 +17,18 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("/board")
-    @ResponseBody
-    public String createPost(@Valid PostCreateRequestDto requestDto, BindingResult result) {
-        if(result.hasErrors()){
-            return "cafe/createPostForm";
+    public String createPost(@Validated @ModelAttribute PostCreateRequestDto requestDto, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return "post/createPostForm";
         }
         postService.createPost(requestDto);
-
-        return "redirect:/";
+        return "redirect:/board";
     }
 
     @GetMapping("/board")
     public String getPost(Model model) {
         model.addAttribute("posts", postService.getPost());
-        return  "post/userBoard";
+        return "post/userBoard";
     }
 
     @PutMapping("/board/{id}")
@@ -51,4 +49,5 @@ public class PostController {
 
         return "post/createPostForm";
     }
+
 }
