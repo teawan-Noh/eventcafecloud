@@ -5,7 +5,7 @@ import com.eventcafecloud.cafe.domain.Cafe;
 import com.eventcafecloud.cafe.domain.CafeImage;
 import com.eventcafecloud.cafe.domain.CafeOption;
 import com.eventcafecloud.cafe.domain.CafeOptionType;
-import com.eventcafecloud.cafe.dto.CafeCreatRequestDto;
+import com.eventcafecloud.cafe.dto.CafeCreateRequestDto;
 import com.eventcafecloud.cafe.repository.CafeImageRepository;
 import com.eventcafecloud.cafe.repository.CafeOptionRepository;
 import com.eventcafecloud.cafe.repository.CafeRepository;
@@ -33,7 +33,7 @@ public class CafeService {
     private final S3Service s3Service;
 
     @Transactional
-    public void createCafe(CafeCreatRequestDto requestDto) {
+    public void createCafe(CafeCreateRequestDto requestDto) {
         // 스프링 시큐리티의 유저 정보
 //        User user = userDetails.getUser();
         // 시큐리티의 유저 정보를 토대로 해당 USER가 디비에 있는지 확인 할 경우
@@ -73,7 +73,6 @@ public class CafeService {
             cafeOptionObjectList.add(cafeOption);
         }
         cafeOptionRepository.saveAll(cafeOptionObjectList);
-
 
         // 2번 case : service에서 빌더로 생성 -> 단점 : 데이터의 변경처리를 한다.
 //        Cafe cafe = Cafe.builder()
