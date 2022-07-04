@@ -25,9 +25,8 @@ public class EventController {
         eventService.createEvent(requestDto, user, cafe);
     }
 
-    @PutMapping("/api/events/{evnetNumber}")
-//    public EventUpdateResponseDto updateEvent(@PathVariable Long eventNumber, EventUpdateRequestDto requestDto){
-    public EventUpdateResponseDto updateEvent(@PathVariable Long id, EventUpdateRequestDto requestDto){
+    @PutMapping("/api/events/{id}")
+    public EventUpdateResponseDto updateEvent(@PathVariable Long id, @RequestBody EventUpdateRequestDto requestDto){
         return eventService.updateEvent(id, requestDto);
     }
 
