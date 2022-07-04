@@ -1,7 +1,7 @@
 package com.eventcafecloud.cafe.domain;
 
 
-import com.eventcafecloud.cafe.dto.CafeCreatRequestDto;
+import com.eventcafecloud.cafe.dto.CafeCreateRequestDto;
 import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.user.domain.User;
 import lombok.*;
@@ -70,7 +70,7 @@ public class Cafe {
     @OneToMany(mappedBy = "cafe")
     private List<Event> events = new ArrayList<>();
 
-    public Cafe(CafeCreatRequestDto requestDto, User user) {
+    public Cafe(CafeCreateRequestDto requestDto, User user) {
         this.cafeName = requestDto.getCafeName();
         this.cafeZonecode = requestDto.getCafeZonecode();
         this.cafeAddress = requestDto.getCafeAddress();
