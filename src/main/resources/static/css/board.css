@@ -1,0 +1,11 @@
+.post-button {
+    outline: 0px;
+    border: 0px;
+    border-radius: 10px;
+    background-color: #FFAFAF;
+    color: white;
+    padding: 5px 15px 5px 15px;
+    font-size: 17px;
+    margin-bottom: 100px;
+    font-family: 'Gowun Dodum', sans-serif;
+}
