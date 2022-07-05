@@ -38,7 +38,7 @@ public class PostService {
         for (Post post : posts) {
             PostReadResponseDto postReadResponseDto = new PostReadResponseDto();
             postReadResponseDto.setPostTitle(post.getPostTitle());
-            postReadResponseDto.setUser(post.getUser().getUserNickname());
+            postReadResponseDto.setUserNickname(post.getUser().getUserNickname());
             postReadResponseDto.setId(post.getId());
             postReadResponseDto.setPostCount(post.getPostCount());
             postReadResponseDto.setPostType(post.getPostType());

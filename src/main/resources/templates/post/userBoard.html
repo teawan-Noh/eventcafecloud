@@ -1,21 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <th:block th:replace="fragments/header :: header"/>
     <th:block th:replace="fragments/mainHeader :: mainHeader"/>
     <script src="../../static/js/board.js"></script>
     <link rel="stylesheet" href="../../static/css/board.css">
+    <title>EventCafeCloud</title>
 </head>
 <body>
 <div th:replace="fragments/mainTop :: mainTop"/>
-
-<div>
-    <table>
-        <tr>
-        </tr>
-
-    </table>
-</div>
 <div class="container">
     <table class="table table-hover text-center">
         <thead>
@@ -28,12 +21,12 @@
         </tr>
         </thead>
         <tbody id="post_box">
-        <tr th:each="post : ${posts}">
-            <td th:text="${post.getId()}"></td>
-            <td th:text="${post.getPostContent()}"></td>
-            <td th:text="${post.getPostTitle()}"></td>
-            <td th:text="${post.getPostCount()}"></td>
-            <td th:text="${#temporals.format(post.getCreatedDate(),'yyyy-MM-dd')}"></td>
+        <tr th:each="post : ${posts}" th:onclick="|location.href='@{/post/{id} (id=${post.id})}'|" >
+            <td th:text="${post.id}"></td>
+            <td th:text="${post.userNickname}"></td>
+            <td th:text="${post.postTitle}"></td>
+            <td th:text="${post.postCount}"></td>
+            <td th:text="${#temporals.format(post.createdDate,'yyyy-MM-dd')}"></td>
         </tr>
         </tbody>
     </table>

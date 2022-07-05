@@ -14,6 +14,6 @@ public class PostReadResponseDto {
     private String postContent;
     private PostType postType;
     private int postCount;
-    private String user;
+    private String userNickname;
     private LocalDateTime createdDate;
 }

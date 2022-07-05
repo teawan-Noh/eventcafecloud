@@ -26,11 +26,10 @@ public class PostController {
     private final AuthTokenProvider tokenProvider;
 
     @PostMapping("/post/new")
-    public String createPost(@CookieValue(required = false, name = "access_token") String token, @Validated @ModelAttribute PostCreateRequestDto requestDto, BindingResult bindingResult, Model model) {
+    public String createPost(@CookieValue(required = false, name = "access_token") String token, @Validated @ModelAttribute PostCreateRequestDto requestDto, BindingResult bindingResult) {
         if (token != null) {
             String userEmail = tokenProvider.getUserEmailByToken(token);
             User user = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
-            model.addAttribute("userEmail", userEmail);
             postService.createPost(requestDto, user);
             if (bindingResult.hasErrors()) {
                 return "post/createPostForm";
