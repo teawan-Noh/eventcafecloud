@@ -108,4 +108,10 @@ public class User extends BaseTimeEntity {
         this.userImage = responseDto.getUserImage();
         this.userNickname = responseDto.getUserNickname();
     }
+
+    public void addCafe(Cafe cafe) {
+        this.cafes.add(cafe);
+        cafe.addUser(this);
+    }
+
 }

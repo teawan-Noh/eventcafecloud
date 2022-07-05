@@ -23,9 +23,12 @@ public class CafeImage {
     private String cafeOriginImageName;
     private String cafeImageUrl;
 
-    public CafeImage(String cafeOriginImageName, String cafeImageUrl, Cafe cafe){
+    public CafeImage(String cafeOriginImageName, String cafeImageUrl){
         this.cafeOriginImageName = cafeOriginImageName;
         this.cafeImageUrl = cafeImageUrl;
+    }
+
+    public void addCafe(Cafe cafe){
         this.cafe = cafe;
     }
 }

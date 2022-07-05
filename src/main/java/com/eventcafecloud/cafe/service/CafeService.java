@@ -33,53 +33,35 @@ public class CafeService {
     private final S3Service s3Service;
 
     @Transactional
-    public void createCafe(CafeCreateRequestDto requestDto) {
-        // 스프링 시큐리티의 유저 정보
-//        User user = userDetails.getUser();
-        // 시큐리티의 유저 정보를 토대로 해당 USER가 디비에 있는지 확인 할 경우
-//        Long userId = userDetails.getUser().getId();
-//        User user2 = userRepoistory.getById(userId);
-
+    public void createCafe(CafeCreateRequestDto requestDto, String email) {
         // jwt token 사용 유저 정보 - ByEmail
-        String userEmail = "123";
-        User user = userRepoistory.findByUserEmail(userEmail).orElseThrow();
+        User user = userRepoistory.findByUserEmail(email).orElseThrow();
+
+        Cafe cafe = new Cafe(requestDto);
+        user.addCafe(cafe);
 
         List<MultipartFile> files = requestDto.getFiles();
         // s3저장 후 url 반환받음
         List<String> cafeImageUrlList = s3Service.upload(files, "cafeImage");
 
-        // 카페 생성 1번 case : cafe
-        Cafe cafe = new Cafe(requestDto, user);
-        cafeRepository.save(cafe);
-
         // 카페 이미지 생성
-        List<CafeImage> cafeImageObjectList = new ArrayList<>();
         MultipartFile file;
         String cafeImageUrl;
-        for (int i = 0; i < files.size(); i++){
+        for (int i = 0; i < files.size(); i++) {
             file = files.get(i);
             cafeImageUrl = cafeImageUrlList.get(i);
-            CafeImage cafeImage = new CafeImage(file.getOriginalFilename(), cafeImageUrl, cafe);
-            cafeImageObjectList.add(cafeImage);
+            CafeImage cafeImage = new CafeImage(file.getOriginalFilename(), cafeImageUrl);
+            cafe.addCafeImage(cafeImage);
         }
-        cafeImageRepository.saveAll(cafeImageObjectList);
 
         // 카페 옵션 생성성
-       List<CafeOptionType> optionList = requestDto.getOptions();
-       List<CafeOption> cafeOptionObjectList = new ArrayList<>();
-        for (int i = 0; i < optionList.size() ; i++) {
-            CafeOptionType option = optionList.get(i);
-            CafeOption cafeOption = new CafeOption(option ,cafe);
-            cafeOptionObjectList.add(cafeOption);
+        List<CafeOptionType> optionList = requestDto.getOptions();
+        for (CafeOptionType option : optionList) {
+            CafeOption cafeOption = new CafeOption(option);
+            cafe.addCafeOption(cafeOption);
         }
-        cafeOptionRepository.saveAll(cafeOptionObjectList);
 
-        // 2번 case : service에서 빌더로 생성 -> 단점 : 데이터의 변경처리를 한다.
-//        Cafe cafe = Cafe.builder()
-//                .cafeName(requestDto.getCafeName())
-//                .cafeAddress("adc222")
-//                .build();
+        cafeRepository.save(cafe);
 
-        // 3번 case -> dto에서 생성 -> something 위반사항 있어서 실무에서 안쓴다고함.
     }
 }

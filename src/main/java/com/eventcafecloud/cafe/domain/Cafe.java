@@ -55,11 +55,12 @@ public class Cafe {
     @JoinColumn(name = "user_number")
     private User user;
 
-    @OneToMany(mappedBy = "cafe")
+    @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
     private List<CafeOption> cafeOptions = new ArrayList<>();
 
-    @OneToMany(mappedBy = "cafe")
+    @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
     private List<CafeImage> cafeImages = new ArrayList<>();
+
 
 //    @OneToMany(mappedBy = "cafe")
 //    private List<CafeReview> cafeReviews = new ArrayList<>();
@@ -70,7 +71,7 @@ public class Cafe {
     @OneToMany(mappedBy = "cafe")
     private List<Event> events = new ArrayList<>();
 
-    public Cafe(CafeCreateRequestDto requestDto, User user) {
+    public Cafe(CafeCreateRequestDto requestDto) {
         this.cafeName = requestDto.getCafeName();
         this.cafeZonecode = requestDto.getCafeZonecode();
         this.cafeAddress = requestDto.getCafeAddress();
@@ -82,7 +83,24 @@ public class Cafe {
         this.cafePrecaution = requestDto.getCafePrecaution();
         this.cafeWeekdayPrice = requestDto.getCafeWeekdayPrice();
         this.cafeWeekendPrice = requestDto.getCafeWeekendPrice();
+//        this.user = user;
+//        user.getCafes().add(this);
+    }
+
+
+    //==연관관계 편의 메서드==//
+    public void addUser(User user){
         this.user = user;
+    }
+
+    public void addCafeImage(CafeImage cafeImage){
+        cafeImages.add(cafeImage);
+        cafeImage.addCafe(this);
+    }
+
+    public void addCafeOption(CafeOption cafeOption) {
+        cafeOptions.add(cafeOption);
+        cafeOption.addCafe(this);
     }
 
 
