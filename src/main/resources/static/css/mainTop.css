@@ -1,11 +1,15 @@
 .nav {
     float: left;
+    font-family: 'Gaegu', cursive;
+}
+
+.user_status {
+    font-family: 'Gowun Dodum', sans-serif;
 }
 
 .nav-item {
     padding: 20px;
-    font-size: 20px;
-    font-weight: bold;
+    font-size: 28px;
 }
 
 a:link {
@@ -33,6 +37,9 @@ a:visited {
     color: white;
 }
 
+.logo {
+    height: 85px;
+}
 
 .submit_out {
     font-size: 15px;
