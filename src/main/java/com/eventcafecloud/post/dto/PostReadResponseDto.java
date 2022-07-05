@@ -4,6 +4,8 @@ import com.eventcafecloud.post.domain.type.PostType;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Setter
 @Getter
 public class PostReadResponseDto {
@@ -11,5 +13,7 @@ public class PostReadResponseDto {
     private String postTitle;
     private String postContent;
     private PostType postType;
-    private Long postCount;
+    private int postCount;
+    private String userNickname;
+    private LocalDateTime createdDate;
 }

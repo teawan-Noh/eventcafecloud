@@ -1,41 +1,49 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
-    <meta http-equiv="Content-Type" content="text/html" ; charset="UTF-8"/>
-    <title>게시판</title>
-    <link rel="stylesheet" th:href="@{/css/base.css}">
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <th:block th:replace="fragments/header :: header"/>
+    <th:block th:replace="fragments/mainHeader :: mainHeader"/>
+    <script src="../../static/js/board.js"></script>
+    <link rel="stylesheet" href="../../static/css/board.css">
+    <title>EventCafeCloud</title>
 </head>
 <body>
-<div th:replace="layout/header::header"></div>
+<div th:replace="fragments/mainTop :: mainTop"/>
 <div class="container">
-    <div class="page-header">
-        <h1>게시글 목록</h1>
+    <table class="table table-hover text-center">
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>글쓴이</th>
+            <th>제목</th>
+            <th>조회수</th>
+            <th>작성일자</th>
+        </tr>
+        </thead>
+        <tbody id="post_box">
+        <tr th:each="post : ${posts}" th:onclick="|location.href='@{/post/{id} (id=${post.id})}'|" >
+            <td th:text="${post.id}"></td>
+            <td th:text="${post.userNickname}"></td>
+            <td th:text="${post.postTitle}"></td>
+            <td th:text="${post.postCount}"></td>
+            <td th:text="${#temporals.format(post.createdDate,'yyyy-MM-dd')}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <hr>
+    <div>
+        <ul class="pagination justify-content-center">
+            <li><a herf="#" class="text-secondary"> ◀ </a></li>
+            <li><a herf="#" class="text-secondary"> 1 </a></li>
+            <li><a herf="#" class="text-secondary"> 2 </a></li>
+            <li><a herf="#" class="text-secondary"> 3 </a></li>
+            <li><a herf="#" class="text-secondary"> 4 </a></li>
+            <li><a herf="#" class="text-secondary"> ▶ </a></li>
+        </ul>
     </div>
-    <div class="pull-right" style="width: 100px;margin: 10px 0;">
-        <a href="/board" class="btn btn=primary btn-block">등록</a>
-    </div>
-    <br/><br/><br/>
-    <div id="mainHide">
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th class="">글번호</th>
-                <th class="">게시판 타입</th>
-                <th class="">제목</th>
-                <th class="">조회수</th>
-                <th class="">작성일</th>
-            </tr>
-            </thead>
-            <tr th:each="post : ${posts}">
-                <td th:text="${post.getId()()}"></td>
-                <td th:text="${post.getPostType()()}"></td>
-                <td th:text="${post.getPostTitle()}"></td>
-                <td th:text="${post.getPostCount()}"></td>
-                <td th:text="${post.getcreatedDate()}"></td>
-            </tr>
-        </table>
-    </div>
+
+    <button class="post-button btn btn-outline-info float-right" onclick='alert("로그인 후 이용해주세요!")'>글쓰기</button>
+    <button class="submit post-button btn btn-outline-info float-right" th:onclick="|location.href='@{/post/create}'|">글쓰기</button>
 </div>
 </body>
 </html>
