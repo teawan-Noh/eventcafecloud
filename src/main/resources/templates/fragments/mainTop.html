@@ -6,7 +6,7 @@
             <img class="logo" src="ec2logo.png" height="70">
         </div>
         <li class="nav-item">
-            <a class="nav-link active" href="#">카페</a>
+            <a class="nav-link active" href="">카페</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="#">이벤트</a>
@@ -15,16 +15,17 @@
             <a class="nav-link" href="#">게시판</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#" style="color: #4C7A01">카페등록</a>
+            <a class="nav-link" href="/api/cafe/register" style="color: #4C7A01">카페등록</a>
         </li>
     </ul>
     <div class="user_status">
-        <div th:if="${userEmail == null}">
+        <div th:if="${user == null}">
             GUEST님 환영합니다. &nbsp;
             <button class="submit" th:onclick="|location.href='@{/login}'|">로그인</button>
         </div>
-        <div th:if="${userEmail != null}">
-            <a href="#"><p th:text="${userEmail}" style="display: inline-block"></p></a>
+        <div th:if="${user != null}">
+            <a style="font-weight: bold" th:href="@{/user/profile/{id}/info(id=${user.getId()})}"><p
+                    style="display: inline-block" th:text="${user.getUserNickname()}"></p></a>님 환영합니다.
             <button class="submit_out" th:onclick="logout()" style="display:inline-block;">로그아웃</button>
         </div>
     </div>
