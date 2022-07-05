@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>EventCafeCloud | Login</title>
+    <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" rel="stylesheet">
+    <script crossorigin="anonymous"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script crossorigin="anonymous"
+            integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu&family=Gowun+Dodum&family=Hahmlet:wght@200&display=swap"
+          rel="stylesheet">
+
+    <style>
+        body {
+            width: 100vw;
+            height: 100vh;
+            background-color: #ffffff;
+            font-family: 'Gowun Dodum', sans-serif;
+        }
+
+        .topFont {
+            font-family: 'Gaegu', cursive;
+        }
+
+        div.left {
+            width: 15%;
+            height: 100vh;
+            float: left;
+            box-sizing: border-box;
+        }
+
+        div.right {
+            width: 85%;
+            height: 100vh;
+            float: right;
+            box-sizing: border-box;
+        }
+
+        .menuVar {
+            text-align: center;
+            padding: 50px;
+            font-weight: bold;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0px;
+            margin: 0px;
+            font-size: 20px;
+            color: white;
+        }
+
+        li a {
+            float: right;
+            list-style-type: none;
+            text-decoration: none;
+            font-size: 20px;
+            padding: 20px;
+            display: block;
+            color: black;
+            font-weight: bold;
+        }
+
+        li a:hover {
+            background: #4C7A01;
+            text-decoration: none;
+            color: white;
+        }
+
+        .profileBox {
+            margin: auto;
+            text-align: center;
+            border-radius: 2%;
+            width: 800px;
+            padding-bottom: 20px;
+            background-color: #F5F5DC;
+        }
+
+        .profile-user-img {
+            margin-top: 20px;
+            margin-right: auto;
+            margin-left: auto;
+            text-align: center;
+            width: 200px;
+            height: 200px;
+            border-radius: 70%;
+            overflow: hidden;
+        }
+
+        .profile-nickname {
+            padding-top: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: black;
+        }
+
+        .profile-info {
+            color: #999999;
+            margin-bottom: 20px
+        }
+
+        .cafeBtn {
+            background-color: #4C7A01;
+            color: white;
+            font-weight: bold;
+            border: lavender;
+        }
+
+        .topBanner {
+            background-color: #774B00;
+            color: white;
+            height: 100px;
+        }
+
+        .topFont {
+            color: white;
+            font-size: 40px;
+            padding-left: 10%;
+            padding-top: 10px;
+        }
+
+        .profile-form {
+            padding-top: 20px;
+        }
+
+        .warning-message {
+            color: #ff4040;
+        }
+
+        /*
+        파일업로드 css
+        */
+        .filebox .upload-name {
+            display: inline-block;
+            height: 40px;
+            padding: 0 10px;
+            vertical-align: middle;
+            border: 1px solid #dddddd;
+            width: 80%;
+            color: #999999;
+        }
+
+        .filebox label {
+            display: inline-block;
+            padding: 10px 10px;
+            color: #FFFFFF;
+            vertical-align: middle;
+            background-color: #4C7A01;
+            cursor: pointer;
+            height: 40px;
+            margin-left: 10px;
+        }
+
+        .filebox input[type="file"] {
+            position: absolute;
+            width: 0;
+            height: 0;
+            padding: 0;
+            overflow: hidden;
+            border: 0;
+        }
+
+    </style>
+</head>
+<div>
+    <div class="topBanner">
+        <div class="topFont">마이페이지</div>
+    </div>
+    <div class="left">
+        <div class="menuVar">
+            <ul>
+                <li><a class="menuVar-link" href="/profile/bookmarks">내 북마크</a></li>
+                <li><a class="menuVar-link" href="/profile/likes">내 좋아요</a></li>
+                <li><a class="menuVar-link" href="/profile/posts">작성한 글</a></li>
+                <li><a class="menuVar-link" href="/profile/comments">작성한 댓글</a></li>
+                <li><a class="menuVar-link" href="/profile/reservations">예약내역</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="right">
+        <div class="profile-form">
+            <div class="profileBox" th>
+                <div class="profile-user-img">
+                    <img alt="프로필이미지" class="profile-user-img-img"
+                         th:src="${user.getUserImage()}">
+                </div>
+                <div class="profile-nickname" th:text="${user.getUserNickname()}">USER 님</div>
+                <div class="profile-info" th:text="${user.getUserEmail()}">yvely001@naver.com
+                </div>
+                <!-- Button trigger modal -->
+                <button class="btn btn-primary cafeBtn" data-target="#exampleModalCenter" data-toggle="modal"
+                        type="button">
+                    프로필 수정
+                </button>
+
+                <!-- Modal -->
+                <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade"
+                     id="exampleModalCenter"
+                     role="dialog" tabindex="-1">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLongTitle">프로필 수정</h5>
+                                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form enctype="multipart/form-data"
+                                  method="post" th:action="@{/user/profile/{id}/info/update(id=${user.getId()})}"
+                                  th:object="${userRequestDto}">
+                                <div class="modal-body">
+                                    <label>닉네임</label>
+                                    <input class="form-control" placeholder="변경할 닉네임을 입력하세요"
+                                           th:class="${#fields.hasErrors('userNickname')}? 'form-control fieldError' : 'form-control'"
+                                           th:field="*{userNickname}"
+                                           type="text">
+                                    <p class="warning-message" th:errors="*{userNickname}"
+                                       th:if="${#fields.hasErrors('userNickname')}">Incorrect date</p>
+                                    <label>프로필 이미지</label>
+                                    <input class="form-control" placeholder="변경할 닉네임을 입력하세요"
+                                           th:class="${#fields.hasErrors('userImage')}? 'form-control fieldError' : 'form-control'"
+                                           th:field="*{userImage}"
+                                           type="text">
+                                    <p class="warning-message" th:errors="*{userImage}"
+                                       th:if="${#fields.hasErrors('userImage')}">Incorrect date</p>
+                                    <!--                                <div class="filebox">-->
+                                    <!--                                    <input class="upload-name" th:value="*{userImage}" placeholder="첨부파일" readonly>-->
+                                    <!--                                    <label for="file">파일찾기</label>-->
+                                    <!--                                    <input type="file" name="attachFile" id="file">-->
+                                    <!--                                </div>-->
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-secondary" data-dismiss="modal" type="button">닫기</button>
+                                    <button class="btn btn-primary cafeBtn" type="submit">확인</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>
+<script>
+    $("#file").on('change', function () {
+        var fileName = $("#file").val();
+        $(".upload-name").val(fileName);
+    });
+</script>
+<!--<script>-->
+<!--    $(document).ready(function () {-->
+<!--        let first = $(".menuVar > .menuVar-link")[0];-->
+<!--        $(first).addClass('active');-->
+
+<!--        loadByAjax(first.attributes[1].nodeValue);-->
+<!--    });-->
+
+<!--    $(".menuVar > .menuVar-link").on("click", function (e) {-->
+<!--        e.preventDefault();-->
+<!--        $(".nav > .nav-link").removeClass('active');-->
+<!--        $(this).addClass('active');-->
+<!--        let href = this.attributes[1].nodeValue;-->
+
+<!--        loadByAjax(href);-->
+<!--    });-->
+
+
+<!--    function loadByAjax(href) {-->
+<!--        $.ajax(href).done(function (result) {-->
+<!--            $("#ContentsPlace").html(result);-->
+<!--        });-->
+<!--    }-->
+<!--</script>-->
