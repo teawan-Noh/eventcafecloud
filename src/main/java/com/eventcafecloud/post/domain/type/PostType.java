@@ -7,6 +7,6 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum PostType {
     NOTICE("공지사항"),
-    USER("자유게시판");
+    USERPOST("유저게시판");
     private String value;
 }

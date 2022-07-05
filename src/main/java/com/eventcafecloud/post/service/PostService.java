@@ -3,10 +3,12 @@ package com.eventcafecloud.post.service;
 import com.eventcafecloud.post.domain.Post;
 import com.eventcafecloud.post.dto.*;
 import com.eventcafecloud.post.repository.PostRepository;
+import com.eventcafecloud.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,24 +25,20 @@ public class PostService {
 
     private final PostRepository postRepository;
 
-    public void createPost(PostCreateRequestDto requestDto) {
-        Post post = new Post();
-        post.setPostCount(0L);
-        post.setPostTitle(requestDto.getPostTitle());
-        post.setPostContent(requestDto.getPostContent());
-        post.setPostType(requestDto.getPostType());
+    public void createPost(PostCreateRequestDto requestDto, User user) {
+        Post post = new Post(requestDto, user);
         postRepository.save(post);
     }
 
     @Transactional(readOnly = true)
     public List<PostReadResponseDto> getPost() {
-        List<Post> posts = postRepository.findAll();
+        List<Post> posts = postRepository.findAll(Sort.by(Sort.Direction.DESC,"id"));
         List<PostReadResponseDto> output = new ArrayList<>();
 
         for (Post post : posts) {
             PostReadResponseDto postReadResponseDto = new PostReadResponseDto();
             postReadResponseDto.setPostTitle(post.getPostTitle());
-            postReadResponseDto.setPostContent(post.getPostContent());
+            postReadResponseDto.setUser(post.getUser().getUserNickname());
             postReadResponseDto.setId(post.getId());
             postReadResponseDto.setPostCount(post.getPostCount());
             postReadResponseDto.setPostType(post.getPostType());
@@ -73,7 +71,6 @@ public class PostService {
 
     //게시글 ID로 조회
     public Post findPostById(Long id) {
-        Post post = postRepository.findById(id).orElse(new Post());
-        return post;
+        return postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
     }
 }
