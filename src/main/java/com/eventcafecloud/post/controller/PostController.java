@@ -14,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import static com.eventcafecloud.exception.ExceptionStatus.POST_NOT_FOUND;
+import static com.eventcafecloud.exception.ExceptionStatus.USER_NOT_FOUND;
 
 
 @RequiredArgsConstructor
@@ -28,7 +29,7 @@ public class PostController {
     public String createPost(@CookieValue(required = false, name = "access_token") String token, @Validated @ModelAttribute PostCreateRequestDto requestDto, BindingResult bindingResult, Model model) {
         if (token != null) {
             String userEmail = tokenProvider.getUserEmailByToken(token);
-            User user = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
+            User user = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
             model.addAttribute("userEmail", userEmail);
             postService.createPost(requestDto, user);
             if (bindingResult.hasErrors()) {
