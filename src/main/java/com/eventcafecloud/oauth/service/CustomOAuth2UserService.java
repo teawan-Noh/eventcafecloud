@@ -81,7 +81,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 .userImage(userInfo.getUserImage())
                 .userRegPath(providerType)
                 .userStatus(StatusType.ACTIVATE)
-                .emailVerifiedYn("N")
                 .role(RoleType.NORMAL)
                 .build();
 
