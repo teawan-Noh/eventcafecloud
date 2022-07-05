@@ -1,0 +1,170 @@
+body {
+    width: 100vw;
+    height: 100vh;
+    background-color: #ffffff;
+    font-family: 'Poor Story', cursive;
+}
+
+.profile-user-img {
+    margin-top: 20px;
+    margin: auto;
+    text-align: center;
+    border: 2px solid lavender;
+    border-radius: 2%;
+    width: 800px;
+    padding-bottom: 20px;
+    background-color: lavender;
+}
+
+.profile-user-img-img {
+    width: 230px;
+    height: 230px;
+    object-fit: cover;
+    display: block;
+    margin: 0px auto;
+}
+
+.topFont {
+    padding-top: 20px;
+    font-size: 32px;
+}
+
+div.left {
+    width: 15%;
+    height: 100vh;
+    float: left;
+    box-sizing: border-box;
+}
+
+div.right {
+    width: 85%;
+    height: 100vh;
+    float: right;
+    box-sizing: border-box;
+}
+
+.menuVar {
+    text-align: center;
+    padding: 50px;
+    font-weight: bold;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+    font-size: 20px;
+    color: white;
+}
+
+li a {
+    float: right;
+    list-style-type: none;
+    text-decoration: none;
+    font-size: 17px;
+    padding: 20px;
+    display: block;
+    color: black;
+    font-weight: bold;
+}
+
+li a:hover {
+    background: #FFFFFF;
+    text-decoration: none;
+    color: #4C7A01;
+}
+
+.profileBox {
+    margin: auto;
+    text-align: center;
+    border-radius: 2%;
+    width: 800px;
+    padding-bottom: 20px;
+    padding-top: 10px;
+    background-color: #F5F5DC;
+}
+
+.profile-user-img {
+    margin-top: 20px;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    width: 200px;
+    height: 200px;
+    border-radius: 70%;
+    overflow: hidden;
+}
+
+.profile-nickname {
+    padding-top: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+}
+
+.profile-info {
+    color: #999999;
+    margin-bottom: 20px
+}
+
+.cafeBtn {
+    background-color: #4C7A01;
+    color: white;
+    font-weight: bold;
+    border: lavender;
+}
+
+.topBanner {
+    background-color: #774B00;
+    color: white;
+    height: 100px;
+}
+
+.topFont {
+    color: white;
+    font-size: 40px;
+    padding-left: 10%;
+    padding-top: 10px;
+}
+
+.profile-form {
+    padding-top: 20px;
+}
+
+.warning-message {
+    color: #ff4040;
+}
+
+/*
+파일업로드 css
+*/
+.filebox .upload-name {
+    display: inline-block;
+    height: 40px;
+    padding: 0 10px;
+    vertical-align: middle;
+    border: 1px solid #dddddd;
+    width: 80%;
+    color: #999999;
+}
+
+.filebox label {
+    display: inline-block;
+    padding: 10px 10px;
+    color: #FFFFFF;
+    vertical-align: middle;
+    background-color: #4C7A01;
+    cursor: pointer;
+    height: 40px;
+    margin-left: 10px;
+}
+
+.filebox input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    overflow: hidden;
+    border: 0;
+}
+

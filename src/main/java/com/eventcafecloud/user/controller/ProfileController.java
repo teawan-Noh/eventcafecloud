@@ -21,7 +21,7 @@ public class ProfileController {
     public String getUserProfileById(@PathVariable Long id, Model model) {
         model.addAttribute("userRequestDto", new UserRequestDto());
         model.addAttribute("user", userService.getUserById(id));
-        return "profile";
+        return "myPage";
     }
 
     @PostMapping("/{id}/info/update")
