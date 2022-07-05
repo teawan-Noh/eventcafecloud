@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <th:block th:replace="fragments/header :: header"/>
+    <th:block th:replace="fragments/mainHeader :: mainHeader"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>EventCafeCloud</title>
+    <!-- REQUIRED SCRIPTS -->
+
+    <!-- jQuery -->
+    <script src="${path}/plugins/jquery/jquery.min.js"></script>
+    <!-- Bootstrap 4 -->
+    <script src="${path}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="${path}/dist/js/adminlte.min.js"></script>
+    <!-- HandleBars JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+</head>
+<body>
+<div th:replace="fragments/mainTop :: mainTop"></div>
+<div class="container">
+    <table class="table table-hover text-center">
+        <thead>
+        <tr>
+            <th>번호</th>
+            <th>제목</th>
+            <th>내용</th>
+            <th>조회수</th>
+            <th>작성일자</th>
+        </tr>
+        </thead>
+        <tbody id="post_box">
+        <tr>
+            <td th:text="${posts.id}"></td>
+            <td th:text="${posts.postTitle}"></td>
+            <td th:text="${posts.postContent}"></td>
+            <td th:text="${posts.postCount}"></td>
+            <td th:text="${#temporals.format(posts.createdDate,'yyyy-MM-dd')}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <hr>
+    <div>
+        <form role="form" action="/comment/new" th:object="${commentCreateRequestDto}" method="post">
+        <div class="card mb-2">
+            <div class="card-header bg-light">
+                <i class="fa fa-comment fa"></i> REPLY
+            </div>
+            <div class="card-body">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <div class="form-inline mb-2">
+                            <label for="replyId"><i class="fa fa-user-circle-o fa-2x"></i></label>
+                            <input type="text" th:field="*{commentContent}" class="form-control ml-2" placeholder="Enter yourId" id="replyId">
+                            <label for="replyPassword" class="ml-4"><i class="fa fa-unlock-alt fa-2x"></i></label>
+                            <input type="password" class="form-control ml-2" placeholder="Enter password"
+                                   id="replyPassword">
+                        </div>
+                        <label for="exampleFormControlTextarea1">
+                        </label>
+                        <textarea class="form-control"
+                                  id="exampleFormControlTextarea1"
+                                  rows="3">
+                        </textarea>
+                        <button type="submit" class="btn btn-dark mt-3" onClick="javascript:addReply();">작성</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        </form>
+    </div>
+
+</div>
+</body>
+</html>
