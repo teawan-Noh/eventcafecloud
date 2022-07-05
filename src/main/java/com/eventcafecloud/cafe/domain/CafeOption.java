@@ -25,8 +25,12 @@ public class CafeOption {
 
     private String cafeOptionIcon;
 
-    public CafeOption(CafeOptionType opntion, Cafe cafe){
+    public CafeOption(CafeOptionType opntion){
         this.cafeOptionType = opntion;
+        this.cafe = cafe;
+    }
+
+    public void addCafe(Cafe cafe) {
         this.cafe = cafe;
     }
 }

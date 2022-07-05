@@ -90,5 +90,10 @@ public class User extends BaseTimeEntity {
         this.role = role;
         this.userStatus = userStatus;
     }
+
+    public void addCafe(Cafe cafe) {
+        this.cafes.add(cafe);
+        cafe.addUser(this);
+    }
     
 }
