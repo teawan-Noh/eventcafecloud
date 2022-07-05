@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="userInfo">
+    <div>
+        <div class="topBanner">
+            <div class="topFont">마이페이지</div>
+        </div>
+        <div class="left">
+            <div class="menuVar">
+                <ul>
+                    <li><a class="menuVar-link" href="/profile/bookmarks">내 북마크</a></li>
+                    <li><a class="menuVar-link" href="/profile/likes">내 좋아요</a></li>
+                    <li><a class="menuVar-link" href="/profile/posts">작성한 글</a></li>
+                    <li><a class="menuVar-link" href="/profile/comments">작성한 댓글</a></li>
+                    <li><a class="menuVar-link" href="/profile/reservations">예약내역</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="right">
+            <div class="profile-form">
+                <div class="profileBox" th>
+                    <div class="profile-user-img">
+                        <img alt="프로필이미지" class="profile-user-img-img"
+                             th:src="${user.getUserImage()}">
+                    </div>
+                    <div class="profile-nickname" th:text="${user.getUserNickname()}">USER 님</div>
+                    <div class="profile-info" th:text="${user.getUserEmail()}">yvely001@naver.com
+                    </div>
+                    <!-- Button trigger modal -->
+                    <button class="btn btn-primary cafeBtn" data-target="#exampleModalCenter" data-toggle="modal"
+                            type="button">
+                        프로필 수정
+                    </button>
+
+                    <!-- Modal -->
+                    <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade"
+                         id="exampleModalCenter"
+                         role="dialog" tabindex="-1">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">프로필 수정</h5>
+                                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form enctype="multipart/form-data"
+                                      method="post" th:action="@{/user/profile/{id}/info/update(id=${user.getId()})}"
+                                      th:object="${userRequestDto}">
+                                    <div class="modal-body">
+                                        <label>닉네임</label>
+                                        <input class="form-control" placeholder="변경할 닉네임을 입력하세요"
+                                               th:class="${#fields.hasErrors('userNickname')}? 'form-control fieldError' : 'form-control'"
+                                               th:field="*{userNickname}"
+                                               type="text">
+                                        <p class="warning-message" th:errors="*{userNickname}"
+                                           th:if="${#fields.hasErrors('userNickname')}">Incorrect date</p>
+                                        <label>프로필 이미지</label>
+                                        <input class="form-control" placeholder="변경할 닉네임을 입력하세요"
+                                               th:class="${#fields.hasErrors('userImage')}? 'form-control fieldError' : 'form-control'"
+                                               th:field="*{userImage}"
+                                               type="text">
+                                        <p class="warning-message" th:errors="*{userImage}"
+                                           th:if="${#fields.hasErrors('userImage')}">Incorrect date</p>
+                                        <!--                                <div class="filebox">-->
+                                        <!--                                    <input class="upload-name" th:value="*{userImage}" placeholder="첨부파일" readonly>-->
+                                        <!--                                    <label for="file">파일찾기</label>-->
+                                        <!--                                    <input type="file" name="attachFile" id="file">-->
+                                        <!--                                </div>-->
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary" data-dismiss="modal" type="button">닫기</button>
+                                        <button class="btn btn-primary cafeBtn" type="submit">확인</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

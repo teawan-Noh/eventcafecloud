@@ -19,7 +19,7 @@ public class AdminController {
     @GetMapping("/hosts")
     public String getHostsList(Model model) {
         model.addAttribute("hosts", userService.getHostUserList());
-        return "admin";
+        return "adminPage";
     }
 
     @PostMapping("/hosts/{id}/pass")

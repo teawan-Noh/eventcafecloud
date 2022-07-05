@@ -2,7 +2,7 @@ body {
     width: 100vw;
     height: 100vh;
     background-color: #ffffff;
-    font-family: 'Gowun Dodum', sans-serif;
+    font-family: 'IBM Plex Sans KR', sans-serif;
 }
 
 div.left {
@@ -54,7 +54,6 @@ li a:hover {
 .profileBox {
     margin: auto;
     text-align: center;
-    border: 2px solid lavender;
     border-radius: 2%;
     width: 1000px;
     padding-bottom: 20px;
@@ -64,3 +63,42 @@ li a:hover {
 .profile-form {
     padding-top: 20px;
 }
+
+.bbsOrReply {
+    margin-bottom: 10px;
+}
+
+form {
+    display: inline;
+}
+
+.pass-button {
+    background-color: #4C7A01;
+    color: white;
+    border: none;
+    font-size: 15px;
+}
+
+.fail-button {
+    background-color: #ff4040;
+    color: white;
+    border: none;
+    font-size: 15px;
+}
+
+.page {
+    margin: auto;
+}
+
+.page-number {
+    background-color: #4C7A01;
+    border: none;
+    color: white;
+}
+
+.card-header {
+    text-align: left;
+    font-size: 20px;
+    color: dimgrey;
+}
+
