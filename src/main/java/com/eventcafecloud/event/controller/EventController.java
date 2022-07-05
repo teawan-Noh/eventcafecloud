@@ -1,9 +1,7 @@
 package com.eventcafecloud.event.controller;
 
-import com.eventcafecloud.cafe.domain.Cafe;
 import com.eventcafecloud.event.dto.*;
 import com.eventcafecloud.event.service.EventService;
-import com.eventcafecloud.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,9 +18,20 @@ public class EventController {
         return eventService.getEvents();
     }
 
+//    @GetMapping("/api/events")
+//    public List<EventListResponseDto> getEvents(
+//            @RequestParam("page") int page,
+//            @RequestParam("size") int size,
+//            @RequestParam("sortBy") String sortBy,    // 시작 날짜, 이벤트명
+//            @RequestParam("isAsc") boolean isAsc
+//    ) {
+//        page = page - 1;
+//        return eventService.getEvents(page, size, sortBy, isAsc);
+//    }
+
     @PostMapping("/api/events")
-    public void createEvent(@RequestBody EventCreateRequestDto requestDto, User user, Cafe cafe) {
-        eventService.createEvent(requestDto, user, cafe);
+    public void createEvent(@RequestBody EventCreateRequestDto requestDto) {
+        eventService.createEvent(requestDto);
     }
 
     @PutMapping("/api/events/{id}")

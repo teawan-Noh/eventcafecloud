@@ -7,6 +7,7 @@ import com.eventcafecloud.event.dto.EventCreateRequestDto;
 import com.eventcafecloud.event.dto.EventUpdateRequestDto;
 import com.eventcafecloud.user.domain.User;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -63,6 +64,7 @@ public class Event extends BaseTimeEntity {
 //    @OneToMany(mappedBy = "event")
 //    private List<EventLike> eventLikes = new ArrayList<>();
 
+    @Builder
     public Event(EventCreateRequestDto requestDto, User user, Cafe cafe) {
         this.eventName = requestDto.getEventName();
         this.eventCategory = requestDto.getEventCategory();
