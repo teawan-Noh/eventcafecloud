@@ -27,7 +27,25 @@ public class S3Service {
     @Value("${cloud.aws.s3.bucket}")
     public String bucket;  // S3 버킷 이름
 
-    // 최초 게시글 작성 시 업로드
+    // 최초 게시글 작성 시 업로드 : 한 개
+    public String upload(MultipartFile file, String dirName){
+        String fileName = dirName + "/" + createFileName(file.getOriginalFilename());
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentLength(file.getSize());
+        objectMetadata.setContentType(file.getContentType());
+
+        try(InputStream inputStream = file.getInputStream()) {
+            amazonS3Client.putObject(new PutObjectRequest(bucket,fileName,inputStream,objectMetadata)
+                    .withCannedAcl(CannedAccessControlList.PublicRead));
+            return amazonS3Client.getUrl(bucket, fileName).toString();
+
+        }catch (IOException e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"파일 업로드 실패");
+        }
+
+    }
+
+    // 최초 게시글 작성 시 업로드 : 여러개
     public List<String> upload(List<MultipartFile> files, String dirName){
         List<String> urlList = new ArrayList<>();
         for (MultipartFile file : files) {

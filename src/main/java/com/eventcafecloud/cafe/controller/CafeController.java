@@ -1,6 +1,6 @@
 package com.eventcafecloud.cafe.controller;
 
-import com.eventcafecloud.cafe.dto.CafeCreatRequestDto;
+import com.eventcafecloud.cafe.dto.CafeCreateRequestDto;
 import com.eventcafecloud.cafe.service.CafeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,7 +20,7 @@ public class CafeController {
     @GetMapping("/cafes/new")
     public String cafeCreateForm(Model model){
 
-        model.addAttribute("cafeCreatRequestDto", new CafeCreatRequestDto());
+        model.addAttribute("cafeCreatRequestDto", new CafeCreateRequestDto());
 
         return "cafe/createCafeForm";
     }
@@ -28,7 +28,7 @@ public class CafeController {
     // @RequestBody 넣은 경우 Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported
     // ajax 호춣이 아니라서 ContentType 지정을 json으로 못함. -> 데이터 타입 에러
     @PostMapping("/cafes")
-    public String cafeCreate(@Valid CafeCreatRequestDto requestDto, BindingResult result){
+    public String cafeCreate(@Valid CafeCreateRequestDto requestDto, BindingResult result){
         if(result.hasErrors()){
             return "cafe/createCafeForm";
         }

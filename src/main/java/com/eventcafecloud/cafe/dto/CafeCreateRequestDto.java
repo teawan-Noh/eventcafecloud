@@ -8,7 +8,7 @@ import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Data
-public class CafeCreatRequestDto {
+public class CafeCreateRequestDto {
 
     @NotEmpty(message = "카페 이름은 필수 입니다.")
     private String cafeName;
