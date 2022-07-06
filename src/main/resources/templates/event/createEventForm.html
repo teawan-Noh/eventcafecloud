@@ -12,8 +12,8 @@
 <body>
 <br />
 <br />
+<div th:replace="fragments/mainTop :: mainTop"/>
 <div class="container">
-
     <form role="form" action="/events/new" th:object="${eventCreateRequestDto}" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label th:for="eventCategory">이벤트 카테고리</label>
