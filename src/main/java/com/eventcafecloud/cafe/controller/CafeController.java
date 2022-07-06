@@ -23,7 +23,7 @@ public class CafeController {
     @GetMapping("/cafes/new")
     public String cafeCreateForm(Model model){
 
-        model.addAttribute("cafeCreatRequestDto", new CafeCreateRequestDto());
+        model.addAttribute("cafeCreateRequestDto", new CafeCreateRequestDto());
 
         return "cafe/createCafeForm";
     }
