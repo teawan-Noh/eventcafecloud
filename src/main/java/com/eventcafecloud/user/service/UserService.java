@@ -52,7 +52,7 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUserProfile(Long id, UserRequestDto requestDto) {
+    public void modifyUserProfile(Long id, UserRequestDto requestDto) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
         //todo 유저 프로필 이미지 s3 과정과 연동하기

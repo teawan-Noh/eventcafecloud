@@ -26,7 +26,7 @@ public class ProfileController {
 
     @PostMapping("/{id}/info/update")
     public String updateUserProfile(@PathVariable Long id, UserRequestDto requestDto) {
-        userService.updateUserProfile(id, requestDto);
+        userService.modifyUserProfile(id, requestDto);
         return "redirect:/user/profile/" + id + "/info";
     }
 }
