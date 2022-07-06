@@ -38,7 +38,6 @@ public class MainController {
         String userEmail = tokenProvider.getUserEmailByToken(token);
         model.addAttribute("hostUserCreateRequestDto", new HostUserCreateRequestDto());
         model.addAttribute("Email", userEmail);
-        System.out.println(userEmail);
         return "register/registerHostForm";
     }
 
