@@ -1,20 +1,18 @@
 package com.eventcafecloud.event.controller;
 
-import com.eventcafecloud.cafe.domain.Cafe;
-import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.event.dto.EventCreateRequestDto;
 import com.eventcafecloud.event.dto.EventListResponseDto;
 import com.eventcafecloud.event.service.EventService;
-import com.eventcafecloud.user.domain.User;
+import com.eventcafecloud.oauth.token.AuthTokenProvider;
+import jdk.jfr.Frequency;
 import lombok.RequiredArgsConstructor;
+import org.apache.http.auth.AUTH;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -22,28 +20,37 @@ import java.util.List;
 public class EventViewController {
 
     private final EventService eventService;
+    private final AuthTokenProvider tokenProvider;
 
+    // 이벤트 예약 폼
     @GetMapping("/events/new")
     public String createEvent(Model model) {
         model.addAttribute("eventCreateRequestDto", new EventCreateRequestDto());
         return "event/createEventForm";
     }
 
+    // 이벤트 예약 폼
     @PostMapping("/events/new")
-    public String createEvent(@Valid EventCreateRequestDto requestDto, BindingResult result) {
+    public String createEvent(@CookieValue(required = false, name = "access_token") String token,
+                              @Validated @ModelAttribute EventCreateRequestDto requestDto, BindingResult result) {
+        if (token != null) {
+            String email = tokenProvider.getUserEmailByToken(token);
+            eventService.saveEvent(requestDto, email);
 
-        if (result.hasErrors()) {
-            return "event/createEvnetForm";
+            if (result.hasErrors()) {
+                return "event/createEvnetForm";
+            } else {
+                return "redirect:/events";
+            }
         }
-
-        eventService.createEvent(requestDto);
-        return "redirect:/";
+        return "redirect:/events";
     }
 
-//    @GetMapping("/events")
-//    public List<EventListResponseDto> list(Model model) {
-//    List<EventListResponseDto> responseDtos = eventService.getEvents();
-//    model.addAttribute("responseDtos", responseDtos);
-//    return "events/eventList";
-//    }
+    // 이벤트 리스트 보기
+    @GetMapping("/events")
+    public String list(Model model) {
+    List<EventListResponseDto> eventListResponseDtos = eventService.findEvents();
+    model.addAttribute("eventListResponseDtos", eventListResponseDtos);
+    return "event/eventList";
+    }
 }
