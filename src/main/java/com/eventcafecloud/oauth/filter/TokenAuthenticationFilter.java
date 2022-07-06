@@ -2,7 +2,7 @@ package com.eventcafecloud.oauth.filter;
 
 import com.eventcafecloud.oauth.token.AuthToken;
 import com.eventcafecloud.oauth.token.AuthTokenProvider;
-import com.eventcafecloud.utils.HeaderUtil;
+import com.eventcafecloud.utils.CookieUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -26,7 +26,8 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        String tokenStr = HeaderUtil.getAccessToken(request);
+        //todo Header에서 token을 받아올 수 있도록 변경 예정
+        String tokenStr = CookieUtil.getAccessToken(request);
         AuthToken token = tokenProvider.convertAuthToken(tokenStr);
 
         if (token.validate()) {
