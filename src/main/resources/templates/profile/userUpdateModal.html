@@ -27,7 +27,7 @@
                         <div class="filebox">
                             <input class="upload-name" placeholder="첨부파일" readonly th:value="*{userImage}">
                             <label for="file">파일찾기</label>
-                            <input id="file" name="attachFile" type="file">
+                            <input id="file" name="attachFile" th:field="*{userImage}" type="file">
                         </div>
                     </div>
                     <div class="modal-footer">
