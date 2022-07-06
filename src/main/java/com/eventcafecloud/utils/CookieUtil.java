@@ -10,6 +10,17 @@ import java.util.Optional;
 
 public class CookieUtil {
 
+    /*
+    쿠키에서 access_token을 가져오는 메소드
+     */
+    public static String getAccessToken(HttpServletRequest request) {
+        Optional<Cookie> cookie = getCookie(request, "access_token");
+        if (cookie.isEmpty()) {
+            return null;
+        }
+        return cookie.get().getValue();
+    }
+
     public static Optional<Cookie> getCookie(HttpServletRequest request, String name) {
         Cookie[] cookies = request.getCookies();
 
