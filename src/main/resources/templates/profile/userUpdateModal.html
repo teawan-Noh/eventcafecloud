@@ -1,0 +1,41 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="userUpdateModal">
+    <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade"
+         id="exampleModalCenter"
+         role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">프로필 수정</h5>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form enctype="multipart/form-data"
+                      method="post" th:action="@{/user/profile/{id}/info/update(id=${user.getId()})}"
+                      th:object="${userRequestDto}">
+                    <div class="modal-body">
+                        <label>닉네임</label>
+                        <input class="form-control" placeholder="변경할 닉네임을 입력하세요"
+                               th:class="${#fields.hasErrors('userNickname')}? 'form-control fieldError' : 'form-control'"
+                               th:field="*{userNickname}"
+                               type="text">
+                        <p class="warning-message" th:errors="*{userNickname}"
+                           th:if="${#fields.hasErrors('userNickname')}">Incorrect date</p>
+                        <label>프로필 이미지</label>
+                        <div class="filebox">
+                            <input class="upload-name" placeholder="첨부파일" readonly th:value="*{userImage}">
+                            <label for="file">파일찾기</label>
+                            <input id="file" name="attachFile" type="file">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button">닫기</button>
+                        <button class="btn btn-primary cafeBtn" type="submit">확인</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</th:block>
