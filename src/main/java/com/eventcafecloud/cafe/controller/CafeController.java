@@ -30,7 +30,7 @@ public class CafeController {
     // @RequestBody @Valid CafeRequestDto requestDto, BindingResult result
     // @RequestBody 넣은 경우 Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported
     // ajax 호춣이 아니라서 ContentType 지정을 json으로 못함. -> 데이터 타입 에러
-    @PostMapping("/cafes")
+    @PostMapping("/cafes/all")
     public String cafeCreate(@Valid CafeCreateRequestDto requestDto, BindingResult result, @CookieValue(required = false, name = "access_token") String token){
         if(result.hasErrors()){
             return "cafe/createCafeForm";
@@ -44,5 +44,13 @@ public class CafeController {
         cafeService.createCafe(requestDto, userEmail);
 
         return "redirect:/";
+    }
+
+    @GetMapping("/cafes")
+    public String cafeList(Model model){
+
+        model.addAttribute("cafeCreateRequestDto", new CafeCreateRequestDto());
+
+        return "cafe/cafeList";
     }
 }

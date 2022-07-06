@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="fragments/header :: header"/>
+    <th:block th:replace="fragments/mainHeader :: mainHeader"/>
+    <script>
+        $(document).ready(function(){
+            getCafeList();
+        });
+
+        function getCafeList() {
+            alert("실행")
+        }
+    </script>
+</head>
+<body>
+<div th:replace="fragments/mainTop :: mainTop"/>
+<div id="cafeListContainer"></div>
+</body>
+</html>

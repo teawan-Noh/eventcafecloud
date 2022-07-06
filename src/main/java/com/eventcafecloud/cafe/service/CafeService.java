@@ -13,11 +13,13 @@ import com.eventcafecloud.s3.S3Service;
 import com.eventcafecloud.user.domain.User;
 import com.eventcafecloud.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
 import java.util.List;
 
 //@Transactional(readOnly = true)
@@ -63,5 +65,12 @@ public class CafeService {
 
         cafeRepository.save(cafe);
 
+    }
+    public Page<Cafe> findAllCafeList(int page, int size, String sortBy, boolean isAsc) {
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        PageRequest pageable = PageRequest.of(page, size, sort);
+
+        return cafeRepository.findAll(pageable);
     }
 }
