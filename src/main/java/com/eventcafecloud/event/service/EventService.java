@@ -50,14 +50,9 @@ public class EventService {
         );
         System.out.println(user);
 
-//        Cafe cafe = cafeRepository.findById(requestDto.getCafeNumber()).orElseThrow(
-//                () -> new NullPointerException("해당 카페가 존재하지 않습니다.")
-//        );
-
-        Cafe cafe = cafeRepository.findById(1L).orElseThrow(
+        Cafe cafe = cafeRepository.findById(requestDto.getCafeNumber()).orElseThrow(
                 () -> new NullPointerException("해당 카페가 존재하지 않습니다.")
         );
-        System.out.println(cafe);
 
         Event event = new Event(requestDto);
         event.addCafe(cafe);
@@ -76,6 +71,7 @@ public class EventService {
             EventImage eventImage = new EventImage(file.getOriginalFilename(), eventImageUrl);
             event.addEventImage(eventImage);
         }
+        eventRepository.save(event);
     }
 
     // 이벤트 수정
