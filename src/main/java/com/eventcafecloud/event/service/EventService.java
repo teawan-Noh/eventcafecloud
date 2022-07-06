@@ -1,8 +1,10 @@
 package com.eventcafecloud.event.service;
 
 import com.eventcafecloud.cafe.domain.Cafe;
+import com.eventcafecloud.cafe.domain.CafeImage;
 import com.eventcafecloud.cafe.repository.CafeRepository;
 import com.eventcafecloud.event.domain.Event;
+import com.eventcafecloud.event.domain.EventImage;
 import com.eventcafecloud.event.dto.*;
 import com.eventcafecloud.event.repository.EventImageRepository;
 import com.eventcafecloud.event.repository.EventRepository;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -29,7 +32,8 @@ public class EventService {
     private final EventImageRepository eventImageRepository;
     private final S3Service s3Service;
 
-    public List<EventListResponseDto> getEvents() {
+    // 전체 이벤트 목록
+    public List<EventListResponseDto> findEvents() {
         List<Event> events = eventRepository.findAll();
         List<EventListResponseDto> result = events.stream()
                 .map(e  -> new EventListResponseDto(e))
@@ -37,22 +41,46 @@ public class EventService {
         return result;
     }
 
+    // 이벤트 예약
     @Transactional
-    public void createEvent(EventCreateRequestDto requestDto) {
+    public void saveEvent(EventCreateRequestDto requestDto, String email) {
 
-        User user = userRepository.findById(requestDto.getUserNumber()).orElseThrow(
+        User user = userRepository.findByUserEmail(email).orElseThrow(
                 () -> new NullPointerException("해당 사용자가 존재하지 않습니다.")
         );
-        Cafe cafe = cafeRepository.findById(requestDto.getCafeNumber()).orElseThrow(
+        System.out.println(user);
+
+//        Cafe cafe = cafeRepository.findById(requestDto.getCafeNumber()).orElseThrow(
+//                () -> new NullPointerException("해당 카페가 존재하지 않습니다.")
+//        );
+
+        Cafe cafe = cafeRepository.findById(1L).orElseThrow(
                 () -> new NullPointerException("해당 카페가 존재하지 않습니다.")
         );
+        System.out.println(cafe);
 
-        Event event = new Event(requestDto, user, cafe);
-        eventRepository.save(event);
+        Event event = new Event(requestDto);
+        event.addCafe(cafe);
+        event.addUser(user);
+
+        List<MultipartFile> files = requestDto.getFiles();
+        // s3저장 후 url 반환받음
+        List<String> eventImageUrlList = s3Service.upload(files, "eventImage");
+
+        // 카페 이미지 생성
+        MultipartFile file;
+        String eventImageUrl;
+        for (int i = 0; i < files.size(); i++) {
+            file = files.get(i);
+            eventImageUrl = eventImageUrlList.get(i);
+            EventImage eventImage = new EventImage(file.getOriginalFilename(), eventImageUrl);
+            event.addEventImage(eventImage);
+        }
     }
 
+    // 이벤트 수정
     @Transactional
-    public EventUpdateResponseDto updateEvent(Long id, EventUpdateRequestDto requestDto) {
+    public EventUpdateResponseDto modifyEvent(Long id, EventUpdateRequestDto requestDto) {
         Event event =  eventRepository.findById(id).orElseThrow(
                 () -> new NullPointerException("해당 이벤트가 존재하지 않습니다.")
         );
@@ -63,7 +91,7 @@ public class EventService {
     }
 
     // 이벤트 삭제
-    public void deleteEvent(Long eventNumber) {
+    public void removeEvent(Long eventNumber) {
         eventRepository.deleteById(eventNumber);
     }
 }

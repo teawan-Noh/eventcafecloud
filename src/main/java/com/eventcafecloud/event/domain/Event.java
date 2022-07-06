@@ -1,6 +1,7 @@
 package com.eventcafecloud.event.domain;
 
 import com.eventcafecloud.cafe.domain.Cafe;
+import com.eventcafecloud.cafe.domain.CafeImage;
 import com.eventcafecloud.common.base.BaseTimeEntity;
 import com.eventcafecloud.event.domain.type.EventCategory;
 import com.eventcafecloud.event.dto.EventCreateRequestDto;
@@ -33,10 +34,10 @@ public class Event extends BaseTimeEntity {
     private EventCategory eventCategory;
 
     @Column(nullable = false)
-    private LocalDate eventStartDate;
+    private String eventStartDate;
 
     @Column(nullable = false)
-    private LocalDate eventEndDate;
+    private String eventEndDate;
 
     @Column(nullable = false)
     private String eventInfo;
@@ -56,7 +57,7 @@ public class Event extends BaseTimeEntity {
     private Cafe cafe;
 
     @OneToMany(mappedBy = "event")
-    private List<EventImage> eventImage = new ArrayList<>();
+    private List<EventImage> eventImages = new ArrayList<>();
 //
 //    @OneToMany(mappedBy = "event")
 //    private List<EventBookmark> eventBookmarks = new ArrayList<>();
@@ -64,8 +65,7 @@ public class Event extends BaseTimeEntity {
 //    @OneToMany(mappedBy = "event")
 //    private List<EventLike> eventLikes = new ArrayList<>();
 
-    @Builder
-    public Event(EventCreateRequestDto requestDto, User user, Cafe cafe) {
+    public Event(EventCreateRequestDto requestDto) {
         this.eventName = requestDto.getEventName();
         this.eventCategory = requestDto.getEventCategory();
         this.eventStartDate = requestDto.getEventStartDate();
@@ -73,13 +73,27 @@ public class Event extends BaseTimeEntity {
         this.eventInfo = requestDto.getEventInfo();
         this.eventPrice = requestDto.getEventPrice();
         this.eventCancelAvail = true;
-        this.user = user;
-        this.cafe = cafe;
     }
 
     public void updateEvent(EventUpdateRequestDto requestDto) {
         this.eventName = requestDto.getEventName();
         this.eventInfo = requestDto.getEventInfo();
         // this.eventImage = requestDto.getFiles();
+    }
+
+    // 연관 관계 편의 메소드
+    public void addUser(User user){
+        this.user = user;
+        user.getEvents().add(this);
+    }
+
+    public void addCafe(Cafe cafe) {
+        this.cafe = cafe;
+        cafe.getEvents().add(this);
+    }
+
+    public void addEventImage(EventImage eventImage){
+        eventImages.add(eventImage);
+        eventImage.addEvent(this);
     }
 }
