@@ -9,3 +9,9 @@
 <div th:replace="profile/userInfo :: userInfo"/>
 </body>
 </html>
+<script>
+    $("#file").on('change', function () {
+        var fileName = $("#file").val();
+        $(".upload-name").val(fileName);
+    });
+</script>
