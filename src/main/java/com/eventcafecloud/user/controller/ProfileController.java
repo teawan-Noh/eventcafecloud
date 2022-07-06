@@ -19,14 +19,16 @@ public class ProfileController {
 
     @GetMapping("/{id}/info")
     public String getUserProfileById(@PathVariable Long id, Model model) {
+        //프로필 수정시, 수정 한 정보를 담아 올 request 객체를 넘김
         model.addAttribute("userRequestDto", new UserRequestDto());
+        //id에 해당하는 유저의 정보를 넘김
         model.addAttribute("user", userService.getUserById(id));
-        return "profile";
+        return "myPage";
     }
 
     @PostMapping("/{id}/info/update")
     public String updateUserProfile(@PathVariable Long id, UserRequestDto requestDto) {
-        userService.updateUserProfile(id, requestDto);
+        userService.modifyUserProfile(id, requestDto);
         return "redirect:/user/profile/" + id + "/info";
     }
 }
