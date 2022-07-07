@@ -12,11 +12,10 @@ import java.util.List;
 public class EventCreateRequestDto {
     private String eventName;
     private EventCategory eventCategory;
-    private LocalDate eventStartDate;
-    private LocalDate eventEndDate;
+    private String eventStartDate;
+    private String eventEndDate;
     private String eventInfo;
     private int eventPrice;
     private List<MultipartFile> files;
-    private Long cafeNumber;
-    private Long userNumber;
+   // private Long cafeNumber;
 }

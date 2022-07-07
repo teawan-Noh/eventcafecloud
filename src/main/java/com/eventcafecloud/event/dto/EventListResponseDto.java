@@ -15,8 +15,8 @@ import java.time.LocalDate;
 public class EventListResponseDto {
     private String eventName;
     private EventCategory eventCategory;
-    private LocalDate eventStartDate;
-    private LocalDate eventEndDate;
+    private String eventStartDate;
+    private String eventEndDate;
 
     public EventListResponseDto(Event event) {
         this.eventName = event.getEventName();
