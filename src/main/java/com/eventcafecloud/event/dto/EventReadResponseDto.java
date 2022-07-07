@@ -17,8 +17,8 @@ public class EventReadResponseDto {
     private Long eventNumber;
     private String eventName;
     private EventCategory eventCategory;
-    private LocalDate eventStartDate;
-    private LocalDate eventEndDate;
+    private String eventStartDate;
+    private String eventEndDate;
     private String eventInfo;
     private String cafeName;
     private int cafeZonecode;
