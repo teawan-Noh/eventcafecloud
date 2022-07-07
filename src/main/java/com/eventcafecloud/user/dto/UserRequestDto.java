@@ -15,5 +15,5 @@ public class UserRequestDto {
     private MultipartFile userImage;
     private String userRegPath;
     private String role;
-    private String userStats;
+    private String userStatus;
 }
