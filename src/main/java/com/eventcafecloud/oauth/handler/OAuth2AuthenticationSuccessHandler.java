@@ -102,7 +102,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         }
 
         int cookieMaxAge = (int) refreshTokenExpiry / 60;
-        int cookieMaxAgeForAccess = (int) appProperties.getAuth().getTokenExpiry() / 60;
+        int cookieMaxAgeForAccess = (int) appProperties.getAuth().getTokenExpiry() / 100;
 
         /*
         Access Token 저장
