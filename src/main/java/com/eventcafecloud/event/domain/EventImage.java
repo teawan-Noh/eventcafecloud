@@ -1,6 +1,7 @@
 package com.eventcafecloud.event.domain;
 
 
+import com.eventcafecloud.cafe.domain.Cafe;
 import com.eventcafecloud.common.base.BaseTimeEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -26,9 +27,12 @@ public class EventImage extends BaseTimeEntity {
     @JoinColumn(name = "event_number")
     private Event event;
 
-    public EventImage(String eventOriginImageName, String eventImageUrl, Event event){
+    public EventImage(String eventOriginImageName, String eventImageUrl) {
         this.eventOriginImageName = eventOriginImageName;
         this.eventImageUrl = eventImageUrl;
+    }
+
+    public void addEvent(Event event){
         this.event = event;
     }
 }
