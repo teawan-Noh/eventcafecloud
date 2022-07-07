@@ -1,20 +1,19 @@
 package com.eventcafecloud.event.service;
 
 import com.eventcafecloud.cafe.domain.Cafe;
-import com.eventcafecloud.cafe.domain.CafeImage;
 import com.eventcafecloud.cafe.repository.CafeRepository;
 import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.event.domain.EventImage;
-import com.eventcafecloud.event.dto.*;
+import com.eventcafecloud.event.dto.EventCreateRequestDto;
+import com.eventcafecloud.event.dto.EventListResponseDto;
+import com.eventcafecloud.event.dto.EventUpdateRequestDto;
+import com.eventcafecloud.event.dto.EventUpdateResponseDto;
 import com.eventcafecloud.event.repository.EventImageRepository;
 import com.eventcafecloud.event.repository.EventRepository;
 import com.eventcafecloud.s3.S3Service;
 import com.eventcafecloud.user.domain.User;
 import com.eventcafecloud.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -50,7 +49,7 @@ public class EventService {
         );
         System.out.println(user);
 
-        Cafe cafe = cafeRepository.findById(requestDto.getCafeNumber()).orElseThrow(
+        Cafe cafe = cafeRepository.findById(1L).orElseThrow(
                 () -> new NullPointerException("해당 카페가 존재하지 않습니다.")
         );
 
