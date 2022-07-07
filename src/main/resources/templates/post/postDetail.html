@@ -40,8 +40,14 @@
         </tbody>
     </table>
     <hr>
+    <a th:href="@{/post/edit/{id}(id=${posts.getId()})}" class="btn btn-defalut">수정하기</a>
+    <form id="delete-form" th:action="@{'/post/' + ${posts.id}}" method="post">
+        <input type="hidden" name="_method" value="DELETE"/>
+        <button class="btn btn-btn-danger" id="delete">삭제하기</button>
+    </form>
     <div>
-        <form role="form" action="/comment/new" th:object="${commentCreateRequestDto}" method="post">
+<!--        댓글Dto 받아오기-->
+<!--        <form role="form" action="/comment/new" th:object="${commentCreateRequestDto}" method="post">-->
         <div class="card mb-2">
             <div class="card-header bg-light">
                 <i class="fa fa-comment fa"></i> REPLY
@@ -49,25 +55,14 @@
             <div class="card-body">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                        <div class="form-inline mb-2">
-                            <label for="replyId"><i class="fa fa-user-circle-o fa-2x"></i></label>
-                            <input type="text" th:field="*{commentContent}" class="form-control ml-2" placeholder="Enter yourId" id="replyId">
-                            <label for="replyPassword" class="ml-4"><i class="fa fa-unlock-alt fa-2x"></i></label>
-                            <input type="password" class="form-control ml-2" placeholder="Enter password"
-                                   id="replyPassword">
-                        </div>
-                        <label for="exampleFormControlTextarea1">
-                        </label>
-                        <textarea class="form-control"
-                                  id="exampleFormControlTextarea1"
-                                  rows="3">
-                        </textarea>
+                        <label for="exampleFormControlTextarea1"></label>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                         <button type="submit" class="btn btn-dark mt-3" onClick="javascript:addReply();">작성</button>
                     </li>
                 </ul>
             </div>
         </div>
-        </form>
+<!--        </form>-->
     </div>
 
 </div>

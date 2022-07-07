@@ -31,11 +31,11 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public List<PostReadResponseDto> getPost() {
+    public List<PostReadResponseDto> getPostList() {
         List<Post> posts = postRepository.findAll(Sort.by(Sort.Direction.DESC,"id"));
         List<PostReadResponseDto> output = new ArrayList<>();
 
-        for (Post post : posts) {
+        for (Post post : posts ) {
             PostReadResponseDto postReadResponseDto = new PostReadResponseDto();
             postReadResponseDto.setPostTitle(post.getPostTitle());
             postReadResponseDto.setUserNickname(post.getUser().getUserNickname());
@@ -48,10 +48,10 @@ public class PostService {
         return output;
     }
 
-    public Long updatePost(@PathVariable Long id, PostUpdateRequestDto requestDto){
-        Post post = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
+    public void updatePost(@PathVariable Long id, PostUpdateRequestDto requestDto){
+        Post post = postRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
         post.updatePost(requestDto);
-        return id;
     }
 
     public Long deletePost(Long id) {

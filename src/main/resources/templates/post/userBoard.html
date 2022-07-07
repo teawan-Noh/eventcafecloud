@@ -42,8 +42,10 @@
         </ul>
     </div>
 
-    <button class="post-button btn btn-outline-info float-right" onclick='alert("로그인 후 이용해주세요!")'>글쓰기</button>
-    <button class="submit post-button btn btn-outline-info float-right" th:onclick="|location.href='@{/post/create}'|">글쓰기</button>
+<!--    <button th:if="${user.id == null}" class="post-button btn btn-outline-info float-right" onclick='alert("로그인 후 이용해주세요!")'>글쓰기</button>-->
+<!--    <button th:if="${user.id != null}" class="submit post-button btn btn-outline-info float-right" th:onclick="|location.href='@{/post/create}'|">글쓰기</button>-->
+
+
 </div>
 </body>
 </html>

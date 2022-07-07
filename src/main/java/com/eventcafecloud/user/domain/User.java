@@ -3,6 +3,7 @@ package com.eventcafecloud.user.domain;
 import com.eventcafecloud.cafe.domain.Cafe;
 import com.eventcafecloud.common.base.BaseTimeEntity;
 import com.eventcafecloud.event.domain.Event;
+import com.eventcafecloud.post.domain.Post;
 import com.eventcafecloud.user.domain.type.ApproveType;
 import com.eventcafecloud.user.domain.type.ProviderType;
 import com.eventcafecloud.user.domain.type.RoleType;
@@ -64,9 +65,8 @@ public class User extends BaseTimeEntity {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private HostUser hostUser;
 
-
-//    @OneToMany(mappedBy = "user")
-//    private List<Post> posts = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "user")
 //    private List<Comment> comments = new ArrayList<>();
