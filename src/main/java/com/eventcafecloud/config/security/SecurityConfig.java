@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -32,6 +33,7 @@ import java.util.Arrays;
 
 @Configuration
 @RequiredArgsConstructor
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CorsProperties corsProperties;
     private final AppProperties appProperties;
@@ -64,16 +66,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers("/", "/favicon.ico", "/**/*.png", "/**/*.gif", "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js").permitAll()
-                .antMatchers("/**").permitAll()   //권한관리대상을 지정, URL, HTTP 메소드별로 관리 가능
-                .antMatchers("/register/**").permitAll()
-                .antMatchers("/admin/**").permitAll()
+//              .antMatchers("/**").permitAll()   //권한관리대상을 지정, URL, HTTP 메소드별로 관리 가능
+                .antMatchers("/register/**").hasAuthority(RoleType.NORMAL.getCode())
                 .antMatchers("/login").permitAll()
                 .antMatchers("/events/**").permitAll()
                 .antMatchers("/cafes/**").permitAll()
                 .antMatchers("/post/**").permitAll()
                 .antMatchers("/board/**").permitAll()
-                .antMatchers("/api/**").hasAnyAuthority(RoleType.GUEST.getCode())
-                .antMatchers("/api/**/admin/**").hasAnyAuthority(RoleType.ADMIN.getCode())
                 .anyRequest().authenticated() //설정된 값 이외의 나머지 URL, 인증된 사용자, 로그인한 사용자만 볼 수 있음
                 .and()
                 .logout()
@@ -84,7 +83,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .baseUri("/oauth2/authorization")
                 .authorizationRequestRepository(oAuth2AuthorizationRequestbasedOnCookieRepository()) //Authorization request와 관련된 state가 저장됨
                 .and()
-                .redirectionEndpoint()//endpoint로 인증요청을 받으면, Spring securiy의 Oauth2 사용자를 provider가 제공하는 AuthorizationUri로 Redirect
+                .redirectionEndpoint()//endpoint로 인증요청을 받으면, Spring security의 Oauth2 사용자를 provider가 제공하는 AuthorizationUri로 Redirect
                 .baseUri("/*/oauth2/code/*") // 이 때, 사용자 인증코드 (authorization code)를 함께 갖고감
                 .and()
                 .userInfoEndpoint() //Oauth2 로그인 성공 이후 사용자 정보를 가져올때의 설정 담당
@@ -147,9 +146,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         corsConfig.setAllowedHeaders(Arrays.asList(corsProperties.getAllowedHeaders().split(",")));
         corsConfig.setAllowedMethods(Arrays.asList(corsProperties.getAllowedMethods().split(",")));
         corsConfig.setAllowedOrigins(Arrays.asList(corsProperties.getAllowedOrigins().split(",")));
-//        corsConfig.addAllowedOrigin("*");
-//        corsConfig.addAllowedHeader("*");
-//        corsConfig.addAllowedMethod("*");
         corsConfig.setAllowCredentials(true);
         corsConfig.setMaxAge(corsConfig.getMaxAge());
 

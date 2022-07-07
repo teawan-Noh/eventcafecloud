@@ -17,21 +17,27 @@ public class EventReadResponseDto {
     private Long eventNumber;
     private String eventName;
     private EventCategory eventCategory;
-    private LocalDate eventStartDate;
-    private LocalDate eventEndDate;
+    private String eventStartDate;
+    private String eventEndDate;
     private String eventInfo;
-    private Cafe cafe;
+    private String cafeName;
+    private int cafeZonecode;
+    private String cafeAddress;
+    private String cafeAddressDetail;
     private List<MultipartFile> files;
 
 
-    public EventReadResponseDto(Event event, Cafe cafe) {
+    public EventReadResponseDto(Event event) {
         this.eventNumber = event.getId();
         this.eventName = event.getEventName();
         this.eventCategory = event.getEventCategory();
         this.eventStartDate = event.getEventStartDate();
         this.eventEndDate = event.getEventEndDate();
         this.eventInfo = event.getEventInfo();
-        this.cafe = cafe;
+        this.cafeName = event.getCafe().getCafeName();
+        this.cafeZonecode = event.getCafe().getCafeZonecode();
+        this.cafeAddress = event.getCafe().getCafeAddress();
+        this.cafeAddressDetail = event.getCafe().getCafeAddressDetail();
 
         // to do builder 말고 카페 객체를 받와서 카페 정보 조회하기
     }

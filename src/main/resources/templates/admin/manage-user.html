@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="manage-host">
+    <div>
+        <div onclick="location.href='/'">
+            <img class="logo" src="/ec2logo.png" style="width: 15%">
+        </div>
+        <div class="left">
+            <div class="menuVar">
+                <ul>
+                    <li><a class="menuVar-link" href="/admin/users">회원 관리</a></li>
+                    <li><a class="menuVar-link" href="/admin/hosts">호스트 승인</a></li>
+                    <li><a class="menuVar-link" href="/admin/cafes">카페 관리</a></li>
+                    <li><a class="menuVar-link" href="/admin/events">이벤트 관리</a></li>
+                    <li><a class="menuVar-link" href="/admin/posts">게시글 관리</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="right">
+            <main class="ContentsPlace">
+
+            </main>
+            <div class="profile-form">
+                <div class="profileBox">
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            회원관리
+                        </div>
+                        <div class="card-body">
+                            <div class="option-search">
+                                <div style="display: flex; margin-left: auto;">
+                                    <select class="bbsOrReply">
+                                        <option value="">--회원--</option>
+                                        <option value="normal">일반</option>
+                                        <option value="quit">호스트</option>
+                                        <option value="quit">관리자</option>
+                                    </select> &nbsp;
+                                    <select class="bbsOrReply">
+                                        <option value="">--상태--</option>
+                                        <option value="normal">정지</option>
+                                        <option value="quit">정상</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="userTable">
+                                    <thead>
+                                    <tr>
+                                        <th>고유번호</th>
+                                        <th>회원이메일</th>
+                                        <th>이름</th>
+                                        <th>가입일</th>
+                                        <th>수정일</th>
+                                        <th>권한</th>
+                                        <th>상태</th>
+                                        <th>#</th>
+                                    </tr>
+                                    </thead>
+                                    <tr th:each="host: ${hosts}">
+                                        <td th:text="${host.getHost_user_number()}"></td>
+                                        <td th:text="${host.getUserEmail()}"></td>
+                                        <td th:text="${host.getCertificationFile()}"></td>
+                                        <td th:text="${#temporals.format(host.getCreated_date(),'yyyy-MM-dd HH:mm')}"></td>
+                                        <td th:text="${host.getIsApprove().getDisplayName()}"></td>
+                                        <td th:text="${host.getIsApprove().getDisplayName()}"></td>
+                                        <td th:text="${host.getIsApprove().getDisplayName()}"></td>
+                                        <td>
+                                            <div th:if="${host.getIsApprove().getDisplayName().equals('승인대기')}">
+                                                <form method="post"
+                                                      th:action="@{/admin/hosts/{id}/pass(id=${host.getUser_number()})}">
+                                                    <button class="pass-button" type="submit">수정</button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>ssk900620@gmail.com</td>
+                                        <td>김메구</td>
+                                        <td>2020/07/12</td>
+                                        <td>2022/06/20</td>
+                                        <td>HOST</td>
+                                        <td>정상</td>
+                                        <td>
+                                            <div th:if="${host.getIsApprove().getDisplayName().equals('승인대기')}">
+                                                <form method="post"
+                                                      th:action="@{/admin/hosts/{id}/pass(id=${host.getUser_number()})}">
+                                                    <button class="pass-button" type="submit">수정</button>
+                                                </form>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div style="display: flex; justify-content: space-between;">
+                                <div class="page" id="page">
+                                    <button class="page-number"><</button>
+                                    <button class="page-number">1</button>
+                                    <button class="page-number">2</button>
+                                    <button class="page-number">3</button>
+                                    <button class="page-number">></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

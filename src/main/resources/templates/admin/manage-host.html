@@ -1,140 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>EventCafeCloud | Login</title>
-    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
-    <link href="https://fonts.googleapis.com" rel="preconnect">
-    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
-    <link href="https://fonts.googleapis.com/css2?family=Gaegu&family=Gowun+Dodum&family=Hahmlet:wght@200&display=swap"
-          rel="stylesheet">
-    <style>
-        body {
-            width: 100vw;
-            height: 100vh;
-            background-color: #ffffff;
-            font-family: 'Gowun Dodum', sans-serif;
-        }
-
-        div.left {
-            background-color: #774B00;
-            width: 15%;
-            height: 100vh;
-            float: left;
-            box-sizing: border-box;
-        }
-
-        div.right {
-            width: 85%;
-            height: 100vh;
-            float: right;
-            box-sizing: border-box;
-        }
-
-        .menuVar {
-            text-align: center;
-            padding: 50px;
-            font-weight: bold;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0px;
-            margin: 0px;
-            font-size: 20px;
-            color: white;
-        }
-
-        li a {
-            float: right;
-            list-style-type: none;
-            text-decoration: none;
-            font-size: 20px;
-            padding: 20px;
-            display: block;
-            color: white;
-            font-weight: bold;
-        }
-
-        li a:hover {
-            background: #774B00;
-            text-decoration: none;
-            color: white;
-        }
-
-        .profileBox {
-            margin: auto;
-            text-align: center;
-            border: 2px solid lavender;
-            border-radius: 2%;
-            width: 1000px;
-            padding-bottom: 20px;
-            background-color: #F5F5DC;
-        }
-
-        .profile-form {
-            padding-top: 20px;
-        }
-
-        .bbsOrReply {
-            margin-bottom: 10px;
-        }
-
-        form {
-            display: inline;
-        }
-
-        .pass-button {
-            background-color: #4C7A01;
-            color: white;
-            border: none;
-            font-size: 15px;
-        }
-
-        .fail-button {
-            background-color: #ff4040;
-            color: white;
-            border: none;
-            font-size: 15px;
-        }
-
-        .page {
-            margin: auto;
-        }
-
-        .page-number {
-            background-color: #4C7A01;
-            border: none;
-            color: white;
-        }
-
-    </style>
-</head>
-<div onclick="location.href='/'">
-    <img class="logo" height="70" src="ec2logo.png">
-</div>
-<div>
-    <div class="left">
-        <div class="menuVar">
-            <ul>
-                <li><a class="menuVar-link" href="/admin/users">회원 관리</a></li>
-                <li><a class="menuVar-link" href="/admin/hosts">호스트 승인</a></li>
-                <li><a class="menuVar-link" href="/admin/cafes">카페 관리</a></li>
-                <li><a class="menuVar-link" href="/admin/events">이벤트 관리</a></li>
-                <li><a class="menuVar-link" href="/admin/posts">게시글 관리</a></li>
-            </ul>
+<div th:fragment="manage-host">
+    <div>
+        <div onclick="location.href='/'">
+            <img class="logo" src="/ec2logo.png" style="width: 15%">
         </div>
-    </div>
-    <div class="right">
-        <main class="ContentsPlace">
+        <div class="left">
+            <div class="menuVar">
+                <ul>
+                    <li><a class="menuVar-link" href="/admin/users">회원 관리</a></li>
+                    <li><a class="menuVar-link" href="/admin/hosts">호스트 승인</a></li>
+                    <li><a class="menuVar-link" href="/admin/cafes">카페 관리</a></li>
+                    <li><a class="menuVar-link" href="/admin/events">이벤트 관리</a></li>
+                    <li><a class="menuVar-link" href="/admin/posts">게시글 관리</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="right">
+            <main class="ContentsPlace">
 
-        </main>
-        <div class="profile-form">
-            <div>
+            </main>
+            <div class="profile-form">
                 <div class="profileBox">
                     <div class="card mb-4">
                         <div class="card-header">
+                            회원관리
                         </div>
                         <div class="card-body">
                             <div class="option-search">
@@ -151,7 +41,7 @@
                                 <table class="table table-bordered" id="userTable">
                                     <thead>
                                     <tr>
-                                        <th>#</th>
+                                        <th>고유번호</th>
                                         <th>회원이메일</th>
                                         <th>사업자등록증</th>
                                         <th>신청일</th>
@@ -204,32 +94,4 @@
         </div>
     </div>
 </div>
-</div>
-</body>
-</html>
 
-<!--<script>-->
-<!--    $(document).ready(function () {-->
-<!--        let first = $(".menuVar > .menuVar-link")[0];-->
-<!--        $(first).addClass('active');-->
-
-<!--        loadByAjax(first.attributes[1].nodeValue);-->
-<!--    });-->
-
-
-<!--    $(".menuVar > .menuVar-link").on("click", function (e) {-->
-<!--        e.preventDefault();-->
-<!--        $(".nav > .nav-link").removeClass('active');-->
-<!--        $(this).addClass('active');-->
-<!--        let href = this.attributes[1].nodeValue;-->
-
-<!--        loadByAjax(href);-->
-<!--    });-->
-
-
-<!--    function loadByAjax(href) {-->
-<!--        $.ajax(href).done(function (result) {-->
-<!--            $("#ContentsPlace").html(result);-->
-<!--        });-->
-<!--    }-->
-<!--</script>-->

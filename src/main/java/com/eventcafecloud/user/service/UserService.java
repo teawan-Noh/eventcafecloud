@@ -1,5 +1,6 @@
 package com.eventcafecloud.user.service;
 
+import com.eventcafecloud.s3.S3Service;
 import com.eventcafecloud.user.domain.HostUser;
 import com.eventcafecloud.user.domain.User;
 import com.eventcafecloud.user.domain.type.ApproveType;
@@ -12,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +25,7 @@ import static com.eventcafecloud.exception.ExceptionStatus.USER_NOT_FOUND;
 public class UserService {
     private final UserRepository userRepository;
     private final HostUserRepository hostUserRepository;
+    private final S3Service s3Service;
 
     public User getUserByEmail(String userEmail) {
         User user = userRepository.findByUserEmail(userEmail)
@@ -52,11 +55,13 @@ public class UserService {
     }
 
     @Transactional
-    public void updateUserProfile(Long id, UserRequestDto requestDto) {
+    public void modifyUserProfile(Long id, UserRequestDto requestDto) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
         //todo 유저 프로필 이미지 s3 과정과 연동하기
-        user.updateProfile(requestDto);
+        MultipartFile file = requestDto.getUserImage();
+        String userImage = s3Service.upload(file, "userProfileImage");
+        user.updateProfile(requestDto, userImage);
     }
 
     @Transactional

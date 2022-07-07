@@ -1,38 +1,35 @@
 package com.eventcafecloud.event.controller;
 
-import com.eventcafecloud.cafe.domain.Cafe;
 import com.eventcafecloud.event.dto.*;
 import com.eventcafecloud.event.service.EventService;
-import com.eventcafecloud.user.domain.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
+@RequiredArgsConstructor
 public class EventController {
 
     private final EventService eventService;
 
-    @Autowired
-    public EventController(EventService eventService) {
-        this.eventService = eventService;
-    }
-
+    // 전체 이벤트 목록 가져오기
     @GetMapping("/api/events")
-    public List<EventReadResponseDto> getEvents() {
-        return eventService.getEvents();
+    public List<EventListResponseDto> getEvents() {
+        return eventService.findEvents();
     }
 
-    @PutMapping("/api/events/{evnetNumber}")
-//    public EventUpdateResponseDto updateEvent(@PathVariable Long eventNumber, EventUpdateRequestDto requestDto){
-    public EventUpdateResponseDto updateEvent(@PathVariable Long eventNumber, EventUpdateRequestDto requestDto){
-        return eventService.updateEvent(eventNumber, requestDto);
+    // 이벤트 수정하기
+    @PutMapping("/api/events/{id}")
+    public EventUpdateResponseDto updateEvent(@PathVariable Long id, @RequestBody EventUpdateRequestDto requestDto){
+        return eventService.modifyEvent(id, requestDto);
     }
 
+    // 이벤트 삭제하기
     @DeleteMapping("/api/events/{eventNumber}")
     public Long deleteEvent(@PathVariable Long eventNumber) {
-        eventService.deleteEvent(eventNumber);
+        eventService.removeEvent(eventNumber);
         return eventNumber;
     }
 }
