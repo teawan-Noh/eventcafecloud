@@ -1,7 +1,9 @@
 package com.eventcafecloud.post.service;
 
 import com.eventcafecloud.post.domain.Post;
-import com.eventcafecloud.post.dto.*;
+import com.eventcafecloud.post.dto.PostCreateRequestDto;
+import com.eventcafecloud.post.dto.PostReadResponseDto;
+import com.eventcafecloud.post.dto.PostUpdateRequestDto;
 import com.eventcafecloud.post.repository.PostRepository;
 import com.eventcafecloud.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -34,12 +36,15 @@ public class PostService {
 
         for (Post post : posts ) {
             PostReadResponseDto postReadResponseDto = new PostReadResponseDto();
+            postReadResponseDto.setUserEmail(post.getUser().getUserEmail());
             postReadResponseDto.setPostTitle(post.getPostTitle());
+            postReadResponseDto.setPostContent(post.getPostContent());
             postReadResponseDto.setUserNickname(post.getUser().getUserNickname());
             postReadResponseDto.setId(post.getId());
             postReadResponseDto.setPostCount(post.getPostCount());
             postReadResponseDto.setPostType(post.getPostType());
             postReadResponseDto.setCreatedDate(post.getCreatedDate());
+            postReadResponseDto.setModifiedDate(post.getModifiedDate());
             output.add(postReadResponseDto);
         }
         return output;
