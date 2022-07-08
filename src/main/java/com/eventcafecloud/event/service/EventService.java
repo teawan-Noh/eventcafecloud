@@ -45,9 +45,9 @@ public class EventService {
 
     // 이벤트 예약
     @Transactional
-    public void saveEvent(EventCreateRequestDto requestDto, String email) {
+    public void saveEvent(EventCreateRequestDto requestDto, String userEmail) {
 
-        User user = userRepository.findByUserEmail(email).orElseThrow(
+        User user = userRepository.findByUserEmail(userEmail).orElseThrow(
                 () -> new IllegalArgumentException(USER_NOT_FOUND.getMessage())
         );
         System.out.println(user);
