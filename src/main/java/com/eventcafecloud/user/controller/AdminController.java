@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 @Secured("ROLE_ADMIN")
 public class AdminController {
-
     private final UserService userService;
 
     @GetMapping("/hosts")
@@ -35,9 +34,8 @@ public class AdminController {
     @PostMapping("/users/{id}/update")
     public String updateUserRoleAndStatus(@PathVariable Long id, UserRequestDto requestDto) {
         userService.modifyUserRoleAndStatus(id, requestDto);
-        return "redirect:/admin/users";
+        return "redirect:/admin/users" + id;
     }
-
 
     @PostMapping("/hosts/{id}/pass")
     public String updateNormalUserToHostUser(@PathVariable Long id) {
