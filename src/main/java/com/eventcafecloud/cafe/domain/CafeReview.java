@@ -17,7 +17,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class CafeReview extends BaseTimeEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cafe_review_number")
     private Long id;
 
@@ -38,7 +38,6 @@ public class CafeReview extends BaseTimeEntity {
     @JoinColumn(name = "user_number")
     private User user;
 
-    @Builder
     public CafeReview(CafeReviewRequestDto requestDto) {
         this.reviewContent = requestDto.getReviewContent();
         this.reviewRating = requestDto.getReviewRating();
