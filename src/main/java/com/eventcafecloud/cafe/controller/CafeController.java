@@ -1,6 +1,7 @@
 package com.eventcafecloud.cafe.controller;
 
 import com.eventcafecloud.cafe.dto.CafeCreateRequestDto;
+import com.eventcafecloud.cafe.dto.CafeReviewRequestDto;
 import com.eventcafecloud.cafe.service.CafeService;
 import com.eventcafecloud.oauth.token.AuthTokenProvider;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
@@ -36,12 +38,24 @@ public class CafeController {
             return "cafe/createCafeForm";
         }
         String userEmail = "";
-        if(token != null) {
+        if (token != null) {
             userEmail = tokenProvider.getUserEmailByToken(token);
 //            model.addAttribute("userEmail", userEmail);
         }
 
         cafeService.createCafe(requestDto, userEmail);
+
+        return "redirect:/";
+    }
+
+    /**
+     * 카페리뷰등록
+     */
+    @PostMapping("/cafes/{id}/registration/review")
+    public String createCafeReview(@CookieValue(required = false, name = "access_token") String token,
+                                   @PathVariable Long id, CafeReviewRequestDto requestDto) {
+        String userEmail = tokenProvider.getUserEmailByToken(token);
+        cafeService.saveCafeReview(requestDto, id, userEmail);
 
         return "redirect:/";
     }
