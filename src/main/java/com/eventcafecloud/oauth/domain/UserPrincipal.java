@@ -25,6 +25,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UserPrincipal implements OAuth2User, UserDetails, OidcUser {
     private final String userEmail;
+    private final String userNickname;
     private final String userPassword;
     private final ProviderType userRegPath;
     private final RoleType role;
@@ -48,9 +49,15 @@ public class UserPrincipal implements OAuth2User, UserDetails, OidcUser {
         return null;
     }
 
-    @Override
-    public String getName() {
-        return userEmail;
+    public static UserPrincipal create(User user) {
+        return new UserPrincipal(
+                user.getUserNickname(),
+                user.getUserEmail(),
+                user.getUserPassword(),
+                user.getUserRegPath(),
+                user.getRole(),
+                Collections.singletonList(new SimpleGrantedAuthority(user.getRole().getCode()))
+        );
     }
 
     //계정의 고유한 값을 리턴 (DB PK값, 중복이 없는 이메일 값 등)
@@ -98,14 +105,10 @@ public class UserPrincipal implements OAuth2User, UserDetails, OidcUser {
         return null;
     }
 
-    public static UserPrincipal create(User user) {
-        return new UserPrincipal(
-                user.getUserEmail(),
-                user.getUserPassword(),
-                user.getUserRegPath(),
-                user.getRole(),
-                Collections.singletonList(new SimpleGrantedAuthority(user.getRole().getCode()))
-        );
+    //계정의 닉네임을 리턴
+    @Override
+    public String getName() {
+        return userNickname;
     }
 
     public static UserPrincipal create(User user, Map<String, Object> attributes) {
