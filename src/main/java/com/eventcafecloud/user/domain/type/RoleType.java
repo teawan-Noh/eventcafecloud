@@ -9,7 +9,7 @@ import java.util.Arrays;
 @AllArgsConstructor
 public enum RoleType {
     NORMAL("ROLE_NORMAL", "일반회원"),
-    HOST("ROLE_HOST", "사장님"),
+    HOST("ROLE_HOST", "호스트"),
     ADMIN("ROLE_ADMIN", "관리자"),
     GUEST("ROLE_GUEST", "게스트");
 

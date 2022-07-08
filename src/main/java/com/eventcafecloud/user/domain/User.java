@@ -101,13 +101,20 @@ public class User extends BaseTimeEntity {
         user.getHostUser().updateApprove(ApproveType.PASS);
     }
 
+    public void updateUserRoleAndUserStatus(UserRequestDto requestDto) {
+        RoleType roleType = RoleType.of(requestDto.getRole());
+        StatusType statusType = StatusType.of(requestDto.getUserStatus());
+        this.role = roleType;
+        this.userStatus = statusType;
+    }
+
     public void updateRole(RoleType role) {
         this.role = role;
     }
 
-    public void updateProfile(UserRequestDto responseDto, String userImage) {
+    public void updateProfile(UserRequestDto requestDto, String userImage) {
         this.userImage = userImage;
-        this.userNickname = responseDto.getUserNickname();
+        this.userNickname = requestDto.getUserNickname();
     }
 
     public void addCafe(Cafe cafe) {

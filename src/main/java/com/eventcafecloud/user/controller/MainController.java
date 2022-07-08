@@ -33,7 +33,7 @@ public class MainController {
         return "login";
     }
 
-    @GetMapping("/register/host")
+    @GetMapping("/host/registration")
     public String registerHostForm(@CookieValue(required = false, name = "access_token") String token, Model model) {
         String userEmail = tokenProvider.getUserEmailByToken(token);
         model.addAttribute("hostUserCreateRequestDto", new HostUserCreateRequestDto());
@@ -41,7 +41,7 @@ public class MainController {
         return "register/registerHostForm";
     }
 
-    @PostMapping("/register")
+    @PostMapping("/api/host/registration")
     public String saveHostUser(HostUserCreateRequestDto requestDto) {
 
         userService.saveHostUser(requestDto);

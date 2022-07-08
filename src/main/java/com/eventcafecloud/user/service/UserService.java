@@ -7,6 +7,7 @@ import com.eventcafecloud.user.domain.type.ApproveType;
 import com.eventcafecloud.user.dto.HostUserCreateRequestDto;
 import com.eventcafecloud.user.dto.HostUserResponseDto;
 import com.eventcafecloud.user.dto.UserRequestDto;
+import com.eventcafecloud.user.dto.UserResponseDto;
 import com.eventcafecloud.user.repository.HostUserRepository;
 import com.eventcafecloud.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -55,10 +56,16 @@ public class UserService {
     }
 
     @Transactional
+    public void modifyUserRoleAndStatus(Long id, UserRequestDto requestDto) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
+        user.updateUserRoleAndUserStatus(requestDto);
+    }
+
+    @Transactional
     public void modifyUserProfile(Long id, UserRequestDto requestDto) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
-        //todo 유저 프로필 이미지 s3 과정과 연동하기
         MultipartFile file = requestDto.getUserImage();
         String userImage = s3Service.upload(file, "userProfileImage");
         user.updateProfile(requestDto, userImage);
@@ -90,6 +97,27 @@ public class UserService {
             responseDto.setUser_number(hostUser.getUser().getId());
             responseDto.setCreated_date(hostUser.getCreatedDate());
             result.add(responseDto);
+        }
+        return result;
+    }
+
+    public List<UserResponseDto> getUserList() {
+        List<User> users = userRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+        List<UserResponseDto> result = new ArrayList<>();
+
+        for (User user : users) {
+            UserResponseDto responseDto = new UserResponseDto();
+            responseDto.setUserNumber(user.getId());
+            responseDto.setUserEmail(user.getUserEmail());
+            responseDto.setUserNickname(user.getUserNickname());
+            responseDto.setUserRegPath(user.getUserRegPath().getDisplayName());
+            responseDto.setCreatedDate(user.getCreatedDate());
+            responseDto.setModifiedDate(user.getModifiedDate());
+            responseDto.setRole(user.getRole().getDisplayName());
+            responseDto.setStatus(user.getUserStatus().getDisplayName());
+            result.add(responseDto);
+
+            responseDto.getRole();
         }
         return result;
     }
