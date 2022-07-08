@@ -20,7 +20,7 @@ public class CommentController {
     private final CommentService commentService;
     private final AuthTokenProvider tokenProvider;
 
-    @PostMapping("/{postId}/comment/create")
+    @PostMapping("/{postId}/comment/registration")
     public String createComment(@PathVariable Long postId,
                                 @CookieValue(required = false,name = "access_token") String token,
                                 @Validated @ModelAttribute CommentCreateRequestDto requestDto,
@@ -31,10 +31,10 @@ public class CommentController {
             if (bindingResult.hasErrors()) {
                 return "post/postDetail";
             } else {
-                return "redirect:/post";
+                return "redirect:/post/" + postId;
             }
         }
-        return "redirect:/post/";
+        return "redirect:/post/" + postId;
     }
 
     @Transactional(readOnly = true)
@@ -57,7 +57,7 @@ public class CommentController {
     }
 
     @Transactional(readOnly = true)
-    @GetMapping("/comment/create")
+    @GetMapping("/comment/registration")
     public String createComment(Model model) {
         model.addAttribute("commentCreateRequestDto", new CommentCreateRequestDto());
         return "post/postDetail";
