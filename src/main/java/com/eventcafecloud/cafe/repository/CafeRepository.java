@@ -10,9 +10,8 @@ import java.util.List;
 
 public interface CafeRepository extends JpaRepository<Cafe, Long>{
 
-    @Query("select c from Cafe c join fetch c.user u")
-
-    Page<Cafe> findAll(Pageable pageable);
+//    @Query("select c from Cafe c join fetch c.user u")
+//    Page<Cafe> findAll(Pageable pageable);
 
     List<Cafe> findTop5ByOrderByCreatedDateDesc();
 }
