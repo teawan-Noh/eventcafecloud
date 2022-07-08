@@ -1,6 +1,5 @@
 package com.eventcafecloud.user.controller;
 
-import com.eventcafecloud.oauth.domain.UserPrincipalForResolver;
 import com.eventcafecloud.oauth.token.AuthTokenProvider;
 import com.eventcafecloud.user.domain.User;
 import com.eventcafecloud.user.dto.HostUserCreateRequestDto;
@@ -20,9 +19,8 @@ public class MainController {
     private final UserService userService;
 
     @GetMapping("/")
-    public String main(UserPrincipalForResolver resolverUser, Model model) {
-        if (resolverUser != null) {
-            User loginUser = userService.getUserByEmail(resolverUser.getUserEmail());
+    public String main(User loginUser, Model model) {
+        if (loginUser != null) {
             model.addAttribute("user", loginUser);
         }
         return "index";

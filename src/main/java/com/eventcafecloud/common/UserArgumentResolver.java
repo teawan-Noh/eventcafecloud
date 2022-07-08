@@ -1,6 +1,6 @@
 package com.eventcafecloud.common;
 
-import com.eventcafecloud.oauth.domain.UserPrincipalForResolver;
+import com.eventcafecloud.user.domain.User;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,9 +16,8 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 public class UserArgumentResolver implements HandlerMethodArgumentResolver {
     @Override
     public boolean supportsParameter(MethodParameter methodParameter) {
-        return UserPrincipalForResolver.class.isAssignableFrom(methodParameter.getParameterType());
+        return User.class.isAssignableFrom(methodParameter.getParameterType());
     }
-
     @Override
     public Object resolveArgument(MethodParameter methodParameter, ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest, WebDataBinderFactory webDataBinderFactory) throws Exception {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
