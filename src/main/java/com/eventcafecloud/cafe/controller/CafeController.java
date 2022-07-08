@@ -1,6 +1,5 @@
 package com.eventcafecloud.cafe.controller;
 
-import com.eventcafecloud.cafe.domain.Cafe;
 import com.eventcafecloud.cafe.dto.CafeCreateRequestDto;
 import com.eventcafecloud.cafe.service.CafeService;
 import com.eventcafecloud.oauth.token.AuthTokenProvider;
@@ -11,10 +10,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -50,9 +47,7 @@ public class CafeController {
     }
 
     @GetMapping("/cafes/allList")
-    public String cafeList(Model model){
-
-        model.addAttribute("cafeCreateRequestDto", new CafeCreateRequestDto());
+    public String cafeListPage(){
 
         return "cafe/cafeList";
     }

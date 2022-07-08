@@ -71,8 +71,8 @@ public class Cafe extends BaseTimeEntity {
 //    @OneToMany(mappedBy = "cafe")
 //    private List<CafeSchedule> cafeSchedules = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "cafe")
-//    private List<Event> events = new ArrayList<>();
+    @OneToMany(mappedBy = "cafe")
+    private List<Event> events = new ArrayList<>();
 
     public Cafe(CafeCreateRequestDto requestDto) {
         this.cafeName = requestDto.getCafeName();
@@ -86,8 +86,6 @@ public class Cafe extends BaseTimeEntity {
         this.cafePrecaution = requestDto.getCafePrecaution();
         this.cafeWeekdayPrice = requestDto.getCafeWeekdayPrice();
         this.cafeWeekendPrice = requestDto.getCafeWeekendPrice();
-//        this.user = user;
-//        user.getCafes().add(this);
     }
 
     //==연관관계 편의 메서드==//
