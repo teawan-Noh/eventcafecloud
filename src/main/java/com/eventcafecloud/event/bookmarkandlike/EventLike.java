@@ -1,4 +1,4 @@
-package com.eventcafecloud.event.domain;
+package com.eventcafecloud.event.bookmarkandlike;
 
 import com.eventcafecloud.user.domain.User;
 import lombok.AccessLevel;

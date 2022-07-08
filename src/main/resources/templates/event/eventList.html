@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="fragments/header :: header"/>
+    <th:block th:replace="fragments/mainHeader :: mainHeader"/>
+    <style>
+        #eventListContainer{
+            padding-top: 80px;
+        }
+
+    </style>
+</head>
+<body>
+<div th:replace="fragments/mainTop :: mainTop"/>
+  <div id="eventListContainer" class="container">
+    <div>
+        <!-- Section-->
+        <section class="py-5">
+            <div class="container px-4 px-lg-5 mt-5">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+                    <!-- First Event -->
+                    <div class="col mb-5" th:each="eventListResponseDto : ${eventListResponseDtos}">
+                        <div class="card h-100">
+                            <!-- Event image-->
+                            <!--                        <img class="card-img-top" th:src="@{${item.getImgPath()}}" alt="..." />-->
+                            <!-- Event List details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Event image, category, name, startdate, enddate -->
+                                    <img class="card-img-top" th:src="@{${eventListResponseDto.getEventImages()}}" alt="..." />
+                                    <h5><span class="badge badge-secondary"><p th:text="|${eventListResponseDto.getEventCategory()} |"> 이벤트 카테고리</p></span></h5>
+                                    <h5 class="fw-bolder" th:text="${eventListResponseDto.getEventName()}">이벤트명</h5>
+                                    <p th:text="|${eventListResponseDto.getEventStartDate()} |"> 이벤트 시작일</p>
+                                    <p th:text="|&nbsp;&nbsp;&nbsp;&nbsp;~ ${eventListResponseDto.getEventEndDate()} |"> 이벤트 종료일</p>
+                                    <button type="button" class="btn btn-outline-dark"><a href = "#" >이벤트 상세보기</a></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--        <div class="page">-->
+            <!--            <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">-->
+            <!--                <a th:if="${page != nowPage}" th:href="@{/item/list(page = ${page - 1}, searchKeyword = ${param.searchKeyword})}" th:text="${page}"></a>-->
+            <!--                <strong th:if="${page == nowPage}" th:text="${page}" style="color : red"></strong>-->
+            <!--            </th:block>-->
+            <!--        </div>-->
+        </section>
+    </div>
+  </div>
+</body>
+</html>

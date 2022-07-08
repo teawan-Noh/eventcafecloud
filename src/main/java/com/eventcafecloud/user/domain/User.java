@@ -1,8 +1,10 @@
 package com.eventcafecloud.user.domain;
 
 import com.eventcafecloud.cafe.domain.Cafe;
+import com.eventcafecloud.comment.domain.Comment;
 import com.eventcafecloud.common.base.BaseTimeEntity;
 import com.eventcafecloud.event.domain.Event;
+import com.eventcafecloud.post.domain.Post;
 import com.eventcafecloud.user.domain.type.ApproveType;
 import com.eventcafecloud.user.domain.type.ProviderType;
 import com.eventcafecloud.user.domain.type.RoleType;
@@ -64,12 +66,11 @@ public class User extends BaseTimeEntity {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private HostUser hostUser;
 
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "user")
-//    private List<Post> posts = new ArrayList<>();
-
-//    @OneToMany(mappedBy = "user")
-//    private List<Comment> comments = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "user")
 //    private List<EventBookmark> eventBookmarks = new ArrayList<>();
@@ -100,18 +101,30 @@ public class User extends BaseTimeEntity {
         user.getHostUser().updateApprove(ApproveType.PASS);
     }
 
+    public void updateUserRoleAndUserStatus(UserRequestDto requestDto) {
+        RoleType roleType = RoleType.of(requestDto.getRole());
+        StatusType statusType = StatusType.of(requestDto.getUserStatus());
+        this.role = roleType;
+        this.userStatus = statusType;
+    }
+
     public void updateRole(RoleType role) {
         this.role = role;
     }
 
-    public void updateProfile(UserRequestDto responseDto, String userImage) {
+    public void updateProfile(UserRequestDto requestDto, String userImage) {
         this.userImage = userImage;
-        this.userNickname = responseDto.getUserNickname();
+        this.userNickname = requestDto.getUserNickname();
     }
 
     public void addCafe(Cafe cafe) {
         this.cafes.add(cafe);
         cafe.addUser(this);
+    }
+
+    public void addComment(Comment comment) {
+        comments.add(comment);
+        comment.addUser(this);
     }
 
 }

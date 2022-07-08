@@ -2,6 +2,16 @@
     height: 90px;
 }
 
+.admin-user {
+    font-weight: bold;
+    color: darkorange;
+    font-family: 'IBM Plex Sans KR', sans-serif;
+}
+
+.admin-user:visited {
+    color: darkorange;
+}
+
 .nav {
     float: left;
     font-size: 25px;

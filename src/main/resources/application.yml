@@ -25,3 +25,10 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
 
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace

@@ -30,7 +30,7 @@ public class Post extends BaseTimeEntity {
     @Column(nullable = false)
     private String postContent;
 
-    @Column
+    @Column(nullable = false)
     private int postCount;
 
     @Enumerated(EnumType.STRING)
@@ -56,5 +56,13 @@ public class Post extends BaseTimeEntity {
         this.user = user;
     }
 
+    public void addComment(Comment comment) {
+        comments.add(comment);
+        comment.addPost(this);
+    }
+
+    public void updateCount(){
+        this.postCount++;
+    }
 
 }

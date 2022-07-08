@@ -2,18 +2,18 @@ package com.eventcafecloud.user.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
 
-@Getter
+import java.time.LocalDateTime;
+
 @Setter
-public class UserRequestDto {
+@Getter
+public class UserResponseDto {
     private Long userNumber;
     private String userEmail;
-    private String userPassword;
     private String userNickname;
-    private String userGender;
-    private MultipartFile userImage;
     private String userRegPath;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
     private String role;
-    private String userStatus;
+    private String status;
 }
