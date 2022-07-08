@@ -23,7 +23,7 @@ public class ProfileController {
         model.addAttribute("userRequestDto", new UserRequestDto());
         //id에 해당하는 유저의 정보를 넘김
         model.addAttribute("user", userService.getUserById(id));
-        return "myPage";
+        return "/profile/profile-userInfo";
     }
 
     @PostMapping("/{id}/info/update")
