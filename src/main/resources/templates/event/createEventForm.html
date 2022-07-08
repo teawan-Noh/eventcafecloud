@@ -5,94 +5,79 @@
     <th:block th:replace="fragments/mainHeader :: mainHeader"/>
 </head>
 <style>
+
     .fieldError {
         border-color: #bd2130;
     }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .form-group {
+        width: 780px;
+    }
+
 </style>
 <body>
-<br />
-<br />
-<div th:replace="fragments/mainTop :: mainTop"/>
-<div class="container">
-    <form role="form" action="/events/new" th:object="${eventCreateRequestDto}" method="post" enctype="multipart/form-data">
-        <div class="form-group">
-            <label th:for="eventCategory">이벤트 카테고리</label>
-            <select th:field="*{eventCategory}" class="form-control">
-                <option value="">카테고리를 선택하세요.</option>
-                <option th:each="eventCategory : ${T(com.eventcafecloud.event.domain.type.EventCategory).values()}"
-                        th:value="${eventCategory}"
-                        th:text="${eventCategory}">option
-                </option>
-            </select>
-        </div>
-        <br />
-        <div class="form-group">
-            <label th:for="evnetName">이벤트 이름</label>
-            <input type="text" th:field="*{eventName}" class="form-control" placeholder="이벤트 이름을 입력하세요."
-                   th:class="${#fields.hasErrors('eventName')}? 'form-control fieldError' : 'form-control'">
-            <p th:if="${#fields.hasErrors('eventName')}" th:errors="*{eventName}">이벤트명은 필수입니다.</p>
-        </div>
-        <br />
-        <div class="form-group">
-            <label th:for="eventInfo">이벤트 소개 및 정보</label>
-            <input type="text" th:field="*{eventInfo}" class="form-control" placeholder="이벤트 소개를 입력하세요.">
-        </div>
-        <br />
-        <div class="form-group">
-            <label th:for="eventStartDate">이벤트 시작일</label>
-            <input type="text" th:field="*{eventStartDate}" class="form-control" placeholder="">
-        </div>
-        <br />
-        <div class="form-group">
-            <label th:for="eventEndDate">이벤트 종료일</label>
-            <input type="text" th:field="*{eventEndDate}" class="form-control" placeholder="">
-        </div>
-        <br />
-        <label th:for="files">이벤트 대표 이미지 및 포스터</label>
-        <br />
-        <ul>
-            <li>첨부파일  <input type="file" name="attachFile" ></li>
-            <li>이미지 파일들  <input type="file" multiple="multiple" th:field="*{files}" name="imageFiles" ></li>
-        </ul>
-        <br />
-
-
-        <div class="form-group">
-            <label th:for="eventPrice">결제 정보</label>
-            <input type="text" th:field="*{eventPrice}" class="form-control" placeholder="얼마입니다.">
-        </div>
-        <br />
-
-        <button type="submit" class="btn btn-primary">이벤트 예약하기</button>
-    </form>
-
-    <!--    &lt;!&ndash; The Modal &ndash;&gt;-->
-    <!--    <div class="modal" id="myModal">-->
-    <!--        <div class="modal-dialog">-->
-    <!--            <div class="modal-content">-->
-    <!--                &lt;!&ndash; Modal Header &ndash;&gt;-->
-    <!--                <div class="modal-header">-->
-    <!--                    <h5 class="modal-title">주소 등록</h5>-->
-    <!--                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>-->
-    <!--                </div>-->
-    <!--                &lt;!&ndash; Modal body &ndash;&gt;-->
-    <!--                <div class="modal-body">-->
-    <!--                    <input type="text" id="modal-address" placeholder="주소">-->
-    <!--                    <input type="button" onclick="execDaumPostcode()" value="주소 검색"><br>-->
-    <!--                </div>-->
-    <!--                <div id="map" style="width:100%;height:350px; display: none">map</div>-->
-    <!--                &lt;!&ndash; Modal footer &ndash;&gt;-->
-    <!--                <div class="modal-footer">-->
-    <!--                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">닫기</button>-->
-    <!--                    <button type="button" onclick="getAddressInfo()" class="btn btn-primary" data-bs-dismiss="modal">주소 등록</button>-->
-    <!--                </div>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
-    <!--    <br/>-->
-    <!--</div>-->
-
-</div>
+    <div th:replace="fragments/mainTop :: mainTop"/>
+    <div class="topBanner">
+        <div class="topFont">이벤트 예약하기</div>
+    </div>
+    <!--    Event Reservation Form-->
+    <div class="container">
+        <form role="form" action="/events/registration" th:object="${eventCreateRequestDto}" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <br />
+                <label th:for="eventCategory">이벤트 카테고리</label>
+                <select th:field="*{eventCategory}" class="form-control">
+                    <option value="">카테고리를 선택하세요.</option>
+                    <option th:each="eventCategory : ${T(com.eventcafecloud.event.domain.type.EventCategory).values()}"
+                            th:value="${eventCategory}"
+                            th:text="${eventCategory}">option
+                    </option>
+                </select>
+            </div>
+            <br />
+            <div class="form-group">
+                <label th:for="evnetName">이벤트 이름</label>
+                <input type="text" th:field="*{eventName}" class="form-control" placeholder="이벤트 이름을 입력하세요."
+                       th:class="${#fields.hasErrors('eventName')}? 'form-control fieldError' : 'form-control'">
+                <p th:if="${#fields.hasErrors('eventName')}" th:errors="*{eventName}">이벤트명은 필수입니다.</p>
+            </div>
+            <br />
+            <div class="form-group">
+                <label th:for="eventInfo">이벤트 소개 및 정보</label>
+                <input type="text" th:field="*{eventInfo}" class="form-control" placeholder="이벤트 소개를 입력하세요.">
+            </div>
+            <br />
+            <label th:for="files">이벤트 대표 이미지 및 포스터</label>
+            <br />
+            <ul>
+                <li>첨부파일  <input type="file" name="attachFile" ></li>
+                <li>이미지 파일들  <input type="file" multiple="multiple" th:field="*{files}" name="imageFiles" ></li>
+            </ul>
+            <br />
+            <div class="form-group">
+                <label th:for="eventStartDate">이벤트 시작일</label>
+                <input type="text" th:field="*{eventStartDate}" class="form-control" placeholder="">
+            </div>
+            <br />
+            <div class="form-group">
+                <label th:for="eventEndDate">이벤트 종료일</label>
+                <input type="text" th:field="*{eventEndDate}" class="form-control" placeholder="">
+            </div>
+            <br />
+            <div class="form-group">
+                <label th:for="eventPrice">결제 정보</label>
+                <input type="text" th:field="*{eventPrice}" class="form-control" placeholder="얼마입니다.">
+            </div>
+            <br />
+            <button type="submit" class="btn btn-primary" style="float: right;">이벤트 예약하기</button>
+        </form>
+    </div>
 </body>
-
 </html>

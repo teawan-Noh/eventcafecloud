@@ -1,19 +1,16 @@
 package com.eventcafecloud.event.domain;
 
 import com.eventcafecloud.cafe.domain.Cafe;
-import com.eventcafecloud.cafe.domain.CafeImage;
 import com.eventcafecloud.common.base.BaseTimeEntity;
 import com.eventcafecloud.event.domain.type.EventCategory;
 import com.eventcafecloud.event.dto.EventCreateRequestDto;
 import com.eventcafecloud.event.dto.EventUpdateRequestDto;
 import com.eventcafecloud.user.domain.User;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 

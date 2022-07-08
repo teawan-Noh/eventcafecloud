@@ -21,6 +21,9 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.eventcafecloud.exception.ExceptionStatus.EVENT_NOT_FOUND;
+import static com.eventcafecloud.exception.ExceptionStatus.USER_NOT_FOUND;
+
 @RequiredArgsConstructor
 @Service
 public class EventService {
@@ -32,7 +35,7 @@ public class EventService {
     private final S3Service s3Service;
 
     // 전체 이벤트 목록
-    public List<EventListResponseDto> findEvents() {
+    public List<EventListResponseDto> findEventList() {
         List<Event> events = eventRepository.findAll();
         List<EventListResponseDto> result = events.stream()
                 .map(e  -> new EventListResponseDto(e))
@@ -45,7 +48,7 @@ public class EventService {
     public void saveEvent(EventCreateRequestDto requestDto, String email) {
 
         User user = userRepository.findByUserEmail(email).orElseThrow(
-                () -> new NullPointerException("해당 사용자가 존재하지 않습니다.")
+                () -> new IllegalArgumentException(USER_NOT_FOUND.getMessage())
         );
         System.out.println(user);
 
@@ -75,9 +78,9 @@ public class EventService {
 
     // 이벤트 수정
     @Transactional
-    public EventUpdateResponseDto modifyEvent(Long id, EventUpdateRequestDto requestDto) {
-        Event event =  eventRepository.findById(id).orElseThrow(
-                () -> new NullPointerException("해당 이벤트가 존재하지 않습니다.")
+    public EventUpdateResponseDto modifyEvent(Long eventNumber, EventUpdateRequestDto requestDto) {
+        Event event =  eventRepository.findById(eventNumber).orElseThrow(
+                () -> new IllegalArgumentException(EVENT_NOT_FOUND.getMessage())
         );
 
         event.updateEvent(requestDto);
@@ -88,5 +91,11 @@ public class EventService {
     // 이벤트 삭제
     public void removeEvent(Long eventNumber) {
         eventRepository.deleteById(eventNumber);
+    }
+
+    public Event getEventById(Long eventNumber) {
+        Event event = eventRepository.findById(eventNumber)
+                .orElseThrow(() -> new IllegalArgumentException(EVENT_NOT_FOUND.getMessage()));
+        return event;
     }
 }
