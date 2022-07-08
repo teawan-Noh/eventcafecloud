@@ -2,6 +2,7 @@ package com.eventcafecloud.cafe.service;
 
 
 import com.eventcafecloud.cafe.domain.*;
+import com.eventcafecloud.cafe.dto.CafeListResponseDto;
 import com.eventcafecloud.cafe.dto.CafeCreateRequestDto;
 import com.eventcafecloud.cafe.dto.CafeReviewRequestDto;
 import com.eventcafecloud.cafe.repository.CafeImageRepository;
@@ -17,11 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-//@Transactional(readOnly = true)
-//@Transactional
+
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CafeService {
 
     private final CafeRepository cafeRepository;
@@ -73,5 +75,34 @@ public class CafeService {
 
         cafeRepository.save(cafe);
 
+    }
+
+//    public Page<Cafe> findAllCafeList3() {
+////        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+////        Sort sort = Sort.by(direction, sortBy);
+////        Pageable pageable = PageRequest.of(page, size, sort);
+//
+////        Pageable pageRequest = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "createdDate"));
+//        Pageable pageRequest = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "createdDate"));
+//
+//        return cafeRepository.findAll(pageRequest);
+//    }
+//
+//    public Page<Cafe> findAllCafeList2() {
+//        System.out.println("CafeService findAllCafeList2 서비스 실행");
+//        Pageable pageRequest = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "createdDate"));
+//        System.out.println(cafeRepository.findAll(pageRequest));
+//        return cafeRepository.findAll(pageRequest);
+//    }
+
+    public List<CafeListResponseDto> findCafeTopFiveList() {
+        System.out.println("findCafeTopFiveList 실행");
+        List<Cafe> cafeList = cafeRepository.findTop5ByOrderByCreatedDateDesc();
+
+        List<CafeListResponseDto> cafeListResponseDtos = cafeList.stream()
+                .map(c -> new CafeListResponseDto(c))
+                .collect(Collectors.toList());
+
+        return cafeListResponseDtos;
     }
 }

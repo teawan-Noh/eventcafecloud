@@ -10,15 +10,16 @@ spring:
       - oauth
       - s3
 
-
   jpa:
+    properties:
+      hibernate:
+        default_batch_fetch_size: 10 # 페이징 최적화 'in' query를 사용해서 지연로딩을 초기화 시켜준다
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     generate-ddl: true
     show-sql: true
     hibernate:
       ddl-auto: update
-
 
   thymeleaf:
     prefix: classpath:/templates/
