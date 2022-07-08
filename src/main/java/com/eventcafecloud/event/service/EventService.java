@@ -41,38 +41,38 @@ public class EventService {
         return result;
     }
 
-    // 이벤트 예약
-    @Transactional
-    public void saveEvent(EventCreateRequestDto requestDto, String email) {
-
-        User user = userRepository.findByUserEmail(email).orElseThrow(
-                () -> new NullPointerException("해당 사용자가 존재하지 않습니다.")
-        );
-        System.out.println(user);
-
-        Cafe cafe = cafeRepository.findById(requestDto.getCafeNumber()).orElseThrow(
-                () -> new NullPointerException("해당 카페가 존재하지 않습니다.")
-        );
-
-        Event event = new Event(requestDto);
-        event.addCafe(cafe);
-        event.addUser(user);
-
-        List<MultipartFile> files = requestDto.getFiles();
-        // s3저장 후 url 반환받음
-        List<String> eventImageUrlList = s3Service.upload(files, "eventImage");
-
-        // 카페 이미지 생성
-        MultipartFile file;
-        String eventImageUrl;
-        for (int i = 0; i < files.size(); i++) {
-            file = files.get(i);
-            eventImageUrl = eventImageUrlList.get(i);
-            EventImage eventImage = new EventImage(file.getOriginalFilename(), eventImageUrl);
-            event.addEventImage(eventImage);
-        }
-        eventRepository.save(event);
-    }
+//    // 이벤트 예약
+//    @Transactional
+//    public void saveEvent(EventCreateRequestDto requestDto, String email) {
+//
+//        User user = userRepository.findByUserEmail(email).orElseThrow(
+//                () -> new NullPointerException("해당 사용자가 존재하지 않습니다.")
+//        );
+//        System.out.println(user);
+//
+//        Cafe cafe = cafeRepository.findById(requestDto.getCafeNumber()).orElseThrow(
+//                () -> new NullPointerException("해당 카페가 존재하지 않습니다.")
+//        );
+//
+//        Event event = new Event(requestDto);
+//        event.addCafe(cafe);
+//        event.addUser(user);
+//
+//        List<MultipartFile> files = requestDto.getFiles();
+//        // s3저장 후 url 반환받음
+//        List<String> eventImageUrlList = s3Service.upload(files, "eventImage");
+//
+//        // 카페 이미지 생성
+//        MultipartFile file;
+//        String eventImageUrl;
+//        for (int i = 0; i < files.size(); i++) {
+//            file = files.get(i);
+//            eventImageUrl = eventImageUrlList.get(i);
+//            EventImage eventImage = new EventImage(file.getOriginalFilename(), eventImageUrl);
+//            event.addEventImage(eventImage);
+//        }
+//        eventRepository.save(event);
+//    }
 
     // 이벤트 수정
     @Transactional
