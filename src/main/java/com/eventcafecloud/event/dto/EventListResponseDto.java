@@ -14,6 +14,7 @@ import java.util.List;
 @Setter
 @Getter
 public class EventListResponseDto {
+    private Long eventNumber;
     private String eventName;
     private EventCategory eventCategory;
     private String eventStartDate;
@@ -21,6 +22,7 @@ public class EventListResponseDto {
     private List<EventImage> eventImages;
 
     public EventListResponseDto(Event event) {
+        this.eventNumber = event.getId();
         this.eventName = event.getEventName();
         this.eventCategory = event.getEventCategory();
         this.eventStartDate = event.getEventStartDate();

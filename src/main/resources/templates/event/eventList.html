@@ -12,6 +12,9 @@
 </head>
 <body>
 <div th:replace="fragments/mainTop :: mainTop"/>
+<div class="topBanner">
+    <div class="topFont">이벤트</div>
+</div>
   <div id="eventListContainer" class="container">
     <div>
         <!-- Section-->
@@ -25,14 +28,20 @@
                             <!--                        <img class="card-img-top" th:src="@{${item.getImgPath()}}" alt="..." />-->
                             <!-- Event List details-->
                             <div class="card-body p-4">
-                                <div class="text-center">
+                                <div class="text">
                                     <!-- Event image, category, name, startdate, enddate -->
                                     <img class="card-img-top" th:src="@{${eventListResponseDto.getEventImages()}}" alt="..." />
-                                    <h5><span class="badge badge-secondary"><p th:text="|${eventListResponseDto.getEventCategory()} |"> 이벤트 카테고리</p></span></h5>
-                                    <h5 class="fw-bolder" th:text="${eventListResponseDto.getEventName()}">이벤트명</h5>
-                                    <p th:text="|${eventListResponseDto.getEventStartDate()} |"> 이벤트 시작일</p>
-                                    <p th:text="|&nbsp;&nbsp;&nbsp;&nbsp;~ ${eventListResponseDto.getEventEndDate()} |"> 이벤트 종료일</p>
-                                    <button type="button" class="btn btn-outline-dark"><a href = "#" >이벤트 상세보기</a></button>
+                                    <h5><span class="badge badge-secondary" style="height: 28px; width: 90px;"><p th:text="|${eventListResponseDto.getEventCategory()} |"> 이벤트 카테고리</p></span></h5>
+                                    <h3 class="fw-bolder" th:text="${eventListResponseDto.getEventName()}">이벤트명</h3>
+
+                                    <div style="float:left; margin-right:10px;">
+                                        <p th:text="${eventListResponseDto.getEventStartDate()}"> 이벤트 시작일</p>
+                                    </div>
+                                    <div style="float:left;">
+                                        <p th:text="|~ ${eventListResponseDto.getEventEndDate()}|"> 이벤트 종료일</p>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-dark" style="float: right">
+                                        <a th:href = "@{/events/{eventNumber} (eventNumber=${eventListResponseDto.getEventNumber()})}" >이벤트 상세보기</a></button>
                                 </div>
                             </div>
                         </div>

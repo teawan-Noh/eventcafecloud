@@ -19,8 +19,8 @@ import java.util.List;
 @Entity
 public class Event extends BaseTimeEntity {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "event_number")
     private Long id;
 
     @Column(nullable = false)

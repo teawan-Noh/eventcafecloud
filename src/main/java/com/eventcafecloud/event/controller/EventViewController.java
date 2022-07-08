@@ -1,9 +1,7 @@
 package com.eventcafecloud.event.controller;
 
-import com.eventcafecloud.event.dto.EventCreateRequestDto;
-import com.eventcafecloud.event.dto.EventListResponseDto;
-import com.eventcafecloud.event.dto.EventUpdateRequestDto;
-import com.eventcafecloud.event.dto.EventUpdateResponseDto;
+import com.eventcafecloud.event.domain.Event;
+import com.eventcafecloud.event.dto.*;
 import com.eventcafecloud.event.service.EventService;
 import com.eventcafecloud.oauth.token.AuthTokenProvider;
 import com.eventcafecloud.user.domain.User;
@@ -62,7 +60,7 @@ public class EventViewController {
     // 이벤트 수정 폼
     @Secured("ROLE_NORMAL")
     @GetMapping("/events/{eventNumber}/edit")
-    public String updateEventForm(@PathVariable Long eventNumber, Model model){
+    public String editEventForm(@PathVariable Long eventNumber, Model model){
         model.addAttribute("eventUpdateRequestDto", new EventUpdateRequestDto());
         model.addAttribute("event", eventService.getEventById(eventNumber));
         return "event/updateEventForm";
@@ -70,9 +68,9 @@ public class EventViewController {
 
     // 이벤트 수정
     @PostMapping("/events/{eventNumber}/edit")
-    public String updateEvent(@PathVariable Long eventNumber, @Validated @ModelAttribute EventUpdateRequestDto requestDto, BindingResult result) {
+    public String editEvent(@PathVariable Long eventNumber, @Validated @ModelAttribute EventUpdateRequestDto requestDto, BindingResult result) {
         eventService.modifyEvent(eventNumber, requestDto);
-        return "redirect:/events/{eventNumber}/edit";
+        return "redirect:/events";
     }
 
     // 이벤트 삭제
@@ -95,4 +93,21 @@ public class EventViewController {
         model.addAttribute("eventListResponseDtos", eventListResponseDtos);
         return "event/eventList";
     }
+
+    // 이벤트 상세 보기
+    @GetMapping("/events/{eventNumber}")
+    public String eventDetail(@CookieValue(required = false, name = "access_token") String token,
+                              @PathVariable Long eventNumber, Model model) {
+        if (token != null) {
+            String userEmail = tokenProvider.getUserEmailByToken(token);
+            User user = userService.getUserByEmail(userEmail);
+            model.addAttribute("user", user);
+        }
+
+        EventReadResponseDto eventReadResponseDto = eventService.findEvent(eventNumber);
+        model.addAttribute("eventReadResponseDto", eventReadResponseDto);
+        model.addAttribute("event", eventService.getEventById(eventNumber));
+        return "event/eventDetail";
+    }
+
 }
