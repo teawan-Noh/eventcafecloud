@@ -21,9 +21,8 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 다른곳에서 생성자 못쓰도록 막아둠
 public class Cafe extends BaseTimeEntity {
 
-//    @Column(name = "cafe_number")
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cafe_number")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
