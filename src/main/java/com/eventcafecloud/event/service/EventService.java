@@ -4,10 +4,7 @@ import com.eventcafecloud.cafe.domain.Cafe;
 import com.eventcafecloud.cafe.repository.CafeRepository;
 import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.event.domain.EventImage;
-import com.eventcafecloud.event.dto.EventCreateRequestDto;
-import com.eventcafecloud.event.dto.EventListResponseDto;
-import com.eventcafecloud.event.dto.EventUpdateRequestDto;
-import com.eventcafecloud.event.dto.EventUpdateResponseDto;
+import com.eventcafecloud.event.dto.*;
 import com.eventcafecloud.event.repository.EventImageRepository;
 import com.eventcafecloud.event.repository.EventRepository;
 import com.eventcafecloud.s3.S3Service;
@@ -34,15 +31,6 @@ public class EventService {
     private final EventImageRepository eventImageRepository;
     private final S3Service s3Service;
 
-    // 전체 이벤트 목록
-    public List<EventListResponseDto> findEventList() {
-        List<Event> events = eventRepository.findAll();
-        List<EventListResponseDto> result = events.stream()
-                .map(e  -> new EventListResponseDto(e))
-                .collect(Collectors.toList());
-        return result;
-    }
-
     // 이벤트 예약
     @Transactional
     public void saveEvent(EventCreateRequestDto requestDto, String userEmail) {
@@ -50,7 +38,6 @@ public class EventService {
         User user = userRepository.findByUserEmail(userEmail).orElseThrow(
                 () -> new IllegalArgumentException(USER_NOT_FOUND.getMessage())
         );
-        System.out.println(user);
 
         Cafe cafe = cafeRepository.findById(1L).orElseThrow(
                 () -> new NullPointerException("해당 카페가 존재하지 않습니다.")
@@ -64,7 +51,7 @@ public class EventService {
         // s3저장 후 url 반환받음
         List<String> eventImageUrlList = s3Service.upload(files, "eventImage");
 
-        // 카페 이미지 생성
+        // 이벤트 이미지 생성
         MultipartFile file;
         String eventImageUrl;
         for (int i = 0; i < files.size(); i++) {
@@ -91,6 +78,24 @@ public class EventService {
     // 이벤트 삭제
     public void removeEvent(Long eventNumber) {
         eventRepository.deleteById(eventNumber);
+    }
+
+
+    // 전체 이벤트 목록
+    public List<EventListResponseDto> findEventList() {
+        List<Event> events = eventRepository.findAll();
+        List<EventListResponseDto> result = events.stream()
+                .map(e  -> new EventListResponseDto(e))
+                .collect(Collectors.toList());
+        return result;
+    }
+
+    // 이벤트 상세
+    public EventReadResponseDto findEvent(Long eventNumber) {
+        Event event = eventRepository.findById(eventNumber)
+                .orElseThrow(() -> new IllegalArgumentException(EVENT_NOT_FOUND.getMessage()));
+        EventReadResponseDto eventReadResponseDto = new EventReadResponseDto(event);
+        return eventReadResponseDto;
     }
 
     public Event getEventById(Long eventNumber) {

@@ -14,26 +14,28 @@ import java.util.List;
 @Setter
 @Getter
 public class EventReadResponseDto {
-    private Long eventNumber;
+    // private Long eventNumber;
     private String eventName;
     private EventCategory eventCategory;
     private String eventStartDate;
     private String eventEndDate;
     private String eventInfo;
+    private Long cafeNumber;
     private String cafeName;
-    private int cafeZonecode;
+    private Integer cafeZonecode;
     private String cafeAddress;
     private String cafeAddressDetail;
-    private List<MultipartFile> files;
+   //  private List<MultipartFile> files;
 
 
     public EventReadResponseDto(Event event) {
-        this.eventNumber = event.getId();
+        // this.eventNumber = event.getId();
         this.eventName = event.getEventName();
         this.eventCategory = event.getEventCategory();
         this.eventStartDate = event.getEventStartDate();
         this.eventEndDate = event.getEventEndDate();
         this.eventInfo = event.getEventInfo();
+        this.cafeNumber = event.getCafe().getId();
         this.cafeName = event.getCafe().getCafeName();
         this.cafeZonecode = event.getCafe().getCafeZonecode();
         this.cafeAddress = event.getCafe().getCafeAddress();

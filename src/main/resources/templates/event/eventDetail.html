@@ -1,0 +1,87 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="fragments/header :: header"/>
+    <th:block th:replace="fragments/mainHeader :: mainHeader"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <style>
+        #eventListContainer{
+            padding-top: 80px;
+        }
+
+    </style>
+</head>
+<body>
+<div th:replace="fragments/mainTop :: mainTop"/>
+<div id="eventDetailContainer" class="container">
+    <!--Event Category, Name, Period-->
+    <div class="event-detail-header" th:action="@{/events/{eventNumber}(eventNumber=${event.id})}" th:object="${eventReadResponseDto}" method="post">
+        <h5><span class="badge badge-secondary" style="height: 28px; width: 90px;"><p th:text="|${eventReadResponseDto.getEventCategory()} |"> 이벤트 카테고리</p></span></h5>
+        <h1 class="fw-bolder" th:text="${eventReadResponseDto.getEventName()}">이벤트명</h1>
+    </div>
+    <!--Event First Image, Info-->
+    <section class="event-detail-info">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body h-400px w-500px">
+<!--                    <img class="card-img-top" th:src="@{${eventReadResponseDto.getEventImages()}}" alt="..." />-->
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h4 style="font-weight: bold">이벤트 기간</h4>
+                    <div class="event-detail-period">
+                        <div style="float:left; margin-right:10px;">
+                            <h5><p th:text="${eventReadResponseDto.getEventStartDate()}"> 이벤트 시작일</p></h5>
+                        </div>
+                        <div style="float:left;">
+                            <h5><p th:text="|~ ${eventReadResponseDto.getEventEndDate()}|"> 이벤트 종료일</p></h5>
+                        </div>
+                    </div>
+                    <br>
+                    </br>
+                    <h4 style="font-weight: bold">이벤트 소개</h4>
+                    <p class="card-text" th:text="${eventReadResponseDto.getEventInfo()}">이벤트 소개</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Cafe Map, name, address-->
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+<!--                    <img class="card-img-top" th:src="@{${eventReadResponseDto.getEventImages()}}" alt="..." />-->
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="fw-bolder" th:text="${eventReadResponseDto.getCafeName()}">카페 이름</h5>
+                    <p class="card-text" th:text="${eventReadResponseDto.getCafeZonecode()}">카페 우편번호</p>
+                    <p class="card-text" th:text="${eventReadResponseDto.getCafeAddress()}">카페 주소</p>
+                    <p class="card-text" th:text="${eventReadResponseDto.getCafeAddressDetail()}">카페 상세주소</p>
+                    <button type="button" class="btn btn-outline-dark"><a href = "#" >카페 상세보기</a></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+
+
+            <!--        <div class="page">-->
+            <!--            <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">-->
+            <!--                <a th:if="${page != nowPage}" th:href="@{/item/list(page = ${page - 1}, searchKeyword = ${param.searchKeyword})}" th:text="${page}"></a>-->
+            <!--                <strong th:if="${page == nowPage}" th:text="${page}" style="color : red"></strong>-->
+            <!--            </th:block>-->
+            <!--        </div>-->
+        </section>
+    </div>
+</div>
+</body>
+</html>
