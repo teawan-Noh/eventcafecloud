@@ -4,8 +4,10 @@ package com.eventcafecloud.cafe.domain;
 import com.eventcafecloud.cafe.dto.CafeCreateRequestDto;
 import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.user.domain.User;
-import lombok.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -61,9 +63,8 @@ public class Cafe {
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
     private List<CafeImage> cafeImages = new ArrayList<>();
 
-
-//    @OneToMany(mappedBy = "cafe")
-//    private List<CafeReview> cafeReviews = new ArrayList<>();
+    @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
+    private List<CafeReview> cafeReviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "cafe")
     private List<CafeSchedule> cafeSchedules = new ArrayList<>();
@@ -93,7 +94,7 @@ public class Cafe {
         this.user = user;
     }
 
-    public void addCafeImage(CafeImage cafeImage){
+    public void addCafeImage(CafeImage cafeImage) {
         cafeImages.add(cafeImage);
         cafeImage.addCafe(this);
     }
@@ -103,6 +104,9 @@ public class Cafe {
         cafeOption.addCafe(this);
     }
 
-
+    public void addCafeReview(CafeReview cafeReview) {
+        cafeReview.addCafe(this);
+        this.cafeReviews.add(cafeReview);
+    }
 }
 
