@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class CafeOption {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cafe_option_number")
     private Long id;
 

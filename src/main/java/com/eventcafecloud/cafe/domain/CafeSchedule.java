@@ -13,7 +13,7 @@ import java.time.LocalDate;
 public class CafeSchedule {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cafe_schedule_number")
     private Long id;
 

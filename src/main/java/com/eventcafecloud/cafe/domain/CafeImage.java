@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class CafeImage {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cafe_image_number")
     private Long id;
 

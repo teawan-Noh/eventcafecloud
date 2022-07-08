@@ -2,8 +2,10 @@ package com.eventcafecloud.cafe.domain;
 
 
 import com.eventcafecloud.cafe.dto.CafeCreateRequestDto;
+import com.eventcafecloud.common.base.BaseTimeEntity;
 import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.user.domain.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 
@@ -11,15 +13,16 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
+//@Builder
+//@AllArgsConstructor // builder 사용하려면 선언해줘야 한다.
 @Entity
 @Getter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor // 다른곳에서 생성자 못쓰도록 막아둠
-public class Cafe {
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 다른곳에서 생성자 못쓰도록 막아둠
+public class Cafe extends BaseTimeEntity {
 
-    @Id @GeneratedValue
     @Column(name = "cafe_number")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -65,11 +68,11 @@ public class Cafe {
 //    @OneToMany(mappedBy = "cafe")
 //    private List<CafeReview> cafeReviews = new ArrayList<>();
 
-    @OneToMany(mappedBy = "cafe")
-    private List<CafeSchedule> cafeSchedules = new ArrayList<>();
+//    @OneToMany(mappedBy = "cafe")
+//    private List<CafeSchedule> cafeSchedules = new ArrayList<>();
 
-    @OneToMany(mappedBy = "cafe")
-    private List<Event> events = new ArrayList<>();
+//    @OneToMany(mappedBy = "cafe")
+//    private List<Event> events = new ArrayList<>();
 
     public Cafe(CafeCreateRequestDto requestDto) {
         this.cafeName = requestDto.getCafeName();
@@ -87,7 +90,6 @@ public class Cafe {
 //        user.getCafes().add(this);
     }
 
-
     //==연관관계 편의 메서드==//
     public void addUser(User user){
         this.user = user;
@@ -102,7 +104,5 @@ public class Cafe {
         cafeOptions.add(cafeOption);
         cafeOption.addCafe(this);
     }
-
-
 }
 
