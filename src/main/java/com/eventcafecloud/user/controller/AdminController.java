@@ -1,5 +1,6 @@
 package com.eventcafecloud.user.controller;
 
+import com.eventcafecloud.user.dto.UserRequestDto;
 import com.eventcafecloud.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
@@ -21,8 +22,22 @@ public class AdminController {
     @GetMapping("/hosts")
     public String getHostsList(Model model) {
         model.addAttribute("hosts", userService.getHostUserList());
-        return "adminPage";
+        return "/admin/admin-host";
     }
+
+    @GetMapping("/users")
+    public String getUserList(Model model) {
+        model.addAttribute("users", userService.getUserList());
+        model.addAttribute("userRequestDto", new UserRequestDto());
+        return "/admin/admin-user";
+    }
+
+    @PostMapping("/users/{id}/update")
+    public String updateUserRoleAndStatus(@PathVariable Long id, UserRequestDto requestDto) {
+        userService.modifyUserRoleAndStatus(id, requestDto);
+        return "redirect:/admin/users";
+    }
+
 
     @PostMapping("/hosts/{id}/pass")
     public String updateNormalUserToHostUser(@PathVariable Long id) {
