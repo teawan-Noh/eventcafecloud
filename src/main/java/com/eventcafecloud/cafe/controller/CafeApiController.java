@@ -17,7 +17,7 @@ public class CafeApiController {
     private final CafeService cafeService;
 
 //    @GetMapping("/api/cafes")
-//    public Page<Cafe> ReadAllCafeList(
+//    public Page<CafeListResponseDto> ReadAllCafeList(
 ////            @RequestParam("page") int page,
 ////            @RequestParam("size") int size,
 ////            @RequestParam("sortBy") String sortBy,
@@ -26,8 +26,8 @@ public class CafeApiController {
 //        return cafeService.findAllCafeList3();
 //    }
 
-//    @GetMapping("/cafes/test12")
-//    public Page<Cafe> ReadAllCafeList2(){
+//    @GetMapping("/api/cafes")
+//    public Page<CafeListResponseDto> ReadAllCafeList2(){
 //        System.out.println("CafeApiController ReadAllCafeList2 실행");
 //        return cafeService.findAllCafeList2();
 //    }
