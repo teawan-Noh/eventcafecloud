@@ -49,6 +49,8 @@ public class CommentService {
             CommentReadResponseDto commentReadResponseDto = new CommentReadResponseDto();
             commentReadResponseDto.setCommentContent(comment.getCommentContent());
             commentReadResponseDto.setId(comment.getId());
+            commentReadResponseDto.setUserNickname(comment.getUser().getUserNickname());
+            commentReadResponseDto.setCreatedDate(comment.getCreatedDate());
             output.add(commentReadResponseDto);
         }
         return output;

@@ -1,6 +1,8 @@
 package com.eventcafecloud.post.controller;
 
+import com.eventcafecloud.comment.domain.Comment;
 import com.eventcafecloud.comment.dto.CommentCreateRequestDto;
+import com.eventcafecloud.comment.service.CommentService;
 import com.eventcafecloud.oauth.token.AuthTokenProvider;
 import com.eventcafecloud.post.domain.Post;
 import com.eventcafecloud.post.dto.*;
@@ -15,8 +17,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-
 import static com.eventcafecloud.exception.ExceptionStatus.USER_NOT_FOUND;
 
 @RequiredArgsConstructor
@@ -27,9 +27,10 @@ public class PostController {
     private final UserRepository userRepository;
     private final AuthTokenProvider tokenProvider;
     private final UserService userService;
+    private final CommentService commentService;
 
     //게시글 작성
-    @PostMapping("/post/create")
+    @PostMapping("/post/registration")
     public String savePost(@CookieValue(required = false, name = "access_token") String token,
                            @Validated @ModelAttribute PostCreateRequestDto requestDto,
                            BindingResult bindingResult) {
@@ -82,7 +83,7 @@ public class PostController {
     }
 
     //글작성 페이지 호출
-    @GetMapping("/post/create")
+    @GetMapping("/post/registration")
     public String createPost(Model model) {
         model.addAttribute("postCreateRequestDto", new PostCreateRequestDto());
         return "post/createPostForm";
@@ -98,6 +99,7 @@ public class PostController {
             model.addAttribute("user", user);
         }
         Post post = postService.getPostUpdatedCount(id);
+        model.addAttribute("comments", commentService.getComment());
         model.addAttribute("post", post);
         model.addAttribute("commentCreateRequestDto", new CommentCreateRequestDto());
         return "post/postDetail";

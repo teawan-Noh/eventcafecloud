@@ -47,7 +47,12 @@
     </form>
 
     <div>
-        <form role="form" th:action="@{/{postId}/comment/create(postId=${post.id})}" th:object="${commentCreateRequestDto}" method="post">
+<!--        <th> ㄹㄹ</th>-->
+<!--        <td th:text="${comments.get}"></td>-->
+    </div>
+
+    <div>
+        <form role="form" th:action="@{/{postId}/comment/registration(postId=${post.id})}" th:object="${commentCreateRequestDto}" method="post">
         <div class="card mb-2">
             <div class="card-header bg-light">
                 <i class="fa fa-comment fa"></i> REPLY
