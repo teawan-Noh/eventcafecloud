@@ -5,9 +5,6 @@ import com.eventcafecloud.post.dto.*;
 import com.eventcafecloud.post.repository.PostRepository;
 import com.eventcafecloud.user.domain.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,11 +28,11 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public List<PostReadResponseDto> getPost() {
+    public List<PostReadResponseDto> getPostList() {
         List<Post> posts = postRepository.findAll(Sort.by(Sort.Direction.DESC,"id"));
         List<PostReadResponseDto> output = new ArrayList<>();
 
-        for (Post post : posts) {
+        for (Post post : posts ) {
             PostReadResponseDto postReadResponseDto = new PostReadResponseDto();
             postReadResponseDto.setPostTitle(post.getPostTitle());
             postReadResponseDto.setUserNickname(post.getUser().getUserNickname());
@@ -48,29 +45,38 @@ public class PostService {
         return output;
     }
 
-    public Long updatePost(@PathVariable Long id, PostUpdateRequestDto requestDto){
-        Post post = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
+    public void updatePost(@PathVariable Long id, PostUpdateRequestDto requestDto){
+        Post post = postRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
         post.updatePost(requestDto);
-        return id;
     }
 
-    public Long deletePost(Long id) {
+    public void deletePost(Long id) {
         try {
             postRepository.deleteById(id);
         }catch (Exception e) {
            throw new IllegalArgumentException(POST_NOT_FOUND.getMessage());
         }
-        return id;
     }
 
     //페이징 처리된 게시글 리스트 반환
-    public Page<Post> findPostList(Pageable pageable){
-        pageable = PageRequest.of(pageable.getPageNumber() <= 0 ? 0: pageable.getPageNumber() -1, pageable.getPageSize());
-        return postRepository.findAll(pageable);
-    }
+//    public Page<Post> findPostList(Pageable pageable){
+//        pageable = PageRequest.of(pageable.getPageNumber() <= 0 ? 0: pageable.getPageNumber() -1, pageable.getPageSize());
+//        return postRepository.findAll(pageable);
+//    }
 
     //게시글 ID로 조회
+    @Transactional(readOnly = true)
     public Post findPostById(Long id) {
-        return postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
+        return postRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
+    }
+
+    //게시글 조회 및 조회수 증가
+    public Post getPostUpdatedCount(Long id) {
+        Post post = postRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
+        post.updateCount();
+        return post;
     }
 }

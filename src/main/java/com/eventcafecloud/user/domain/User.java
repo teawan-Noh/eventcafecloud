@@ -1,9 +1,10 @@
 package com.eventcafecloud.user.domain;
 
 import com.eventcafecloud.cafe.domain.Cafe;
-import com.eventcafecloud.cafe.domain.CafeReview;
+import com.eventcafecloud.comment.domain.Comment;
 import com.eventcafecloud.common.base.BaseTimeEntity;
 import com.eventcafecloud.event.domain.Event;
+import com.eventcafecloud.post.domain.Post;
 import com.eventcafecloud.user.domain.type.ApproveType;
 import com.eventcafecloud.user.domain.type.ProviderType;
 import com.eventcafecloud.user.domain.type.RoleType;
@@ -62,18 +63,14 @@ public class User extends BaseTimeEntity {
     @OneToMany(mappedBy = "user")
     private List<Cafe> cafes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
-    private List<CafeReview> cafeReviews = new ArrayList<>();
-
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private HostUser hostUser;
 
+    @OneToMany(mappedBy = "user")
+    private List<Post> posts = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "user")
-//    private List<Post> posts = new ArrayList<>();
-
-//    @OneToMany(mappedBy = "user")
-//    private List<Comment> comments = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private List<Comment> comments = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "user")
 //    private List<EventBookmark> eventBookmarks = new ArrayList<>();
@@ -125,8 +122,9 @@ public class User extends BaseTimeEntity {
         cafe.addUser(this);
     }
 
-    public void addCafeReview(CafeReview cafeReview) {
-        cafeReview.addUser(this);
-        this.cafeReviews.add(cafeReview);
+    public void addComment(Comment comment) {
+        comments.add(comment);
+        comment.addUser(this);
     }
+
 }

@@ -1,7 +1,6 @@
 package com.eventcafecloud.post.dto;
 
 import com.eventcafecloud.post.domain.type.PostType;
-import com.eventcafecloud.user.domain.User;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;

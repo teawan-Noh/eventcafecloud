@@ -29,22 +29,22 @@ public class EventViewController {
         return "event/createEventForm";
     }
 
-    // 이벤트 예약 폼
-    @PostMapping("/events/new")
-    public String createEvent(@CookieValue(required = false, name = "access_token") String token,
-                              @Validated @ModelAttribute EventCreateRequestDto requestDto, BindingResult result) {
-        if (token != null) {
-            String email = tokenProvider.getUserEmailByToken(token);
-            eventService.saveEvent(requestDto, email);
-
-            if (result.hasErrors()) {
-                return "event/createEvnetForm";
-            } else {
-                return "redirect:/events";
-            }
-        }
-        return "redirect:/events";
-    }
+//    // 이벤트 예약 폼
+//    @PostMapping("/events/new")
+//    public String createEvent(@CookieValue(required = false, name = "access_token") String token,
+//                              @Validated @ModelAttribute EventCreateRequestDto requestDto, BindingResult result) {
+//        if (token != null) {
+//            String email = tokenProvider.getUserEmailByToken(token);
+//            eventService.saveEvent(requestDto, email);
+//
+//            if (result.hasErrors()) {
+//                return "event/createEvnetForm";
+//            } else {
+//                return "redirect:/events";
+//            }
+//        }
+//        return "redirect:/events";
+//    }
 
     // 이벤트 리스트 보기
     @GetMapping("/events")
