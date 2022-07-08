@@ -6,6 +6,7 @@ import com.eventcafecloud.cafe.domain.CafeImage;
 import com.eventcafecloud.cafe.domain.CafeOption;
 import com.eventcafecloud.cafe.domain.CafeOptionType;
 import com.eventcafecloud.cafe.dto.CafeCreateRequestDto;
+import com.eventcafecloud.cafe.dto.CafeListResponseDto;
 import com.eventcafecloud.cafe.repository.CafeImageRepository;
 import com.eventcafecloud.cafe.repository.CafeOptionRepository;
 import com.eventcafecloud.cafe.repository.CafeRepository;
@@ -13,19 +14,17 @@ import com.eventcafecloud.s3.S3Service;
 import com.eventcafecloud.user.domain.User;
 import com.eventcafecloud.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-//@Transactional(readOnly = true)
-//@Transactional
+
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CafeService {
 
     private final CafeRepository cafeRepository;
@@ -66,11 +65,33 @@ public class CafeService {
         cafeRepository.save(cafe);
 
     }
-    public Page<Cafe> findAllCafeList(int page, int size, String sortBy, boolean isAsc) {
-        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
-        Sort sort = Sort.by(direction, sortBy);
-        PageRequest pageable = PageRequest.of(page, size, sort);
 
-        return cafeRepository.findAll(pageable);
+//    public Page<Cafe> findAllCafeList3() {
+////        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+////        Sort sort = Sort.by(direction, sortBy);
+////        Pageable pageable = PageRequest.of(page, size, sort);
+//
+////        Pageable pageRequest = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "createdDate"));
+//        Pageable pageRequest = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "createdDate"));
+//
+//        return cafeRepository.findAll(pageRequest);
+//    }
+//
+//    public Page<Cafe> findAllCafeList2() {
+//        System.out.println("CafeService findAllCafeList2 서비스 실행");
+//        Pageable pageRequest = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "createdDate"));
+//        System.out.println(cafeRepository.findAll(pageRequest));
+//        return cafeRepository.findAll(pageRequest);
+//    }
+
+    public List<CafeListResponseDto> findCafeTopFiveList() {
+        System.out.println("findCafeTopFiveList 실행");
+        List<Cafe> cafeList = cafeRepository.findTop5ByOrderByCreatedDateDesc();
+
+        List<CafeListResponseDto> cafeListResponseDtos = cafeList.stream()
+                .map(c -> new CafeListResponseDto(c))
+                .collect(Collectors.toList());
+
+        return cafeListResponseDtos;
     }
 }

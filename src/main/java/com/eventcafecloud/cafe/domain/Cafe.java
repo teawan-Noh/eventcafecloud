@@ -2,8 +2,10 @@ package com.eventcafecloud.cafe.domain;
 
 
 import com.eventcafecloud.cafe.dto.CafeCreateRequestDto;
+import com.eventcafecloud.common.base.BaseTimeEntity;
 import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.user.domain.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 
@@ -17,11 +19,11 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 다른곳에서 생성자 못쓰도록 막아둠
-public class Cafe {
-
+public class Cafe extends BaseTimeEntity {
 
 //    @Column(name = "cafe_number")
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "cafe_number")
     private Long id;
 
     @Column(nullable = false)
