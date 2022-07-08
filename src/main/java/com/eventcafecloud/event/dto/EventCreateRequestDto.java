@@ -17,6 +17,5 @@ public class EventCreateRequestDto {
     private String eventInfo;
     private int eventPrice;
     private List<MultipartFile> files;
-
-    // private Long cafeNumber;
+    private Long cafeNumber;
 }

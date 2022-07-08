@@ -17,19 +17,6 @@ public class EventController {
     // 전체 이벤트 목록 가져오기
     @GetMapping("/api/events")
     public List<EventListResponseDto> getEvents() {
-        return eventService.findEvents();
-    }
-
-    // 이벤트 수정하기
-    @PutMapping("/api/events/{id}")
-    public EventUpdateResponseDto updateEvent(@PathVariable Long id, @RequestBody EventUpdateRequestDto requestDto){
-        return eventService.modifyEvent(id, requestDto);
-    }
-
-    // 이벤트 삭제하기
-    @DeleteMapping("/api/events/{eventNumber}")
-    public Long deleteEvent(@PathVariable Long eventNumber) {
-        eventService.removeEvent(eventNumber);
-        return eventNumber;
+        return eventService.findEventList();
     }
 }
