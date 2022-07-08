@@ -31,23 +31,23 @@
         </thead>
         <tbody id="post_box">
         <tr>
-            <td th:text="${posts.id}"></td>
-            <td th:text="${posts.postTitle}"></td>
-            <td th:text="${posts.postContent}"></td>
-            <td th:text="${posts.postCount}"></td>
-            <td th:text="${#temporals.format(posts.createdDate,'yyyy-MM-dd')}"></td>
+            <td th:text="${post.id}"></td>
+            <td th:text="${post.postTitle}"></td>
+            <td th:text="${post.postContent}"></td>
+            <td th:text="${post.postCount}"></td>
+            <td th:text="${#temporals.format(post.createdDate,'yyyy-MM-dd')}"></td>
         </tr>
         </tbody>
     </table>
     <hr>
-    <a th:href="@{/post/edit/{id}(id=${posts.getId()})}" class="btn btn-defalut">수정하기</a>
-    <form id="delete-form" th:action="@{'/post/' + ${posts.id}}" method="post">
+    <a th:if="${user != null && post.user.id == user.id}" th:href="@{/post/edit/{id}(id=${post.getId()})}" class="btn btn-default">수정하기</a>
+    <form id="delete-form" th:action="@{'/post/' + ${post.id}}" method="post">
         <input type="hidden" name="_method" value="DELETE"/>
-        <button class="btn btn-btn-danger" id="delete">삭제하기</button>
+        <button th:if="${user != null && post.user.id == user.id}" class="btn btn-btn-danger" id="delete">삭제하기</button>
     </form>
+
     <div>
-<!--        댓글Dto 받아오기-->
-<!--        <form role="form" action="/comment/new" th:object="${commentCreateRequestDto}" method="post">-->
+        <form role="form" th:action="@{/{postId}/comment/create(postId=${post.id})}" th:object="${commentCreateRequestDto}" method="post">
         <div class="card mb-2">
             <div class="card-header bg-light">
                 <i class="fa fa-comment fa"></i> REPLY
@@ -55,14 +55,15 @@
             <div class="card-body">
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item">
-                        <label for="exampleFormControlTextarea1"></label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                        <button type="submit" class="btn btn-dark mt-3" onClick="javascript:addReply();">작성</button>
+                        <label th:for="commentContent"></label>
+                        <textarea th:field="*{commentContent}" placeholder="댓글 작성 시 타인에 대한 배려와 책임을 담아주세요." class="form-control"
+                                 id="exampleFormControlTextarea1" rows="3"></textarea>
+                        <button type="submit" class="btn btn-dark mt-3">작성</button>
                     </li>
                 </ul>
             </div>
         </div>
-<!--        </form>-->
+        </form>
     </div>
 
 </div>

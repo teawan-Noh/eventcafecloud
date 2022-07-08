@@ -18,7 +18,7 @@
 <body>
 <div th:replace="fragments/mainTop :: mainTop"></div>
 
-<form role="form" action="/post/save" th:object="${postCreateRequestDto}" method="post" enctype="multipart/form-data">
+<form role="form" action="/post/create" th:object="${postCreateRequestDto}" method="post" enctype="multipart/form-data">
     <div class="form-group">
         <label th:for="postTitle">게시글 제목</label>
         <input type="text" th:field="*{postTitle}" class="form-control" placeholder="제목을 입력하세요"

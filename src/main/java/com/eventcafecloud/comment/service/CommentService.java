@@ -3,6 +3,10 @@ package com.eventcafecloud.comment.service;
 import com.eventcafecloud.comment.domain.Comment;
 import com.eventcafecloud.comment.dto.*;
 import com.eventcafecloud.comment.repository.CommentRepository;
+import com.eventcafecloud.post.domain.Post;
+import com.eventcafecloud.post.repository.PostRepository;
+import com.eventcafecloud.user.domain.User;
+import com.eventcafecloud.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.eventcafecloud.exception.ExceptionStatus.COMMENT_NOT_FOUND;
+import static com.eventcafecloud.exception.ExceptionStatus.*;
 
 @RequiredArgsConstructor
 @Service
@@ -19,12 +23,20 @@ import static com.eventcafecloud.exception.ExceptionStatus.COMMENT_NOT_FOUND;
 public class CommentService {
 
     private final CommentRepository commentRepository;
+    private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
-    public CommentCreateResponseDto createComment(CommentCreateRequestDto requestDto) {
-        Comment comment = new Comment();
-        comment.setCommentContent(requestDto.getCommentContent());
+    public void createComment(CommentCreateRequestDto requestDto, Long postId, String userEmail) {
+        Comment comment = new Comment(requestDto);
+        Post post = postRepository.findById(postId).orElseThrow(() ->
+                new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
+        post.addComment(comment);
+        User user = userRepository.findByUserEmail(userEmail).orElseThrow(() ->
+                new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
+        user.addComment(comment);
         Comment commentResult = commentRepository.save(comment);
-        return CommentCreateResponseDto.builder()
+
+        CommentCreateResponseDto.builder()
                 .commentContent(commentResult.getCommentContent())
                 .build();
     }
