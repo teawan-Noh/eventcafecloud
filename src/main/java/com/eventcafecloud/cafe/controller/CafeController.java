@@ -49,7 +49,7 @@ public class CafeController {
         return "redirect:/";
     }
 
-    @GetMapping("/cafes/all")
+    @GetMapping("/cafes/allList")
     public String cafeList(Model model){
 
         model.addAttribute("cafeCreateRequestDto", new CafeCreateRequestDto());
