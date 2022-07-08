@@ -3,17 +3,14 @@ package com.eventcafecloud.comment.controller;
 import com.eventcafecloud.comment.dto.*;
 import com.eventcafecloud.comment.service.CommentService;
 import com.eventcafecloud.oauth.token.AuthTokenProvider;
-import com.eventcafecloud.user.domain.User;
-import com.eventcafecloud.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-
-import static com.eventcafecloud.exception.ExceptionStatus.USER_NOT_FOUND;
 
 @RequiredArgsConstructor
 @Controller
@@ -21,22 +18,23 @@ import static com.eventcafecloud.exception.ExceptionStatus.USER_NOT_FOUND;
 public class CommentController {
 
     private final CommentService commentService;
-    private final UserRepository userRepository;
     private final AuthTokenProvider tokenProvider;
 
-    @PostMapping("/comment/new")
-    public String createComment(@CookieValue(required = false,name = "access_to") String token, @Validated @ModelAttribute CommentCreateRequestDto requestDto, BindingResult bindingResult){
+    @PostMapping("/{postId}/comment/registration")
+    public String createComment(@PathVariable Long postId,
+                                @CookieValue(required = false,name = "access_token") String token,
+                                @Validated @ModelAttribute CommentCreateRequestDto requestDto,
+                                BindingResult bindingResult){
         if (token != null) {
             String userEmail = tokenProvider.getUserEmailByToken(token);
-            User user = userRepository.findByUserEmail(userEmail).orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
-            commentService.createComment(requestDto);
+            commentService.createComment(requestDto, postId, userEmail);
             if (bindingResult.hasErrors()) {
                 return "post/postDetail";
             } else {
-                return "redirect:/post";
+                return "redirect:/post/" + postId;
             }
         }
-        return "redirect:/post/{id}";
+        return "redirect:/post/" + postId;
     }
 
     @Transactional(readOnly = true)
@@ -56,5 +54,12 @@ public class CommentController {
     @ResponseBody
     public Long deleteComment(@PathVariable Long id){
         return commentService.deleteComment(id);
+    }
+
+    @Transactional(readOnly = true)
+    @GetMapping("/comment/registration")
+    public String createComment(Model model) {
+        model.addAttribute("commentCreateRequestDto", new CommentCreateRequestDto());
+        return "post/postDetail";
     }
 }

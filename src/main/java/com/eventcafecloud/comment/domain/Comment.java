@@ -1,15 +1,18 @@
 package com.eventcafecloud.comment.domain;
+import com.eventcafecloud.comment.dto.CommentCreateRequestDto;
 import com.eventcafecloud.comment.dto.CommentUpdateRequestDto;
 import com.eventcafecloud.common.base.BaseTimeEntity;
 import com.eventcafecloud.post.domain.Post;
 import com.eventcafecloud.user.domain.User;
+import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Getter
-@Setter
 @Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Comment extends BaseTimeEntity {
 
     @Id
@@ -27,8 +30,19 @@ public class Comment extends BaseTimeEntity {
     @JoinColumn(name = "user_number")
     private User user;
 
+    public Comment (CommentCreateRequestDto commentCreateRequestDto) {
+        this.commentContent = commentCreateRequestDto.getCommentContent();
+    }
+
     public void updateComment(CommentUpdateRequestDto requestDto) {
         this.commentContent = requestDto.getCommentContent();
     }
 
+    public void addPost(Post post){
+        this.post = post;
+    }
+
+    public void addUser(User user) {
+        this.user = user;
+    }
 }

@@ -1,11 +1,8 @@
 package com.eventcafecloud.comment.dto;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Data;
 
-@Getter
-@RequiredArgsConstructor
+@Data
 public class CommentCreateRequestDto {
-    private Long id;
     private String commentContent;
 }
