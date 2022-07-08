@@ -5,7 +5,6 @@ import com.eventcafecloud.cafe.dto.CafeCreateRequestDto;
 import com.eventcafecloud.common.base.BaseTimeEntity;
 import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.user.domain.User;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 
@@ -21,8 +20,8 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 다른곳에서 생성자 못쓰도록 막아둠
 public class Cafe extends BaseTimeEntity {
 
-    @Column(name = "cafe_number")
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "cafe_number")
     private Long id;
 
     @Column(nullable = false)
@@ -64,9 +63,8 @@ public class Cafe extends BaseTimeEntity {
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
     private List<CafeImage> cafeImages = new ArrayList<>();
 
-
-//    @OneToMany(mappedBy = "cafe")
-//    private List<CafeReview> cafeReviews = new ArrayList<>();
+    @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
+    private List<CafeReview> cafeReviews = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "cafe")
 //    private List<CafeSchedule> cafeSchedules = new ArrayList<>();
@@ -93,7 +91,7 @@ public class Cafe extends BaseTimeEntity {
         this.user = user;
     }
 
-    public void addCafeImage(CafeImage cafeImage){
+    public void addCafeImage(CafeImage cafeImage) {
         cafeImages.add(cafeImage);
         cafeImage.addCafe(this);
     }
@@ -101,6 +99,11 @@ public class Cafe extends BaseTimeEntity {
     public void addCafeOption(CafeOption cafeOption) {
         cafeOptions.add(cafeOption);
         cafeOption.addCafe(this);
+    }
+
+    public void addCafeReview(CafeReview cafeReview) {
+        cafeReview.addCafe(this);
+        this.cafeReviews.add(cafeReview);
     }
 }
 

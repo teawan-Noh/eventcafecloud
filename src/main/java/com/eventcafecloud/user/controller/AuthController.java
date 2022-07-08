@@ -58,6 +58,7 @@ public class AuthController {
         Date now = new Date();
         AuthToken accessToken = tokenProvider.createAuthToken(
                 userEmail,
+                ((UserPrincipal) authentication.getPrincipal()).getUserNickname(),
                 ((UserPrincipal) authentication.getPrincipal()).getRole().getCode(),
                 new Date(now.getTime() + appProperties.getAuth().getTokenExpiry())
         );
@@ -101,6 +102,7 @@ public class AuthController {
             return ApiResponse.notExpiredToken();
         }
         String userEmail = claims.getSubject();
+        String userNickname = claims.get("nickName", String.class);
         RoleType roleType = RoleType.of(claims.get("role", String.class));
 
         //refresh token
@@ -122,6 +124,7 @@ public class AuthController {
         Date now = new Date();
         AuthToken newAccessToken = tokenProvider.createAuthToken(
                 userEmail,
+                userNickname,
                 roleType.getCode(),
                 new Date(now.getTime() + appProperties.getAuth().getTokenExpiry())
         );

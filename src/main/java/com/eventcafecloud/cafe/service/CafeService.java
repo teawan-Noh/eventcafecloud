@@ -1,15 +1,14 @@
 package com.eventcafecloud.cafe.service;
 
 
-import com.eventcafecloud.cafe.domain.Cafe;
-import com.eventcafecloud.cafe.domain.CafeImage;
-import com.eventcafecloud.cafe.domain.CafeOption;
-import com.eventcafecloud.cafe.domain.CafeOptionType;
-import com.eventcafecloud.cafe.dto.CafeCreateRequestDto;
+import com.eventcafecloud.cafe.domain.*;
 import com.eventcafecloud.cafe.dto.CafeListResponseDto;
+import com.eventcafecloud.cafe.dto.CafeCreateRequestDto;
+import com.eventcafecloud.cafe.dto.CafeReviewRequestDto;
 import com.eventcafecloud.cafe.repository.CafeImageRepository;
 import com.eventcafecloud.cafe.repository.CafeOptionRepository;
 import com.eventcafecloud.cafe.repository.CafeRepository;
+import com.eventcafecloud.cafe.repository.CafeReviewRepository;
 import com.eventcafecloud.s3.S3Service;
 import com.eventcafecloud.user.domain.User;
 import com.eventcafecloud.user.repository.UserRepository;
@@ -31,7 +30,19 @@ public class CafeService {
     private final UserRepository userRepoistory;
     private final CafeImageRepository cafeImageRepository;
     private final CafeOptionRepository cafeOptionRepository;
+    private final CafeReviewRepository cafeReviewRepository;
     private final S3Service s3Service;
+
+    @Transactional
+    public void saveCafeReview(CafeReviewRequestDto requestDto, Long cafeNumber, String userEmail) {
+        User user = userRepoistory.findByUserEmail(userEmail).orElseThrow();
+        Cafe cafe = cafeRepository.findById(cafeNumber).orElseThrow();
+        CafeReview cafeReview = new CafeReview(requestDto);
+        user.addCafeReview(cafeReview);
+        cafe.addCafeReview(cafeReview);
+
+        cafeReviewRepository.save(cafeReview);
+    }
 
     @Transactional
     public void createCafe(CafeCreateRequestDto requestDto, String email) {
