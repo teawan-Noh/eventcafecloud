@@ -3,73 +3,13 @@
 <head>
     <th:block th:replace="fragments/header :: header"/>
     <th:block th:replace="fragments/mainHeader :: mainHeader"/>
-
-    <style>
-        #bodyTop .carousel-inner .carousel-item img{
-            /*width: 0 auto;*/
-            height: 550px;
-        }
-        #cafeTop5Container{
-            display: flex;
-        }
-
-        #cafeTop5Container .card div figure .card-img-top{
-            height: 100px;
-        }
-    </style>
     <script>
         $(document).ready(function(){
             getCafeTop5();
         });
-
-        function getCafeTop5() {
-            $('#cafeTop5Container').empty();
-            $.ajax({
-                type: "GET",
-                url: "/api/cafes/top5",
-                data: {},
-                success: function(response){
-                    let cafeList = response;
-                    let id, cafeName, cafeInfo, cafeWeekdayPrice, cafeImageUrlList, tempHtml;
-
-                    for (const cafeListElement of cafeList) {
-                        console.log(cafeListElement)
-                        id = cafeListElement["id"];
-                        cafeName = cafeListElement["cafeName"];
-                        cafeInfo = cafeListElement["cafeInfo"];
-                        cafeWeekdayPrice = cafeListElement["cafeWeekdayPrice"];
-                        cafeImageUrlList = cafeListElement["cafeImgUrls"];
-
-                        tempHtml = makeHtml(id, cafeName, cafeInfo, cafeWeekdayPrice, cafeImageUrlList);
-                        $("#cafeTop5Container").append(tempHtml);
-                    }
-
-                    console.log(cafeName, cafeInfo, cafeWeekdayPrice, cafeImageUrlList);
-                    // alert(cafeList)
-
-                }
-            })
-        }
-
-        function makeHtml(id, cafeName, cafeInfo, cafeWeekdayPrice, cafeImageUrlList){
-            return `<div class="card" onclick="#" style="width: 200px; height: 250px;">
-                        <div class="card-image">
-                            <figure class="image is-4by3">
-                                <img src="${cafeImageUrlList[0]}" class="card-img-top" alt="Placeholder image">
-                            </figure>
-                        </div>
-                        <div class="card-content">
-                            <div class="media">
-                                <div class="media-content">
-                                    <p id="title" class="title is-4">${cafeName}</p>
-                                    <p class="subtitle is-6">${cafeInfo}</p>
-                                    <p>₩${cafeWeekdayPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>
-                                </div>
-                            </div>
-                        </div>
-                   </div>`;
-        }
     </script>
+    <!--  card css  -->
+    <link rel="stylesheet" type="text/css" href="/css/card.css">
 </head>
 <body>
 <div th:replace="fragments/mainTop :: mainTop"/>
@@ -118,7 +58,7 @@
         <div id="cafeMore">
             <button onclick="location.href='/cafes/allList'">더보기</button>
         </div>
-        <div id="cafeTop5Container"></div>
+        <div id="cafeListContainer"></div>
     </div>
 </div>
 </body>

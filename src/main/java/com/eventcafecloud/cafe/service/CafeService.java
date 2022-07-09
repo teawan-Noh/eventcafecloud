@@ -2,24 +2,25 @@ package com.eventcafecloud.cafe.service;
 
 
 import com.eventcafecloud.cafe.domain.*;
-import com.eventcafecloud.cafe.dto.CafeListResponseDto;
 import com.eventcafecloud.cafe.dto.CafeCreateRequestDto;
+import com.eventcafecloud.cafe.dto.CafeListResponseDto;
 import com.eventcafecloud.cafe.dto.CafeReviewRequestDto;
-import com.eventcafecloud.cafe.repository.CafeImageRepository;
-import com.eventcafecloud.cafe.repository.CafeOptionRepository;
 import com.eventcafecloud.cafe.repository.CafeRepository;
 import com.eventcafecloud.cafe.repository.CafeReviewRepository;
 import com.eventcafecloud.s3.S3Service;
 import com.eventcafecloud.user.domain.User;
 import com.eventcafecloud.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 
 @Service
 @RequiredArgsConstructor
@@ -28,14 +29,13 @@ public class CafeService {
 
     private final CafeRepository cafeRepository;
     private final UserRepository userRepoistory;
-    private final CafeImageRepository cafeImageRepository;
-    private final CafeOptionRepository cafeOptionRepository;
     private final CafeReviewRepository cafeReviewRepository;
     private final S3Service s3Service;
 
+    // 리뷰등록
     @Transactional
-    public void saveCafeReview(CafeReviewRequestDto requestDto, Long cafeNumber, String userEmail) {
-        User user = userRepoistory.findByUserEmail(userEmail).orElseThrow();
+    public void saveCafeReview(CafeReviewRequestDto requestDto, Long cafeNumber, User securityUser) {
+        User user = userRepoistory.getById(securityUser.getId());
         Cafe cafe = cafeRepository.findById(cafeNumber).orElseThrow();
         CafeReview cafeReview = new CafeReview(requestDto);
         user.addCafeReview(cafeReview);
@@ -45,10 +45,8 @@ public class CafeService {
     }
 
     @Transactional
-    public void createCafe(CafeCreateRequestDto requestDto, String email) {
-        // jwt token 사용 유저 정보 - ByEmail
-        User user = userRepoistory.findByUserEmail(email).orElseThrow();
-
+    public void createCafe(CafeCreateRequestDto requestDto, User securityUser) {
+        User user = userRepoistory.getById(securityUser.getId());
         Cafe cafe = new Cafe(requestDto);
         user.addCafe(cafe);
 
@@ -72,9 +70,7 @@ public class CafeService {
             CafeOption cafeOption = new CafeOption(option);
             cafe.addCafeOption(cafeOption);
         }
-
         cafeRepository.save(cafe);
-
     }
 
 //    public Page<Cafe> findAllCafeList3() {
@@ -88,15 +84,15 @@ public class CafeService {
 //        return cafeRepository.findAll(pageRequest);
 //    }
 //
-//    public Page<Cafe> findAllCafeList2() {
-//        System.out.println("CafeService findAllCafeList2 서비스 실행");
-//        Pageable pageRequest = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "createdDate"));
-//        System.out.println(cafeRepository.findAll(pageRequest));
-//        return cafeRepository.findAll(pageRequest);
-//    }
+    public Page<CafeListResponseDto> findAllCafeList(int page, int size) {
+        Pageable pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdDate"));
+        Page<Cafe> all = cafeRepository.findAll(pageRequest);
+//        return all.map(cafe -> new CafeListResponseDto(cafe));
+        // 위의 주석단 람다식을 아래의 식으로 치환
+        return all.map(CafeListResponseDto::new);
+    }
 
     public List<CafeListResponseDto> findCafeTopFiveList() {
-        System.out.println("findCafeTopFiveList 실행");
         List<Cafe> cafeList = cafeRepository.findTop5ByOrderByCreatedDateDesc();
 
         List<CafeListResponseDto> cafeListResponseDtos = cafeList.stream()
