@@ -4,6 +4,7 @@ import com.eventcafecloud.cafe.dto.CafeCreateRequestDto;
 import com.eventcafecloud.cafe.dto.CafeReviewRequestDto;
 import com.eventcafecloud.cafe.service.CafeService;
 import com.eventcafecloud.oauth.token.AuthTokenProvider;
+import com.eventcafecloud.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,26 +24,23 @@ public class CafeController {
     private final AuthTokenProvider tokenProvider;
 
     @GetMapping("/cafes/registration")
-    public String cafeCreateForm(Model model){
+    public String cafeCreateForm(Model model, User loginUser){
 
         model.addAttribute("cafeCreateRequestDto", new CafeCreateRequestDto());
+        model.addAttribute("userNick", loginUser.getUserNickname());
 
         return "cafe/createCafeForm";
     }
+
     // @RequestBody @Valid CafeRequestDto requestDto, BindingResult result
     // @RequestBody 넣은 경우 Content type 'application/x-www-form-urlencoded;charset=UTF-8' not supported
     // ajax 호춣이 아니라서 ContentType 지정을 json으로 못함. -> 데이터 타입 에러
     @PostMapping("/cafes")
-    public String cafeCreate(@Valid CafeCreateRequestDto requestDto, BindingResult result, @CookieValue(required = false, name = "access_token") String token, Model model){
+    public String cafeCreate(@Valid CafeCreateRequestDto requestDto, BindingResult result, User loginUser, Model model){
         if(result.hasErrors()){
             return "cafe/createCafeForm";
         }
-        String userEmail = "";
-        if (token != null) {
-            userEmail = tokenProvider.getUserEmailByToken(token);
-            model.addAttribute("userEmail", userEmail);
-        }
-
+        String userEmail = loginUser.getUserEmail();
         cafeService.createCafe(requestDto, userEmail);
 
         return "redirect:/";
@@ -61,7 +59,10 @@ public class CafeController {
     }
 
     @GetMapping("/cafes/allList")
-    public String cafeListPage(){
+    public String cafeListPage(User loginUser, Model model){
+        if (loginUser != null) {
+            model.addAttribute("userNick", loginUser.getUserNickname());
+        }
 
         return "cafe/cafeList";
     }

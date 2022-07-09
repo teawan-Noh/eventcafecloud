@@ -1,8 +1,6 @@
 package com.eventcafecloud.cafe.controller;
 
-import com.eventcafecloud.cafe.domain.Cafe;
 import com.eventcafecloud.cafe.dto.CafeListResponseDto;
-import com.eventcafecloud.cafe.dto.CafePageResponseDto;
 import com.eventcafecloud.cafe.service.CafeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

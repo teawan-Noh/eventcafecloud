@@ -1,25 +1,28 @@
 package com.eventcafecloud.cafe.service;
 
 
-import com.eventcafecloud.cafe.domain.Cafe;
-import com.eventcafecloud.cafe.domain.CafeImage;
-import com.eventcafecloud.cafe.domain.CafeOption;
-import com.eventcafecloud.cafe.domain.CafeOptionType;
+import com.eventcafecloud.cafe.domain.*;
 import com.eventcafecloud.cafe.dto.CafeCreateRequestDto;
 import com.eventcafecloud.cafe.dto.CafeListResponseDto;
-import com.eventcafecloud.cafe.repository.CafeImageRepository;
-import com.eventcafecloud.cafe.repository.CafeOptionRepository;
+import com.eventcafecloud.cafe.dto.CafeReviewRequestDto;
 import com.eventcafecloud.cafe.repository.CafeRepository;
+import com.eventcafecloud.cafe.repository.CafeReviewRepository;
 import com.eventcafecloud.s3.S3Service;
 import com.eventcafecloud.user.domain.User;
 import com.eventcafecloud.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.eventcafecloud.exception.ExceptionStatus.USER_NOT_FOUND;
 
 
 @Service
@@ -46,7 +49,8 @@ public class CafeService {
     @Transactional
     public void createCafe(CafeCreateRequestDto requestDto, String email) {
         // jwt token 사용 유저 정보 - ByEmail
-        User user = userRepoistory.findByUserEmail(email).orElseThrow();
+        User user = userRepoistory.findByUserEmail(email).orElseThrow(
+                () -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
 
         Cafe cafe = new Cafe(requestDto);
         user.addCafe(cafe);

@@ -6,11 +6,8 @@ function getCafeTop5() {
         url: "/api/cafes/top5",
         data: {},
         success: function(response){
-            let cafeList = response;
-            let id, cafeName, cafeInfo, cafeWeekdayPrice, cafeImgUrl, tempHtml;
-
-            for (const cafeListElement of cafeList) {
-                tempHtml = makeHtml(cafeListElement);
+            for (const cafeListElement of response) {
+                let tempHtml = makeHtml(cafeListElement);
                 $("#cafeListContainer").append(tempHtml);
             }
         }
