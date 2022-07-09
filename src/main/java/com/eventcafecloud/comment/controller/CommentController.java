@@ -10,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
@@ -35,13 +34,6 @@ public class CommentController {
             }
         }
         return "redirect:/post/" + postId;
-    }
-
-    @Transactional(readOnly = true)
-    @GetMapping("/comment")
-    @ResponseBody
-    public List<CommentReadResponseDto> getComment() {
-        return commentService.getComment();
     }
 
     @PutMapping("/comment/{id}")
