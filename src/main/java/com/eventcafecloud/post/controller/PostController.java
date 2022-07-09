@@ -1,6 +1,5 @@
 package com.eventcafecloud.post.controller;
 
-import com.eventcafecloud.comment.domain.Comment;
 import com.eventcafecloud.comment.dto.CommentCreateRequestDto;
 import com.eventcafecloud.comment.service.CommentService;
 import com.eventcafecloud.oauth.token.AuthTokenProvider;
@@ -84,12 +83,18 @@ public class PostController {
 
     //글작성 페이지 호출
     @GetMapping("/post/registration")
-    public String createPost(Model model) {
+    public String createPost(@CookieValue(required = false, name = "access_token") String token,
+                             Model model) {
         model.addAttribute("postCreateRequestDto", new PostCreateRequestDto());
+        if (token != null) {
+            String userEmail = tokenProvider.getUserEmailByToken(token);
+            User user = userService.getUserByEmail(userEmail);
+            model.addAttribute("user", user);
+        }
         return "post/createPostForm";
     }
 
-    //게시글 상세페이지 + 댓글 + 조회수
+    //게시글 상세페이지 + 댓글 조회 + 조회수증가
     @GetMapping("/post/{id}")
     public String getPost(@CookieValue(required = false, name = "access_token") String token,
                           @PathVariable Long id, Model model) {
@@ -99,14 +104,20 @@ public class PostController {
             model.addAttribute("user", user);
         }
         Post post = postService.getPostUpdatedCount(id);
-        model.addAttribute("comments", commentService.getComment());
+        model.addAttribute("comments", commentService.getCommentByPostNumber(post));
         model.addAttribute("post", post);
         model.addAttribute("commentCreateRequestDto", new CommentCreateRequestDto());
         return "post/postDetail";
     }
 
     @GetMapping("/post/edit/{id}")
-    public String updatePost(@PathVariable Long id, Model model) {
+    public String updatePost(@CookieValue(required = false, name = "access_token") String token,
+                             @PathVariable Long id, Model model) {
+        if (token != null) {
+            String userEmail = tokenProvider.getUserEmailByToken(token);
+            User user = userService.getUserByEmail(userEmail);
+            model.addAttribute("user", user);
+        }
         Post post = postService.findPostById(id);
         model.addAttribute("postUpdateRequestDto", post);
         return "post/editPostForm";
