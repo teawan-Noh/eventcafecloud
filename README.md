@@ -59,7 +59,7 @@
 
 ### ✅팀원 소개
 
-- 유시준 https://github.com/SiJun-Yoo
+- 노태완 https://github.com/teawan-Noh
 - 강현규 https://github.com/aichyu312
 - 김예지 https://github.com/nnakki
 - 박연주 https://github.com/yeonjue-2
