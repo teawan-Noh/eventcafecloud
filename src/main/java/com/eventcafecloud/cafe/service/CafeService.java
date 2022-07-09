@@ -22,9 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.eventcafecloud.exception.ExceptionStatus.USER_NOT_FOUND;
-
-
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -35,9 +32,10 @@ public class CafeService {
     private final CafeReviewRepository cafeReviewRepository;
     private final S3Service s3Service;
 
+    // 리뷰등록
     @Transactional
-    public void saveCafeReview(CafeReviewRequestDto requestDto, Long cafeNumber, String userEmail) {
-        User user = userRepoistory.findByUserEmail(userEmail).orElseThrow();
+    public void saveCafeReview(CafeReviewRequestDto requestDto, Long cafeNumber, User securityUser) {
+        User user = userRepoistory.getById(securityUser.getId());
         Cafe cafe = cafeRepository.findById(cafeNumber).orElseThrow();
         CafeReview cafeReview = new CafeReview(requestDto);
         user.addCafeReview(cafeReview);
@@ -47,11 +45,8 @@ public class CafeService {
     }
 
     @Transactional
-    public void createCafe(CafeCreateRequestDto requestDto, String email) {
-        // jwt token 사용 유저 정보 - ByEmail
-        User user = userRepoistory.findByUserEmail(email).orElseThrow(
-                () -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
-
+    public void createCafe(CafeCreateRequestDto requestDto, User securityUser) {
+        User user = userRepoistory.getById(securityUser.getId());
         Cafe cafe = new Cafe(requestDto);
         user.addCafe(cafe);
 
@@ -75,9 +70,7 @@ public class CafeService {
             CafeOption cafeOption = new CafeOption(option);
             cafe.addCafeOption(cafeOption);
         }
-
         cafeRepository.save(cafe);
-
     }
 
 //    public Page<Cafe> findAllCafeList3() {
