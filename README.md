@@ -1,5 +1,3 @@
-# eventcafecloud
-
 # Event-Cafe-Cloud(EC2)
 ![image](https://user-images.githubusercontent.com/93200574/167234590-a56e60a4-28a1-4f20-8e22-368c9700c366.png)
 
