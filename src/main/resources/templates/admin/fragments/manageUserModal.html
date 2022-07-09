@@ -1,0 +1,52 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="manageUserModal (user)">
+    <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade" id="exampleModalCenter"
+         role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle" th:text="${user.getUserEmail}">
+                        회원수정</h5>
+                    <button aria-label="Close" class="close"
+                            data-dismiss="modal"
+                            type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form enctype="multipart/form-data"
+                      method="post"
+                      th:action="@{/admin/users/{id}/update(id=${user.getUserNumber})}"
+                      th:object="${userRequestDto}">
+                    <div class="modal-body">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text" for="userRole">회원권한</label>
+                            </div>
+                            <select class="custom-select" id="userRole" th:field="*{role}">
+                                <option th:value="ROLE_NORMAL">일반회원</option>
+                                <option th:value="ROLE_ADMIN">관리자</option>
+                            </select>
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <label class="input-group-text"
+                                       for="userStatus">회원상태</label>
+                            </div>
+                            <select class="custom-select" id="userStatus" th:field="*{userStatus}">
+                                <option th:value="STATUS_ACTIVATE">정상</option>
+                                <option th:value="STATUS_BLOCKED">신고정지</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="fail-button" data-dismiss="modal" type="button">
+                            취소
+                        </button>
+                        <button class="pass-button" type="submit">확인</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</th:block>

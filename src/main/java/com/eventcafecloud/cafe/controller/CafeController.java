@@ -6,6 +6,7 @@ import com.eventcafecloud.cafe.service.CafeService;
 import com.eventcafecloud.oauth.token.AuthTokenProvider;
 import com.eventcafecloud.user.domain.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,7 @@ public class CafeController {
     private final CafeService cafeService;
     private final AuthTokenProvider tokenProvider;
 
+    @Secured("ROLE_HOST")
     @GetMapping("/cafes/registration")
     public String cafeCreateForm(Model model, User loginUser){
 

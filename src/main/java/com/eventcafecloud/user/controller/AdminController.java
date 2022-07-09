@@ -1,6 +1,5 @@
 package com.eventcafecloud.user.controller;
 
-import com.eventcafecloud.post.dto.PostStatusUpdateRequestDto;
 import com.eventcafecloud.post.service.PostService;
 import com.eventcafecloud.user.dto.UserRequestDto;
 import com.eventcafecloud.user.service.UserService;
@@ -43,14 +42,14 @@ public class AdminController {
     @GetMapping("/posts")
     public String getPostList(Model model) {
         model.addAttribute("posts", postService.getPostList());
-        model.addAttribute("postStatusUpdateRequestDto", new PostStatusUpdateRequestDto());
+//      model.addAttribute("postStatusUpdateRequestDto", new PostStatusUpdateRequestDto());
         return "/admin/admin-post";
     }
 
     @PostMapping("/users/{id}/update")
     public String updateUserRoleAndStatus(@PathVariable Long id, UserRequestDto requestDto) {
         userService.modifyUserRoleAndStatus(id, requestDto);
-        return "redirect:/admin/users" + id;
+        return "redirect:/admin/users";
     }
 
     @PostMapping("/hosts/{id}/pass")
