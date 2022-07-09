@@ -75,11 +75,12 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         OAuth2UserInfo userInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(providerType, user.getAttributes());
         Collection<? extends GrantedAuthority> authorities = ((OidcUser) authentication.getPrincipal()).getAuthorities();
 
-        RoleType roleType = hasAuthority(authorities, RoleType.ADMIN.getCode()) ? RoleType.ADMIN : RoleType.NORMAL;
+        RoleType roleType = hasAuthority(authorities);
 
         Date now = new Date();
         AuthToken accessToken = tokenProvider.createAuthToken(
                 userInfo.getEmail(),
+                userInfo.getNickname(),
                 roleType.getCode(),
                 new Date(now.getTime() + appProperties.getAuth().getTokenExpiry())
         );
@@ -102,7 +103,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         }
 
         int cookieMaxAge = (int) refreshTokenExpiry / 60;
-        int cookieMaxAgeForAccess = (int) appProperties.getAuth().getTokenExpiry() / 100;
+        int cookieMaxAgeForAccess = (int) appProperties.getAuth().getTokenExpiry() / 1000;
 
         /*
         Access Token 저장
@@ -126,17 +127,19 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         authorizationRequestRepository.removeAuthorizationRequestCookies(request, response);
     }
 
-    private boolean hasAuthority(Collection<? extends GrantedAuthority> authorities, String authority) {
+    private RoleType hasAuthority(Collection<? extends GrantedAuthority> authorities) {
         if (authorities == null) {
-            return false;
+            return RoleType.NORMAL;
         }
 
         for (GrantedAuthority grantedAuthority : authorities) {
-            if (authority.equals(grantedAuthority.getAuthority())) {
-                return true;
+            if (RoleType.HOST.getCode().equals(grantedAuthority.getAuthority())) {
+                return RoleType.HOST;
+            } else if (RoleType.ADMIN.getCode().equals(grantedAuthority.getAuthority())) {
+                return RoleType.ADMIN;
             }
         }
-        return false;
+        return RoleType.NORMAL;
     }
 
     //application.oauth.yml을 통해서 등록해놓은 Redirect uri가 맞는지 확인한다.

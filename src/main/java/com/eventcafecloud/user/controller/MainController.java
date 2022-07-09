@@ -7,7 +7,6 @@ import com.eventcafecloud.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -19,11 +18,9 @@ public class MainController {
     private final UserService userService;
 
     @GetMapping("/")
-    public String main(@CookieValue(required = false, name = "access_token") String token, Model model) {
-        if (token != null) {
-            String userEmail = tokenProvider.getUserEmailByToken(token);
-            User user = userService.getUserByEmail(userEmail);
-            model.addAttribute("user", user);
+    public String main(User loginUser, Model model) {
+        if (loginUser != null) {
+            model.addAttribute("user", loginUser);
         }
         return "index";
     }
@@ -34,10 +31,9 @@ public class MainController {
     }
 
     @GetMapping("/host/registration")
-    public String registerHostForm(@CookieValue(required = false, name = "access_token") String token, Model model) {
-        String userEmail = tokenProvider.getUserEmailByToken(token);
+    public String registerHostForm(User loginUser, Model model) {
         model.addAttribute("hostUserCreateRequestDto", new HostUserCreateRequestDto());
-        model.addAttribute("Email", userEmail);
+        model.addAttribute("Email", loginUser.getUserEmail());
         return "register/registerHostForm";
     }
 

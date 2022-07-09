@@ -49,7 +49,7 @@
                                 </tr>
                                 </thead>
                                 <tr th:each="user: ${users}">
-                                    <td id="number" th:text="${user.getUserNumber}"></td>
+                                    <td th:text="${user.getUserNumber}"></td>
                                     <td th:text="${user.getUserEmail}"></td>
                                     <td th:text="${user.getUserNickname}"></td>
                                     <td th:text="${user.getUserRegPath}"></td>
@@ -58,80 +58,11 @@
                                     <td th:text="${user.getRole}"></td>
                                     <td th:text="${user.getStatus}"></td>
                                     <td>
-                                        <!-- Button trigger modal -->
-                                        <form enctype="multipart/form-data"
-                                              method="post"
-                                              th:action="@{/admin/users/{id}/update(id=${user.getUserNumber()})}"
-                                              th:object="${userRequestDto}">
-                                            <button class="pass-button" data-target="#exampleModalCenter"
-                                                    data-toggle="modal"
-                                                    type="button">
-                                                수정
-                                            </button>
-                                            <!-- Modal -->
-                                            <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle"
-                                                 class="modal fade"
-                                                 id="exampleModalCenter"
-                                                 role="dialog" tabindex="-1">
-                                                <div class="modal-dialog modal-dialog-centered" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5 class="modal-title" id="exampleModalLongTitle">
-                                                                회원수정</h5>
-                                                            <button aria-label="Close" class="close"
-                                                                    data-dismiss="modal"
-                                                                    type="button">
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <div class="input-group mb-3">
-                                                                <div class="input-group-prepend">
-                                                                    <label class="input-group-text"
-                                                                           for="userRole">회원권한</label>
-                                                                </div>
-                                                                <select class="custom-select" id="userRole"
-                                                                        th:field="*{role}">
-                                                                    <option th:value="ROLE_NORMAL">일반회원</option>
-                                                                    <option th:value="ROLE_ADMIN">관리자</option>
-                                                                </select>
-                                                            </div>
-                                                            <div class="input-group mb-3">
-                                                                <div class="input-group-prepend">
-                                                                    <label class="input-group-text"
-                                                                           for="userStatus">회원상태</label>
-                                                                </div>
-                                                                <select class="custom-select" id="userStatus"
-                                                                        th:field="*{userStatus}">
-                                                                    <option th:value="STATUS_ACTIVATE">정상</option>
-                                                                    <option th:value="STATUS_BLOCKED">신고정지</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button class="fail-button" data-dismiss="modal"
-                                                                    type="button">
-                                                                취소
-                                                            </button>
-                                                            <button class="pass-button" type="submit">확인</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>ssk900620@gmail.com</td>
-                                    <td>김메구</td>
-                                    <td>구글</td>
-                                    <td>2020/07/12</td>
-                                    <td>2022/06/20</td>
-                                    <td>HOST</td>
-                                    <td>정상</td>
-                                    <td>
-                                        <button class="pass-button" type="submit">수정</button>
+                                        <button class="pass-button" data-target="#exampleModalCenter" data-th-t
+                                                data-toggle="modal" type="button">
+                                            수정
+                                        </button>
+                                        <div th:replace="admin/fragments/manageUserModal :: manageUserModal(${user})"/>
                                     </td>
                                 </tr>
                             </table>

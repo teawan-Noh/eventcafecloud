@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="manage-post">
+    <div>
+        <div onclick="location.href='/'">
+            <img class="logo" src="/ec2logo.png" style="width: 15%">
+        </div>
+        <div class="left">
+            <div class="menuVar">
+                <ul>
+                    <li><a class="menuVar-link" href="/admin/users">회원 관리</a></li>
+                    <li><a class="menuVar-link" href="/admin/hosts">호스트 승인</a></li>
+                    <li><a class="menuVar-link" href="/admin/cafes">카페 관리</a></li>
+                    <li><a class="menuVar-link" href="/admin/events">이벤트 관리</a></li>
+                    <li><a class="menuVar-link" href="/admin/posts">게시글 관리</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="right">
+            <div class="profileBox">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        회원관리
+                    </div>
+                    <div class="card-body">
+                        <div class="option-search">
+                            <div style="display: flex; margin-left: auto;">
+                                <select class="bbsOrReply">
+                                    <option value="">--카테고리--</option>
+                                    <option value="normal">일반</option>
+                                    <option value="quit">공지</option>
+                                    <option value="quit">자유</option>
+                                </select> &nbsp;
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="userTable">
+                                <thead>
+                                <tr>
+                                    <th>번호</th>
+                                    <th>카테고리</th>
+                                    <th>제목</th>
+                                    <th>작성자</th>
+                                    <th>작성자이메일</th>
+                                    <th>등록일</th>
+                                    <th>수정일</th>
+                                    <th>상태</th>
+                                    <th>#</th>
+                                </tr>
+                                </thead>
+                                <tr th:each="post: ${posts}">
+                                    <td id="number" th:text="${post.getId}"></td>
+                                    <td th:text="${post.getPostType}"></td>
+                                    <td th:text="${post.getPostTitle}"></td>
+                                    <td th:text="${post.getUserNickname}"></td>
+                                    <td th:text="${post.getUserEmail}"></td>
+                                    <td th:text="${#temporals.format(post.getCreatedDate,'yyyy-MM-dd HH:mm')}"></td>
+                                    <td th:text="${#temporals.format(post.getModifiedDate,'yyyy-MM-dd HH:mm')}"></td>
+                                    <td th:text="${post.getPostCount}"></td>
+                                    <td>
+                                        <!-- Button trigger modal -->
+                                        <form enctype="multipart/form-data"
+                                              method="post"
+                                              th:action="@{/admin/posts/{id}/update(id=${post.getId})}"
+                                              th:object="${PostStatusUpdateRequestDto}">
+                                            <button class="pass-button" data-target="#exampleModalCenter"
+                                                    data-toggle="modal"
+                                                    type="button">
+                                                수정
+                                            </button>
+                                            <!-- Modal -->
+                                            <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle"
+                                                 class="modal fade"
+                                                 id="exampleModalCenter"
+                                                 role="dialog" tabindex="-1">
+                                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="exampleModalLongTitle">
+                                                                게시글관리</h5>
+                                                            <button aria-label="Close" class="close"
+                                                                    data-dismiss="modal"
+                                                                    type="button">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="input-group mb-3">
+                                                                <div class="input-group-prepend">
+                                                                    <label>내용</label>
+                                                                    <div th:text="${post.getPostContent}"></div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="input-group mb-3">
+                                                                <!--                                                                <div class="input-group-prepend">-->
+                                                                <!--                                                                    <label class="input-group-text"-->
+                                                                <!--                                                                           for="postStatus">상태변경</label>-->
+                                                                <!--                                                                </div>-->
+                                                                <!--                                                                <select class="custom-select" id="postStatus"-->
+                                                                <!--                                                                        th:field="*{postStatus}">-->
+                                                                <!--                                                                    <option th:value="STATUS_ACTIVATE">정상</option>-->
+                                                                <!--                                                                    <option th:value="STATUS_BLOCKED">신고정지</option>-->
+                                                                <!--                                                                </select>-->
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button class="fail-button" data-dismiss="modal"
+                                                                    type="button">
+                                                                취소
+                                                            </button>
+                                                            <button class="pass-button" type="submit">확인</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>0</td>
+                                    <td>자유게시판</td>
+                                    <td>첫 게시글</td>
+                                    <td>메구</td>
+                                    <td>yvely001@naver.com</td>
+                                    <td>등록일</td>
+                                    <td>수정일</td>
+                                    <td>정상</td>
+                                    <td>
+                                        <button class="pass-button" type="submit">수정</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <div class="page" id="page">
+                                <button class="page-number"><</button>
+                                <button class="page-number">1</button>
+                                <button class="page-number">2</button>
+                                <button class="page-number">3</button>
+                                <button class="page-number">></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

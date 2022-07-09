@@ -2,6 +2,7 @@ package com.eventcafecloud.cafe.domain;
 
 
 import com.eventcafecloud.cafe.dto.CafeCreateRequestDto;
+import com.eventcafecloud.common.base.BaseTimeEntity;
 import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.user.domain.User;
 import lombok.*;
@@ -11,14 +12,15 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+
+//@Builder
+//@AllArgsConstructor // builder 사용하려면 선언해줘야 한다.
 @Entity
 @Getter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor // 다른곳에서 생성자 못쓰도록 막아둠
-public class Cafe {
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 다른곳에서 생성자 못쓰도록 막아둠
+public class Cafe extends BaseTimeEntity {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cafe_number")
     private Long id;
 
@@ -61,12 +63,11 @@ public class Cafe {
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
     private List<CafeImage> cafeImages = new ArrayList<>();
 
+    @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
+    private List<CafeReview> cafeReviews = new ArrayList<>();
 
 //    @OneToMany(mappedBy = "cafe")
-//    private List<CafeReview> cafeReviews = new ArrayList<>();
-
-    @OneToMany(mappedBy = "cafe")
-    private List<CafeSchedule> cafeSchedules = new ArrayList<>();
+//    private List<CafeSchedule> cafeSchedules = new ArrayList<>();
 
     @OneToMany(mappedBy = "cafe")
     private List<Event> events = new ArrayList<>();
@@ -83,17 +84,14 @@ public class Cafe {
         this.cafePrecaution = requestDto.getCafePrecaution();
         this.cafeWeekdayPrice = requestDto.getCafeWeekdayPrice();
         this.cafeWeekendPrice = requestDto.getCafeWeekendPrice();
-//        this.user = user;
-//        user.getCafes().add(this);
     }
-
 
     //==연관관계 편의 메서드==//
     public void addUser(User user){
         this.user = user;
     }
 
-    public void addCafeImage(CafeImage cafeImage){
+    public void addCafeImage(CafeImage cafeImage) {
         cafeImages.add(cafeImage);
         cafeImage.addCafe(this);
     }
@@ -103,6 +101,9 @@ public class Cafe {
         cafeOption.addCafe(this);
     }
 
-
+    public void addCafeReview(CafeReview cafeReview) {
+        cafeReview.addCafe(this);
+        this.cafeReviews.add(cafeReview);
+    }
 }
 

@@ -9,7 +9,6 @@ import com.eventcafecloud.oauth.handler.OAuth2AuthenticationSuccessHandler;
 import com.eventcafecloud.oauth.handler.TokenAccessDeniedHandler;
 import com.eventcafecloud.oauth.repository.OAuth2AuthorizationRequestBasedOnCookieRepository;
 import com.eventcafecloud.oauth.service.CustomOAuth2UserService;
-import com.eventcafecloud.oauth.service.CustomUserDetailsService;
 import com.eventcafecloud.oauth.token.AuthTokenProvider;
 import com.eventcafecloud.user.domain.type.RoleType;
 import com.eventcafecloud.user.repository.UserRefreshTokenRepository;
@@ -18,7 +17,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -38,17 +36,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final CorsProperties corsProperties;
     private final AppProperties appProperties;
     private final AuthTokenProvider tokenProvider;
-    private final CustomUserDetailsService userDetailsService;
     private final CustomOAuth2UserService oAuth2UserService;
     private final TokenAccessDeniedHandler tokenAccessDeniedHandler;
     private final UserRefreshTokenRepository userRefreshTokenRepository;
 
-    //UserDetailService 설정 (직접 로그인)
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {  //인증방법을 의미하는 메소드
-        auth.userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder());
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -73,6 +64,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/cafes/**").permitAll()
                 .antMatchers("/post/**").permitAll()
                 .antMatchers("/board/**").permitAll()
+                .antMatchers("/api/**").permitAll()
                 .anyRequest().authenticated() //설정된 값 이외의 나머지 URL, 인증된 사용자, 로그인한 사용자만 볼 수 있음
                 .and()
                 .logout()
