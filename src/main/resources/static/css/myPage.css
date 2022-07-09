@@ -2,7 +2,7 @@ body {
     width: 100vw;
     height: 100vh;
     background-color: #ffffff;
-    font-family: 'Poor Story', cursive;
+    font-family: 'IBM Plex Sans KR', sans-serif;
 }
 
 .profile-user-img {
@@ -61,7 +61,7 @@ li a {
     float: right;
     list-style-type: none;
     text-decoration: none;
-    font-size: 17px;
+    font-size: 22px;
     padding: 20px;
     display: block;
     color: black;
