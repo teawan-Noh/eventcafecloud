@@ -53,14 +53,9 @@ public class Event extends BaseTimeEntity {
     @JoinColumn(name = "cafe_number")
     private Cafe cafe;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<EventImage> eventImages = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "event")
-//    private List<EventBookmark> eventBookmarks = new ArrayList<>();
-//
-//    @OneToMany(mappedBy = "event")
-//    private List<EventLike> eventLikes = new ArrayList<>();
+
 
     public Event(EventCreateRequestDto requestDto) {
         this.eventName = requestDto.getEventName();
