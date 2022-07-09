@@ -9,42 +9,59 @@
 </head>
 <body>
 <div th:replace="fragments/mainTop :: mainTop"/>
-<div class="container">
-    <table class="table table-hover text-center">
-        <thead>
-        <tr>
-            <th>번호</th>
-            <th>글쓴이</th>
-            <th>제목</th>
-            <th>조회수</th>
-            <th>작성일자</th>
-        </tr>
-        </thead>
-        <tbody id="post_box">
-        <tr th:each="post : ${posts}" th:onclick="|location.href='@{/post/{id} (id=${post.id})}'|" >
-            <td th:text="${post.id}"></td>
-            <td th:text="${post.userNickname}"></td>
-            <td th:text="${post.postTitle}"></td>
-            <td th:text="${post.postCount}"></td>
-            <td th:text="${#temporals.format(post.createdDate,'yyyy-MM-dd')}"></td>
-        </tr>
-        </tbody>
-    </table>
-    <hr>
-    <div>
-        <ul class="pagination justify-content-center">
-            <li><a herf="#" class="text-secondary"> ◀ </a></li>
-            <li><a herf="#" class="text-secondary"> 1 </a></li>
-            <li><a herf="#" class="text-secondary"> 2 </a></li>
-            <li><a herf="#" class="text-secondary"> 3 </a></li>
-            <li><a herf="#" class="text-secondary"> 4 </a></li>
-            <li><a herf="#" class="text-secondary"> ▶ </a></li>
+
+<div class="topBanner">
+    <div class="topFont">게시판</div>
+</div>
+<div class="left">
+    <div class="menuVar">
+        <ul>
+            <li><a class="menuVar-link" href="/post">공지게시판</a></li>
+            <li><a class="menuVar-link" href="/post">유저게시판</a></li>
         </ul>
     </div>
+</div>
+<div class="right">
+    <div class="container">
+        <table class="table table-hover text-center">
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>글쓴이</th>
+                <th>제목</th>
+                <th>조회수</th>
+                <th>작성일자</th>
+            </tr>
+            </thead>
+            <tbody id="post_box">
+            <tr th:each="post : ${posts}" th:onclick="|location.href='@{/post/{id} (id=${post.id})}'|">
+                <td th:text="${post.id}"></td>
+                <td th:text="${post.userNickname}"></td>
+                <td th:text="${post.postTitle}"></td>
+                <td th:text="${post.postCount}"></td>
+                <td th:text="${#temporals.format(post.createdDate,'yyyy-MM-dd')}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <hr>
+        <div>
+            <ul class="pagination justify-content-center">
+                <li><a herf="#" class="text-secondary"> ◀ </a></li>
+                <li><a herf="#" class="text-secondary"> 1 </a></li>
+                <li><a herf="#" class="text-secondary"> 2 </a></li>
+                <li><a herf="#" class="text-secondary"> 3 </a></li>
+                <li><a herf="#" class="text-secondary"> 4 </a></li>
+                <li><a herf="#" class="text-secondary"> ▶ </a></li>
+            </ul>
+        </div>
 
-    <button th:if="${user == null}" class="post-button btn btn-outline-info float-right" onclick='alert("로그인 후 이용해주세요!")'>글쓰기</button>
-    <button th:if="${user != null}" class="submit post-button btn btn-outline-info float-right" th:onclick="|location.href='@{/post/registration}'|">글쓰기</button>
-
+        <button th:if="${user == null}" class="post-button btn btn-outline-info float-right"
+                onclick='alert("로그인 후 이용해주세요!")'>글쓰기
+        </button>
+        <button th:if="${user != null}" class="submit post-button btn btn-outline-info float-right"
+                th:onclick="|location.href='@{/post/registration}'|">글쓰기
+        </button>
+    </div>
 </div>
 </body>
 </html>
