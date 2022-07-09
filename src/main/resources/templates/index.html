@@ -6,6 +6,7 @@
     <script>
         $(document).ready(function () {
             getCafeTop5();
+            getEventTop5();
         });
     </script>
     <!--  card css  -->
@@ -59,6 +60,13 @@
         </div>
         <div id="cafeListContainer"></div>
         <button class="cafeMore" onclick="location.href='/cafes/allList'">더보기</button>
+    </div>
+    <div id="eventTop5">
+        <h6>Event Top 5</h6>
+        <div id="eventMore">
+            <button onclick="location.href='/events'">더보기</button>
+        </div>
+        <div id="eventTop5Container"></div>
     </div>
 </div>
 </body>

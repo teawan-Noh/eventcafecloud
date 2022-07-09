@@ -44,21 +44,24 @@ public class EventService {
         );
 
         Event event = new Event(requestDto);
+        System.out.println(event);
         event.addCafe(cafe);
         event.addUser(user);
 
         List<MultipartFile> files = requestDto.getFiles();
-        // s3저장 후 url 반환받음
-        List<String> eventImageUrlList = s3Service.upload(files, "eventImage");
+        List<String> eventImageUrls = s3Service.upload(files, "eventImage");
 
         // 이벤트 이미지 생성
         MultipartFile file;
         String eventImageUrl;
+
         for (int i = 0; i < files.size(); i++) {
             file = files.get(i);
-            eventImageUrl = eventImageUrlList.get(i);
+            eventImageUrl = eventImageUrls.get(i);
             EventImage eventImage = new EventImage(file.getOriginalFilename(), eventImageUrl);
+            System.out.println(eventImage);
             event.addEventImage(eventImage);
+
         }
         eventRepository.save(event);
     }
@@ -98,9 +101,20 @@ public class EventService {
         return eventReadResponseDto;
     }
 
+    // 이벤트 넘버로 이벤트 가져오기
     public Event getEventById(Long eventNumber) {
         Event event = eventRepository.findById(eventNumber)
                 .orElseThrow(() -> new IllegalArgumentException(EVENT_NOT_FOUND.getMessage()));
         return event;
+    }
+
+    // 이벤트 TOP 5
+    public List<EventListResponseDto> findEventTopFiveList() {
+        List<Event> eventList = eventRepository.findTop5ByOrderByCreatedDateDesc();
+
+        List<EventListResponseDto> eventListResponseDtos = eventList.stream()
+                .map(e -> new EventListResponseDto(e))
+                .collect(Collectors.toList());
+        return eventListResponseDtos;
     }
 }
