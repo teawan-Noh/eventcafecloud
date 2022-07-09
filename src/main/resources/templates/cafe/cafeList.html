@@ -3,60 +3,22 @@
 <head>
     <th:block th:replace="fragments/header :: header"/>
     <th:block th:replace="fragments/mainHeader :: mainHeader"/>
+    <!--  paging  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.css"/>
+    <!--  card css  -->
+    <link rel="stylesheet" type="text/css" href="/css/card.css">
     <script>
         $(document).ready(function(){
             getCafeList();
         });
-
-        function getCafeList() {
-            alert("getCafeList 호출")
-            $('#cafeListContainer').empty();
-            $.ajax({
-                type: "GET",
-                url: "/api/cafes",
-                data: {},
-                success: function(response){
-                    console.log(response);
-                    if (response["result"] == "success") {
-
-                        // let product = response["products"]
-                        // let products = JSON.parse(product)
-                        // for (let i = 0; i < products.length; i++) {
-                        //     let product = products[i]
-                        //     let time_product = new Date(product["date"])
-                        //     let time_before = time2str(time_product)
-                        //     let mean = product['mean']
-                        //     let html_temp = `<div class="card" onclick="detail('${product['pid']}')" style="width: 350px; height: 500px; margin-bottom: 40px;">
-                        //                  <div class="card-image">
-                        //                      <figure class="image is-4by3">
-                        //                          <img src="../static/profile_pics/${product['file']}" class="card-img-top" alt="Placeholder image">
-                        //                      </figure>
-                        //                  </div>
-                        //                  <div class="card-content">
-                        //                      <div class="media">
-                        //                          <div class="media-content">
-                        //                              <p id="title" class="title is-4">${product['title']}</p>
-                        //                              <p class="subtitle is-6">${product['content']}</p>
-                        //                              <small style="float:right;">${time_before}</small>
-                        //                          </div>
-                        //                      </div>
-                        //                  </div>
-                        //              </div>`
-                        //     $("#cafeListContainer").append(html_temp);
-                        // }
-                        let html_temp = `<p>test</p>`
-                        $("#cafeListContainer").append(html_temp);
-                    }
-
-
-                }
-            })
-        }
     </script>
 </head>
 <body>
 <div th:replace="fragments/mainTop :: mainTop"/>
-show
+
 <div id="cafeListContainer"></div>
+
+<div id="pagination" class="pagination"></div>
 </body>
 </html>
