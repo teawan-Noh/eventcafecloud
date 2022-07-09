@@ -85,7 +85,6 @@ public class CafeService {
 //    }
 //
     public Page<CafeListResponseDto> findAllCafeList(int page, int size) {
-        System.out.println("CafeService findAllCafeList 서비스 실행");
         Pageable pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdDate"));
         Page<Cafe> all = cafeRepository.findAll(pageRequest);
 //        return all.map(cafe -> new CafeListResponseDto(cafe));
@@ -94,7 +93,6 @@ public class CafeService {
     }
 
     public List<CafeListResponseDto> findCafeTopFiveList() {
-        System.out.println("findCafeTopFiveList 실행");
         List<Cafe> cafeList = cafeRepository.findTop5ByOrderByCreatedDateDesc();
 
         List<CafeListResponseDto> cafeListResponseDtos = cafeList.stream()
