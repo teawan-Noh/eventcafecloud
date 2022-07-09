@@ -17,15 +17,16 @@ public class AuthToken {
     private final Key key;
 
     private static final String AUTHORITIES_KEY = "role";
+    private static final String NICKNAME_KEY = "nickName";
 
     AuthToken(String id, Date expiry, Key key) {
         this.key = key;
         this.token = createAuthToken(id, expiry);
     }
 
-    AuthToken(String id, String role, Date expiry, Key key) {
+    AuthToken(String id, String nickName, String role, Date expiry, Key key) {
         this.key = key;
-        this.token = createAuthToken(id, role, expiry);
+        this.token = createAuthToken(id, nickName, role, expiry);
     }
 
     private String createAuthToken(String id, Date expiry) {
@@ -36,9 +37,10 @@ public class AuthToken {
                 .compact();
     }
 
-    private String createAuthToken(String id, String role, Date expiry) {
+    private String createAuthToken(String id, String nickName, String role, Date expiry) {
         return Jwts.builder()
                 .setSubject(id)
+                .claim(NICKNAME_KEY, nickName)
                 .claim(AUTHORITIES_KEY, role)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .setExpiration(expiry)

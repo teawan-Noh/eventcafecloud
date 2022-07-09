@@ -7,15 +7,13 @@ import com.eventcafecloud.cafe.domain.CafeOption;
 import com.eventcafecloud.cafe.domain.CafeOptionType;
 import com.eventcafecloud.cafe.dto.CafeCreateRequestDto;
 import com.eventcafecloud.cafe.dto.CafeListResponseDto;
+import com.eventcafecloud.cafe.repository.CafeImageRepository;
+import com.eventcafecloud.cafe.repository.CafeOptionRepository;
 import com.eventcafecloud.cafe.repository.CafeRepository;
 import com.eventcafecloud.s3.S3Service;
 import com.eventcafecloud.user.domain.User;
 import com.eventcafecloud.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,7 +29,19 @@ public class CafeService {
 
     private final CafeRepository cafeRepository;
     private final UserRepository userRepoistory;
+    private final CafeReviewRepository cafeReviewRepository;
     private final S3Service s3Service;
+
+    @Transactional
+    public void saveCafeReview(CafeReviewRequestDto requestDto, Long cafeNumber, String userEmail) {
+        User user = userRepoistory.findByUserEmail(userEmail).orElseThrow();
+        Cafe cafe = cafeRepository.findById(cafeNumber).orElseThrow();
+        CafeReview cafeReview = new CafeReview(requestDto);
+        user.addCafeReview(cafeReview);
+        cafe.addCafeReview(cafeReview);
+
+        cafeReviewRepository.save(cafeReview);
+    }
 
     @Transactional
     public void createCafe(CafeCreateRequestDto requestDto, String email) {
@@ -87,6 +97,7 @@ public class CafeService {
     }
 
     public List<CafeListResponseDto> findCafeTopFiveList() {
+        System.out.println("findCafeTopFiveList 실행");
         List<Cafe> cafeList = cafeRepository.findTop5ByOrderByCreatedDateDesc();
 
         List<CafeListResponseDto> cafeListResponseDtos = cafeList.stream()

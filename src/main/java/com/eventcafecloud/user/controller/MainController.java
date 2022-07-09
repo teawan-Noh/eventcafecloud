@@ -19,11 +19,9 @@ public class MainController {
     private final UserService userService;
 
     @GetMapping("/")
-    public String main(@CookieValue(required = false, name = "access_token") String token, Model model) {
-        if (token != null) {
-            String userEmail = tokenProvider.getUserEmailByToken(token);
-            User user = userService.getUserByEmail(userEmail);
-            model.addAttribute("user", user);
+    public String main(User loginUser, Model model) {
+        if (loginUser != null) {
+            model.addAttribute("user", loginUser);
         }
         return "index";
     }

@@ -10,10 +10,12 @@ import java.time.LocalDateTime;
 @Getter
 public class PostReadResponseDto {
     private Long id;
+    private String userEmail;
     private String postTitle;
     private String postContent;
     private PostType postType;
     private int postCount;
     private String userNickname;
     private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
 }

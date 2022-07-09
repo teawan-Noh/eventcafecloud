@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="hostUserInfo">
+    <div class="profile-form">
+        <div class="profileBox">
+            <div class="profile-user-img">
+                <img alt="프로필이미지" class="profile-user-img-img" th:src="${user.getUserImage()}">
+            </div>
+            <div class="profile-nickname" th:text="${user.getUserNickname()}">USER 님</div>
+            <div class="profile-info" th:text="${user.getUserEmail()}">yvely001@naver.com</div>
+            <!-- Button trigger modal -->
+            <button class="btn btn-primary cafeBtn" data-target="#exampleModalCenter" data-toggle="modal"
+                    type="button">
+                프로필 수정
+            </button>
+            <div th:replace="profile/fragments/userUpdateModal :: userUpdateModal"/>
+        </div>
+    </div>
+</div>

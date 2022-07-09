@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="fragments/header :: header"/>
+    <th:block th:replace="fragments/mainHeader :: mainHeader"/>
+</head>
+<body>
+<div th:replace="fragments/mainTop :: mainTop"/>
+<div>
+    <div class="topBanner">
+        <div class="topFont">마이페이지</div>
+    </div>
+    <div class="left">
+        <div class="menuVar">
+            <ul>
+                <li><a class="menuVar-link" href="/user/profile/{id}/info">내 프로필</a></li>
+                <li><a class="menuVar-link" href="/user/profile/{id}/like">내 좋아요</a></li>
+                <li><a class="menuVar-link" href="/user/profile/{id}/posts">작성한 글</a></li>
+                <li><a class="menuVar-link" href="/user/profile/{id}/comments">작성한 댓글</a></li>
+                <li><a class="menuVar-link" href="/user/profile/{id}/reservation">예약내역</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="right">
+        <div th:replace="profile/fragments/userInfo :: userInfo"/>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    $("#file").on('change', function () {
+        var fileName = $("#file").val();
+        $(".upload-name").val(fileName);
+    });
+</script>
