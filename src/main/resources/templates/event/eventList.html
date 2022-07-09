@@ -30,7 +30,7 @@
                             <div class="card-body p-4">
                                 <div class="text">
                                     <!-- Event image, category, name, startdate, enddate -->
-                                    <img class="card-img-top" th:src="@{${eventListResponseDto.getEventImages()}}" alt="..." />
+                                    <img class="card-img-top" th:src="@{${eventListResponseDto.getEventImageUrls().get(0)}}" alt="..." />
                                     <h5><span class="badge badge-secondary" style="height: 28px; width: 90px;"><p th:text="|${eventListResponseDto.getEventCategory()} |"> 이벤트 카테고리</p></span></h5>
                                     <h3 class="fw-bolder" th:text="${eventListResponseDto.getEventName()}">이벤트명</h3>
 

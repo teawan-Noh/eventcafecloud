@@ -56,10 +56,10 @@
             <br />
             <label th:for="files">이벤트 대표 이미지 및 포스터</label>
             <br />
-            <ul>
-                <li>첨부파일  <input type="file" name="attachFile" ></li>
-                <li>이미지 파일들  <input type="file" multiple="multiple" th:field="*{files}" name="imageFiles" ></li>
-            </ul>
+            <div>
+                <h5>이벤트 메인 이미지와 포스터를 업로드해 주세요. <small>* Ctrl + 클릭으로  여러장 선택</small></h5><br/>
+                <input type="file" multiple="multiple" th:field="*{files}" name="imageFiles" >
+            </div>
             <br />
             <div class="form-group">
                 <label th:for="eventStartDate">이벤트 시작일</label>
