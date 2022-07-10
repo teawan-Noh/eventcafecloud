@@ -13,7 +13,7 @@
                     </button>
                 </div>
                 <form enctype="multipart/form-data"
-                      method="post" th:action="@{/user/profile/{id}/info/update(id=${user.getId()})}"
+                      method="post" th:action="@{/users/profile/{id}/info/update(id=${user.getId()})}"
                       th:object="${userRequestDto}">
                     <div class="modal-body">
                         <label>닉네임</label>
