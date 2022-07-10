@@ -34,7 +34,10 @@
 
         #cafeDetailMiddle .leftImgBox {
             width: 65%;
-            height: 20%;
+            /*height: 20%;*/
+        }
+        #cafeDetailMiddle .leftImgBox .carousel-inner div img{
+            height: 600px;
         }
 
         #cafeDetailMiddle .rightInfoBox {
@@ -47,18 +50,14 @@
             height: 500px;
         }
     </style>
-<!--    <script th:inline="javascript">-->
-<!--        let id = [[${cafeDetailResponseDto.getCafeNumber()}]];-->
-
-<!--        function getCafeUpdateForm(){-->
-
-<!--        }-->
-<!--    </script>-->
 </head>
 <body>
 <div th:replace="fragments/mainTop :: mainTop"/>
-<!--<button onclick="getCafeUpdateForm()">수정</button>-->
 <button th:onclick="|location.href='@{/cafes/updateForm(id=${cafeDetailResponseDto.getCafeNumber()})}'|">수정</button>
+<form id="delete-form" th:action="@{'/cafes/' + ${cafeDetailResponseDto.getCafeNumber()}}" method="post">
+    <input type="hidden" name="_method" value="DELETE"/>
+    <button>삭제하기</button>
+</form>
 <div id="mainContainer">
     <section id="cafeDetailTop">
         <div class="titleBox">
