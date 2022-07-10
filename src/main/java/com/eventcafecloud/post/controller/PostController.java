@@ -24,18 +24,15 @@ public class PostController {
 
     private final PostService postService;
     private final UserRepository userRepository;
-    private final AuthTokenProvider tokenProvider;
     private final UserService userService;
     private final CommentService commentService;
 
     //게시글 작성
     @PostMapping("/post/registration")
-    public String savePost(@CookieValue(required = false, name = "access_token") String token,
-                           @Validated @ModelAttribute PostCreateRequestDto requestDto,
-                           BindingResult bindingResult) {
-        if (token != null) {
-            String userEmail = tokenProvider.getUserEmailByToken(token);
-            User user = userRepository.findByUserEmail(userEmail).orElseThrow(() ->
+    public String savePost(@Validated @ModelAttribute PostCreateRequestDto requestDto,
+                           BindingResult bindingResult, User loginUser) {
+        if (loginUser != null) {
+            User user = userRepository.findByUserEmail(loginUser.getUserEmail()).orElseThrow(() ->
                     new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
             if (bindingResult.hasErrors()) {
                 return "post/createPostForm";
@@ -49,11 +46,9 @@ public class PostController {
 
     //게시판 전체 조회
     @GetMapping("/post")
-    public String getPosts(@CookieValue(required = false, name = "access_token") String token,
-                           Model model) {
-        if (token != null) {
-            String userEmail = tokenProvider.getUserEmailByToken(token);
-            User user = userService.getUserByEmail(userEmail);
+    public String getPosts(User loginUser, Model model) {
+        if (loginUser != null) {
+            User user = userService.getUserByEmail(loginUser.getUserEmail());
             model.addAttribute("user", user);
         }
         model.addAttribute("posts", postService.getPostList());
@@ -61,10 +56,9 @@ public class PostController {
     }
 
     @PutMapping("/post/edit/{id}")
-    public String updatePost(@CookieValue(required = false, name = "access_token") String token,
-                             @PathVariable Long id, PostUpdateRequestDto requestDto,
-                             BindingResult bindingResult) {
-        if (token != null) {
+    public String updatePost(@PathVariable Long id, PostUpdateRequestDto requestDto,
+                             BindingResult bindingResult, User loginUser) {
+        if (loginUser != null) {
             if (bindingResult.hasErrors()) {
                 return "redirect:/post/";
             } else {
@@ -83,12 +77,10 @@ public class PostController {
 
     //글작성 페이지 호출
     @GetMapping("/post/registration")
-    public String createPost(@CookieValue(required = false, name = "access_token") String token,
-                             Model model) {
+    public String createPost(User loginUser, Model model) {
         model.addAttribute("postCreateRequestDto", new PostCreateRequestDto());
-        if (token != null) {
-            String userEmail = tokenProvider.getUserEmailByToken(token);
-            User user = userService.getUserByEmail(userEmail);
+        if (loginUser != null) {
+            User user = userService.getUserByEmail(loginUser.getUserEmail());
             model.addAttribute("user", user);
         }
         return "post/createPostForm";
@@ -96,11 +88,9 @@ public class PostController {
 
     //게시글 상세페이지 + 댓글 조회 + 조회수증가
     @GetMapping("/post/{id}")
-    public String getPost(@CookieValue(required = false, name = "access_token") String token,
-                          @PathVariable Long id, Model model) {
-        if (token != null) {
-            String userEmail = tokenProvider.getUserEmailByToken(token);
-            User user = userService.getUserByEmail(userEmail);
+    public String getPost(User loginUser, @PathVariable Long id, Model model) {
+        if (loginUser != null) {
+            User user = userService.getUserByEmail(loginUser.getUserEmail());
             model.addAttribute("user", user);
         }
         Post post = postService.getPostUpdatedCount(id);
@@ -111,11 +101,9 @@ public class PostController {
     }
 
     @GetMapping("/post/edit/{id}")
-    public String updatePost(@CookieValue(required = false, name = "access_token") String token,
-                             @PathVariable Long id, Model model) {
-        if (token != null) {
-            String userEmail = tokenProvider.getUserEmailByToken(token);
-            User user = userService.getUserByEmail(userEmail);
+    public String updatePost(User loginUser, @PathVariable Long id, Model model) {
+        if (loginUser != null) {
+            User user = userService.getUserByEmail(loginUser.getUserEmail());
             model.addAttribute("user", user);
         }
         Post post = postService.findPostById(id);
