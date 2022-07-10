@@ -58,11 +58,11 @@
                                     <td th:text="${user.getRole}"></td>
                                     <td th:text="${user.getStatus}"></td>
                                     <td>
-                                        <button class="pass-button" data-target="#exampleModalCenter" data-th-t
-                                                data-toggle="modal" type="button">
+                                        <button class="pass-button" data-toggle="modal"
+                                                th:data-target="'#'+${user.getUserNumber}" type="button">
                                             수정
                                         </button>
-                                        <div th:replace="admin/fragments/manageUserModal :: manageUserModal(${user})"/>
+                                        <div th:replace="admin/fragments/manageUserModal :: manageUserModal(userId=${user.getUserNumber})"/>
                                     </td>
                                 </tr>
                             </table>
