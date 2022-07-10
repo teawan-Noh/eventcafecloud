@@ -55,7 +55,7 @@
             </ul>
         </div>
 
-        <button th:if="${user == null}" class="post-button btn btn-outline-info float-right"
+        <button th:if="${user == null}" class="submit post-button btn btn-outline-info float-right"
                 onclick='alert("로그인 후 이용해주세요!")'>글쓰기
         </button>
         <button th:if="${user != null}" class="submit post-button btn btn-outline-info float-right"

@@ -44,21 +44,22 @@
         </div>
         <hr>
         <div id="submit-buttons">
-        <a th:if="${user != null && post.user.id == user.id}" th:href="@{/post/edit/{id}(id=${post.getId()})}"
-           class="btn btn-default">수정하기</a>
-        <form id="delete-form" th:action="@{'/post/' + ${post.id}}" method="post">
-            <input type="hidden" name="_method" value="DELETE"/>
-            <button th:if="${user != null && post.user.id == user.id}" class="btn btn-btn-danger" id="delete">삭제하기
-            </button>
-        </form>
+            <a th:if="${user != null && post.user.id == user.id}" th:href="@{/post/edit/{id}(id=${post.getId()})}"
+               class="btn btn-default">수정하기</a>
+            <form id="delete-form" th:action="@{'/post/' + ${post.id}}" method="post">
+                <input type="hidden" name="_method" value="DELETE"/>
+                <button th:if="${user != null && post.user.id == user.id}" class="btn btn-btn-danger" id="delete">삭제하기
+                </button>
+            </form>
         </div>
+        <hr>
         <div>
             <div id="comments-box">
                 <tr th:each="comment : ${comments}" th:onclick="|location.href='@{/post/{id} (id=${post.id})}'|">
                     <img id="commentProfileImage" th:src="@{${comment.getUserImage()}}" alt="프로필사진">
                     <a id="commentNickname" th:text="${comment.userNickname}" style="margin-left: 20px;"></a>
                     <a id="commentContent" th:text="${comment.commentContent}" style="margin-left: 20px;"></a>
-                    <a id="commentCreatedDate" th:text="${#temporals.format(comment.createdDate,'yy.MM.dd HH:mm')}" style="margin-left: 1020px;"></a>
+                    <a id="commentCreatedDate" th:text="${#temporals.format(comment.createdDate,'yy.MM.dd HH:mm')}"></a>
                     <hr>
                 </tr>
             </div>
@@ -75,7 +76,8 @@
                                     <label th:for="commentContent"></label>
                                     <textarea th:field="*{commentContent}" placeholder="댓글 작성 시 타인에 대한 배려와 책임을 담아주세요."
                                               class="form-control"
-                                              id="exampleFormControlTextarea1"  rows="3" style="resize: none;" ></textarea>
+                                              id="exampleFormControlTextarea1" rows="3"
+                                              style="resize: none;"></textarea>
                                     <button th:if="${user != null}" type="submit" class="btn btn-dark mt-3">작성</button>
                                     <button th:if="${user == null}" type="button" class="btn btn-dark mt-3"
                                             onclick='alert("로그인 후 이용해주세요!")'>작성

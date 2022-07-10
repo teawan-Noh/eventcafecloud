@@ -5,7 +5,7 @@
   <th:block th:replace="fragments/mainHeader :: mainHeader"/>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <title>EventCafeCloud</title>
-  <link rel="stylesheet" href="/css/postForm.css.css">
+  <link rel="stylesheet" href="/css/postForm.css">
   <!-- REQUIRED SCRIPTS -->
 
   <!-- jQuery -->
@@ -40,10 +40,13 @@
     <textarea type="text" th:field="*{postContent}" class="form-control" placeholder="내용을 입력하세요"
            th:class="${#fields.hasErrors('postContent')}? 'form-control fieldError' : 'form-control'" rows="10" style="resize: none; width: 70%;"></textarea>
     <p th:if="${#fields.hasErrors('postContent')}" th:errors="*{postContent}"></p>
+    <div id="edit-buttons">
+      <a th:href="@{/post/{id}(id=${postUpdateRequestDto.id})}" class="btn btn-default">돌아가기</a>
+      <button type="submit" class="btn btn-primary" id="insert">저장하기</button>
+    </div>
   </div>
-  <button type="submit" class="btn btn-primary" id="insert">저장하기</button>
 
-  <a href="/post" class="btn btn-default">목록으로</a>
+
 </form>
 </div>
 </body>
