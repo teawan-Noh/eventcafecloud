@@ -23,11 +23,8 @@ public class CafeOption {
     @Enumerated(EnumType.STRING)
     private CafeOptionType cafeOptionType;
 
-    private String cafeOptionIcon;
-
     public CafeOption(CafeOptionType opntion){
         this.cafeOptionType = opntion;
-        this.cafe = cafe;
     }
 
     public void addCafe(Cafe cafe) {
