@@ -1,15 +1,83 @@
-#bodyTop .carousel-inner .carousel-item img{
+#bodyTop .carousel-inner .carousel-item img {
     height: 550px;
 }
-#cafeListContainer{
+
+#cafeListContainer {
+    width: 100%;
+    text-align: center;
     display: flex;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-#cafeListContainer .card div figure .card-img-top{
-    height: 100px;
-    background-color: blueviolet;
+#cafeListContainer .card div figure .card-img-top {
+    height: 180px;
 }
 
-#pagination{
+#title {
+    color: #2b2a29;
+    font-weight: bold;
+    font-size: 20px;
+    margin: 0px;
+}
+
+#subTitle {
+    color: #9B9B9B;
+    margin: 0px;
+}
+
+#price {
+    float: right;
+    background-color: #774B00;
+    color: #F5F5DC;
+    font-weight: bold;
+    font-size: 20px;
+    padding-right: 10px;
+    margin-bottom: 0px;
+    margin-right: 10px;
+    margin-top: 10px;
+    border-radius: 25px;
+    font-family: 'Cute Font', cursive;
+}
+
+#priceDetail {
+    margin: 0px;
+    padding-left: 10px;
+}
+
+#pagination {
     margin-top: 200px;
+}
+
+#cafeTop5 {
+    width: 70%;
+    margin: auto;
+}
+
+.card {
+    margin: 20px;
+    width: 300px;
+    height: 300px;
+}
+
+.top5box {
+    background-color: #F5F5DC;
+}
+
+.top5box .top5name {
+    float: left;
+    font-weight: bold;
+    font-size: 30px;
+    color: #4C7A01;
+    margin-top: 20px;
+    font-family: 'Montserrat Subrayada', sans-serif;
+}
+
+.cafeMore {
+    float: right;
+    border: 0px;
+    outline: 0px;
+    background-color: #4C7A01;
+    padding: 5px;
+    color: white;
 }

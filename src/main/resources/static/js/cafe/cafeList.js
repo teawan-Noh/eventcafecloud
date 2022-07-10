@@ -5,7 +5,7 @@ function getCafeTop5() {
         type: "GET",
         url: "/api/cafes/top5",
         data: {},
-        success: function(response){
+        success: function (response) {
             for (const cafeListElement of response) {
                 let tempHtml = makeHtml(cafeListElement);
                 $("#cafeListContainer").append(tempHtml);
@@ -37,13 +37,12 @@ function getCafeList() {
         showPrevious: true,
         showNext: true,
         ajax: {
-            beforeSend: function() {
+            beforeSend: function () {
                 $('#cafeListContainer').html('불러오는 중...');
             }
         },
-        callback: function(data, pagination) {
+        callback: function (data, pagination) {
             $('#cafeListContainer').empty();
-            console.log(data);
             for (let cafe of data) {
                 let tempHtml = makeHtml(cafe);
                 $('#cafeListContainer').append(tempHtml);
@@ -53,25 +52,23 @@ function getCafeList() {
 }
 
 function makeHtml(cafe) {
-    const id = cafe["id"];
+    const id = cafe["cafeNumber"];
     const cafeName = cafe["cafeName"];
     const cafeInfo = cafe["cafeInfo"];
     const cafeWeekdayPrice = cafe["cafeWeekdayPrice"];
     const cafeImgUrl = cafe["cafeImgUrl"];
 
-    return `<div class="card" onclick="#" style="width: 200px; height: 250px;">
+    return `<div class="card" onclick="location.href='/cafes/${id}/detail'">
                         <div class="card-image">
                             <figure class="image is-4by3">
                                 <img src="${cafeImgUrl}" class="card-img-top" alt="Placeholder image">
                             </figure>
                         </div>
-                        <div class="card-content">
-                            <div class="media">
-                                <div class="media-content">
-                                    <p id="title" class="title is-4">${cafeName}</p>
-                                    <p class="subtitle is-6">${cafeInfo}</p>
-                                    <p>₩${cafeWeekdayPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>
-                                </div>
+                        <div class="card-content" id="card-content">
+                            <p id="title" class="title is-4">${cafeName}</p>
+                            <p id="subTitle" class="subtitle is-6">${cafeInfo}</p>
+                            <div id="price">
+                                <p id="priceDetail">₩${cafeWeekdayPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>
                             </div>
                         </div>
                    </div>`;

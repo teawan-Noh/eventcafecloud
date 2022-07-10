@@ -5,6 +5,7 @@ import com.eventcafecloud.user.domain.User;
 import com.eventcafecloud.user.dto.HostUserCreateRequestDto;
 import com.eventcafecloud.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,11 +31,12 @@ public class MainController {
         return "login";
     }
 
-    @GetMapping("/host/registration")
+    @Secured("ROLE_NORMAL")
+    @GetMapping("/hosts/registration")
     public String registerHostForm(User loginUser, Model model) {
         model.addAttribute("hostUserCreateRequestDto", new HostUserCreateRequestDto());
         model.addAttribute("Email", loginUser.getUserEmail());
-        return "register/registerHostForm";
+        return "register/register-host";
     }
 
     @PostMapping("/api/host/registration")
