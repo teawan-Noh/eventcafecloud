@@ -102,6 +102,13 @@ public class CafeService {
         return cafeListResponseDtos;
     }
 
+    public Page<Cafe> getCafeList(Pageable pageable) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 10);
+
+        return cafeRepository.findAll(pageable);
+    }
+
     public CafeDetailResponseDto findCafeByIdForDetail(Long id) {
         Cafe cafe = cafeRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));

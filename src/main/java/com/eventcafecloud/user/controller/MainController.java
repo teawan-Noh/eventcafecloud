@@ -21,7 +21,8 @@ public class MainController {
     @GetMapping("/")
     public String main(User loginUser, Model model) {
         if (loginUser != null) {
-            model.addAttribute("user", loginUser);
+            model.addAttribute("userNick", loginUser.getUserNickname());
+            model.addAttribute("userId", loginUser.getId());
         }
         return "index";
     }
@@ -39,7 +40,7 @@ public class MainController {
         return "register/register-host";
     }
 
-    @PostMapping("/api/host/registration")
+    @PostMapping("/api/hosts/registration")
     public String saveHostUser(HostUserCreateRequestDto requestDto) {
 
         userService.saveHostUser(requestDto);

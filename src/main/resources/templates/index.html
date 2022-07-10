@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <th:block th:replace="fragments/header :: header"/>
     <th:block th:replace="fragments/mainHeader :: mainHeader"/>
     <script>
         $(document).ready(function () {
             getCafeTop5();
+            getEventTop5();
         });
     </script>
     <!--  card css  -->
@@ -60,6 +61,17 @@
         <div id="cafeListContainer"></div>
         <button class="cafeMore" onclick="location.href='/cafes/allList'">더보기</button>
     </div>
+    <br>
+    </br>
+    <div id="eventTop5">
+        <div class="top5box">
+            <p class="top5name">EVENT TOP 5</p>
+        </div>
+        <div id="eventListContainer"></div>
+        <button class="eventMore" onclick="location.href='/events'">더보기</button>
+    </div>
+    <br>
+    </br>
 </div>
 </body>
 </html>

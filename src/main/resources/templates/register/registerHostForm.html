@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <div id="certificationBox" th:fragment="registerHostForm">
-    <form action="/api/host/registration" enctype="multipart/form-data" method="post" role="form"
+    <form action="/api/hosts/registration" enctype="multipart/form-data" method="post" role="form"
           th:object="${hostUserCreateRequestDto}">
         <div class="form-group">
             <p class="nameTag">회원 이메일</p>

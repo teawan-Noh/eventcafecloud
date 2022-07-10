@@ -1,9 +1,14 @@
 package com.eventcafecloud.user.controller;
 
+import com.eventcafecloud.cafe.domain.Cafe;
+import com.eventcafecloud.cafe.service.CafeService;
 import com.eventcafecloud.post.service.PostService;
 import com.eventcafecloud.user.dto.UserRequestDto;
 import com.eventcafecloud.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
     private final UserService userService;
     private final PostService postService;
+    private final CafeService cafeService;
 
     @GetMapping("/hosts")
     public String getHostsList(Model model) {
@@ -26,17 +32,18 @@ public class AdminController {
         return "/admin/admin-host";
     }
 
+    @GetMapping("/cafes")
+    public String getCafeList(@PageableDefault Pageable pageable, Model model) {
+        Page<Cafe> cafeList = cafeService.getCafeList(pageable);
+        model.addAttribute("cafes", cafeList);
+        return "/admin/admin-cafe";
+    }
+
     @GetMapping("/users")
     public String getUserList(Model model) {
         model.addAttribute("users", userService.getUserList());
         model.addAttribute("userRequestDto", new UserRequestDto());
         return "/admin/admin-user";
-    }
-
-    @GetMapping("/cafes")
-    public String getCafeList(Model model) {
-        model.addAttribute("users", userService.getUserList());
-        return "/admin/admin-cafe";
     }
 
     @GetMapping("/posts")
