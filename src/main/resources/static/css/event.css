@@ -1,0 +1,30 @@
+#eventListContainer{
+    padding-top: 10px;
+}
+
+.container {
+    width: 80%;
+}
+
+.card-img-top {
+    height: 170px;
+    margin-bottom: 10px;
+}
+
+.badge {
+    height: 28px;
+    width: 90px;
+}
+
+.date-start {
+    float:left;
+    margin-right:10px;
+}
+
+.date-end {
+    float: left;
+}
+
+.btn {
+    float: right;
+}

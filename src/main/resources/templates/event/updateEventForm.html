@@ -3,7 +3,6 @@
 <head>
     <th:block th:replace="fragments/header :: header"/>
     <th:block th:replace="fragments/mainHeader :: mainHeader"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <style>
 
@@ -45,14 +44,14 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="updateModalLongTitle">이벤트 정보 수정</h5>
+                    <h4 class="modal-title" id="updateModalLongTitle" style="font-weight: bold">이벤트 정보 수정</h4>
                     <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <form role="form" th:action="@{/events/{eventNumber}/edit (eventNumber=${event.id})}" th:object="${eventUpdateRequestDto}" enctype="multipart/form-data" method="post">
                     <div class="modal-body">
-                        <label style= "float: left">이벤트 이름</label>
+                        <h5><label style= "float: left; font-weight: bold">이벤트 이름</label></h5>
                         <input class="form-control" placeholder="변경할 이벤트 이름을 입력하세요"
                                th:class="${#fields.hasErrors('eventName')}? 'form-control fieldError' : 'form-control'"
                                th:field="*{eventName}"
@@ -60,7 +59,7 @@
                         <p class="warning-message" th:errors="*{eventName}"
                            th:if="${#fields.hasErrors('eventName')}">Incorrect date</p>
                         <br>
-                        <label style= "float: left">이벤트 소개 및 정보</label>
+                        <h5><label style= "float: left; font-weight: bold">이벤트 소개 및 정보</label></h5>
                         <textarea class="form-control" aria-label="With textarea" placeholder="이벤트의 소개 및 정보를 입력하세요"
                                   th:class="${#fields.hasErrors('eventInfo')}? 'form-control fieldError' : 'form-control'"
                                   th:field="*{eventInfo}"></textarea>
@@ -82,14 +81,16 @@
          role="dialog" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="cancleModalLongTitle">이벤트 예약 취소</h5>
+                <div class="modal-header" style="font-weight: bold">
+                    <h4 class="modal-title" id="cancleModalLongTitle">이벤트 예약 취소</h4>
                     <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                    <div class="modal-body" style="align-content: center">
+                    <div class="modal-body text-center" >
+                        <p></p>
                         <label >이벤트 예약을 취소하시겠습니까?</label>
+                        <p></p>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" data-dismiss="modal" type="button">나가기</button>
