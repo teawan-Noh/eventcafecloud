@@ -2,11 +2,11 @@ package com.eventcafecloud.comment.controller;
 
 import com.eventcafecloud.comment.dto.*;
 import com.eventcafecloud.comment.service.CommentService;
+import com.eventcafecloud.post.repository.PostRepository;
 import com.eventcafecloud.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 public class CommentController {
 
     private final CommentService commentService;
+    private final PostRepository postRepository;
 
     @PostMapping("/{postId}/comment/registration")
     public String createComment(@PathVariable Long postId, User loginUser,
@@ -40,15 +41,8 @@ public class CommentController {
     }
 
     @DeleteMapping("/comment/{id}")
-    @ResponseBody
-    public Long deleteComment(@PathVariable Long id){
-        return commentService.deleteComment(id);
-    }
-
-    @Transactional(readOnly = true)
-    @GetMapping("/comment/registration")
-    public String createComment(Model model) {
-        model.addAttribute("commentCreateRequestDto", new CommentCreateRequestDto());
-        return "post/postDetail";
+    public String deleteComment(@PathVariable Long id){
+        commentService.deleteComment(id);
+        return "redirect:/post/";
     }
 }

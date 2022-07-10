@@ -60,6 +60,11 @@
                     <a id="commentNickname" th:text="${comment.userNickname}" style="margin-left: 20px;"></a>
                     <a id="commentContent" th:text="${comment.commentContent}" style="margin-left: 20px;"></a>
                     <a id="commentCreatedDate" th:text="${#temporals.format(comment.createdDate,'yy.MM.dd HH:mm')}"></a>
+                    <form id="deleteComment-form" th:action="@{'/comment/' + ${comment.id}}" method="post">
+                        <input type="hidden" name="_method" value="DELETE"/>
+                        <button th:if="${user != null && comment.userId == user.id}" class="btn btn-btn-danger" id="comment-delete">삭제하기
+                        </button>
+                    </form>
                     <hr>
                 </tr>
             </div>
