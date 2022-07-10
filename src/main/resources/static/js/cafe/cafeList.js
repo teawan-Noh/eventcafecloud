@@ -58,7 +58,7 @@ function makeHtml(cafe) {
     const cafeWeekdayPrice = cafe["cafeWeekdayPrice"];
     const cafeImgUrl = cafe["cafeImgUrl"];
 
-    return `<div class="card" onclick="location.href='/cafes/${id}/detail'" style="width: 200px; height: 250px;">
+    return `<div class="card" onclick="location.href='/cafes/${id}/detail'">
                         <div class="card-image">
                             <figure class="image is-4by3">
                                 <img src="${cafeImgUrl}" class="card-img-top" alt="Placeholder image">
