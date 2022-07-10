@@ -58,7 +58,7 @@
 #post-content-box {
     font-size: 23px;
     word-break: break-word;
-    white-space: pre;
+    white-space: pre-line;
 }
 
 #comments-box {
