@@ -2,9 +2,7 @@ package com.eventcafecloud.cafe.service;
 
 
 import com.eventcafecloud.cafe.domain.*;
-import com.eventcafecloud.cafe.dto.CafeCreateRequestDto;
-import com.eventcafecloud.cafe.dto.CafeListResponseDto;
-import com.eventcafecloud.cafe.dto.CafeReviewRequestDto;
+import com.eventcafecloud.cafe.dto.*;
 import com.eventcafecloud.cafe.repository.CafeRepository;
 import com.eventcafecloud.cafe.repository.CafeReviewRepository;
 import com.eventcafecloud.s3.S3Service;
@@ -21,6 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.eventcafecloud.exception.ExceptionStatus.USER_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -73,7 +73,7 @@ public class CafeService {
         cafeRepository.save(cafe);
     }
 
-    //    public Page<Cafe> findAllCafeList3() {
+//    public Page<Cafe> findAllCafeList3() {
 ////        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
 ////        Sort sort = Sort.by(direction, sortBy);
 ////        Pageable pageable = PageRequest.of(page, size, sort);
@@ -107,5 +107,21 @@ public class CafeService {
         pageable = PageRequest.of(page, 10);
 
         return cafeRepository.findAll(pageable);
+    }
+
+    public CafeDetailResponseDto findCafeByIdForDetail(Long id) {
+        Cafe cafe = cafeRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
+
+        return new CafeDetailResponseDto(cafe);
+    }
+
+
+    public CafeUpdateRequestDto findCafeByIdForUpdate(Long id) {
+
+        Cafe cafe = cafeRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
+
+        return new CafeUpdateRequestDto(cafe);
     }
 }

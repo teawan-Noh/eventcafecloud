@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="fragments/header :: header"/>
+    <th:block th:replace="fragments/mainHeader :: mainHeader"/>
+
+    <style>
+        #mainContainer {
+            width: 80%;
+            margin: auto;
+        }
+
+        #cafeDetailTop ul {
+            display: flex;
+        }
+
+        #cafeDetailTop ul li {
+            font-size: 0.8em;
+            color: black;
+            margin-right: 10px;
+            padding: 3px 4px;
+            border: solid 1px lightslategray;
+            border-radius: 50%;
+        }
+
+        #cafeDetailTop .titleBox {
+            font-weight: bold;
+        }
+
+        #cafeDetailMiddle {
+            display: flex;
+            padding-top: 50px;
+        }
+
+        #cafeDetailMiddle .leftImgBox {
+            width: 65%;
+            height: 20%;
+        }
+
+        #cafeDetailMiddle .rightInfoBox {
+            width: 33%;
+        }
+        #cafeDetailMiddle .rightInfoBox{
+            margin-left: 50px;
+        }
+        #calendar {
+            height: 500px;
+        }
+    </style>
+<!--    <script th:inline="javascript">-->
+<!--        let id = [[${cafeDetailResponseDto.getCafeNumber()}]];-->
+
+<!--        function getCafeUpdateForm(){-->
+
+<!--        }-->
+<!--    </script>-->
+</head>
+<body>
+<div th:replace="fragments/mainTop :: mainTop"/>
+<!--<button onclick="getCafeUpdateForm()">수정</button>-->
+<button th:onclick="|location.href='@{/cafes/updateForm(id=${cafeDetailResponseDto.getCafeNumber()})}'|">수정</button>
+<div id="mainContainer">
+    <section id="cafeDetailTop">
+        <div class="titleBox">
+            <h1 th:text="${cafeDetailResponseDto.getCafeName()}"></h1>
+        </div>
+        <div class="infoBox">
+            <h3 th:text="${cafeDetailResponseDto.getCafeInfo()}"></h3>
+        </div>
+        <div class="optionBox">
+            <ul>
+                <li th:each="cafeOption : ${cafeDetailResponseDto.getCafeOptions()}" th:text="'#'+${cafeOption}"></li>
+            </ul>
+        </div>
+    </section>
+    <section id="cafeDetailMiddle">
+        <div class="leftImgBox">
+            <!-- Carousel -->
+            <div id="demo" class="carousel slide" data-bs-ride="carousel">
+                <!--     이미지 슬라이드 타임리프로 처리하는법 모르겠슈  active가 껴있어서 이걸 어떻게 해야하나 문제네     -->
+                <!-- The slideshow/carousel -->
+                <div class="carousel-inner">
+                    <div class="carousel-item active" th:each="cafeImg : ${cafeDetailResponseDto.getCafeImgUrls()}">
+                        <img alt="Los Angeles" class="d-block" th:src="${cafeImg}" style="width:100%">
+                        <div class="carousel-caption">
+                        </div>
+                    </div>
+                    <!--                <div class="carousel-item">-->
+                    <!--                    <img alt="Chicago" class="d-block" src="/banner2.png" style="width:100%">-->
+                    <!--                    <div class="carousel-caption">-->
+                    <!--                    </div>-->
+                    <!--                </div>-->
+                    <!--                <div class="carousel-item">-->
+                    <!--                    <img alt="New York" class="d-block" src="/banner3.png" style="width:100%">-->
+                    <!--                    <div class="carousel-caption">-->
+                    <!--                    </div>-->
+                    <!--                </div>-->
+                </div>
+
+                <!-- Left and right controls/icons -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
+        </div>
+        <div class="rightInfoBox">
+            <div id="cafePriceInfo">
+                <p th:text="'평일 가격' + ${#numbers.formatInteger(cafeDetailResponseDto.getCafeWeekdayPrice(), 3, 'COMMA') + '원'}"></p>
+                <p th:text="'주말 가격' + ${#numbers.formatInteger(cafeDetailResponseDto.getCafeWeekendPrice(), 3, 'COMMA') + '원'}"></p>
+            </div>
+            <div id='calendar-container'>
+                <div id='calendar'></div>
+            </div>
+            <div id="eventRegisterBtn">
+                <button>이벤트 예약</button>
+            </div>
+        </div>
+    </section>
+    <section id="cafeDetailBottom">
+        <div id="cafeInfoDetail">
+            <h3>상세 정보</h3>
+            <h5 th:text="${cafeDetailResponseDto.getCafeInfoDetail()}"></h5>
+        </div>
+        <div id="openHour">
+            <span>영업 시간 : </span>
+            <span th:text="${cafeDetailResponseDto.getCafeOpenTime()} + ' ~ ' + ${cafeDetailResponseDto.getCafeCloseTime()}"></span>
+        </div>
+        <div id="cafePrecaution">
+            <h3>유의사항</h3>
+            <p th:text="${cafeDetailResponseDto.getCafePrecaution()}"></p>
+        </div>
+        <div id="cafeLocationInfo">
+            <div class="cafeAddress">
+                <p th:text="${cafeDetailResponseDto.getCafeZonecode()} + ' &nbsp;' + ${cafeDetailResponseDto.getCafeAddress()}"></p>
+                <p th:text="${cafeDetailResponseDto.getCafeAddressDetail()}"></p>
+            </div>
+            <div id="staticMap" style="width:600px;height:350px;"></div>
+        </div>
+    </section>
+</div>
+
+</body>
+<script th:inline="javascript">
+    let x = [[${cafeDetailResponseDto.getCafeX()}]];
+    let y = [[${cafeDetailResponseDto.getCafeY()}]];
+</script>
+<script src="/js/cafe/kakaoMapForDetail.js"></script>
+<script>
+    (function(){
+        $(function(){
+            // calendar element 취득
+            var calendarEl = $('#calendar')[0];
+            // full-calendar 생성하기
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                height: '500px', // calendar 높이 설정
+                expandRows: true, // 화면에 맞게 높이 재설정
+                // slotMinTime: '08:00', // Day 캘린더에서 시작 시간
+                // slotMaxTime: '20:00', // Day 캘린더에서 종료 시간
+                // 해더에 표시할 툴바
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    // right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                    right: 'dayGridMonth'
+                },
+                initialView: 'dayGridMonth', // 초기 로드 될때 보이는 캘린더 화면(기본 설정: 달)
+                // initialDate: '2021-07-15', // 초기 날짜 설정 (설정하지 않으면 오늘 날짜가 보인다.)
+                // navLinks: true, // 날짜를 선택하면 Day 캘린더나 Week 캘린더로 링크
+                editable: true, // 수정 가능?
+                selectable: true, // 달력 일자 드래그 설정가능
+                nowIndicator: true, // 현재 시간 마크
+                dayMaxEvents: true, // 이벤트가 오버되면 높이 제한 (+ 몇 개식으로 표현)
+                locale: 'ko', // 한국어 설정
+                eventAdd: function(obj) { // 이벤트가 추가되면 발생하는 이벤트
+                    console.log(obj);
+                },
+                eventChange: function(obj) { // 이벤트가 수정되면 발생하는 이벤트
+                    console.log(obj);
+                },
+                eventRemove: function(obj){ // 이벤트가 삭제되면 발생하는 이벤트
+                    console.log(obj);
+                },
+                select: function(arg) { // 캘린더에서 드래그로 이벤트를 생성할 수 있다.
+                    // var title = prompt('Event Title:');
+                    // if (title) {
+                    //     calendar.addEvent({
+                    //         title: title,
+                    //         start: arg.start,
+                    //         end: arg.end,
+                    //         allDay: arg.allDay
+                    //     })
+                    // }
+                    // calendar.unselect()
+                },
+                // 이벤트
+                events: [
+                    {
+                        title: 'All Day Event',
+                        start: '2021-07-01',
+                    },
+                    {
+                        title: 'Long Event',
+                        start: '2022-07-11',
+                        end: '2021-07-12'
+                    },
+                    {
+                        groupId: 999,
+                        title: 'Repeating Event',
+                        start: '2022-07-10'
+                    },
+                    {
+                        groupId: 999,
+                        title: 'Repeating Event',
+                        start: '2021-07-16T16:00:00'
+                    },
+                    {
+                        title: 'Conference',
+                        start: '2021-07-11',
+                        end: '2021-07-13'
+                    },
+                    {
+                        title: 'Meeting',
+                        start: '2021-07-12T10:30:00',
+                        end: '2021-07-12T12:30:00'
+                    },
+                    {
+                        title: 'Lunch',
+                        start: '2021-07-12T12:00:00'
+                    },
+                    {
+                        title: 'Meeting',
+                        start: '2021-07-12T14:30:00'
+                    },
+                    {
+                        title: 'Happy Hour',
+                        start: '2021-07-12T17:30:00'
+                    },
+                    {
+                        title: 'Dinner',
+                        start: '2021-07-12T20:00:00'
+                    },
+                    {
+                        title: 'Birthday Party',
+                        start: '2021-07-13T07:00:00'
+                    },
+                    {
+                        title: 'Click for Google',
+                        url: 'http://google.com/', // 클릭시 해당 url로 이동
+                        start: '2021-07-28'
+                    }
+                ]
+            });
+            // 캘린더 랜더링
+            calendar.render();
+        });
+    })();
+</script>
+</html>
