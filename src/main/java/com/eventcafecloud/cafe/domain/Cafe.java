@@ -2,6 +2,7 @@ package com.eventcafecloud.cafe.domain;
 
 
 import com.eventcafecloud.cafe.dto.CafeCreateRequestDto;
+import com.eventcafecloud.cafe.dto.CafeUpdateRequestDto;
 import com.eventcafecloud.common.base.BaseTimeEntity;
 import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.user.domain.User;
@@ -111,6 +112,22 @@ public class Cafe extends BaseTimeEntity {
     public void addCafeReview(CafeReview cafeReview) {
         cafeReview.addCafe(this);
         this.cafeReviews.add(cafeReview);
+    }
+
+    public void updateCafeInfo(CafeUpdateRequestDto requestDto) {
+        this.cafeName = requestDto.getCafeName();
+        this.cafeZonecode = requestDto.getCafeZonecode();
+        this.cafeAddress = requestDto.getCafeAddress();
+        this.cafeAddressDetail = requestDto.getCafeAddressDetail();
+        this.cafeX = requestDto.getCafeX();
+        this.cafeY = requestDto.getCafeY();
+        this.cafeInfo = requestDto.getCafeInfo();
+        this.cafeInfoDetail = requestDto.getCafeInfoDetail();
+        this.cafePrecaution = requestDto.getCafePrecaution();
+        this.cafeWeekdayPrice = requestDto.getCafeWeekdayPrice();
+        this.cafeWeekendPrice = requestDto.getCafeWeekendPrice();
+        this.cafeOpenTime = requestDto.getCafeOpenTime();
+        this.cafeCloseTime = requestDto.getCafeCloseTime();
     }
 }
 
