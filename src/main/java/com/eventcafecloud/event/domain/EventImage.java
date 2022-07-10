@@ -1,20 +1,17 @@
 package com.eventcafecloud.event.domain;
 
-
-import com.eventcafecloud.cafe.domain.Cafe;
-import com.eventcafecloud.common.base.BaseTimeEntity;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 @Getter
 @Entity
-public class EventImage extends BaseTimeEntity {
+public class EventImage {
 
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "event_image_number")
     @Id
     private Long id;

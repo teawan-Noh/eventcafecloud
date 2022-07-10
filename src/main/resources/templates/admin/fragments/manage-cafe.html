@@ -1,10 +1,118 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="manage-cafe">
+    <div>
+        <div onclick="location.href='/'">
+            <img class="logo" src="/ec2logo.png" style="width: 15%">
+        </div>
+        <div class="left">
+            <div class="menuVar">
+                <ul>
+                    <li><a class="menuVar-link" href="/admin/users">회원 관리</a></li>
+                    <li><a class="menuVar-link" href="/admin/hosts">호스트 승인</a></li>
+                    <li><a class="menuVar-link" href="/admin/cafes">카페 관리</a></li>
+                    <li><a class="menuVar-link" href="/admin/events">이벤트 관리</a></li>
+                    <li><a class="menuVar-link" href="/admin/posts">게시글 관리</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="right">
+            <div class="profileBox">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        카페관리
+                    </div>
+                    <div class="card-body">
+                        <div class="option-search">
+                            <div style="display: flex; margin-left: auto;">
+                                <select class="bbsOrReply">
+                                    <option value="">--카테고리--</option>
+                                    <option value="normal">일반</option>
+                                    <option value="quit">공지</option>
+                                    <option value="quit">자유</option>
+                                </select> &nbsp;
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="userTable">
+                                <thead>
+                                <tr>
+                                    <th>번호</th>
+                                    <th>카페이름</th>
+                                    <th>카페주소</th>
+                                    <th>등록일</th>
+                                    <th>수정일</th>
+                                    <th>상태</th>
+                                    <th>#</th>
+                                </tr>
+                                </thead>
+                                <tr th:each="cafe: ${cafes}">
+                                    <td th:text="${cafe.getId}"></td>
+                                    <td th:text="${cafe.getCafeName}"></td>
+                                    <td th:text="${cafe.getCafeAddress}"></td>
+                                    <td th:text="${#temporals.format(cafe.getCreatedDate,'yyyy-MM-dd HH:mm')}"></td>
+                                    <td th:text="${#temporals.format(cafe.getModifiedDate,'yyyy-MM-dd HH:mm')}"></td>
+                                    <td>정상</td>
+                                    <td>
+                                        <button class="pass-button" data-toggle="modal"
+                                                th:data-target="'#'+${cafe.getId}" type="button">
+                                            수정
+                                        </button>
+                                        <!--                                        <div th:replace="admin/fragments/manageCafeModal :: manageCafeModal"/>-->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>0</td>
+                                    <td>홍대카페</td>
+                                    <td>yvely001@naver.com</td>
+                                    <td>등록일</td>
+                                    <td>수정일</td>
+                                    <td>정상</td>
+                                    <td>
+                                        <button class="pass-button" type="submit">수정</button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <nav style="text-align: center;">
+                            <ul class="pagination"
+                                th:with="start=${T(Math).floor(cafes.number/10)*10 + 1},
+                    last=(${start + 9 < cafes.totalPages ? start + 9 : cafes.totalPages})">
+                                <li>
+                                    <a aria-label="First" th:href="@{/admin/cafes(page=1)}">
+                                        <span aria-hidden="true">First</span>
+                                    </a>
+                                </li>
 
-</body>
-</html>
+                                <li th:class="${cafes.first} ? 'disabled'">
+                                    <a aria-label="Previous"
+                                       th:href="${cafes.first} ? '#' :@{/admin/cafes(page=${cafes.number})}">
+                                        <span aria-hidden="true">&lt;</span>
+                                    </a>
+                                </li>
+
+                                <li th:class="${page == cafes.number + 1} ? 'active'"
+                                    th:each="page: ${#numbers.sequence(start, last)}">
+                                    <a th:href="@{/admin/cafes(page=${page})}" th:text="${page}"></a>
+                                </li>
+
+                                <li th:class="${cafes.last} ? 'disabled'">
+                                    <a aria-label="Next"
+                                       th:href="${cafes.last} ? '#' : @{/admin/cafes(page=${boardList.number + 2})}">
+                                        <span aria-hidden="true">&gt;</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a aria-label="Last" th:href="@{/admin/cafes(page=${cafes.totalPages})}">
+                                        <span aria-hidden="true">Last</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

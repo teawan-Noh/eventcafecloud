@@ -9,7 +9,7 @@
             <a class="nav-link active" href="/cafes/allList">카페</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="#">이벤트</a>
+            <a class="nav-link" href="/events">이벤트</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="/post">게시판</a>
@@ -21,25 +21,25 @@
         </li>
     </ul>
     <div class="user_status">
-        <div th:if="${user == null}">
+        <div th:if="${userNick == null}">
             GUEST님 환영합니다. &nbsp;
             <button class="submit" th:onclick="|location.href='@{/login}'|">로그인</button>
         </div>
-        <div th:if="${user != null}">
+        <div th:if="${userNick != null}">
             <div class="form-group" th:if="${#authorization.expression('hasRole(''ADMIN'')')}">
-                <a class="user-nick" th:href="@{/user/profile/{id}/info(id=${user.getId()})}"><p
-                        style="display: inline-block" th:text="${user.getUserNickname()}"></p></a>&nbsp;님 환영합니다. &nbsp;&nbsp;
+                <a class="user-nick" th:href="@{/user/profile/{id}/info(id=${userId})}"><p
+                        style="display: inline-block" th:text="${userNick}"></p></a>&nbsp;님 환영합니다. &nbsp;&nbsp;
                 <a class="admin-user" href="/admin/users">어드민페이지</a>
                 <button class="submit_out" style="display:inline-block;" th:onclick="logout()">로그아웃</button>
             </div>
             <div class="form-group" th:if="${#authorization.expression('hasRole(''NORMAL'')')}">
-                <a class="user-nick" th:href="@{/user/profile/{id}/info(id=${user.getId()})}"><p
-                        style="display: inline-block" th:text="${user.getUserNickname()}"></p></a>님 환영합니다.
+                <a class="user-nick" th:href="@{/user/profile/{id}/info(id=${userId})}"><p
+                        style="display: inline-block" th:text="${userNick}"></p></a>님 환영합니다.
                 <button class="submit_out" style="display:inline-block;" th:onclick="logout()">로그아웃</button>
             </div>
             <div class="form-group" th:if="${#authorization.expression('hasRole(''HOST'')')}">
-                <a class="user-nick" th:href="@{/host/profile/{id}/info(id=${user.getId()})}"><p
-                        style="display: inline-block" th:text="${user.getUserNickname()}"></p></a>&nbsp;호스트님 환영합니다.
+                <a class="user-nick" th:href="@{/host/profile/{id}/info(id=${userId})}"><p
+                        style="display: inline-block" th:text="${userNick}"></p></a>&nbsp;호스트님 환영합니다.
                 <button class="submit_out" style="display:inline-block;" th:onclick="logout()">로그아웃</button>
             </div>
         </div>
