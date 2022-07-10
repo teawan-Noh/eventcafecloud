@@ -42,8 +42,10 @@ public class Cafe extends BaseTimeEntity {
 
     private String cafeInfo;
 
+    @Column(columnDefinition = "TEXT")
     private String cafeInfoDetail;
 
+    @Column(columnDefinition = "TEXT")
     private String cafePrecaution;
 
     //    @Column(nullable = false)
