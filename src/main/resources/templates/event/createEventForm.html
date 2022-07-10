@@ -29,7 +29,7 @@
     </div>
     <!--    Event Reservation Form-->
     <div class="container">
-        <form role="form" action="/events/registration" th:object="${eventCreateRequestDto}" method="post" enctype="multipart/form-data">
+        <form role="form" action="/events" th:object="${eventCreateRequestDto}" method="post" enctype="multipart/form-data">
             <div class="form-group-event">
                 <br />
                 <label th:for="eventCategory">이벤트 카테고리</label>
@@ -72,6 +72,10 @@
             <div class="form-group-event">
                 <label th:for="eventPrice">결제 정보</label>
                 <input type="text" th:field="*{eventPrice}" class="form-control" placeholder="결제하실 금액입니다.">
+            </div>
+            <div class="form-group-event" HIDDEN>
+                <label th:for="cafeNumber">카페 정보</label>
+                <input type="text" id="cafeNumber" name="cafeNumber" th:value="${cafeId}" class="form-control">
             </div>
             <br />
             <button type="submit" class="btn btn-primary" style="float: right;">이벤트 예약하기</button>

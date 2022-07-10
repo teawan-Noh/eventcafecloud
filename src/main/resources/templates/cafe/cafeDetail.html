@@ -115,7 +115,7 @@
                 <div id='calendar'></div>
             </div>
             <div id="eventRegisterBtn">
-                <button>이벤트 예약</button>
+                <button th:onclick="|location.href='@{/events/registration(cafeId=${cafeDetailResponseDto.getCafeNumber()})}'|">이벤트 예약</button>
             </div>
         </div>
     </section>
