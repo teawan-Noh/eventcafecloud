@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
   <th:block th:replace="fragments/header :: header"/>
   <th:block th:replace="fragments/mainHeader :: mainHeader"/>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <title>EventCafeCloud</title>
+  <link rel="stylesheet" href="/css/postForm.css.css">
   <!-- REQUIRED SCRIPTS -->
 
   <!-- jQuery -->
@@ -15,6 +16,7 @@
   <script src="${path}/dist/js/adminlte.min.js"></script>
   <!-- HandleBars JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+
 </head>
 
 <body>
@@ -31,17 +33,17 @@
   </div>
 </div>
 <div class="right">
-<form role="form" th:action="@{/post/edit/{id}(id=${postUpdateRequestDto.id})}" th:object="${postUpdateRequestDto}" method="post" enctype="multipart/form-data">
+<form role="form" th:action="@{/post/edit/{id}(id=${postUpdateRequestDto.id})}" th:object="${postUpdateRequestDto}" method="post" enctype="multipart/form-data" style="margin-left: 20%;">
   <input type="hidden" name="_method" value="put"/>
   <div class="form-group">
-    <label th:for="postContent">게시글 내용</label>
-    <input type="text" th:field="*{postContent}" class="form-control" placeholder="내용을 입력하세요"
-           th:class="${#fields.hasErrors('postContent')}? 'form-control fieldError' : 'form-control'">
+    <label th:for="postContent" style="font-size: 20px; margin-left: 20px;">내용</label>
+    <textarea type="text" th:field="*{postContent}" class="form-control" placeholder="내용을 입력하세요"
+           th:class="${#fields.hasErrors('postContent')}? 'form-control fieldError' : 'form-control'" rows="10" style="resize: none; width: 70%;"></textarea>
     <p th:if="${#fields.hasErrors('postContent')}" th:errors="*{postContent}"></p>
   </div>
   <button type="submit" class="btn btn-primary" id="insert">저장하기</button>
 
-  <a href="/post" class="btn btn-defalut">목록으로</a>
+  <a href="/post" class="btn btn-default">목록으로</a>
 </form>
 </div>
 </body>

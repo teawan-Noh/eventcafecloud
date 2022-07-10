@@ -3,19 +3,8 @@
 <head>
     <th:block th:replace="fragments/header :: header"/>
     <th:block th:replace="fragments/mainHeader :: mainHeader"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>EventCafeCloud</title>
-    <!-- REQUIRED SCRIPTS -->
+    <link rel="stylesheet" href="/css/board.css">
 
-    <!-- jQuery -->
-    <script src="${path}/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="${path}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="${path}/dist/js/adminlte.min.js"></script>
-    <!-- HandleBars JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
-    <link rel="stylesheet" href="../../static/css/postDetail.css">
 </head>
 <body>
 <div th:replace="fragments/mainTop :: mainTop"></div>
@@ -50,8 +39,11 @@
             </tr>
             </tbody>
         </table>
-        <td th:text="${post.postContent}"></td>
+        <div id="post-content-box">
+            <td th:text="${post.postContent}" style="font-size: 30px;"></td>
+        </div>
         <hr>
+        <div id="submit-buttons">
         <a th:if="${user != null && post.user.id == user.id}" th:href="@{/post/edit/{id}(id=${post.getId()})}"
            class="btn btn-default">수정하기</a>
         <form id="delete-form" th:action="@{'/post/' + ${post.id}}" method="post">
@@ -59,13 +51,14 @@
             <button th:if="${user != null && post.user.id == user.id}" class="btn btn-btn-danger" id="delete">삭제하기
             </button>
         </form>
-        <div id="comment-box">
-            <div>
+        </div>
+        <div>
+            <div id="comments-box">
                 <tr th:each="comment : ${comments}" th:onclick="|location.href='@{/post/{id} (id=${post.id})}'|">
-                    <img class="rounded-circle" th:src="@{${comment.getUserImage()}}" alt="프로필사진">
-                    <td th:text="${comment.userNickname}"></td>
-                    <td th:text="${comment.commentContent}"></td>
-                    <td th:text="${#temporals.format(comment.createdDate,'yy.MM.dd HH:mm')}"></td>
+                    <img id="commentProfileImage" th:src="@{${comment.getUserImage()}}" alt="프로필사진">
+                    <a id="commentNickname" th:text="${comment.userNickname}" style="margin-left: 20px;"></a>
+                    <a id="commentContent" th:text="${comment.commentContent}" style="margin-left: 20px;"></a>
+                    <a id="commentCreatedDate" th:text="${#temporals.format(comment.createdDate,'yy.MM.dd HH:mm')}" style="margin-left: 1020px;"></a>
                     <hr>
                 </tr>
             </div>
@@ -82,7 +75,7 @@
                                     <label th:for="commentContent"></label>
                                     <textarea th:field="*{commentContent}" placeholder="댓글 작성 시 타인에 대한 배려와 책임을 담아주세요."
                                               class="form-control"
-                                              id="exampleFormControlTextarea1" rows="3"></textarea>
+                                              id="exampleFormControlTextarea1"  rows="3" style="resize: none;" ></textarea>
                                     <button th:if="${user != null}" type="submit" class="btn btn-dark mt-3">작성</button>
                                     <button th:if="${user == null}" type="button" class="btn btn-dark mt-3"
                                             onclick='alert("로그인 후 이용해주세요!")'>작성
