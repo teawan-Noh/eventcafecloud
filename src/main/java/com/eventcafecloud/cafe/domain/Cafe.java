@@ -54,6 +54,9 @@ public class Cafe extends BaseTimeEntity {
     //    @Column(nullable = false)
     private int cafeWeekendPrice;
 
+    private String cafeOpenTime;
+    private String cafeCloseTime;
+
     // 단반향 연관관계
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_number")
@@ -86,6 +89,8 @@ public class Cafe extends BaseTimeEntity {
         this.cafePrecaution = requestDto.getCafePrecaution();
         this.cafeWeekdayPrice = requestDto.getCafeWeekdayPrice();
         this.cafeWeekendPrice = requestDto.getCafeWeekendPrice();
+        this.cafeOpenTime = requestDto.getCafeOpenTime();
+        this.cafeCloseTime = requestDto.getCafeCloseTime();
     }
 
     //==연관관계 편의 메서드==//
