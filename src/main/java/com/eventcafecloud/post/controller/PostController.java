@@ -69,7 +69,7 @@ public class PostController {
                 return "redirect:/post/";
             } else {
                 postService.updatePost(id, requestDto);
-                return "redirect:/post/";
+                return "redirect:/post/{id}";
             }
         }
         return "redirect:/post/";
