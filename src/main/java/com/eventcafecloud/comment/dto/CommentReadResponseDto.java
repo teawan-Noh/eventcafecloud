@@ -11,6 +11,7 @@ public class CommentReadResponseDto {
     private Long id;
     private String commentContent;
     private String userNickname;
+    private String userImage;
     private LocalDateTime createdDate;
 
 }

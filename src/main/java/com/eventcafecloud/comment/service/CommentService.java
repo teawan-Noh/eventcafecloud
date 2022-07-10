@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.eventcafecloud.exception.ExceptionStatus.*;
 
@@ -41,15 +42,18 @@ public class CommentService {
                 .build();
     }
 
-    public List<CommentReadResponseDto> getComment() {
-        List<Comment> comments = commentRepository.findAll();
+
+    @Transactional(readOnly = true)
+    public List<CommentReadResponseDto> getCommentByPostNumber(Post post) {
+        Optional<List<Comment>> comments = commentRepository.findByPost(post);
         List<CommentReadResponseDto> output = new ArrayList<>();
 
-        for (Comment comment : comments) {
+        for (Comment comment : comments.get()) {
             CommentReadResponseDto commentReadResponseDto = new CommentReadResponseDto();
             commentReadResponseDto.setCommentContent(comment.getCommentContent());
             commentReadResponseDto.setId(comment.getId());
             commentReadResponseDto.setUserNickname(comment.getUser().getUserNickname());
+            commentReadResponseDto.setUserImage(comment.getUser().getUserImage());
             commentReadResponseDto.setCreatedDate(comment.getCreatedDate());
             output.add(commentReadResponseDto);
         }
