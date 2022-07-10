@@ -30,17 +30,19 @@ public class EventController {
     // 이벤트 예약 폼
     @Secured("ROLE_NORMAL")
     @GetMapping("/events/registration")
-    public String createEventForm(User loginUser, Model model) {
+    public String createEventForm(User loginUser, Model model, @RequestParam Long cafeId) {
+
         if (loginUser != null) {
             model.addAttribute("userNick", loginUser.getUserNickname());
             model.addAttribute("userId", loginUser.getId());
+            model.addAttribute("cafeId", cafeId);
         }
         model.addAttribute("eventCreateRequestDto", new EventCreateRequestDto());
         return "event/createEventForm";
     }
 
     // 이벤트 예약
-    @PostMapping("/events/registration")
+    @PostMapping("/events")
     public String createEvent(User loginUser, @Validated @ModelAttribute EventCreateRequestDto requestDto, BindingResult result) {
 
         eventService.saveEvent(requestDto, loginUser);
