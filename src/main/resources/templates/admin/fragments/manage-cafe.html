@@ -44,6 +44,7 @@
                                     <th>수정일</th>
                                     <th>상태</th>
                                     <th>#</th>
+                                    <th>#</th>
                                 </tr>
                                 </thead>
                                 <tr th:each="cafe: ${cafes}">
@@ -60,6 +61,12 @@
                                         </button>
                                         <!--                                        <div th:replace="admin/fragments/manageCafeModal :: manageCafeModal"/>-->
                                     </td>
+                                    <td>
+                                        <form id="delete-form" method="post" th:action="@{'/cafes/' + ${cafe.getId}}">
+                                            <input name="_method" type="hidden" value="DELETE"/>
+                                            <button class="fail-button">삭제하기</button>
+                                        </form>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>0</td>
@@ -70,6 +77,10 @@
                                     <td>정상</td>
                                     <td>
                                         <button class="pass-button" type="submit">수정</button>
+                                    </td>
+                                    <td>
+                                        <input name="_method" type="hidden" value="DELETE"/>
+                                        <button>삭제하기</button>
                                     </td>
                                 </tr>
                             </table>
