@@ -30,26 +30,23 @@ public class EventController {
     // 이벤트 예약 폼
     @Secured("ROLE_NORMAL")
     @GetMapping("/events/registration")
-    public String createEventForm(Model model) {
+    public String createEventForm(User loginUser, Model model) {
+        model.addAttribute("user", loginUser);
         model.addAttribute("eventCreateRequestDto", new EventCreateRequestDto());
         return "event/createEventForm";
     }
 
     // 이벤트 예약
     @PostMapping("/events/registration")
-    public String createEvent(@CookieValue(required = false, name = "access_token") String token,
-                              @Validated @ModelAttribute EventCreateRequestDto requestDto, BindingResult result) {
-        if (token != null) {
-            String email = tokenProvider.getUserEmailByToken(token);
-            eventService.saveEvent(requestDto, email);
+    public String createEvent(User loginUser, @Validated @ModelAttribute EventCreateRequestDto requestDto, BindingResult result) {
 
-            if (result.hasErrors()) {
-                return "event/createEventForm";
-            } else {
-                return "redirect:/events";
-            }
+        eventService.saveEvent(requestDto, loginUser);
+
+        if (result.hasErrors()) {
+            return "event/createEventForm";
+        } else {
+            return "redirect:/events";
         }
-        return "redirect:/events";
     }
 
     // 이벤트 수정 폼
@@ -76,20 +73,18 @@ public class EventController {
 
     // 이벤트 리스트 보기
     @GetMapping("/events")
-    public String eventList(Model model) {
+    public String eventList(User loginUser, Model model) {
         List<EventListResponseDto> eventListResponseDtos = eventService.findEventList();
         model.addAttribute("eventListResponseDtos", eventListResponseDtos);
+        model.addAttribute("user", loginUser);
         return "event/eventList";
     }
 
     // 이벤트 상세
     @GetMapping("/events/{eventNumber}")
-    public String eventDetail(@CookieValue(required = false, name = "access_token") String token,
-                              @PathVariable Long eventNumber, Model model) {
-        if (token != null) {
-            String userEmail = tokenProvider.getUserEmailByToken(token);
-            User user = userService.getUserByEmail(userEmail);
-            model.addAttribute("user", user);
+    public String eventDetail(User loginUser, @PathVariable Long eventNumber, Model model) {
+        if (loginUser != null) {
+            model.addAttribute("user", loginUser);
         }
 
         EventReadResponseDto eventReadResponseDto = eventService.findEvent(eventNumber);
