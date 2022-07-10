@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.eventcafecloud.exception.ExceptionStatus.EVENT_NOT_FOUND;
-import static com.eventcafecloud.exception.ExceptionStatus.USER_NOT_FOUND;
 
 @RequiredArgsConstructor
 @Service
@@ -37,7 +36,7 @@ public class EventService {
 
         User user = userRepository.getById(securityUser.getId());
 
-        Cafe cafe = cafeRepository.findById(requestDto.getCafeNumber()).orElseThrow(
+        Cafe cafe = cafeRepository.findById(1L).orElseThrow(
                 () -> new NullPointerException("해당 카페가 존재하지 않습니다.")
         );
 

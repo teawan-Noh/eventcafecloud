@@ -76,7 +76,7 @@
                         </div>
                         <nav style="text-align: center;">
                             <ul class="pagination"
-                                th:with="start=${T(Math).floor(cafes.number/10)*10 + 1},
+                                th:with="start=${T(java.lang.Math).floor(cafes.number/10)*10 + 1},
                     last=(${start + 9 < cafes.totalPages ? start + 9 : cafes.totalPages})">
                                 <li>
                                     <a aria-label="First" th:href="@{/admin/cafes(page=1)}">
