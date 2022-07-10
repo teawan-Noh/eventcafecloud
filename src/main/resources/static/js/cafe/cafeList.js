@@ -12,6 +12,7 @@ function getCafeTop5() {
             }
         }
     })
+}
 
 function getCafeList() {
     let dataSource = null;
