@@ -2,27 +2,54 @@
     padding-top: 10px;
 }
 
+
+ /*container top*/
+.container-top {
+    margin: 10px 250px 10px;
+
+}
+
+.category-order-select {
+    height: 38px;
+    width: 300px;
+}
+
+.form-control {
+    width: 260px;
+}
+
+
+/*container*/
 .container {
     width: 80%;
 }
 
+.card {
+    margin: 15px;
+    width: 300px;
+    height: 420px;
+}
+
 .card-img-top {
-    height: 170px;
+    height: 200px;
     margin-bottom: 10px;
 }
 
 .badge {
     height: 28px;
-    width: 90px;
+    width: 110px;
+}
+
+.title-event-bolder {
+    margin: 10px 0px 10px 0px;
 }
 
 .date-start {
     float:left;
-    margin-right:10px;
 }
 
 .date-end {
-    float: left;
+    float: right;
 }
 
 .btn {

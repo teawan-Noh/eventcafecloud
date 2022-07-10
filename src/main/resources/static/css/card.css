@@ -82,11 +82,45 @@
     color: white;
 }
 
+
+/* Event Top 5 */
 #eventListContainer{
+    width: 100%;
+    text-align: center;
     display: flex;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #eventListContainer .card div figure .card-img-top{
-    height: 100px;
-    background-color: blueviolet;
+    height: 180px;
+}
+
+#eventTop5 {
+    width: 70%;
+    margin: auto;
+}
+
+.badge {
+    height: 28px;
+    width: 110px;
+}
+
+.date-start {
+    float:left;
+    margin-left: 45px;
+}
+
+.date-end {
+    float: right;
+    margin-right: 45px;
+}
+
+.eventMore {
+    float: right;
+    border: 0px;
+    outline: 0px;
+    background-color: #4C7A01;
+    padding: 5px;
+    color: white;
 }

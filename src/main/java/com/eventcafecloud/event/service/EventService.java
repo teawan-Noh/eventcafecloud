@@ -33,13 +33,11 @@ public class EventService {
 
     // 이벤트 예약
     @Transactional
-    public void saveEvent(EventCreateRequestDto requestDto, String userEmail) {
+    public void saveEvent(EventCreateRequestDto requestDto, User securityUser) {
 
-        User user = userRepository.findByUserEmail(userEmail).orElseThrow(
-                () -> new IllegalArgumentException(USER_NOT_FOUND.getMessage())
-        );
+        User user = userRepository.getById(securityUser.getId());
 
-        Cafe cafe = cafeRepository.findById(requestDto.getCafeNumber()).orElseThrow(
+        Cafe cafe = cafeRepository.findById(1L).orElseThrow(
                 () -> new NullPointerException("해당 카페가 존재하지 않습니다.")
         );
 
