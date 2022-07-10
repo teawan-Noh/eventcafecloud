@@ -5,6 +5,7 @@ import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
@@ -35,10 +36,10 @@ public class CafeCreateRequestDto {
     @NotEmpty(message = "주의 사항 입력은 필수 입니다.")
     private String cafePrecaution;
 
-    @NotEmpty(message = "평일 요금 입력은 필수 입니다.")
+    @NotNull(message = "평일 요금 입력은 필수 입니다.")
     private Integer cafeWeekdayPrice;
 
-    @NotEmpty(message = "주말 요금 입력은 필수 입니다.")
+    @NotNull(message = "주말 요금 입력은 필수 입니다.")
     private Integer cafeWeekendPrice;
 
     private String cafeOpenTime;
