@@ -90,8 +90,7 @@ public class PostController {
     @GetMapping("/post/{id}")
     public String getPost(User loginUser, @PathVariable Long id, Model model) {
         if (loginUser != null) {
-            User user = userService.getUserByEmail(loginUser.getUserEmail());
-            model.addAttribute("user", user);
+            model.addAttribute("user", loginUser);
         }
         Post post = postService.getPostUpdatedCount(id);
         model.addAttribute("comments", commentService.getCommentByPostNumber(post));

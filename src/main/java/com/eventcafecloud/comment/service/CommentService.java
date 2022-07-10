@@ -42,7 +42,6 @@ public class CommentService {
                 .build();
     }
 
-
     @Transactional(readOnly = true)
     public List<CommentReadResponseDto> getCommentByPostNumber(Post post) {
         Optional<List<Comment>> comments = commentRepository.findByPost(post);
@@ -55,6 +54,7 @@ public class CommentService {
             commentReadResponseDto.setUserNickname(comment.getUser().getUserNickname());
             commentReadResponseDto.setUserImage(comment.getUser().getUserImage());
             commentReadResponseDto.setCreatedDate(comment.getCreatedDate());
+            commentReadResponseDto.setUserId(comment.getUser().getId());
             output.add(commentReadResponseDto);
         }
         return output;
@@ -68,12 +68,11 @@ public class CommentService {
         return id;
     }
 
-    public Long deleteComment(Long id) {
+    public void deleteComment(Long id) {
         try {
             commentRepository.deleteById(id);
         } catch (Exception e) {
             throw new IllegalArgumentException(COMMENT_NOT_FOUND.getMessage());
         }
-        return id;
     }
 }
