@@ -2,7 +2,6 @@ package com.eventcafecloud.comment.controller;
 
 import com.eventcafecloud.comment.dto.*;
 import com.eventcafecloud.comment.service.CommentService;
-import com.eventcafecloud.post.repository.PostRepository;
 import com.eventcafecloud.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 public class CommentController {
 
     private final CommentService commentService;
-    private final PostRepository postRepository;
 
     @PostMapping("/{postId}/comment/registration")
     public String createComment(@PathVariable Long postId, User loginUser,
@@ -26,12 +24,12 @@ public class CommentController {
         if (loginUser != null) {
             commentService.createComment(requestDto, postId, loginUser.getUserEmail());
             if (bindingResult.hasErrors()) {
-                return "post/postDetail";
+                return "post/postsDetail";
             } else {
-                return "redirect:/post/" + postId;
+                return "redirect:/posts/" + postId;
             }
         }
-        return "redirect:/post/" + postId;
+        return "redirect:/posts/" + postId;
     }
 
     @PutMapping("/comment/{id}")
@@ -40,9 +38,9 @@ public class CommentController {
         return commentService.updateComment(id, requestDto);
     }
 
-    @DeleteMapping("/comment/{id}")
-    public String deleteComment(@PathVariable Long id){
-        commentService.deleteComment(id);
-        return "redirect:/post/";
+    @DeleteMapping("/{postId}/comment/{commentId}")
+    public String deleteComment(@PathVariable Long commentId, @PathVariable Long postId){
+        commentService.deleteComment(commentId);
+        return "redirect:/posts/" + postId;
     }
 }
