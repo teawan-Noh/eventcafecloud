@@ -2,7 +2,6 @@ package com.eventcafecloud.comment.repository;
 
 import com.eventcafecloud.comment.domain.Comment;
 import com.eventcafecloud.post.domain.Post;
-import com.eventcafecloud.user.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
