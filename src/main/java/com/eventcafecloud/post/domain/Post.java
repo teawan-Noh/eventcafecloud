@@ -27,7 +27,7 @@ public class Post extends BaseTimeEntity {
     @Column(nullable = false)
     private String postTitle;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String postContent;
 
     @Column(nullable = false)
@@ -40,10 +40,10 @@ public class Post extends BaseTimeEntity {
     @JoinColumn(name = "user_number")
     private User user;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostImage> postImages = new ArrayList<>();
 
     public void updatePost(PostUpdateRequestDto requestDto) {

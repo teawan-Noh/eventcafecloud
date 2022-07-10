@@ -1,0 +1,11 @@
+.btn-primary {
+    background-color: #4C7A01;
+    color : #FFFFFF !important;
+    border-color: white;
+}
+
+#edit-buttons {
+    display: inline-block;
+    float: right;
+    margin-right: 30%;
+}

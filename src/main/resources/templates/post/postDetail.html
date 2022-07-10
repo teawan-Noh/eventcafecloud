@@ -3,74 +3,93 @@
 <head>
     <th:block th:replace="fragments/header :: header"/>
     <th:block th:replace="fragments/mainHeader :: mainHeader"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>EventCafeCloud</title>
-    <!-- REQUIRED SCRIPTS -->
+    <link rel="stylesheet" href="/css/board.css">
 
-    <!-- jQuery -->
-    <script src="${path}/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="${path}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="${path}/dist/js/adminlte.min.js"></script>
-    <!-- HandleBars JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
 </head>
 <body>
 <div th:replace="fragments/mainTop :: mainTop"></div>
-<div class="container">
-    <table class="table table-hover text-center">
-        <thead>
-        <tr>
-            <th>번호</th>
-            <th>제목</th>
-            <th>내용</th>
-            <th>조회수</th>
-            <th>작성일자</th>
-        </tr>
-        </thead>
-        <tbody id="post_box">
-        <tr>
-            <td th:text="${post.id}"></td>
-            <td th:text="${post.postTitle}"></td>
-            <td th:text="${post.postContent}"></td>
-            <td th:text="${post.postCount}"></td>
-            <td th:text="${#temporals.format(post.createdDate,'yyyy-MM-dd')}"></td>
-        </tr>
-        </tbody>
-    </table>
-    <hr>
-    <a th:if="${user != null && post.user.id == user.id}" th:href="@{/post/edit/{id}(id=${post.getId()})}" class="btn btn-default">수정하기</a>
-    <form id="delete-form" th:action="@{'/post/' + ${post.id}}" method="post">
-        <input type="hidden" name="_method" value="DELETE"/>
-        <button th:if="${user != null && post.user.id == user.id}" class="btn btn-btn-danger" id="delete">삭제하기</button>
-    </form>
-
-    <div>
-<!--        <th> ㄹㄹ</th>-->
-<!--        <td th:text="${comments.get}"></td>-->
+<div class="topBanner">
+    <div class="topFont">게시판</div>
+</div>
+<div class="left">
+    <div class="menuVar">
+        <ul>
+            <li><a class="menuVar-link" href="/post">공지게시판</a></li>
+            <li><a class="menuVar-link" href="/post">유저게시판</a></li>
+        </ul>
     </div>
-
-    <div>
-        <form role="form" th:action="@{/{postId}/comment/registration(postId=${post.id})}" th:object="${commentCreateRequestDto}" method="post">
-        <div class="card mb-2">
-            <div class="card-header bg-light">
-                <i class="fa fa-comment fa"></i> REPLY
+</div>
+<div class="right">
+    <div class="container">
+        <table class="table table-hover text-center">
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>조회수</th>
+                <th>작성일자</th>
+            </tr>
+            </thead>
+            <tbody id="post_box">
+            <tr>
+                <td th:text="${post.id}"></td>
+                <td th:text="${post.postTitle}"></td>
+                <td th:text="${post.postCount}"></td>
+                <td th:text="${#temporals.format(post.createdDate,'yyyy-MM-dd')}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <div id="post-content-box">
+            <td th:text="${post.postContent}" style="font-size: 30px;"></td>
+        </div>
+        <hr>
+        <div id="submit-buttons">
+            <a th:if="${user != null && post.user.id == user.id}" th:href="@{/post/edit/{id}(id=${post.getId()})}"
+               class="btn btn-default">수정하기</a>
+            <form id="delete-form" th:action="@{'/post/' + ${post.id}}" method="post">
+                <input type="hidden" name="_method" value="DELETE"/>
+                <button th:if="${user != null && post.user.id == user.id}" class="btn btn-btn-danger" id="delete">삭제하기
+                </button>
+            </form>
+        </div>
+        <hr>
+        <div>
+            <div id="comments-box">
+                <tr th:each="comment : ${comments}" th:onclick="|location.href='@{/post/{id} (id=${post.id})}'|">
+                    <img id="commentProfileImage" th:src="@{${comment.getUserImage()}}" alt="프로필사진">
+                    <a id="commentNickname" th:text="${comment.userNickname}" style="margin-left: 20px;"></a>
+                    <a id="commentContent" th:text="${comment.commentContent}" style="margin-left: 20px;"></a>
+                    <a id="commentCreatedDate" th:text="${#temporals.format(comment.createdDate,'yy.MM.dd HH:mm')}"></a>
+                    <hr>
+                </tr>
             </div>
-            <div class="card-body">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">
-                        <label th:for="commentContent"></label>
-                        <textarea th:field="*{commentContent}" placeholder="댓글 작성 시 타인에 대한 배려와 책임을 담아주세요." class="form-control"
-                                 id="exampleFormControlTextarea1" rows="3"></textarea>
-                        <button type="submit" class="btn btn-dark mt-3">작성</button>
-                    </li>
-                </ul>
+            <div>
+                <form role="form" th:action="@{/{postId}/comment/registration(postId=${post.id})}"
+                      th:object="${commentCreateRequestDto}" method="post">
+                    <div class="card mb-2">
+                        <div class="card-header bg-light">
+                            <i class="fa fa-comment fa"></i> REPLY
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <label th:for="commentContent"></label>
+                                    <textarea th:field="*{commentContent}" placeholder="댓글 작성 시 타인에 대한 배려와 책임을 담아주세요."
+                                              class="form-control"
+                                              id="exampleFormControlTextarea1" rows="3"
+                                              style="resize: none;"></textarea>
+                                    <button th:if="${user != null}" type="submit" class="btn btn-dark mt-3">작성</button>
+                                    <button th:if="${user == null}" type="button" class="btn btn-dark mt-3"
+                                            onclick='alert("로그인 후 이용해주세요!")'>작성
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
-        </form>
     </div>
-
 </div>
 </body>
 </html>
