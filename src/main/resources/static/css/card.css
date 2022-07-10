@@ -81,3 +81,12 @@
     padding: 5px;
     color: white;
 }
+
+#eventListContainer{
+    display: flex;
+}
+
+#eventListContainer .card div figure .card-img-top{
+    height: 100px;
+    background-color: blueviolet;
+}
