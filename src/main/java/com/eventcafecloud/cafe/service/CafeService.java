@@ -73,7 +73,7 @@ public class CafeService {
         cafeRepository.save(cafe);
     }
 
-//    public Page<Cafe> findAllCafeList3() {
+    //    public Page<Cafe> findAllCafeList3() {
 ////        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
 ////        Sort sort = Sort.by(direction, sortBy);
 ////        Pageable pageable = PageRequest.of(page, size, sort);
@@ -100,5 +100,12 @@ public class CafeService {
                 .collect(Collectors.toList());
 
         return cafeListResponseDtos;
+    }
+
+    public Page<Cafe> getCafeList(Pageable pageable) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 10);
+
+        return cafeRepository.findAll(pageable);
     }
 }
