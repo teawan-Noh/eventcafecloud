@@ -24,6 +24,9 @@
 </head>
 <body>
 <div th:replace="fragments/mainTop :: mainTop"/>
+<div class="topBanner">
+    <div class="topFont">카페 수정</div>
+</div>
 <div id="cafeContainer" class="container">
     <form role="form" th:action="@{/cafes/{id}(id=${cafeId})}" th:object="${cafeUpdateRequestDto}" method="post" enctype="multipart/form-data">
         <div class="form-group">

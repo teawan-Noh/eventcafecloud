@@ -49,6 +49,11 @@
     margin-top: 200px;
 }
 
+#cafeBox {
+    width: 70%;
+    margin: auto;
+}
+
 #cafeTop5 {
     width: 70%;
     margin: auto;
@@ -84,7 +89,7 @@
 
 
 /* Event Top 5 */
-#eventListContainer{
+#eventListContainer {
     width: 100%;
     text-align: center;
     display: flex;
@@ -92,7 +97,7 @@
     margin-right: auto;
 }
 
-#eventListContainer .card div figure .card-img-top{
+#eventListContainer .card div figure .card-img-top {
     height: 180px;
 }
 
@@ -107,7 +112,7 @@
 }
 
 .date-start {
-    float:left;
+    float: left;
     margin-left: 45px;
 }
 
