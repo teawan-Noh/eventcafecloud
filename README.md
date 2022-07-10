@@ -14,7 +14,7 @@
 -------
 ### ✅화면정의서
 
-[이곳](https://docs.google.com/presentation/d/1NcL2LhkpxiT_hn48Jt0d9rn4YK1FcUbjKchWoCLxBN8/edit#slide=id.g126f5bc7b55_1_7)을 눌러주세요
+[이곳](https://www.figma.com/file/T4AmUoxiHMfsUwEQywFTWv/EventCloudCafe)을 눌러주세요
 
 ---
 
