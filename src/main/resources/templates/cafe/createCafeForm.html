@@ -4,9 +4,7 @@
     <th:block th:replace="fragments/header :: header"/>
     <th:block th:replace="fragments/mainHeader :: mainHeader"/>
 
-    <!-- 다음 주소 API & 카카오 지도 API -->
-    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-    <script src="//dapi.kakao.com/v2/maps/sdk.js?appkey=54ccebb7b25645894bc9636f54e8617a&libraries=services,clusterer,drawing"></script>
+
     <!--    <link rel="stylesheet" type="text/css" href="/css/style.css">-->
     <style>
         #cafeContainer{
@@ -41,6 +39,39 @@
         <div class="form-group">
             <label th:for="cafeInfoDetail">상세 소개</label>
             <input type="text" th:field="*{cafeInfoDetail}" class="form-control" placeholder="상세 소개를 입력하세요">
+        </div>
+        <div class="form-group">
+            <label th:for="cafeOpenTime">영업 시작 시간
+                <select class="form-select form-select-sm mt-3" th:field="*{cafeOpenTime}">
+                    <option name="cafeOpenTime" value="00:00">00:00</option>
+                    <option name="cafeOpenTime" value="06:00">06:00</option>
+                    <option name="cafeOpenTime" value="07:00">07:00</option>
+                    <option name="cafeOpenTime" value="08:00">08:00</option>
+                    <option name="cafeOpenTime" value="09:00">09:00</option>
+                    <option name="cafeOpenTime" value="10:00">10:00</option>
+                    <option name="cafeOpenTime" value="11:00">11:00</option>
+                    <option name="cafeOpenTime" value="12:00">12:00</option>
+                    <option name="cafeOpenTime" value="13:00">13:00</option>
+                    <option name="cafeOpenTime" value="14:00">14:00</option>
+                    <option name="cafeOpenTime" value="15:00">15:00</option>
+                    <option name="cafeOpenTime" value="16:00">16:00</option>
+                    <option name="cafeOpenTime" value="17:00">17:00</option>
+                    <option name="cafeOpenTime" value="18:00">18:00</option>
+                </select>
+            </label>
+        </div>
+        <div class="form-group">
+            <label th:for="cafeCloseTime">영업 종료 시간
+                <select class="form-select form-select-sm mt-3" th:field="*{cafeCloseTime}">
+                    <option name="cafeCloseTime" value="24:00">24:00</option>
+                    <option name="cafeCloseTime" value="23:00">23:00</option>
+                    <option name="cafeCloseTime" value="22:00">22:00</option>
+                    <option name="cafeCloseTime" value="21:00">21:00</option>
+                    <option name="cafeCloseTime" value="20:00">20:00</option>
+                    <option name="cafeCloseTime" value="19:00">19:00</option>
+                    <option name="cafeCloseTime" value="18:00">18:00</option>
+                </select>
+            </label>
         </div>
         <div class="form-group">
             <label th:for="cafePrecaution">주의 사항</label>
@@ -112,7 +143,7 @@
     </div>
     <br/>
 </div>
-<script src="/js/kakaoMapApi.js"></script>
+<script src="/js/cafe/kakaoMapForRegistration.js"></script>
 </body>
 
 </html>
