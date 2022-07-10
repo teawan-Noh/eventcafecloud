@@ -62,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/login").permitAll()
                 .antMatchers("/events/**").permitAll()
                 .antMatchers("/cafes/**").permitAll()
-                .antMatchers("/post/**").permitAll()
+                .antMatchers("/posts/**").permitAll()
                 .antMatchers("/board/**").permitAll()
                 .antMatchers("/api/**").permitAll()
                 .anyRequest().authenticated() //설정된 값 이외의 나머지 URL, 인증된 사용자, 로그인한 사용자만 볼 수 있음

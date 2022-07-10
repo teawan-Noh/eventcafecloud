@@ -1,5 +1,6 @@
 package com.eventcafecloud.cafe.controller;
 
+import com.eventcafecloud.cafe.dto.CafeCalenderInfoResponseDto;
 import com.eventcafecloud.cafe.dto.CafeListResponseDto;
 import com.eventcafecloud.cafe.service.CafeService;
 import lombok.RequiredArgsConstructor;
@@ -28,5 +29,13 @@ public class CafeApiController {
     @GetMapping("/api/cafes/top5")
     public List<CafeListResponseDto> ReadCafeTopFive(){
         return cafeService.findCafeTopFiveList();
+    }
+
+
+    @GetMapping("/api/cafes/calender")
+    public List<CafeCalenderInfoResponseDto> ReadCafeEventInfo(@RequestParam Long id){
+        System.out.println(id);
+
+        return cafeService.findCafeEventListForCalender(id);
     }
 }

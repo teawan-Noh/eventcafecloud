@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface EventRepository extends JpaRepository<Event, Long> {
     List<Event> findTop5ByOrderByCreatedDateDesc();
+
+    List<Event> findALLByCafeId(Long id);
 }

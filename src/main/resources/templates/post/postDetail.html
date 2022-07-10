@@ -14,8 +14,8 @@
 <div class="left">
     <div class="menuVar">
         <ul>
-            <li><a class="menuVar-link" href="/post">공지게시판</a></li>
-            <li><a class="menuVar-link" href="/post">유저게시판</a></li>
+            <li><a class="menuVar-link" href="/posts">공지게시판</a></li>
+            <li><a class="menuVar-link" href="/posts">유저게시판</a></li>
         </ul>
     </div>
 </div>
@@ -44,22 +44,27 @@
         </div>
         <hr>
         <div id="submit-buttons">
-            <a th:if="${user != null && post.user.id == user.id}" th:href="@{/post/edit/{id}(id=${post.getId()})}"
+            <a th:if="${userId != null && post.user.id == userId}" th:href="@{/posts/update/{id}(id=${post.id})}"
                class="btn btn-default">수정하기</a>
-            <form id="delete-form" th:action="@{'/post/' + ${post.id}}" method="post">
+            <form id="delete-form" th:action="@{'/posts/' + ${post.id}}" method="post">
                 <input type="hidden" name="_method" value="DELETE"/>
-                <button th:if="${user != null && post.user.id == user.id}" class="btn btn-btn-danger" id="delete">삭제하기
+                <button th:if="${userId != null && post.user.id == userId}" class="btn btn-btn-danger" id="delete-comment">삭제하기
                 </button>
             </form>
         </div>
         <hr>
         <div>
             <div id="comments-box">
-                <tr th:each="comment : ${comments}" th:onclick="|location.href='@{/post/{id} (id=${post.id})}'|">
+                <tr th:each="comment : ${comments}">
                     <img id="commentProfileImage" th:src="@{${comment.getUserImage()}}" alt="프로필사진">
                     <a id="commentNickname" th:text="${comment.userNickname}" style="margin-left: 20px;"></a>
                     <a id="commentContent" th:text="${comment.commentContent}" style="margin-left: 20px;"></a>
                     <a id="commentCreatedDate" th:text="${#temporals.format(comment.createdDate,'yy.MM.dd HH:mm')}"></a>
+                    <form id="deleteComment-form" th:action="@{'/'+ ${post.id} + '/comment/' + ${comment.id}}" method="post">
+                        <input type="hidden" name="_method" value="DELETE"/>
+                        <button th:if="${userId != null && comment.userId == userId}" class="btn-danger" id="comment-delete">x
+                        </button>
+                    </form>
                     <hr>
                 </tr>
             </div>
@@ -78,8 +83,8 @@
                                               class="form-control"
                                               id="exampleFormControlTextarea1" rows="3"
                                               style="resize: none;"></textarea>
-                                    <button th:if="${user != null}" type="submit" class="btn btn-dark mt-3">작성</button>
-                                    <button th:if="${user == null}" type="button" class="btn btn-dark mt-3"
+                                    <button th:if="${userId != null}" type="submit" class="btn btn-dark mt-3">작성</button>
+                                    <button th:if="${userId == null}" type="button" class="btn btn-dark mt-3"
                                             onclick='alert("로그인 후 이용해주세요!")'>작성
                                     </button>
                                 </li>

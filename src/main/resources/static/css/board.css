@@ -64,3 +64,11 @@
 #comments-box {
     word-break: break-word;
 }
+
+#comment-delete {
+    float: right;
+    width: 20px;
+    height: 20px;
+    margin-right: 20px;
+}
+
