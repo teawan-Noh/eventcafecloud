@@ -68,3 +68,11 @@ a:visited {
     margin-bottom: 5px;
     color: white;
 }
+
+.user-nick {
+    font-weight: bold;
+    font-size: 17px;
+    border-bottom: darkorange;
+    border-width: 0px 0px 1px 0px;
+    border-style: solid;
+}
