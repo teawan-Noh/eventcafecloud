@@ -31,7 +31,10 @@ public class EventController {
     @Secured("ROLE_NORMAL")
     @GetMapping("/events/registration")
     public String createEventForm(User loginUser, Model model) {
-        model.addAttribute("user", loginUser);
+        if (loginUser != null) {
+            model.addAttribute("userNick", loginUser.getUserNickname());
+            model.addAttribute("userId", loginUser.getId());
+        }
         model.addAttribute("eventCreateRequestDto", new EventCreateRequestDto());
         return "event/createEventForm";
     }
@@ -76,7 +79,10 @@ public class EventController {
     public String eventList(User loginUser, Model model) {
         List<EventListResponseDto> eventListResponseDtos = eventService.findEventList();
         model.addAttribute("eventListResponseDtos", eventListResponseDtos);
-        model.addAttribute("user", loginUser);
+        if (loginUser != null) {
+            model.addAttribute("userNick", loginUser.getUserNickname());
+            model.addAttribute("userId", loginUser.getId());
+        }
         return "event/eventList";
     }
 
@@ -84,7 +90,8 @@ public class EventController {
     @GetMapping("/events/{eventNumber}")
     public String eventDetail(User loginUser, @PathVariable Long eventNumber, Model model) {
         if (loginUser != null) {
-            model.addAttribute("user", loginUser);
+            model.addAttribute("userNick", loginUser.getUserNickname());
+            model.addAttribute("userId", loginUser.getId());
         }
 
         EventReadResponseDto eventReadResponseDto = eventService.findEvent(eventNumber);
