@@ -37,7 +37,7 @@ public class EventService {
 
         User user = userRepository.getById(securityUser.getId());
 
-        Cafe cafe = cafeRepository.findById(1L).orElseThrow(
+        Cafe cafe = cafeRepository.findById(requestDto.getCafeNumber()).orElseThrow(
                 () -> new NullPointerException("해당 카페가 존재하지 않습니다.")
         );
 
