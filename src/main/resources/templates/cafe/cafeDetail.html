@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="fragments/header :: header"/>
+    <th:block th:replace="fragments/mainHeader :: mainHeader"/>
+
+    <style>
+        #mainContainer {
+            width: 70%;
+            margin: auto;
+        }
+
+        #cafeDetailTop ul {
+            display: flex;
+        }
+
+        #cafeDetailTop ul li {
+            font-size: 0.8em;
+            color: black;
+            margin-right: 10px;
+            padding: 3px 4px;
+            border: solid 1px lightslategray;
+            border-radius: 50%;
+        }
+
+        #cafeDetailTop .titleBox {
+            font-weight: bold;
+        }
+
+        #cafeDetailMiddle {
+            display: flex;
+            padding-top: 50px;
+        }
+
+        #cafeDetailMiddle .leftImgBox {
+            width: 70%;
+        }
+
+        #cafeDetailMiddle .rightInfoBox {
+            width: 30%;
+            background-color: lightblue;
+        }
+        /*#staticMap{*/
+        /*    width: 70%;*/
+        /*    height: 30%;*/
+        /*}*/
+    </style>
+</head>
+<body>
+<div th:replace="fragments/mainTop :: mainTop"/>
+<div id="mainContainer">
+    <div id="cafeDetailTop">
+        <div class="titleBox">
+            <h1 th:text="${cafeDetailResponseDto.getCafeName()}"></h1>
+        </div>
+        <div class="infoBox">
+            <h3 th:text="${cafeDetailResponseDto.getCafeInfo()}"></h3>
+        </div>
+        <div class="optionBox">
+            <ul>
+                <li th:each="cafeOption : ${cafeDetailResponseDto.getCafeOptions()}" th:text="'#'+${cafeOption}"></li>
+            </ul>
+        </div>
+    </div>
+    <div id="cafeDetailMiddle">
+        <div class="leftImgBox">
+            <!-- Carousel -->
+            <div id="demo" class="carousel slide" data-bs-ride="carousel">
+                <!--     이미지 슬라이드 타임리프로 처리하는법 모르겠슈  active가 껴있어서 이걸 어떻게 해야하나 문제네     -->
+                <!-- The slideshow/carousel -->
+                <div class="carousel-inner">
+                    <div class="carousel-item active" th:each="cafeImg : ${cafeDetailResponseDto.getCafeImgUrls()}">
+                        <img alt="Los Angeles" class="d-block" th:src="${cafeImg}" style="width:100%">
+                        <div class="carousel-caption">
+                        </div>
+                    </div>
+                    <!--                <div class="carousel-item">-->
+                    <!--                    <img alt="Chicago" class="d-block" src="/banner2.png" style="width:100%">-->
+                    <!--                    <div class="carousel-caption">-->
+                    <!--                    </div>-->
+                    <!--                </div>-->
+                    <!--                <div class="carousel-item">-->
+                    <!--                    <img alt="New York" class="d-block" src="/banner3.png" style="width:100%">-->
+                    <!--                    <div class="carousel-caption">-->
+                    <!--                    </div>-->
+                    <!--                </div>-->
+                </div>
+
+                <!-- Left and right controls/icons -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#demo" data-bs-slide="next">
+                    <span class="carousel-control-next-icon"></span>
+                </button>
+            </div>
+        </div>
+        <div class="rightInfoBox">
+            <div id="cafePriceInfo">
+                <p th:text="'평일 가격' + ${#numbers.formatInteger(cafeDetailResponseDto.getCafeWeekdayPrice(), 3, 'COMMA') + '원'}"></p>
+                <p th:text="'주말 가격' + ${#numbers.formatInteger(cafeDetailResponseDto.getCafeWeekendPrice(), 3, 'COMMA') + '원'}"></p>
+            </div>
+            <div id='calendar-container'>
+                <div id='calendar'></div>
+            </div>
+        </div>
+    </div>
+    <div id="cafeDetailBottom">
+        <div id="cafeInfoDetail">
+            <h3>상세 정보</h3>
+            <h5 th:text="${cafeDetailResponseDto.getCafeInfoDetail()}"></h5>
+        </div>
+        <div id="openHour">
+            <span>영업 시간 : </span>
+            <span th:text="${cafeDetailResponseDto.getCafeOpenTime()} + ' ~ ' + ${cafeDetailResponseDto.getCafeCloseTime()}"></span>
+        </div>
+        <div id="cafePrecaution">
+            <h3>유의사항</h3>
+            <p th:text="${cafeDetailResponseDto.getCafePrecaution()}"></p>
+        </div>
+        <div id="cafeLocationInfo">
+            <div class="cafeAddress">
+                <p th:text="${cafeDetailResponseDto.getCafeZonecode()} + ' &nbsp;' + ${cafeDetailResponseDto.getCafeAddress()}"></p>
+                <p th:text="${cafeDetailResponseDto.getCafeAddressDetail()}"></p>
+            </div>
+            <div id="staticMap" style="width:600px;height:350px;"></div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script th:inline="javascript">
+    let x = [[${cafeDetailResponseDto.getCafeX()}]];
+    let y = [[${cafeDetailResponseDto.getCafeY()}]];
+</script>
+<script src="/js/cafe/kakaoMapForDetail.js"></script>
+
+
+</html>

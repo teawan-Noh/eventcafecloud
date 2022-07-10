@@ -1,9 +1,9 @@
 package com.eventcafecloud.cafe.controller;
 
 import com.eventcafecloud.cafe.dto.CafeCreateRequestDto;
+import com.eventcafecloud.cafe.dto.CafeDetailResponseDto;
 import com.eventcafecloud.cafe.dto.CafeReviewRequestDto;
 import com.eventcafecloud.cafe.service.CafeService;
-import com.eventcafecloud.oauth.token.AuthTokenProvider;
 import com.eventcafecloud.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.annotation.Secured;
@@ -22,7 +22,7 @@ public class CafeController {
 
     private final CafeService cafeService;
 
-    @Secured("ROLE_HOST")
+//    @Secured("ROLE_HOST")
     @GetMapping("/cafes/registration")
     public String cafeCreateForm(Model model, User loginUser){
 
@@ -40,6 +40,7 @@ public class CafeController {
         if(result.hasErrors()){
             return "cafe/createCafeForm";
         }
+        System.out.println("CafeCreateRequestDto openTime= " + requestDto.getCafeOpenTime());
         cafeService.createCafe(requestDto, loginUser);
 
         return "redirect:/";
@@ -56,11 +57,20 @@ public class CafeController {
     }
 
     @GetMapping("/cafes/allList")
-    public String cafeListPage(User loginUser, Model model){
+    public String getCafeListPage(User loginUser, Model model){
         if (loginUser != null) {
             model.addAttribute("userNick", loginUser.getUserNickname());
         }
 
         return "cafe/cafeList";
+    }
+
+    @GetMapping("/cafes/{id}/detail")
+    public String getCafeDetailPage(@PathVariable Long id, Model model){
+        CafeDetailResponseDto cafeDetailResponseDto = cafeService.findCafeById(id);
+
+        model.addAttribute("cafeDetailResponseDto", cafeDetailResponseDto);
+
+        return "cafe/cafeDetail";
     }
 }
