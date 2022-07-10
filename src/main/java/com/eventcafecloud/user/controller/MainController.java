@@ -40,7 +40,7 @@ public class MainController {
         return "register/register-host";
     }
 
-    @PostMapping("/api/host/registration")
+    @PostMapping("/api/hosts/registration")
     public String saveHostUser(HostUserCreateRequestDto requestDto) {
 
         userService.saveHostUser(requestDto);
