@@ -116,12 +116,23 @@ public class CafeService {
         return new CafeDetailResponseDto(cafe);
     }
 
-
     public CafeUpdateRequestDto findCafeByIdForUpdate(Long id) {
 
         Cafe cafe = cafeRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
 
-        return new CafeUpdateRequestDto(cafe);
+        return CafeUpdateRequestDto.test(cafe);
+//        return new CafeUpdateRequestDto(cafe);
+    }
+
+    @Transactional
+    public void modifyCafe(Long id, CafeUpdateRequestDto requestDto) {
+        Cafe cafe = cafeRepository.getById(id);
+        cafe.updateCafeInfo(requestDto);
+    }
+
+    @Transactional
+    public void removeCafe(Long id) {
+        cafeRepository.deleteById(id);
     }
 }

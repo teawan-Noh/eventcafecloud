@@ -1,7 +1,9 @@
 package com.eventcafecloud.cafe.dto;
 
 import com.eventcafecloud.cafe.domain.Cafe;
+import com.eventcafecloud.cafe.domain.CafeOptionType;
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,7 +11,6 @@ import java.util.stream.Collectors;
 @Data
 public class CafeUpdateRequestDto {
 
-    private Long cafeNumber;
     private String cafeName;
     private int cafeZonecode;
     private String cafeAddress;
@@ -25,27 +26,43 @@ public class CafeUpdateRequestDto {
     private int cafeWeekendPrice;
     private String cafeOpenTime;
     private String cafeCloseTime;
-    private List<String> cafeOptions;
-
+    private List<CafeOptionType> options;
+    private List<MultipartFile> files;
 //    private List<CafeReview> cafeReviews = new ArrayList<>();
 
-    public CafeUpdateRequestDto(Cafe cafe) {
-        cafeNumber = cafe.getId();
-        cafeName = cafe.getCafeName();
-        cafeZonecode = cafe.getCafeZonecode();
-        cafeAddress = cafe.getCafeAddress();
-        cafeAddressDetail = cafe.getCafeAddressDetail();
-        cafeX = cafe.getCafeX();
-        cafeY = cafe.getCafeY();
-        cafeInfo = cafe.getCafeInfo();
-        cafeInfoDetail = cafe.getCafeInfoDetail();
-        cafePrecaution = cafe.getCafePrecaution();
-        cafeWeekdayPrice = cafe.getCafeWeekdayPrice();
-        cafeWeekendPrice = cafe.getCafeWeekendPrice();
-        cafeOpenTime = cafe.getCafeOpenTime();
-        cafeCloseTime = cafe.getCafeCloseTime();
-        cafeOptions = cafe.getCafeOptions().stream()
-                .map(i -> i.getCafeOptionType().toString())
-                .collect(Collectors.toList());
+    // 생성자로
+//    public CafeUpdateRequestDto(Cafe cafe) {
+//        cafeName = cafe.getCafeName();
+//        cafeZonecode = cafe.getCafeZonecode();
+//        cafeAddress = cafe.getCafeAddress();
+//        cafeAddressDetail = cafe.getCafeAddressDetail();
+//        cafeX = cafe.getCafeX();
+//        cafeY = cafe.getCafeY();
+//        cafeInfo = cafe.getCafeInfo();
+//        cafeInfoDetail = cafe.getCafeInfoDetail();
+//        cafePrecaution = cafe.getCafePrecaution();
+//        cafeWeekdayPrice = cafe.getCafeWeekdayPrice();
+//        cafeWeekendPrice = cafe.getCafeWeekendPrice();
+//        cafeOpenTime = cafe.getCafeOpenTime();
+//        cafeCloseTime = cafe.getCafeCloseTime();
+//    }
+
+    public static CafeUpdateRequestDto test(Cafe cafe) {
+        CafeUpdateRequestDto abc = new CafeUpdateRequestDto();
+        abc.cafeName = cafe.getCafeName();
+        abc.cafeZonecode = cafe.getCafeZonecode();
+        abc.cafeAddress = cafe.getCafeAddress();
+        abc.cafeAddressDetail = cafe.getCafeAddressDetail();
+        abc.cafeX = cafe.getCafeX();
+        abc.cafeY = cafe.getCafeY();
+        abc.cafeInfo = cafe.getCafeInfo();
+        abc.cafeInfoDetail = cafe.getCafeInfoDetail();
+        abc.cafePrecaution = cafe.getCafePrecaution();
+        abc.cafeWeekdayPrice = cafe.getCafeWeekdayPrice();
+        abc.cafeWeekendPrice = cafe.getCafeWeekendPrice();
+        abc.cafeOpenTime = cafe.getCafeOpenTime();
+        abc.cafeCloseTime = cafe.getCafeCloseTime();
+
+        return abc;
     }
 }

@@ -26,8 +26,11 @@ public class CafeController {
     @GetMapping("/cafes/registration")
     public String cafeCreateForm(Model model, User loginUser){
 
+        if (loginUser != null) {
+            model.addAttribute("userNick", loginUser.getUserNickname());
+            model.addAttribute("userId", loginUser.getId());
+        }
         model.addAttribute("cafeCreateRequestDto", new CafeCreateRequestDto());
-        model.addAttribute("userNick", loginUser.getUserNickname());
 
         return "cafe/createCafeForm";
     }
@@ -41,7 +44,6 @@ public class CafeController {
         if(result.hasErrors()){
             return "cafe/createCafeForm";
         }
-        System.out.println("CafeCreateRequestDto openTime= " + requestDto.getCafeOpenTime());
         cafeService.createCafe(requestDto, loginUser);
 
         return "redirect:/";
@@ -60,8 +62,10 @@ public class CafeController {
     // 카페 전체 조회
     @GetMapping("/cafes/allList")
     public String getCafeListPage(User loginUser, Model model){
+
         if (loginUser != null) {
             model.addAttribute("userNick", loginUser.getUserNickname());
+            model.addAttribute("userId", loginUser.getId());
         }
 
         return "cafe/cafeList";
@@ -69,7 +73,12 @@ public class CafeController {
 
     // 카페 상세보기
     @GetMapping("/cafes/{id}/detail")
-    public String getCafeDetailPage(@PathVariable Long id, Model model){
+    public String getCafeDetailPage(@PathVariable Long id, Model model, User loginUser){
+
+        if (loginUser != null) {
+            model.addAttribute("userNick", loginUser.getUserNickname());
+            model.addAttribute("userId", loginUser.getId());
+        }
         CafeDetailResponseDto cafeDetailResponseDto = cafeService.findCafeByIdForDetail(id);
 
         model.addAttribute("cafeDetailResponseDto", cafeDetailResponseDto);
@@ -79,20 +88,36 @@ public class CafeController {
 
     // 카페 수정 페이지 호출
     @GetMapping("/cafes/updateForm")
-    public String getCafeUpdatePage(Model model, @RequestParam Long id){
+    public String getCafeUpdatePage(Model model, @RequestParam Long id, User loginUser){
+        if (loginUser != null) {
+            model.addAttribute("userNick", loginUser.getUserNickname());
+            model.addAttribute("userId", loginUser.getId());
+        }
         CafeUpdateRequestDto CafeUpdateRequestDto = cafeService.findCafeByIdForUpdate(id);
 
-
-//        model.addAttribute("cafeCreateRequestDto", new CafeCreateRequestDto());
         model.addAttribute("cafeUpdateRequestDto", CafeUpdateRequestDto);
+        model.addAttribute("cafeId", id);
 
         return "cafe/updateCafeForm";
     }
 
-//    @PutMapping("/cafes/{id}/update")
-//    public String updateCafeInfo(@PathVariable Long id, @Valid CafeCreateRequestDto requestDto){
-//
-//
-//        return "redirect:/cafes/allList";
-//    }
+    // 카페 수정
+    @PostMapping("/cafes/{id}")
+    public String updateCafeInfo(@PathVariable Long id, @Valid CafeUpdateRequestDto requestDto, BindingResult result){
+        System.out.println(id);
+        System.out.println(requestDto);
+        if(result.hasErrors()){
+            return "/cafes/updateForm?id="+id;
+        }
+        cafeService.modifyCafe(id, requestDto);
+        return "redirect:/cafes/allList";
+    }
+
+    // 카페 삭제
+    @DeleteMapping("/cafes/{id}")
+    public String deleteCafe(@PathVariable Long id){
+        cafeService.removeCafe(id);
+
+        return "redirect:/";
+    }
 }
