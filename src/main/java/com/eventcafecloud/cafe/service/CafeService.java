@@ -5,6 +5,8 @@ import com.eventcafecloud.cafe.domain.*;
 import com.eventcafecloud.cafe.dto.*;
 import com.eventcafecloud.cafe.repository.CafeRepository;
 import com.eventcafecloud.cafe.repository.CafeReviewRepository;
+import com.eventcafecloud.event.domain.Event;
+import com.eventcafecloud.event.repository.EventRepository;
 import com.eventcafecloud.s3.S3Service;
 import com.eventcafecloud.user.domain.User;
 import com.eventcafecloud.user.repository.UserRepository;
@@ -30,6 +32,7 @@ public class CafeService {
     private final CafeRepository cafeRepository;
     private final UserRepository userRepoistory;
     private final CafeReviewRepository cafeReviewRepository;
+    private final EventRepository eventRepository;
     private final S3Service s3Service;
 
     // 리뷰등록
@@ -134,5 +137,15 @@ public class CafeService {
     @Transactional
     public void removeCafe(Long id) {
         cafeRepository.deleteById(id);
+    }
+
+    public List<CafeCalenderInfoResponseDto> findCafeEventListForCalender(Long id) {
+        List<Event> eventList = eventRepository.findALLByCafeId(id);
+        System.out.println(eventList);
+        List<CafeCalenderInfoResponseDto> cafeCalenderInfoResponseDtos = eventList.stream()
+                .map(e -> new CafeCalenderInfoResponseDto(e))
+                .collect(Collectors.toList());
+
+        return cafeCalenderInfoResponseDtos;
     }
 }
