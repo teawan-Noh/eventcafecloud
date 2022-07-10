@@ -2,10 +2,7 @@ package com.eventcafecloud.cafe.service;
 
 
 import com.eventcafecloud.cafe.domain.*;
-import com.eventcafecloud.cafe.dto.CafeCreateRequestDto;
-import com.eventcafecloud.cafe.dto.CafeDetailResponseDto;
-import com.eventcafecloud.cafe.dto.CafeListResponseDto;
-import com.eventcafecloud.cafe.dto.CafeReviewRequestDto;
+import com.eventcafecloud.cafe.dto.*;
 import com.eventcafecloud.cafe.repository.CafeRepository;
 import com.eventcafecloud.cafe.repository.CafeReviewRepository;
 import com.eventcafecloud.s3.S3Service;
@@ -105,10 +102,19 @@ public class CafeService {
         return cafeListResponseDtos;
     }
 
-    public CafeDetailResponseDto findCafeById(Long id) {
+    public CafeDetailResponseDto findCafeByIdForDetail(Long id) {
         Cafe cafe = cafeRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
 
         return new CafeDetailResponseDto(cafe);
+    }
+
+
+    public CafeUpdateRequestDto findCafeByIdForUpdate(Long id) {
+
+        Cafe cafe = cafeRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
+
+        return new CafeUpdateRequestDto(cafe);
     }
 }
