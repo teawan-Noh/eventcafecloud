@@ -33,7 +33,7 @@ function getCafeList() {
         totalNumberLocator: (response) => {
             return response.totalElements;
         },
-        pageSize: 2,
+        pageSize: 3,
         showPrevious: true,
         showNext: true,
         ajax: {
