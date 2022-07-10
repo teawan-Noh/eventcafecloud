@@ -22,6 +22,7 @@ public class MainController {
     public String main(User loginUser, Model model) {
         if (loginUser != null) {
             model.addAttribute("userNick", loginUser.getUserNickname());
+            model.addAttribute("userId", loginUser.getId());
         }
         return "index";
     }
