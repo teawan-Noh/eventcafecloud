@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <div class="mainTop" th:fragment="mainTop">
     <ul class="nav">
         <div onclick="location.href='/'">
@@ -15,7 +15,9 @@
             <a class="nav-link" href="/post">게시판</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="/cafes/registration" style="color: #4C7A01">카페등록</a>
+            <a class="nav-link" href="/cafes/registration" sec:authorize="hasRole('ROLE_HOST')" style="color: #4C7A01">카페등록</a>
+            <a class="nav-link" href="/hosts/registration" sec:authorize="hasRole('ROLE_NORMAL')"
+               style="color: #4C7A01">사업자등록</a>
         </li>
     </ul>
     <div class="user_status">

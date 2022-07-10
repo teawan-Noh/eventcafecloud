@@ -5,6 +5,21 @@ body {
     font-family: 'IBM Plex Sans KR', sans-serif;
 }
 
+#certificationBox {
+    width: 60%;
+    background-color: #F5F5DC;
+    margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+}
+
+.nameTag {
+    font-size: 30px;
+    font-weight: bold;
+    color: #2b2a29;
+}
+
 .profile-user-img {
     margin-top: 20px;
     margin: auto;
@@ -113,11 +128,27 @@ li a:hover {
     margin-bottom: 20px
 }
 
+.inputForm {
+    margin-bottom: 10px;
+}
+
 .cafeBtn {
     background-color: #4C7A01;
     color: white;
     font-weight: bold;
     border: lavender;
+}
+
+.button-box {
+    text-align: center;
+}
+
+.cafeBtn-center {
+    background-color: #4C7A01;
+    color: white;
+    font-weight: bold;
+    border: lavender;
+    margin-right: 20px;
 }
 
 .topBanner {
@@ -135,6 +166,17 @@ li a:hover {
 
 .profile-form {
     padding-top: 20px;
+}
+
+.warning-box {
+    width: 80%;
+    margin-left: 8px;
+    margin-top: 20px;
+    background-color: #F5F5DC;
+    color: #2b2a29;
+    padding: 10px;
+    font-weight: bold;
+    border-radius: 0px 0px 20px 0px;
 }
 
 .warning-message {
