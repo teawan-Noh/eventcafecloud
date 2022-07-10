@@ -13,5 +13,5 @@ public class CommentReadResponseDto {
     private String userNickname;
     private String userImage;
     private LocalDateTime createdDate;
-
+    private Long userId;
 }

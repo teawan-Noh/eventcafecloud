@@ -70,7 +70,7 @@ public class PostService {
 //        return postRepository.findAll(pageable);
 //    }
 
-    //게시글 ID로 조회
+//    게시글 ID로 조회
     @Transactional(readOnly = true)
     public Post findPostById(Long id) {
         return postRepository.findById(id).orElseThrow(() ->
@@ -84,4 +84,13 @@ public class PostService {
         post.updateCount();
         return post;
     }
+
+
+    //리팩토링 이후 사용예정
+//    public PostUpdateRequestDto findPostByIdForUpdate(Long id) {
+//        Post post = postRepository.findById(id).orElseThrow(
+//                () -> new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
+//        return new PostUpdateRequestDto(post);
+//    }
+
 }

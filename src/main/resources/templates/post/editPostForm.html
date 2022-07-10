@@ -27,21 +27,22 @@
 <div class="left">
   <div class="menuVar">
     <ul>
-      <li><a class="menuVar-link" href="/post">공지게시판</a></li>
-      <li><a class="menuVar-link" href="/post">유저게시판</a></li>
+      <li><a class="menuVar-link" href="/posts">공지게시판</a></li>
+      <li><a class="menuVar-link" href="/posts">유저게시판</a></li>
     </ul>
   </div>
 </div>
 <div class="right">
-<form role="form" th:action="@{/post/edit/{id}(id=${postUpdateRequestDto.id})}" th:object="${postUpdateRequestDto}" method="post" enctype="multipart/form-data" style="margin-left: 20%;">
+<form role="form" th:action="@{/posts/update/{id}(id=${postId})}" th:object="${postUpdateRequestDto}"
+      method="post" enctype="multipart/form-data" style="margin-left: 20%;">
   <input type="hidden" name="_method" value="put"/>
-  <div class="form-group">
+  <div class="form-group" id="update-content-box">
     <label th:for="postContent" style="font-size: 20px; margin-left: 20px;">내용</label>
     <textarea type="text" th:field="*{postContent}" class="form-control" placeholder="내용을 입력하세요"
            th:class="${#fields.hasErrors('postContent')}? 'form-control fieldError' : 'form-control'" rows="10" style="resize: none; width: 70%;"></textarea>
     <p th:if="${#fields.hasErrors('postContent')}" th:errors="*{postContent}"></p>
     <div id="edit-buttons">
-      <a th:href="@{/post/{id}(id=${postUpdateRequestDto.id})}" class="btn btn-default">돌아가기</a>
+      <a th:href="@{/posts/{id}(id=${postUpdateRequestDto.getId()})}" class="btn btn-default">돌아가기</a>
       <button type="submit" class="btn btn-primary" id="insert">저장하기</button>
     </div>
   </div>

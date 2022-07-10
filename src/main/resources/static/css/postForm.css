@@ -8,4 +8,13 @@
     display: inline-block;
     float: right;
     margin-right: 30%;
+    margin-top : 10px;
+}
+
+#update-content-box {
+    margin-top: 3%;
+}
+
+#create-content-box{
+    margin-top: 3%;
 }

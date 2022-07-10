@@ -3,7 +3,6 @@
 <head>
     <th:block th:replace="fragments/header :: header"/>
     <th:block th:replace="fragments/mainHeader :: mainHeader"/>
-    <script src="../../static/js/board.js"></script>
     <link rel="stylesheet" href="../../static/css/board.css">
     <title>EventCafeCloud</title>
 </head>
@@ -16,8 +15,8 @@
 <div class="left">
     <div class="menuVar">
         <ul>
-            <li><a class="menuVar-link" href="/post">공지게시판</a></li>
-            <li><a class="menuVar-link" href="/post">유저게시판</a></li>
+            <li><a class="menuVar-link" href="/posts">공지게시판</a></li>
+            <li><a class="menuVar-link" href="/posts">유저게시판</a></li>
         </ul>
     </div>
 </div>
@@ -34,7 +33,7 @@
             </tr>
             </thead>
             <tbody id="post_box">
-            <tr th:each="post : ${posts}" th:onclick="|location.href='@{/post/{id} (id=${post.id})}'|">
+            <tr th:each="post : ${posts}" th:onclick="|location.href='@{/posts/{id} (id=${post.id})}'|">
                 <td th:text="${post.id}"></td>
                 <td th:text="${post.userNickname}"></td>
                 <td th:text="${post.postTitle}"></td>
@@ -55,11 +54,11 @@
             </ul>
         </div>
 
-        <button th:if="${user == null}" class="submit post-button btn btn-outline-info float-right"
+        <button th:if="${userId == null}" class="submit post-button btn btn-outline-info float-right"
                 onclick='alert("로그인 후 이용해주세요!")'>글쓰기
         </button>
-        <button th:if="${user != null}" class="submit post-button btn btn-outline-info float-right"
-                th:onclick="|location.href='@{/post/registration}'|">글쓰기
+        <button th:if="${userId != null}" class="submit post-button btn btn-outline-info float-right"
+                th:onclick="|location.href='@{/posts/registration}'|">글쓰기
         </button>
     </div>
 </div>

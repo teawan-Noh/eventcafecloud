@@ -6,7 +6,6 @@ import com.eventcafecloud.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -25,12 +24,12 @@ public class CommentController {
         if (loginUser != null) {
             commentService.createComment(requestDto, postId, loginUser.getUserEmail());
             if (bindingResult.hasErrors()) {
-                return "post/postDetail";
+                return "post/postsDetail";
             } else {
-                return "redirect:/post/" + postId;
+                return "redirect:/posts/" + postId;
             }
         }
-        return "redirect:/post/" + postId;
+        return "redirect:/posts/" + postId;
     }
 
     @PutMapping("/comment/{id}")
@@ -39,16 +38,9 @@ public class CommentController {
         return commentService.updateComment(id, requestDto);
     }
 
-    @DeleteMapping("/comment/{id}")
-    @ResponseBody
-    public Long deleteComment(@PathVariable Long id){
-        return commentService.deleteComment(id);
-    }
-
-    @Transactional(readOnly = true)
-    @GetMapping("/comment/registration")
-    public String createComment(Model model) {
-        model.addAttribute("commentCreateRequestDto", new CommentCreateRequestDto());
-        return "post/postDetail";
+    @DeleteMapping("/{postId}/comment/{commentId}")
+    public String deleteComment(@PathVariable Long commentId, @PathVariable Long postId){
+        commentService.deleteComment(commentId);
+        return "redirect:/posts/" + postId;
     }
 }
