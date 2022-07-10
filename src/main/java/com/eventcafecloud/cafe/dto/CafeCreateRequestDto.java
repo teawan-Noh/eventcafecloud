@@ -36,6 +36,10 @@ public class CafeCreateRequestDto {
 
     private Integer cafeWeekendPrice;
 
+    private String cafeOpenTime;
+
+    private String cafeCloseTime;
+
     private List<MultipartFile> files;
 
     private List<CafeOptionType> options;

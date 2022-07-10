@@ -43,7 +43,6 @@ function getCafeList() {
         },
         callback: function (data, pagination) {
             $('#cafeListContainer').empty();
-            console.log(data);
             for (let cafe of data) {
                 let tempHtml = makeHtml(cafe);
                 $('#cafeListContainer').append(tempHtml);
@@ -53,13 +52,13 @@ function getCafeList() {
 }
 
 function makeHtml(cafe) {
-    const id = cafe["id"];
+    const id = cafe["cafeNumber"];
     const cafeName = cafe["cafeName"];
     const cafeInfo = cafe["cafeInfo"];
     const cafeWeekdayPrice = cafe["cafeWeekdayPrice"];
     const cafeImgUrl = cafe["cafeImgUrl"];
 
-    return `<div class="card" onclick="#">
+    return `<div class="card" onclick="location.href='/cafes/${id}/detail'">
                         <div class="card-image">
                             <figure class="image is-4by3">
                                 <img src="${cafeImgUrl}" class="card-img-top" alt="Placeholder image">

@@ -25,10 +25,10 @@
 <body>
 <div th:replace="fragments/mainTop :: mainTop"/>
 <div id="cafeContainer" class="container">
-    <form role="form" action="/cafes" th:object="${cafeCreateRequestDto}" method="post" enctype="multipart/form-data">
+    <form role="form" action="/cafes" th:object="${cafeUpdateRequestDto}" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label th:for="cafeName">카페 이름</label>
-            <input type="text" th:field="*{cafeName}" class="form-control" placeholder="카페 이름을 입력하세요"
+            <input type="text" th:field="*{cafeName}" class="form-control" placeholder="카페 이름을 입력하세요" th:value="${cafeDetailResponseDto.getCafeName()}"
                    th:class="${#fields.hasErrors('cafeName')}? 'form-control fieldError' : 'form-control'">
             <p th:if="${#fields.hasErrors('cafeName')}" th:errors="*{cafeName}">Incorrect date</p>
         </div>
@@ -111,7 +111,7 @@
         <br />
         <div>
             카페 이미지를 업로드해 주세요. <small>* Ctrl 클릭으로 여러장 선택</small><br />
-            <input type="file" multiple="multiple" th:field="*{files}" name="imageFiles">
+<!--            <input type="file" multiple="multiple" th:field="*{files}" name="imageFiles">-->
         </div>
         <div id="submitButton">
             <button type="submit" class="btn btn-primary">카페 등록</button>
