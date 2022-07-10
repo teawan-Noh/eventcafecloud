@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.eventcafecloud.exception.ExceptionStatus.EVENT_NOT_FOUND;
-import static com.eventcafecloud.exception.ExceptionStatus.USER_NOT_FOUND;
 
 @RequiredArgsConstructor
 @Service
