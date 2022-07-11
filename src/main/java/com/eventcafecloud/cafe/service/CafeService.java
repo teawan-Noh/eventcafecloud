@@ -139,7 +139,7 @@ public class CafeService {
         cafeRepository.deleteById(id);
     }
 
-    public List<CafeCalenderInfoResponseDto> findCafeEventListForCalender(Long id) {
+    public List<CafeCalenderInfoResponseDto> findEventListForCalenderByCafeId(Long id) {
         List<Event> eventList = eventRepository.findALLByCafeId(id);
 
         List<CafeCalenderInfoResponseDto> cafeCalenderInfoResponseDtos = eventList.stream()
