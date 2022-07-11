@@ -104,8 +104,7 @@ public class CafeController {
     // 카페 수정
     @PostMapping("/cafes/{id}")
     public String updateCafeInfo(@PathVariable Long id, @Valid CafeUpdateRequestDto requestDto, BindingResult result){
-        System.out.println(id);
-        System.out.println(requestDto);
+
         if(result.hasErrors()){
             return "/cafes/updateForm?id="+id;
         }
