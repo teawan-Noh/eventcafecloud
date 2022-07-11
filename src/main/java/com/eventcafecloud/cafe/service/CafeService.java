@@ -124,7 +124,7 @@ public class CafeService {
         Cafe cafe = cafeRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
 
-        return CafeUpdateRequestDto.test(cafe);
+        return CafeUpdateRequestDto.toDto(cafe);
 //        return new CafeUpdateRequestDto(cafe);
     }
 
