@@ -141,7 +141,7 @@ public class CafeService {
 
     public List<CafeCalenderInfoResponseDto> findCafeEventListForCalender(Long id) {
         List<Event> eventList = eventRepository.findALLByCafeId(id);
-        System.out.println(eventList);
+
         List<CafeCalenderInfoResponseDto> cafeCalenderInfoResponseDtos = eventList.stream()
                 .map(e -> new CafeCalenderInfoResponseDto(e))
                 .collect(Collectors.toList());

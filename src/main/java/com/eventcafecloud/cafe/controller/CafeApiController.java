@@ -34,7 +34,6 @@ public class CafeApiController {
 
     @GetMapping("/api/cafes/calender")
     public List<CafeCalenderInfoResponseDto> ReadCafeEventInfo(@RequestParam Long id){
-        System.out.println(id);
 
         return cafeService.findCafeEventListForCalender(id);
     }
