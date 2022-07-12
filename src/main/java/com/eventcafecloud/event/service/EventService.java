@@ -11,6 +11,9 @@ import com.eventcafecloud.s3.S3Service;
 import com.eventcafecloud.user.domain.User;
 import com.eventcafecloud.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -113,5 +116,14 @@ public class EventService {
                 .map(e -> new EventListResponseDto(e))
                 .collect(Collectors.toList());
         return eventListResponseDtos;
+    }
+
+
+    //이벤트목록가져오기(admin)
+    public Page<Event> getEventList(Pageable pageable) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 10);
+
+        return eventRepository.findAll(pageable);
     }
 }

@@ -2,6 +2,8 @@ package com.eventcafecloud.user.controller;
 
 import com.eventcafecloud.cafe.domain.Cafe;
 import com.eventcafecloud.cafe.service.CafeService;
+import com.eventcafecloud.event.domain.Event;
+import com.eventcafecloud.event.service.EventService;
 import com.eventcafecloud.post.service.PostService;
 import com.eventcafecloud.user.dto.UserRequestDto;
 import com.eventcafecloud.user.service.UserService;
@@ -25,6 +27,7 @@ public class AdminController {
     private final UserService userService;
     private final PostService postService;
     private final CafeService cafeService;
+    private final EventService eventService;
 
     @GetMapping("/hosts")
     public String getHostsList(Model model) {
@@ -44,6 +47,13 @@ public class AdminController {
         model.addAttribute("users", userService.getUserList());
         model.addAttribute("userRequestDto", new UserRequestDto());
         return "/admin/admin-user";
+    }
+
+    @GetMapping("/events")
+    public String getEventsList(@PageableDefault Pageable pageable, Model model) {
+        Page<Event> eventList = eventService.getEventList(pageable);
+        model.addAttribute("events", eventList);
+        return "/admin/admin-event";
     }
 
     @GetMapping("/posts")
