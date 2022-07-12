@@ -65,7 +65,7 @@
         .eventButton {
             width: 400px;
             border: none;
-            paddinb: 20px;
+            padding: 20px;
             background-color: #4C7A01;
             color: white;
             font-size: 20px;
@@ -82,14 +82,14 @@
         #cafeDetailTop ul li {
             background-color: darkorange;
             color: white;
-            border-radius: 0px 0px 5px 0px;
+            border-radius: 0 0 5px 0;
             font-family: 'Poor Story', cursive;
             border: none;
         }
 
         #cafePriceInfo {
             background-color: #F5F5DC;
-            border-radius: 0px 0px 20px 0px;
+            border-radius: 0 0 20px 0;
             margin-top: 10px;
             font-weight: bold;
             padding-left: 20px;
@@ -102,7 +102,6 @@
             padding: 30px;
             margin-top: 20px;
         }
-
     </style>
 </head>
 <body>
@@ -156,7 +155,6 @@
                     <!--                    </div>-->
                     <!--                </div>-->
                 </div>
-
                 <!-- Left and right controls/icons -->
                 <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon"></span>
@@ -182,8 +180,7 @@
             </div>
         </div>
     </section>
-    <section id="cafeDetailBottom">
-        <hr>
+    <section id="cafeDetailBottom"><hr>
         <div id="cafeInfoDetail">
             <h3>상세 정보</h3>
             <h5 th:text="${cafeDetailResponseDto.getCafeInfoDetail()}"></h5>

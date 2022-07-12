@@ -16,11 +16,10 @@ function getCafeTop5() {
 
 function getCafeList() {
     let dataSource = null;
-    // let sorting = $("#sorting option:selected").val();
-    // let isAsc = $(':radio[name="isAsc"]:checked').val();
-    // console.log(sorting, isAsc);
-    // dataSource = `/api/cafes?sortBy=${sorting}&isAsc=${isAsc}}`;
-    dataSource = `/api/cafes`;
+    let searchVal = $("#searchBox input").val();
+    let searchStrategy = $("#sorting option:selected").val();
+
+    dataSource = `/api/cafes?searchVal=${searchVal}&searchStrategy=${searchStrategy}`;
 
     $('#cafeListContainer').empty();
     $('#pagination').pagination({

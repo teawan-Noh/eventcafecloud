@@ -18,19 +18,18 @@ public class CafeApiController {
     @GetMapping("/api/cafes")
     public Page<CafeListResponseDto> ReadAllCafeList(
             @RequestParam("page") int page,
-            @RequestParam("size") int size
-//            @RequestParam("sortBy") String sortBy,
-//            @RequestParam("isAsc") boolean isAsc
+            @RequestParam("size") int size,
+            @RequestParam("searchVal") String searchVal,
+            @RequestParam("searchStrategy") String searchStrategy
     ){
         page = page - 1;
-        return cafeService.findAllCafeList(page, size);
+        return cafeService.findAllCafeList(page, size, searchVal, searchStrategy);
     }
 
     @GetMapping("/api/cafes/top5")
     public List<CafeListResponseDto> ReadCafeTopFive(){
         return cafeService.findCafeTopFiveList();
     }
-
 
     @GetMapping("/api/cafes/calender")
     public List<CafeCalenderInfoResponseDto> ReadCafeEventInfo(@RequestParam Long id){

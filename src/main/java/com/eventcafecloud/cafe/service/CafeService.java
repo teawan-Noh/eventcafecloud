@@ -5,6 +5,7 @@ import com.eventcafecloud.cafe.domain.*;
 import com.eventcafecloud.cafe.dto.*;
 import com.eventcafecloud.cafe.repository.CafeRepository;
 import com.eventcafecloud.cafe.repository.CafeReviewRepository;
+import com.eventcafecloud.cafe.sort.SortStrategy;
 import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.event.repository.EventRepository;
 import com.eventcafecloud.s3.S3Service;
@@ -20,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.eventcafecloud.exception.ExceptionStatus.USER_NOT_FOUND;
@@ -34,6 +36,7 @@ public class CafeService {
     private final CafeReviewRepository cafeReviewRepository;
     private final EventRepository eventRepository;
     private final S3Service s3Service;
+    private final Map<String, SortStrategy> sortStrategyMap;
 
     // 리뷰등록
     @Transactional
@@ -76,20 +79,20 @@ public class CafeService {
         cafeRepository.save(cafe);
     }
 
-//    public Page<Cafe> findAllCafeList3() {
-////        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
-////        Sort sort = Sort.by(direction, sortBy);
-////        Pageable pageable = PageRequest.of(page, size, sort);
-//
-////        Pageable pageRequest = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "createdDate"));
-//        Pageable pageRequest = PageRequest.of(0, 3, Sort.by(Sort.Direction.DESC, "createdDate"));
-//
-//        return cafeRepository.findAll(pageRequest);
-//    }
-//
-    public Page<CafeListResponseDto> findAllCafeList(int page, int size) {
-        Pageable pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdDate"));
-        Page<Cafe> all = cafeRepository.findAll(pageRequest);
+    public Page<CafeListResponseDto> findAllCafeList(int page, int size, String searchVal, String searchStrategy) {
+
+        SortStrategy sortStrategy = sortStrategyMap.get(searchStrategy);
+        Sort sort = sortStrategy.sort();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<Cafe> all;
+        if (searchVal.equals("")){
+            all = cafeRepository.findAll(pageable);
+        }else {
+            all = cafeRepository.findAllByCafeNameContaining(searchVal, pageable);
+            // like 대신 Containing
+        }
 //        return all.map(cafe -> new CafeListResponseDto(cafe));
         // 위의 주석단 람다식을 아래의 식으로 치환
         return all.map(CafeListResponseDto::new);
@@ -124,6 +127,7 @@ public class CafeService {
         Cafe cafe = cafeRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
 
+        // TODO. Builder pattern으로 수정해보기
         return CafeUpdateRequestDto.toDto(cafe);
 //        return new CafeUpdateRequestDto(cafe);
     }
