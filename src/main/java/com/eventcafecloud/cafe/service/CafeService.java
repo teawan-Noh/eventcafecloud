@@ -3,6 +3,7 @@ package com.eventcafecloud.cafe.service;
 
 import com.eventcafecloud.cafe.domain.*;
 import com.eventcafecloud.cafe.dto.*;
+import com.eventcafecloud.cafe.repository.CafeOptionRepository;
 import com.eventcafecloud.cafe.repository.CafeRepository;
 import com.eventcafecloud.cafe.repository.CafeReviewRepository;
 import com.eventcafecloud.cafe.sort.SortStrategy;
@@ -37,6 +38,7 @@ public class CafeService {
     private final EventRepository eventRepository;
     private final S3Service s3Service;
     private final Map<String, SortStrategy> sortStrategyMap;
+    private final CafeOptionRepository cafeOptionRepository;
 
     // 리뷰등록
     @Transactional
@@ -136,6 +138,19 @@ public class CafeService {
     public void modifyCafe(Long id, CafeUpdateRequestDto requestDto) {
         Cafe cafe = cafeRepository.getById(id);
         cafe.updateCafeInfo(requestDto);
+
+        if(requestDto.getOptions() != null){
+            // db에 저장된 데이터 삭제
+            List<CafeOption> cafeOptions = cafe.getCafeOptions();
+            cafeOptionRepository.deleteAllInBatch(cafeOptions);
+
+            List<CafeOptionType> optionList = requestDto.getOptions();
+            for (CafeOptionType option : optionList) {
+                CafeOption cafeOption = new CafeOption(option);
+
+                cafe.addCafeOption(cafeOption);
+            }
+        }
     }
 
     @Transactional
