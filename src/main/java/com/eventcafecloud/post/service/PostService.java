@@ -1,6 +1,7 @@
 package com.eventcafecloud.post.service;
 
 import com.eventcafecloud.post.domain.Post;
+import com.eventcafecloud.post.domain.type.PostType;
 import com.eventcafecloud.post.dto.PostCreateRequestDto;
 import com.eventcafecloud.post.dto.PostReadResponseDto;
 import com.eventcafecloud.post.dto.PostUpdateRequestDto;
@@ -27,14 +28,14 @@ public class PostService {
 
     private final PostRepository postRepository;
 
-    public void createPost(PostCreateRequestDto requestDto, User user) {
-        Post post = new Post(requestDto, user);
+    public void createPost(PostCreateRequestDto requestDto, User user, PostType postType) {
+        Post post = new Post(requestDto, user, postType);
         postRepository.save(post);
     }
 
     @Transactional(readOnly = true)
     public List<PostReadResponseDto> getPostList() {
-        List<Post> posts = postRepository.findAll(Sort.by(Sort.Direction.DESC,"id"));
+        List<Post> posts = postRepository.findPostsByPostTypeOrderByIdDesc(PostType.USERPOST);
         List<PostReadResponseDto> output = new ArrayList<>();
 
         for (Post post : posts ) {
@@ -88,6 +89,28 @@ public class PostService {
         return post;
     }
 
+    //공지게시판 게시글 조회
+    @Transactional(readOnly = true)
+    public List<PostReadResponseDto> getNoticePostList() {
+        List<Post> posts = postRepository.findPostsByPostTypeOrderByIdDesc(PostType.NOTICE);
+        List<PostReadResponseDto> output = new ArrayList<>();
+
+        for (Post post : posts) {
+            PostReadResponseDto postReadResponseDto = new PostReadResponseDto();
+            postReadResponseDto.setUserEmail(post.getUser().getUserEmail());
+            postReadResponseDto.setPostTitle(post.getPostTitle());
+            postReadResponseDto.setPostContent(post.getPostContent());
+            postReadResponseDto.setUserNickname(post.getUser().getUserNickname());
+            postReadResponseDto.setId(post.getId());
+            postReadResponseDto.setPostCount(post.getPostCount());
+            postReadResponseDto.setPostType(post.getPostType());
+            postReadResponseDto.setCreatedDate(post.getCreatedDate());
+            postReadResponseDto.setModifiedDate(post.getModifiedDate());
+            output.add(postReadResponseDto);
+        }
+        return output;
+    }
+
     //사용자에 따른 게시글 가져오기
     @Transactional(readOnly = true)
     public Page<Post> getPostListByUser(Long userId, Pageable pageable) {
@@ -96,13 +119,10 @@ public class PostService {
 
         return postRepository.findAllByUserId(userId, pageable);
     }
-
-
     //리팩토링 이후 사용예정
 //    public PostUpdateRequestDto findPostByIdForUpdate(Long id) {
 //        Post post = postRepository.findById(id).orElseThrow(
 //                () -> new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
 //        return new PostUpdateRequestDto(post);
 //    }
-
 }

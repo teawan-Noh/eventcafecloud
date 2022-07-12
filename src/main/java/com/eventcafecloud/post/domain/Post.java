@@ -46,6 +46,13 @@ public class Post extends BaseTimeEntity {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostImage> postImages = new ArrayList<>();
 
+    public Post(PostCreateRequestDto requestDto, User user, PostType postType) {
+        this.postTitle = requestDto.getPostTitle();
+        this.postContent = requestDto.getPostContent();
+        this.user = user;
+        this.postType = postType;
+    }
+
     public void updatePost(PostUpdateRequestDto requestDto) {
         this.postContent = requestDto.getPostContent();
     }
