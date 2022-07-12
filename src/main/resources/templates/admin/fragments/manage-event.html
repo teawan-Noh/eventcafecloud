@@ -65,18 +65,18 @@
                                 </tr>
                             </table>
                         </div>
-                        <nav style="text-align: center;">
+                        <nav class="page" style="text-align: center;">
                             <ul class="pagination"
                                 th:with="start=${T(java.lang.Math).floor(events.number/10)*10 + 1},
                     last=(${start + 9 < events.totalPages ? start + 9 : events.totalPages})">
                                 <li>
-                                    <a aria-label="First" th:href="@{/admin/events(page=1)}">
+                                    <a aria-label="First" class="page-number" th:href="@{/admin/events(page=1)}">
                                         <span aria-hidden="true">First</span>
                                     </a>
                                 </li>
 
                                 <li th:class="${events.first} ? 'disabled'">
-                                    <a aria-label="Previous"
+                                    <a aria-label="Previous" class="page-number"
                                        th:href="${events.first} ? '#' :@{/admin/events(page=${events.number})}">
                                         <span aria-hidden="true">&lt;</span>
                                     </a>
@@ -84,18 +84,20 @@
 
                                 <li th:class="${page == events.number + 1} ? 'active'"
                                     th:each="page: ${#numbers.sequence(start, last)}">
-                                    <a th:href="@{/admin/events(page=${page})}" th:text="${page}"></a>
+                                    <a class="page-number" th:href="@{/admin/events(page=${page})}"
+                                       th:text="${page}"></a>
                                 </li>
 
                                 <li th:class="${events.last} ? 'disabled'">
-                                    <a aria-label="Next"
+                                    <a aria-label="Next" class="page-number"
                                        th:href="${events.last} ? '#' : @{/admin/events(page=${events.number + 2})}">
                                         <span aria-hidden="true">&gt;</span>
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a aria-label="Last" th:href="@{/admin/events(page=${events.totalPages})}">
+                                    <a aria-label="Last" class="page-number"
+                                       th:href="@{/admin/events(page=${events.totalPages})}">
                                         <span aria-hidden="true">Last</span>
                                     </a>
                                 </li>
