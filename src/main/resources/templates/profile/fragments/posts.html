@@ -9,6 +9,7 @@
                  th:onclick="|location.href='@{/posts/{id} (id=${post.id})}'|">
                 <div class="post-content">
                     <div class="post-title" th:text="${post.postTitle}">글제목</div>
+                    <div class="post-comment" th:text="${post.comments.size}">댓글개수</div>
                     <div class="post-info">
                         <div class="post-day" th:text="'등록일 : '+${#temporals.format(post.createdDate,'yyyy-MM-dd')}">
                             등록일자
