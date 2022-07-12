@@ -134,26 +134,17 @@
         <div class="leftImgBox">
             <!-- Carousel -->
             <div id="demo" class="carousel slide" data-bs-ride="carousel">
-                <!--     이미지 슬라이드 타임리프로 처리하는법 모르겠슈  active가 껴있어서 이걸 어떻게 해야하나 문제네     -->
                 <!-- The slideshow/carousel -->
                 <div class="carousel-inner">
-                    <!--                    <div class="carousel-item active" th:each="cafeImg : ${cafeDetailResponseDto.getCafeImgUrls()}">-->
                     <div class="carousel-item active">
-                        <img alt="Los Angeles" class="d-block" style="width:100%"
-                             th:src="${cafeDetailResponseDto.getCafeImgUrls().get(0)}">
-                        <div class="carousel-caption">
-                        </div>
+                        <img th:src="${cafeDetailResponseDto.getCafeImgUrls().get(0)}" class="d-block" style="width:100%">
                     </div>
-                    <!--                <div class="carousel-item">-->
-                    <!--                    <img alt="Chicago" class="d-block" src="/banner2.png" style="width:100%">-->
-                    <!--                    <div class="carousel-caption">-->
-                    <!--                    </div>-->
-                    <!--                </div>-->
-                    <!--                <div class="carousel-item">-->
-                    <!--                    <img alt="New York" class="d-block" src="/banner3.png" style="width:100%">-->
-                    <!--                    <div class="carousel-caption">-->
-                    <!--                    </div>-->
-                    <!--                </div>-->
+                    <div th:if="${cafeDetailResponseDto.getCafeImgUrls().get(1)} != null" class="carousel-item">
+                        <img th:src="${cafeDetailResponseDto.getCafeImgUrls().get(1)}" class="d-block" style="width:100%">
+                    </div>
+                    <div th:if="${cafeDetailResponseDto.getCafeImgUrls().get(2)} != null" class="carousel-item">
+                        <img th:src="${cafeDetailResponseDto.getCafeImgUrls().get(2)}" class="d-block" style="width:100%">
+                    </div>
                 </div>
                 <!-- Left and right controls/icons -->
                 <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">

@@ -6,6 +6,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Data
@@ -46,10 +47,10 @@ public class CafeCreateRequestDto {
 
     private String cafeCloseTime;
 
-    @NotEmpty(message = "이미지 선택은 필수 입니다.")
+    @Size(min=3,max=3, message = "이미지 파일을 3장 선택해 주세요.")
     private List<MultipartFile> files;
 
-    @NotEmpty(message = "옵션 선택은 필수 입니다.")
+    @Size(min=1, message = "옵션 선택은 필수 입니다.")
     private List<CafeOptionType> options;
 
 }
