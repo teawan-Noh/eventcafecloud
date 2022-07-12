@@ -8,6 +8,9 @@ import com.eventcafecloud.post.dto.PostUpdateRequestDto;
 import com.eventcafecloud.post.repository.PostRepository;
 import com.eventcafecloud.user.domain.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -92,7 +95,7 @@ public class PostService {
         List<Post> posts = postRepository.findPostsByPostTypeOrderByIdDesc(PostType.NOTICE);
         List<PostReadResponseDto> output = new ArrayList<>();
 
-        for (Post post : posts ) {
+        for (Post post : posts) {
             PostReadResponseDto postReadResponseDto = new PostReadResponseDto();
             postReadResponseDto.setUserEmail(post.getUser().getUserEmail());
             postReadResponseDto.setPostTitle(post.getPostTitle());
@@ -108,12 +111,18 @@ public class PostService {
         return output;
     }
 
+    //사용자에 따른 게시글 가져오기
+    @Transactional(readOnly = true)
+    public Page<Post> getPostListByUser(Long userId, Pageable pageable) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 10);
 
+        return postRepository.findAllByUserId(userId, pageable);
+    }
     //리팩토링 이후 사용예정
 //    public PostUpdateRequestDto findPostByIdForUpdate(Long id) {
 //        Post post = postRepository.findById(id).orElseThrow(
 //                () -> new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
 //        return new PostUpdateRequestDto(post);
 //    }
-
 }

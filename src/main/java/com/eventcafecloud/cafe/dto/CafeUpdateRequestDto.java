@@ -6,7 +6,6 @@ import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 public class CafeUpdateRequestDto {
@@ -30,7 +29,7 @@ public class CafeUpdateRequestDto {
     private List<MultipartFile> files;
 //    private List<CafeReview> cafeReviews = new ArrayList<>();
 
-    // 생성자로
+    // update의 경우 dto를 양방향으로 사용하게 되는데 생성자로 만들경우 수정 요청시 파라미터에 호출될 떄 생성자가 호출되어 값을 넣어주지 못하여 null 관련 에러 발생
 //    public CafeUpdateRequestDto(Cafe cafe) {
 //        cafeName = cafe.getCafeName();
 //        cafeZonecode = cafe.getCafeZonecode();
@@ -47,22 +46,22 @@ public class CafeUpdateRequestDto {
 //        cafeCloseTime = cafe.getCafeCloseTime();
 //    }
 
-    public static CafeUpdateRequestDto test(Cafe cafe) {
-        CafeUpdateRequestDto abc = new CafeUpdateRequestDto();
-        abc.cafeName = cafe.getCafeName();
-        abc.cafeZonecode = cafe.getCafeZonecode();
-        abc.cafeAddress = cafe.getCafeAddress();
-        abc.cafeAddressDetail = cafe.getCafeAddressDetail();
-        abc.cafeX = cafe.getCafeX();
-        abc.cafeY = cafe.getCafeY();
-        abc.cafeInfo = cafe.getCafeInfo();
-        abc.cafeInfoDetail = cafe.getCafeInfoDetail();
-        abc.cafePrecaution = cafe.getCafePrecaution();
-        abc.cafeWeekdayPrice = cafe.getCafeWeekdayPrice();
-        abc.cafeWeekendPrice = cafe.getCafeWeekendPrice();
-        abc.cafeOpenTime = cafe.getCafeOpenTime();
-        abc.cafeCloseTime = cafe.getCafeCloseTime();
+    public static CafeUpdateRequestDto toDto(Cafe cafe) {
+        CafeUpdateRequestDto requestDto = new CafeUpdateRequestDto();
+        requestDto.cafeName = cafe.getCafeName();
+        requestDto.cafeZonecode = cafe.getCafeZonecode();
+        requestDto.cafeAddress = cafe.getCafeAddress();
+        requestDto.cafeAddressDetail = cafe.getCafeAddressDetail();
+        requestDto.cafeX = cafe.getCafeX();
+        requestDto.cafeY = cafe.getCafeY();
+        requestDto.cafeInfo = cafe.getCafeInfo();
+        requestDto.cafeInfoDetail = cafe.getCafeInfoDetail();
+        requestDto.cafePrecaution = cafe.getCafePrecaution();
+        requestDto.cafeWeekdayPrice = cafe.getCafeWeekdayPrice();
+        requestDto.cafeWeekendPrice = cafe.getCafeWeekendPrice();
+        requestDto.cafeOpenTime = cafe.getCafeOpenTime();
+        requestDto.cafeCloseTime = cafe.getCafeCloseTime();
 
-        return abc;
+        return requestDto;
     }
 }

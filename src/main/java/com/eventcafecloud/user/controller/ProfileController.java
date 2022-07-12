@@ -1,9 +1,14 @@
 package com.eventcafecloud.user.controller;
 
+import com.eventcafecloud.post.domain.Post;
+import com.eventcafecloud.post.service.PostService;
 import com.eventcafecloud.user.domain.User;
 import com.eventcafecloud.user.dto.UserRequestDto;
 import com.eventcafecloud.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ProfileController {
 
     private final UserService userService;
+    private final PostService postService;
 
     @GetMapping("/{id}/info")
     public String getUserProfileById(@PathVariable Long id, Model model, User loginUser) {
@@ -28,6 +34,16 @@ public class ProfileController {
         model.addAttribute("userId", loginUser.getId());
 
         return "/profile/profile-userInfo";
+    }
+
+    @GetMapping("/{id}/posts")
+    public String getUserPostById(@PageableDefault Pageable pageable, @PathVariable Long id, Model model, User loginUser) {
+        Page<Post> postList = postService.getPostListByUser(id, pageable);
+        model.addAttribute("posts", postList);
+        model.addAttribute("userNick", loginUser.getUserNickname());
+        model.addAttribute("userId", loginUser.getId());
+
+        return "/profile/profile-posts";
     }
 
     @PostMapping("/{id}/info/update")
