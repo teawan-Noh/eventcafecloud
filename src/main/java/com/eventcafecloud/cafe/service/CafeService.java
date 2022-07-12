@@ -122,7 +122,7 @@ public class CafeService {
         return new CafeDetailResponseDto(cafe);
     }
 
-    public CafeUpdateRequestDto findCafeByIdForUpdate(Long id) {
+    public CafeUpdateRequestDto findCafeByIdForUpdateForm(Long id) {
 
         Cafe cafe = cafeRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
