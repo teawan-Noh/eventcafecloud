@@ -56,7 +56,6 @@ public class EventService {
             file = files.get(i);
             eventImageUrl = eventImageUrls.get(i);
             EventImage eventImage = new EventImage(file.getOriginalFilename(), eventImageUrl);
-            System.out.println(eventImage);
             event.addEventImage(eventImage);
 
         }
