@@ -7,8 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @Controller
@@ -19,7 +20,7 @@ public class CommentController {
 
     @PostMapping("/{postId}/comment/registration")
     public String createComment(@PathVariable Long postId, User loginUser,
-                                @Validated @ModelAttribute CommentCreateRequestDto requestDto,
+                                @Valid @ModelAttribute CommentCreateRequestDto requestDto,
                                 BindingResult bindingResult){
         if (loginUser != null) {
             commentService.createComment(requestDto, postId, loginUser.getUserEmail());
