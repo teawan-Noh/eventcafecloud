@@ -44,7 +44,7 @@ public class CafeDetailResponseDto {
         cafeOpenTime = cafe.getCafeOpenTime();
         cafeCloseTime = cafe.getCafeCloseTime();
         cafeOptions = cafe.getCafeOptions().stream()
-                .map(i -> i.getCafeOptionType().toString())
+                .map(i -> i.getCafeOptionType().getDisplayName())
                 .collect(Collectors.toList());
         cafeImgUrls = cafe.getCafeImages().stream()
                 .map(i -> i.getCafeImageUrl())
