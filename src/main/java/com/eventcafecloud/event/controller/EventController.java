@@ -66,7 +66,7 @@ public class EventController {
     @PostMapping("/events/{eventNumber}/edit")
     public String updateEvent(@PathVariable Long eventNumber, @Validated @ModelAttribute EventUpdateRequestDto requestDto, BindingResult result) {
         eventService.modifyEvent(eventNumber, requestDto);
-        return "redirect:/events/{eventNumber}";
+        return "redirect:/events/{eventNumber}/detail";
     }
 
     // 이벤트 삭제
@@ -89,7 +89,7 @@ public class EventController {
     }
 
     // 이벤트 상세
-    @GetMapping("/events/{eventNumber}")
+    @GetMapping("/events/{eventNumber}/detail")
     public String eventDetail(User loginUser, @PathVariable Long eventNumber, Model model) {
         if (loginUser != null) {
             model.addAttribute("userNick", loginUser.getUserNickname());

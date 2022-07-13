@@ -26,7 +26,10 @@ public class EventReadResponseDto {
     private Integer cafeZonecode;
     private String cafeAddress;
     private String cafeAddressDetail;
-   private List<String> eventImageUrls;
+
+    private double cafeX;
+    private double cafeY;
+    private List<String> eventImageUrls;
 
 
     public EventReadResponseDto(Event event) {
@@ -41,6 +44,9 @@ public class EventReadResponseDto {
         this.cafeZonecode = event.getCafe().getCafeZonecode();
         this.cafeAddress = event.getCafe().getCafeAddress();
         this.cafeAddressDetail = event.getCafe().getCafeAddressDetail();
+        this.cafeX = event.getCafe().getCafeX();
+        this.cafeY = event.getCafe().getCafeY();
+
         eventImageUrls = event.getEventImages().stream()
                         .map(i -> i.getEventImageUrl())
                         .collect(Collectors.toList());

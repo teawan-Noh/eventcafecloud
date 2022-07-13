@@ -3,6 +3,12 @@
 <head>
     <th:block th:replace="fragments/header :: header"/>
     <th:block th:replace="fragments/mainHeader :: mainHeader"/>
+
+<!--    추가-->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.standalone.min.css">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 </head>
 
 <style>
@@ -22,8 +28,92 @@
         width: 780px;
     }
 
+    .container > div label {
+        font-weight: bolder;
+        font-size: large;
+    }
+
 </style>
+<script th:inline="javascript">
+    let results = [];
+    let weekends = 0;
+
+    function getDatesStartToLast() {
+        let startDate = document.getElementById('datePicker-start').value;
+        let lastDate = document.getElementById('datePicker-end').value;
+        let curDate = new Date(startDate);
+        while (curDate <= new Date(lastDate)) {
+            results.push(curDate.toISOString().split("T")[0]);
+            curDate.setDate(curDate.getDate() + 1);
+        }
+        findDate(results);
+    }
+
+    function findDate(results) {
+        let week = ['일', '월', '화', '수', '목', '금', '토'];
+        for (result of results) {
+            let dayOfWeek = week[new Date(result).getDay()];
+            console.log(dayOfWeek);
+            if (dayOfWeek === week[0] || dayOfWeek === week[6]) {
+                weekends += 1;
+            }
+        }
+        $('#eventPeriod').text("  총 " +results.length+ " 일 : 평일 " + (results.length - weekends) + "일 + 주말 " + weekends + "일");
+        getParams();
+    }
+
+    function getParams() {
+        const curUrl = window.location.href;
+        const url = new URL(curUrl);
+
+        const urlParams = url.searchParams;
+
+        let weekdayPrice = urlParams.get('weekdayPrice');
+        let weekendPrice = urlParams.get('weekendPrice');
+        console.log(weekdayPrice);
+
+        // $('#eventPrice').attr('value', eventPrice(weekdayPrice, weekendPrice));
+        $('#eventPrice').val(eventPrice(weekdayPrice, weekendPrice));
+        // let requestDto = [[${eventCreateRequestDto}]];
+        // requestDto.setEventPrice(eventPrice(weekdayPrice, weekendPrice));
+    }
+
+    function eventPrice(weekdayPrice, weekendPrice) {
+        let totalPrice = 0;
+        let totalWeek = (results.length - weekends) * weekdayPrice;
+        let totalWeekend = weekends * weekendPrice;
+        totalPrice = totalWeek + totalWeekend;
+
+        $('#eventTotalPrice').text("총 결제 금액 : " + totalWeek.toLocaleString() + "원 + " + totalWeekend.toLocaleString() + "원");
+        return totalPrice.toString();
+    }
+
+</script>
 <body>
+<script type="text/javascript">
+    $.datepicker.setDefaults({
+        dateFormat: 'yy-mm-dd',
+        prevText: '이전 달',
+        nextText: '다음 달',
+        monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+        monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+        dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+        dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+        showMonthAfterYear: true,
+        yearSuffix: '년'
+    });
+
+
+    $(function() {
+        $('#datePicker-start').datepicker({
+        });
+
+        $('#datePicker-end').datepicker({
+        });
+    });
+</script>
+
     <div th:replace="fragments/mainTop :: mainTop"/>
     <div class="topBanner">
         <div class="topFont">이벤트 예약하기</div>
@@ -52,27 +142,35 @@
             <br />
             <div class="form-group-event">
                 <label th:for="eventInfo">이벤트 소개 및 정보</label>
-                <input type="text" th:field="*{eventInfo}" class="form-control" placeholder="이벤트 소개를 입력하세요.">
+                <textarea type="text" th:field="*{eventInfo}" class="form-control" rows="6" placeholder="이벤트 소개를 입력하세요."></textarea>
             </div>
             <br />
             <label th:for="files">이벤트 대표 이미지 및 포스터</label>
             <br />
             <div>
-                <p>이벤트 메인 이미지와 포스터를 업로드해 주세요. <small>* Ctrl + 클릭으로  여러장 선택</small></p><br/>
+                <p><small>* 이벤트 메인 이미지와 포스터를 업로드해 주세요.  * Ctrl + 클릭으로  여러장 선택</small></p>
                 <input type="file" multiple="multiple" th:field="*{files}" name="imageFiles" >
             </div>
-            <br />
+            <br>
             <div class="form-group-event">
                 <label th:for="eventStartDate">이벤트 기간</label>
                 <div class="input-group">
-                    <input style="float: left; margin-right: 15px" type="text" th:field="*{eventStartDate}" class="form-control" placeholder="">
-                    <input style="float: right" type="text" th:field="*{eventEndDate}" class="form-control" placeholder="">
+                    <input id="datePicker-start" style="float: left; margin-right: 15px" type="text" th:field="*{eventStartDate}" class="form-control" placeholder="시작일">
+                    <input id="datePicker-end" style="float: right" type="text" th:field="*{eventEndDate}" class="form-control" placeholder="종료일" onchange="getDatesStartToLast()" >
                 </div>
             </div>
+            <br>
             <br />
             <div class="form-group-event">
                 <label th:for="eventPrice">결제 정보</label>
-                <input type="text" th:field="*{eventPrice}" class="form-control" placeholder="결제하실 금액입니다.">
+                <hr>
+                <p id="eventPeriod"><small>이벤트 기간</small></p>
+                <p id="eventTotalPrice"><small>이벤트 금액</small></p>
+                <input readonly id="eventPrice" name=eventPrice type="text" class="form-control" placeholder="결제하실 금액입니다.">
+                <hr>
+            </div>
+            <div class="form-group-event">
+
             </div>
             <div class="form-group-event" HIDDEN>
                 <label th:for="cafeNumber">카페 정보</label>
@@ -80,6 +178,7 @@
             </div>
             <br />
             <button type="submit" class="btn btn-primary" style="float: right;">이벤트 예약하기</button>
+            <br>
         </form>
     </div>
 </body>

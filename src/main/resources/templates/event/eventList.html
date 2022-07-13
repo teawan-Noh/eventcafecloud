@@ -5,7 +5,7 @@
     <th:block th:replace="fragments/mainHeader :: mainHeader"/>
 
     <!--Import CSS-->
-    <Link rel="stylesheet" type="text/css"  href="css/event.css">
+    <Link rel="stylesheet" type="text/css" href="css/event.css">
 </head>
 <body>
 <div th:replace="fragments/mainTop :: mainTop"/>
@@ -58,13 +58,11 @@
                                     <h4 class="title-event-bolder" th:text="${eventListResponseDto.getEventName()}">이벤트명</h4>
 
                                     <div class="date-start">
-                                        <p th:text="${eventListResponseDto.getEventStartDate()}"> 이벤트 시작일</p>
-                                    </div>
-                                    <div class="date-end">
-                                        <p th:text="|~ ${eventListResponseDto.getEventEndDate()}|"> 이벤트 종료일</p>
+                                        <p th:text="${eventListResponseDto.getEventStartDate()} + ' ~ ' + ${eventListResponseDto.getEventEndDate()}"> 이벤트 기간</p>
                                     </div>
                                     <button type="button" class="btn btn-outline-dark">
-                                        <a th:href = "@{/events/{eventNumber} (eventNumber=${eventListResponseDto.getEventNumber()})}" >이벤트 상세보기</a></button>
+                                        <a th:href = "@{/events/{eventNumber}/detail (eventNumber=${eventListResponseDto.getEventNumber()})}" >이벤트 상세보기</a></button>
+
                                 </div>
                             </div>
                         </div>
