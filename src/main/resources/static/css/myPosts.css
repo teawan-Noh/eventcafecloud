@@ -17,7 +17,7 @@
     margin-bottom: 10px;
     width: 70%;
     float: left;
-    padding: 5px 0px 10px 30px;
+    padding: 5px 30px 10px 30px;
     background-color: #F5F5DC;
     color: #2b2a29;
 }
@@ -26,11 +26,19 @@
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 2px;
+    border-bottom: 1px solid #9B9B9B;
+}
+
+.event-cafe {
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 2px;
+    color: #4C7A01;
+    border-right: 10px;
 }
 
 .post-comment {
     float: right;
-    padding-right: 30px;
     font-weight: bold;
 }
 
@@ -38,6 +46,10 @@
     float: left;
     margin-right: 10px;
     color: #9B9B9B;
+}
+
+.post-info {
+    float: left;
 }
 
 .post-count {

@@ -117,12 +117,23 @@ public class EventService {
         return eventListResponseDtos;
     }
 
-
-    //이벤트목록가져오기(admin)
+    /**
+     * 이벤트목록가져오기(admin)
+     */
     public Page<Event> getEventList(Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 10);
 
         return eventRepository.findAll(pageable);
+    }
+
+    /**
+     * 이벤트목록(예약내역)가져오기(myProfile)
+     */
+    public Page<Event> getEventListByUser(Long userId, Pageable pageable) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 5);
+
+        return eventRepository.findAllByUserId(userId, pageable);
     }
 }

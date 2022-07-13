@@ -1,5 +1,7 @@
 package com.eventcafecloud.user.controller;
 
+import com.eventcafecloud.event.domain.Event;
+import com.eventcafecloud.event.service.EventService;
 import com.eventcafecloud.post.domain.Post;
 import com.eventcafecloud.post.service.PostService;
 import com.eventcafecloud.user.domain.User;
@@ -23,6 +25,7 @@ public class ProfileController {
 
     private final UserService userService;
     private final PostService postService;
+    private final EventService eventService;
 
     @GetMapping("/{id}/info")
     public String getUserProfileById(@PathVariable Long id, Model model, User loginUser) {
@@ -34,6 +37,16 @@ public class ProfileController {
         model.addAttribute("userId", loginUser.getId());
 
         return "/profile/profile-userInfo";
+    }
+
+    @GetMapping("/{id}/reservation")
+    public String getUserReservationById(@PageableDefault Pageable pageable, @PathVariable Long id, Model model, User loginUser) {
+        Page<Event> eventList = eventService.getEventListByUser(id, pageable);
+        model.addAttribute("events", eventList);
+        model.addAttribute("userNick", loginUser.getUserNickname());
+        model.addAttribute("userId", loginUser.getId());
+
+        return "/profile/profile-reservation";
     }
 
     @GetMapping("/{id}/posts")

@@ -19,9 +19,8 @@ import java.util.List;
 @Entity
 public class Event extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "event_number")
-    private Long id;
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private final List<EventImage> eventImages = new ArrayList<>();
 
     @Column(nullable = false)
     private String eventName;
@@ -52,9 +51,10 @@ public class Event extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cafe_number")
     private Cafe cafe;
-
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
-    private List<EventImage> eventImages = new ArrayList<>();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "event_number")
+    private Long id;
 
 
     public Event(EventCreateRequestDto requestDto) {
@@ -74,7 +74,7 @@ public class Event extends BaseTimeEntity {
     }
 
     // 연관 관계 편의 메소드
-    public void addUser(User user){
+    public void addUser(User user) {
         this.user = user;
         user.getEvents().add(this);
     }
@@ -84,8 +84,9 @@ public class Event extends BaseTimeEntity {
         cafe.getEvents().add(this);
     }
 
-    public void addEventImage(EventImage eventImage){
+    public void addEventImage(EventImage eventImage) {
         eventImages.add(eventImage);
         eventImage.addEvent(this);
     }
 }
+

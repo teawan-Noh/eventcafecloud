@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -111,11 +110,13 @@ public class PostService {
         return output;
     }
 
-    //사용자에 따른 게시글 가져오기
+    /**
+     * 사용자에 따른 게시글 가져오기
+     */
     @Transactional(readOnly = true)
     public Page<Post> getPostListByUser(Long userId, Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-        pageable = PageRequest.of(page, 10);
+        pageable = PageRequest.of(page, 5);
 
         return postRepository.findAllByUserId(userId, pageable);
     }

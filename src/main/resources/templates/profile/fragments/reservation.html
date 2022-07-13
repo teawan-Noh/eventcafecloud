@@ -1,20 +1,60 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<div th:fragment="userInfo">
-    <div class="profile-form">
-        <div class="profileBox">
-            <div class="profile-user-img">
-                <img alt="프로필이미지" class="profile-user-img-img" th:src="${user.getUserImage()}">
+<div th:fragment="reservation">
+    <div class="post-form">
+        <div class="postBox">
+            <h1 th:text="'총 '+${events.stream().count()}+'개의 예약내역이 있습니다.'"></h1>
+            <hr width="70%">
+            <div class="posts-box" th:each="event : ${events}"
+                 th:onclick="|location.href='@{/events/{id}/detail (id=${event.id})}'|">
+                <div class="post-content">
+                    <div class="post-title" th:text="${event.eventName}">이벤트제목</div>
+                    <div class="event-cafe" th:text="${event.cafe.cafeName}">카페이름</div>
+                    <div class="post-info">
+                        <div class="post-day" th:text="'기간 : '+${event.eventStartDate}">등록일자</div>
+                        <div class="post-day" th:text="' -   '+${event.eventEndDate}">등록일자</div>
+                    </div>
+                    <div class="post-comment" th:text="'결제금액 : '+${event.eventPrice}">댓글개수</div>
+                </div>
             </div>
-            <div class="profile-nickname" th:text="${user.getUserNickname()}">USER 님</div>
-            <div class="profile-info" th:text="${user.getUserEmail()}">yvely001@naver.com</div>
-            <!-- Button trigger modal -->
-            <button class="btn btn-primary cafeBtn" data-target="#exampleModalCenter" data-toggle="modal"
-                    type="button">
-                프로필 수정
-            </button>
-            <div th:replace="profile/fragments/userUpdateModal :: userUpdateModal"/>
+            <nav class="page" style="text-align: center;">
+                <ul class="pagination"
+                    th:with="start=${T(java.lang.Math).floor(events.number/10)*10 + 1},
+                    last=(${start + 9 < events.totalPages ? start + 9 : events.totalPages})">
+                    <li>
+                        <a aria-label="First" class="page-number"
+                           th:href="@{/users/profile/{userId}/reservation(page=1, userId=${userId})}">
+                            <span aria-hidden="true">First</span>
+                        </a>
+                    </li>
+                    <li th:class="${events.first} ? 'disabled'">
+                        <a aria-label="Previous" class="page-number"
+                           th:href="${events.first} ? '#' :@{/users/profile/{userId}/reservation(page=${events.number}, userId=${userId})}">
+                            <span aria-hidden="true">&lt;</span>
+                        </a>
+                    </li>
+
+                    <li th:class="${page == events.number + 1} ? 'active'"
+                        th:each="page: ${#numbers.sequence(start, last)}">
+                        <a class="page-number"
+                           th:href="@{/users/profile/{userId}/reservation(page=${page}, userId=${userId})}"
+                           th:text="${page}"></a>
+                    </li>
+
+                    <li th:class="${events.last} ? 'disabled'">
+                        <a aria-label="Next" class="page-number"
+                           th:href="${events.last} ? '#' : @{/users/profile/{userId}/reservation(page=${events.number + 2}, userId=${userId})}">
+                            <span aria-hidden="true">&gt;</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a aria-label="Last" class="page-number"
+                           th:href="@{/users/profile/{userId}/reservation(page=${events.totalPages}, userId=${userId})}">
+                            <span aria-hidden="true">Last</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
-</div>
 
