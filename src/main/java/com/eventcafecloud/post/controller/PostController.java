@@ -10,6 +10,9 @@ import com.eventcafecloud.post.service.PostService;
 import com.eventcafecloud.user.domain.User;
 import com.eventcafecloud.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 import static com.eventcafecloud.exception.ExceptionStatus.USER_NOT_FOUND;
@@ -31,7 +35,7 @@ public class PostController {
 
     //게시글 작성
     @PostMapping("/posts/registration/{postType}")
-    public String savePost(@Validated @ModelAttribute PostCreateRequestDto requestDto,
+    public String savePost(@Valid @ModelAttribute PostCreateRequestDto requestDto,
                            BindingResult bindingResult, User loginUser, @PathVariable PostType postType) {
         if (loginUser != null) {
             User user = userRepository.findByUserEmail(loginUser.getUserEmail()).orElseThrow(() ->
@@ -50,30 +54,7 @@ public class PostController {
         return "redirect:/posts"+postType;
     }
 
-    //유저게시판 전체 조회
-    @GetMapping("/posts")
-    public String getUserPosts(User loginUser, Model model) {
-        if (loginUser != null) {
-            model.addAttribute("userNick", loginUser.getUserNickname());
-            model.addAttribute("userId", loginUser.getId());
-        }
-        model.addAttribute("posts", postService.getPostList());
-        model.addAttribute("postType", PostType.USERPOST);
-        return "post/userBoard";
-    }
-
-    //공지게시판 전체 조회
-    @GetMapping("/posts/notice")
-    public String getNoticePosts(User loginUser, Model model) {
-        if (loginUser != null) {
-            model.addAttribute("userNick", loginUser.getUserNickname());
-            model.addAttribute("userId", loginUser.getId());
-        }
-        model.addAttribute("posts", postService.getNoticePostList());
-        model.addAttribute("postType", PostType.NOTICE);
-        return "post/userBoard";
-    }
-
+    //게시글 수정
     @PutMapping("/posts/update/{id}")
     public String updatePost(@PathVariable Long id, PostUpdateRequestDto requestDto,
                              BindingResult bindingResult, User loginUser) {
@@ -88,13 +69,14 @@ public class PostController {
         return "redirect:/posts/";
     }
 
+    // 게시글 삭제
     @DeleteMapping("/posts/{id}")
     public String deletePost(@PathVariable Long id) {
         postService.deletePost(id);
         return "redirect:/posts";
     }
 
-    //글작성 페이지 호출
+    // 글작성 페이지 호출
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/posts/registration/{postType}")
     public String createPost(User loginUser, Model model,@PathVariable PostType postType) {
@@ -107,7 +89,7 @@ public class PostController {
         return "post/createPostForm";
     }
 
-    //게시글 상세페이지 + 댓글 조회 + 조회수증가
+    // 게시글 상세페이지 + 댓글 조회 + 조회수 증가
     @GetMapping("/posts/{id}")
     public String readPostDetail(User loginUser, @PathVariable Long id, Model model) {
         if (loginUser != null) {
@@ -122,6 +104,7 @@ public class PostController {
         return "post/postDetail";
     }
 
+    // PostId별 게시글 수정페이지 호출
     @GetMapping("/posts/update/{id}")
     public String updatePost(User loginUser, @PathVariable Long id, Model model) {
         if (loginUser != null) {
@@ -133,4 +116,31 @@ public class PostController {
         model.addAttribute("postUpdateRequestDto", postUpdateRequestDto);
         return "post/editPostForm";
     }
+
+    // 유저게시판 전체 조회
+    @GetMapping("/posts")
+    public String findPostList(@PageableDefault Pageable pageable, Model model, User loginUser) {
+        if (loginUser != null) {
+            model.addAttribute("userNick", loginUser.getUserNickname());
+            model.addAttribute("userId", loginUser.getId());
+        }
+        Page<Post> postList = postService.findPostList(pageable);
+        model.addAttribute("postList", postList);
+        model.addAttribute("postType", PostType.USERPOST);
+        return "post/userBoard";
+    }
+
+    // 공지게시판 전체 조회
+    @GetMapping("/posts/notice")
+    public String findNoticeList(@PageableDefault Pageable pageable ,User loginUser, Model model) {
+        if (loginUser != null) {
+            model.addAttribute("userNick", loginUser.getUserNickname());
+            model.addAttribute("userId", loginUser.getId());
+        }
+        Page<Post> postList = postService.findNoticeList(pageable);
+        model.addAttribute("postList", postList);
+        model.addAttribute("postType", PostType.NOTICE);
+        return "post/userBoard";
+    }
+
 }
