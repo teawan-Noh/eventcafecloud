@@ -56,12 +56,12 @@ public class AdminController {
         return "/admin/admin-event";
     }
 
-    @GetMapping("/posts")
-    public String getPostList(Model model) {
-        model.addAttribute("posts", postService.getPostList());
-//      model.addAttribute("postStatusUpdateRequestDto", new PostStatusUpdateRequestDto());
-        return "/admin/admin-post";
-    }
+//    @GetMapping("/posts")
+//    public String getPostList(Model model) {
+//        model.addAttribute("posts", postService.getPostList());
+////      model.addAttribute("postStatusUpdateRequestDto", new PostStatusUpdateRequestDto());
+//        return "/admin/admin-post";
+//    }
 
     @PostMapping("/users/{id}/update")
     public String updateUserRoleAndStatus(@PathVariable Long id, UserRequestDto requestDto) {
