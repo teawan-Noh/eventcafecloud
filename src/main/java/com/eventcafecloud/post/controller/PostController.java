@@ -1,6 +1,7 @@
 package com.eventcafecloud.post.controller;
 
 import com.eventcafecloud.comment.dto.CommentCreateRequestDto;
+import com.eventcafecloud.comment.dto.CommentReadResponseDto;
 import com.eventcafecloud.comment.service.CommentService;
 import com.eventcafecloud.post.domain.Post;
 import com.eventcafecloud.post.domain.type.PostType;
@@ -15,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static com.eventcafecloud.exception.ExceptionStatus.USER_NOT_FOUND;
 
@@ -47,7 +50,7 @@ public class PostController {
         return "redirect:/posts"+postType;
     }
 
-    //유제게시판 전체 조회
+    //유저게시판 전체 조회
     @GetMapping("/posts")
     public String getUserPosts(User loginUser, Model model) {
         if (loginUser != null) {
@@ -70,7 +73,6 @@ public class PostController {
         model.addAttribute("postType", PostType.NOTICE);
         return "post/userBoard";
     }
-
 
     @PutMapping("/posts/update/{id}")
     public String updatePost(@PathVariable Long id, PostUpdateRequestDto requestDto,
@@ -107,14 +109,15 @@ public class PostController {
 
     //게시글 상세페이지 + 댓글 조회 + 조회수증가
     @GetMapping("/posts/{id}")
-    public String getPost(User loginUser, @PathVariable Long id, Model model) {
+    public String readPostDetail(User loginUser, @PathVariable Long id, Model model) {
         if (loginUser != null) {
             model.addAttribute("userNick", loginUser.getUserNickname());
             model.addAttribute("userId", loginUser.getId());
         }
-        Post post = postService.getPostUpdatedCount(id);
-        model.addAttribute("comments", commentService.getCommentByPostNumber(post));
-        model.addAttribute("post", post);
+        PostReadResponseDto postReadResponseDto = postService.getPostUpdatedCount(id);
+        List<CommentReadResponseDto> commentByPostNumber = commentService.getCommentsByPostNumber(id);
+        model.addAttribute("post", postReadResponseDto);
+        model.addAttribute("comments", commentByPostNumber);
         model.addAttribute("commentCreateRequestDto", new CommentCreateRequestDto());
         return "post/postDetail";
     }
@@ -125,20 +128,9 @@ public class PostController {
             model.addAttribute("userNick", loginUser.getUserNickname());
             model.addAttribute("userId", loginUser.getId());
         }
-        Post post = postService.findPostById(id);
+        PostUpdateRequestDto postUpdateRequestDto = postService.findPostByIdForUpdate(id);
         model.addAttribute("postId",id);
-        model.addAttribute("postUpdateRequestDto", post);
+        model.addAttribute("postUpdateRequestDto", postUpdateRequestDto);
         return "post/editPostForm";
     }
-//    리팩토링 이후 사용예정
-//    @GetMapping("/posts/update/{id}")
-//    public String updatePost(User loginUser, @PathVariable Long id, Model model) {
-//        if (loginUser != null) {
-//            model.addAttribute("userNick", loginUser.getUserNickname());
-//            model.addAttribute("userId", loginUser.getId());
-//        }
-//        PostUpdateRequestDto postUpdateRequestDto = postService.findPostByIdForUpdate(id);
-//        model.addAttribute("postUpdateRequestDto", postUpdateRequestDto);
-//        return "post/editPostForm";
-//    }
 }
