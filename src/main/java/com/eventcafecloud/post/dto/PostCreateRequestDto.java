@@ -1,6 +1,5 @@
 package com.eventcafecloud.post.dto;
 
-import com.eventcafecloud.post.domain.Post;
 import com.eventcafecloud.post.domain.type.PostType;
 import lombok.*;
 

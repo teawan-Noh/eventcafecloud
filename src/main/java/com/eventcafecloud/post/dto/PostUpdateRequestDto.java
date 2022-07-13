@@ -7,7 +7,7 @@ import lombok.Data;
 public class PostUpdateRequestDto {
     private String postContent;
     private Long postId;
-    
+
     public static PostUpdateRequestDto toDto(Post post) {
         PostUpdateRequestDto requestDto = new PostUpdateRequestDto();
         requestDto.postContent = post.getPostContent();
