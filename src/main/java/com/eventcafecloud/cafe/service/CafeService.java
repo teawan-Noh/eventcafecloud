@@ -3,6 +3,7 @@ package com.eventcafecloud.cafe.service;
 
 import com.eventcafecloud.cafe.domain.*;
 import com.eventcafecloud.cafe.dto.*;
+import com.eventcafecloud.cafe.repository.CafeImageRepository;
 import com.eventcafecloud.cafe.repository.CafeOptionRepository;
 import com.eventcafecloud.cafe.repository.CafeRepository;
 import com.eventcafecloud.cafe.repository.CafeReviewRepository;
@@ -21,10 +22,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.eventcafecloud.exception.ExceptionStatus.CAFE_NOT_FOUND;
 import static com.eventcafecloud.exception.ExceptionStatus.USER_NOT_FOUND;
 
 @Service
@@ -39,18 +42,7 @@ public class CafeService {
     private final S3Service s3Service;
     private final Map<String, SortStrategy> sortStrategyMap;
     private final CafeOptionRepository cafeOptionRepository;
-
-    // 리뷰등록
-    @Transactional
-    public void saveCafeReview(CafeReviewRequestDto requestDto, Long cafeNumber, User securityUser) {
-        User user = userRepoistory.getById(securityUser.getId());
-        Cafe cafe = cafeRepository.findById(cafeNumber).orElseThrow();
-        CafeReview cafeReview = new CafeReview(requestDto);
-        user.addCafeReview(cafeReview);
-        cafe.addCafeReview(cafeReview);
-
-        cafeReviewRepository.save(cafeReview);
-    }
+    private final CafeImageRepository cafeImageRepository;
 
     @Transactional
     public void createCafe(CafeCreateRequestDto requestDto, User securityUser) {
@@ -63,11 +55,9 @@ public class CafeService {
         List<String> cafeImageUrlList = s3Service.upload(files, "cafeImage");
 
         // 카페 이미지 생성
-        MultipartFile file;
-        String cafeImageUrl;
         for (int i = 0; i < files.size(); i++) {
-            file = files.get(i);
-            cafeImageUrl = cafeImageUrlList.get(i);
+            MultipartFile file = files.get(i);
+            String cafeImageUrl = cafeImageUrlList.get(i);
             CafeImage cafeImage = new CafeImage(file.getOriginalFilename(), cafeImageUrl);
             cafe.addCafeImage(cafeImage);
         }
@@ -86,7 +76,7 @@ public class CafeService {
         SortStrategy sortStrategy = sortStrategyMap.get(searchStrategy);
         Sort sort = sortStrategy.sort();
 
-        Pageable pageable = PageRequest.of(page, size, sort);
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
 
         Page<Cafe> all;
         if (searchVal.equals("")){
@@ -129,9 +119,8 @@ public class CafeService {
         Cafe cafe = cafeRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
 
-        // TODO. Builder pattern으로 수정해보기
+        // Builder pattern으로 수정해보기
         return CafeUpdateRequestDto.toDto(cafe);
-//        return new CafeUpdateRequestDto(cafe);
     }
 
     @Transactional
@@ -151,6 +140,29 @@ public class CafeService {
                 cafe.addCafeOption(cafeOption);
             }
         }
+        if (requestDto.getFiles() != null){
+            List<CafeImage> cafeImages = cafe.getCafeImages();
+            List<String> deleteKeys = new ArrayList<>();
+            for (CafeImage cafeImage : cafeImages) {
+                // 3번째 '/'의 위치를 찾아서 +1 번째 부터 문자열 반환받아 key값으로 사용
+                int location = cafeImage.getCafeImageUrl().indexOf("/", 10);
+                String deleteKey = cafeImage.getCafeImageUrl().substring(location + 1);
+                deleteKeys.add(deleteKey);
+            }
+            cafeImageRepository.deleteAllInBatch(cafeImages);
+
+            List<MultipartFile> files = requestDto.getFiles();
+            // s3저장 후 url 반환받음
+            List<String> cafeImageUrlList = s3Service.reupload(files, "cafeImage", deleteKeys);
+
+            // 카페 이미지 생성
+            for (int i = 0; i < files.size(); i++) {
+                MultipartFile file = files.get(i);
+                String cafeImageUrl = cafeImageUrlList.get(i);
+                CafeImage cafeImage = new CafeImage(file.getOriginalFilename(), cafeImageUrl);
+                cafe.addCafeImage(cafeImage);
+            }
+        }
     }
 
     @Transactional
@@ -166,5 +178,37 @@ public class CafeService {
                 .collect(Collectors.toList());
 
         return cafeCalenderInfoResponseDtos;
+    }
+
+    // 리뷰등록
+    @Transactional
+    public void saveCafeReview(CafeReviewRequestDto requestDto, Long cafeNumber, User securityUser) {
+        User user = userRepoistory.getById(securityUser.getId());
+        Cafe cafe = cafeRepository.findById(cafeNumber).orElseThrow(
+                () -> new IllegalArgumentException(CAFE_NOT_FOUND.getMessage())
+        );
+        CafeReview cafeReview = new CafeReview(requestDto);
+        user.addCafeReview(cafeReview);
+        cafe.addCafeReview(cafeReview);
+
+        cafeReviewRepository.save(cafeReview);
+    }
+
+    public Page<CafeReviewResponseDto> findCafeReviewListByCafeId(Long cafeNumber, int page, int size, String searchStrategy) {
+
+        SortStrategy sortStrategy = sortStrategyMap.get(searchStrategy);
+        Sort sort = sortStrategy.sort();
+
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
+
+        Page<CafeReview> all = cafeReviewRepository.findAllByCafeId(cafeNumber ,pageable);
+
+//        return all.map(CafeReview -> new CafeReviewResponseDto(CafeReview));
+        return all.map(CafeReviewResponseDto::new);
+    }
+
+    @Transactional
+    public void removeCafeReviewByReviewId(Long id) {
+        cafeReviewRepository.deleteById(id);
     }
 }

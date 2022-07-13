@@ -2,7 +2,6 @@ package com.eventcafecloud.cafe.controller;
 
 import com.eventcafecloud.cafe.dto.CafeCreateRequestDto;
 import com.eventcafecloud.cafe.dto.CafeDetailResponseDto;
-import com.eventcafecloud.cafe.dto.CafeReviewRequestDto;
 import com.eventcafecloud.cafe.dto.CafeUpdateRequestDto;
 import com.eventcafecloud.cafe.service.CafeService;
 import com.eventcafecloud.user.domain.User;
@@ -48,17 +47,9 @@ public class CafeController {
         return "redirect:/";
     }
 
-    /**
-     * 카페리뷰등록
-     */
-    @PostMapping("/cafes/{id}/registration/review")
-    public String createCafeReview(User loginUser, @PathVariable Long id, CafeReviewRequestDto requestDto) {
-        cafeService.saveCafeReview(requestDto, id, loginUser);
 
-        return "redirect:/";
-    }
 
-    // 카페 전체 조회
+    // 카페 전체 조회 페이지 호출
     @GetMapping("/cafes/allList")
     public String getCafeListPage(User loginUser, Model model){
         if (loginUser != null) {

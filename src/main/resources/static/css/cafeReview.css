@@ -1,0 +1,86 @@
+#reviews{
+    margin-top: 40px;
+}
+
+#reviews .star-box{
+    display: flex;
+}
+
+#reviews .star-box .star-rating{
+    display: inline-block;
+    direction: rtl; /* 별 선택 좌우 반전 */
+    font-size: 2rem;
+    font-family: 'Do Hyeon', sans-serif;
+}
+
+#reviews .star-box .textBox{
+    padding-left: 20px;
+    padding-top: 22px;
+}
+
+#reviews .review-input-box{
+    display: flex;
+}
+
+#reviews .review-input-box .textarea-box{
+    width: 80%;
+}
+
+#reviews .review-input-box .button-box{
+    padding-left: 20px;
+}
+
+#reviews .review-input-box .button-box button{
+    padding: 18px;
+}
+/* 라디오 버튼 숨기기 */
+.star-rating input[type=radio] {
+    display: none;
+}
+
+.star-rating label {
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke-width: 2.3px;
+    -webkit-text-stroke-color: #2b2a29;
+    cursor: pointer;
+}
+
+.star-rating :checked ~ label {
+    -webkit-text-fill-color: darkorange;
+}
+
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    -webkit-text-fill-color: darkorange;
+}
+
+/* 작성된 리뷰 */
+
+#review-list-container .review-container{
+    display: flex;
+    margin: 10px 0 5px 0;
+}
+#review-list-container .review-container .review-info{
+    padding: 0 20px;
+    width: 70%;
+}
+
+#review-list-container .review-container .review-info-top{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+#review-list-container .review-container .review-info-middle{
+    margin: 20px 0;
+}
+
+#review-list-container .review-container .review-info-bottom{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+#pagination {
+    margin: 20px 0 20px 100px;
+}
