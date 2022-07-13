@@ -6,7 +6,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 @Component
-@Qualifier("priceAsc")
 public class PriceAsc implements SortStrategy{
     @Override
     public Sort sort() {

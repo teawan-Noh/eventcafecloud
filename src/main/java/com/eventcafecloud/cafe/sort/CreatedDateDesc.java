@@ -5,7 +5,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 @Component
-@Primary
 public class CreatedDateDesc implements SortStrategy{
     @Override
     public Sort sort() {
