@@ -10,8 +10,6 @@ import java.util.List;
 public interface EventRepository extends JpaRepository<Event, Long> {
     List<Event> findTop5ByOrderByCreatedDateDesc();
     List<Event> findALLByCafeId(Long id);
-
     Page<Event> findAllByCafeId(Long cafeId, Pageable pageRequest);
-
     Page<Event> findAllByUserId(Long userId, Pageable pageRequest);
 }
