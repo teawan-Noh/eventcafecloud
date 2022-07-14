@@ -2,7 +2,6 @@ package com.eventcafecloud.cafe.controller;
 
 import com.eventcafecloud.cafe.dto.CafeCreateRequestDto;
 import com.eventcafecloud.cafe.dto.CafeDetailResponseDto;
-import com.eventcafecloud.cafe.dto.CafeReviewRequestDto;
 import com.eventcafecloud.cafe.dto.CafeUpdateRequestDto;
 import com.eventcafecloud.cafe.service.CafeService;
 import com.eventcafecloud.user.domain.User;
@@ -25,7 +24,6 @@ public class CafeController {
     @Secured("ROLE_HOST")
     @GetMapping("/cafes/registration")
     public String cafeCreateForm(Model model, User loginUser){
-
         if (loginUser != null) {
             model.addAttribute("userNick", loginUser.getUserNickname());
             model.addAttribute("userId", loginUser.getId());
@@ -49,20 +47,11 @@ public class CafeController {
         return "redirect:/";
     }
 
-    /**
-     * 카페리뷰등록
-     */
-    @PostMapping("/cafes/{id}/registration/review")
-    public String createCafeReview(User loginUser, @PathVariable Long id, CafeReviewRequestDto requestDto) {
-        cafeService.saveCafeReview(requestDto, id, loginUser);
 
-        return "redirect:/";
-    }
 
-    // 카페 전체 조회
+    // 카페 전체 조회 페이지 호출
     @GetMapping("/cafes/allList")
     public String getCafeListPage(User loginUser, Model model){
-
         if (loginUser != null) {
             model.addAttribute("userNick", loginUser.getUserNickname());
             model.addAttribute("userId", loginUser.getId());
@@ -74,7 +63,6 @@ public class CafeController {
     // 카페 상세보기
     @GetMapping("/cafes/{id}/detail")
     public String getCafeDetailPage(@PathVariable Long id, Model model, User loginUser){
-
         if (loginUser != null) {
             model.addAttribute("userNick", loginUser.getUserNickname());
             model.addAttribute("userId", loginUser.getId());
@@ -93,7 +81,7 @@ public class CafeController {
             model.addAttribute("userNick", loginUser.getUserNickname());
             model.addAttribute("userId", loginUser.getId());
         }
-        CafeUpdateRequestDto CafeUpdateRequestDto = cafeService.findCafeByIdForUpdate(id);
+        CafeUpdateRequestDto CafeUpdateRequestDto = cafeService.findCafeByIdForUpdateForm(id);
 
         model.addAttribute("cafeUpdateRequestDto", CafeUpdateRequestDto);
         model.addAttribute("cafeId", id);
@@ -104,11 +92,11 @@ public class CafeController {
     // 카페 수정
     @PostMapping("/cafes/{id}")
     public String updateCafeInfo(@PathVariable Long id, @Valid CafeUpdateRequestDto requestDto, BindingResult result){
-
         if(result.hasErrors()){
             return "/cafes/updateForm?id="+id;
         }
         cafeService.modifyCafe(id, requestDto);
+
         return "redirect:/cafes/allList";
     }
 

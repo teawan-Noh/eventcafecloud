@@ -3,107 +3,23 @@
 <head>
     <th:block th:replace="fragments/header :: header"/>
     <th:block th:replace="fragments/mainHeader :: mainHeader"/>
+    <!--  paging  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/cafeDetail.css">
+    <link rel="stylesheet" type="text/css" href="/css/cafeReview.css">
+    <script th:inline="javascript">
+        let x = [[${cafeDetailResponseDto.getCafeX()}]];
+        let y = [[${cafeDetailResponseDto.getCafeY()}]];
+        let id = [[${cafeDetailResponseDto.getCafeNumber()}]];
+    </script>
+    <script src="/js/cafe/cafeReview.js"></script>
+    <script>
+        $(document).ready(function(){
+            getCafeReviewList();
+        });
+    </script>
 
-    <style>
-        #mainContainer {
-            width: 80%;
-            margin: auto;
-        }
-
-        #cafeDetailTop ul {
-            display: flex;
-        }
-
-        #cafeDetailTop ul li {
-            font-size: 0.8em;
-            color: black;
-            margin-right: 10px;
-            padding: 3px 4px;
-            border: solid 1px lightslategray;
-            border-radius: 50%;
-        }
-
-        #cafeDetailTop .titleBox {
-            font-weight: bold;
-        }
-
-        #cafeDetailMiddle {
-            display: flex;
-            padding-top: 50px;
-        }
-
-        #cafeDetailMiddle .leftImgBox {
-            width: 65%;
-            /*height: 20%;*/
-        }
-
-        #cafeDetailMiddle .leftImgBox .carousel-inner div img {
-            height: 600px;
-        }
-
-        #cafeDetailMiddle .rightInfoBox {
-            width: 33%;
-        }
-
-        #cafeDetailMiddle .rightInfoBox {
-            margin-left: 50px;
-        }
-
-        #calendar {
-            height: 500px;
-        }
-
-        .titleBox {
-            font-weight: bold;
-            font-size: 30px;
-        }
-
-        .infoBox {
-            color: #9B9B9B;
-        }
-
-        .eventButton {
-            width: 400px;
-            border: none;
-            paddinb: 20px;
-            background-color: #4C7A01;
-            color: white;
-            font-size: 20px;
-            font-weight: bold;
-            border-radius: 5px;
-        }
-
-        #eventRegisterBtn {
-            padding-top: 10px;
-            text-align: center;
-            margin: auto;
-        }
-
-        #cafeDetailTop ul li {
-            background-color: darkorange;
-            color: white;
-            border-radius: 0px 0px 5px 0px;
-            font-family: 'Poor Story', cursive;
-            border: none;
-        }
-
-        #cafePriceInfo {
-            background-color: #F5F5DC;
-            border-radius: 0px 0px 20px 0px;
-            margin-top: 10px;
-            font-weight: bold;
-            padding-left: 20px;
-            padding-top: 10px;
-            padding-bottom: 5px;
-        }
-
-        #cafeDetailBottom {
-            background-color: floralwhite;
-            padding: 30px;
-            margin-top: 20px;
-        }
-
-    </style>
 </head>
 <body>
 <div th:replace="fragments/mainTop :: mainTop"/>
@@ -125,8 +41,7 @@
         </div>
         <div class="optionBox">
             <ul>
-                <li class="optionList" th:each="cafeOption : ${cafeDetailResponseDto.getCafeOptions()}"
-                    th:text="'#'+${cafeOption}"></li>
+                <li class="optionList" th:each="cafeOption : ${cafeDetailResponseDto.getCafeOptions()}" th:text="'#'+${cafeOption}"></li>
             </ul>
         </div>
     </section>
@@ -135,28 +50,21 @@
         <div class="leftImgBox">
             <!-- Carousel -->
             <div id="demo" class="carousel slide" data-bs-ride="carousel">
-                <!--     이미지 슬라이드 타임리프로 처리하는법 모르겠슈  active가 껴있어서 이걸 어떻게 해야하나 문제네     -->
                 <!-- The slideshow/carousel -->
                 <div class="carousel-inner">
-                    <!--                    <div class="carousel-item active" th:each="cafeImg : ${cafeDetailResponseDto.getCafeImgUrls()}">-->
                     <div class="carousel-item active">
-                        <img alt="Los Angeles" class="d-block" style="width:100%"
-                             th:src="${cafeDetailResponseDto.getCafeImgUrls().get(0)}">
-                        <div class="carousel-caption">
-                        </div>
+                        <img th:src="${cafeDetailResponseDto.getCafeImgUrls().get(0)}" class="d-block"
+                             style="width:100%">
                     </div>
-                    <!--                <div class="carousel-item">-->
-                    <!--                    <img alt="Chicago" class="d-block" src="/banner2.png" style="width:100%">-->
-                    <!--                    <div class="carousel-caption">-->
-                    <!--                    </div>-->
-                    <!--                </div>-->
-                    <!--                <div class="carousel-item">-->
-                    <!--                    <img alt="New York" class="d-block" src="/banner3.png" style="width:100%">-->
-                    <!--                    <div class="carousel-caption">-->
-                    <!--                    </div>-->
-                    <!--                </div>-->
+                    <div th:if="${cafeDetailResponseDto.getCafeImgUrls().get(1)} != null" class="carousel-item">
+                        <img th:src="${cafeDetailResponseDto.getCafeImgUrls().get(1)}" class="d-block"
+                             style="width:100%">
+                    </div>
+                    <div th:if="${cafeDetailResponseDto.getCafeImgUrls().get(2)} != null" class="carousel-item">
+                        <img th:src="${cafeDetailResponseDto.getCafeImgUrls().get(2)}" class="d-block"
+                             style="width:100%">
+                    </div>
                 </div>
-
                 <!-- Left and right controls/icons -->
                 <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
                     <span class="carousel-control-prev-icon"></span>
@@ -206,13 +114,38 @@
             <div id="staticMap" style="width:600px;height:350px;"></div>
         </div>
     </section>
+    <section id="reviews">
+        <h2>이용 후기</h2>
+        <div class="star-box">
+            <div class="star-rating">
+                <input id="5-stars" name="rating" type="radio" value="5"/>
+                <label class="star" for="5-stars">&#9733;</label>
+                <input id="4-stars" name="rating" type="radio" value="4"/>
+                <label class="star" for="4-stars">&#9733;</label>
+                <input id="3-stars" name="rating" type="radio" value="3"/>
+                <label class="star" for="3-stars">&#9733;</label>
+                <input id="2-stars" name="rating" type="radio" value="2"/>
+                <label class="star" for="2-stars">&#9733;</label>
+                <input id="1-star" name="rating" type="radio" value="1"/>
+                <label class="star" for="1-star">&#9733;</label>
+            </div>
+            <div class="textBox">
+                <span style="color: #2b2a29">별점을 입력해주세요</span>
+            </div>
+        </div>
+        <div class="review-input-box">
+            <div class="textarea-box">
+                <textarea class="form-control" id="textarea-review" placeholder="후기를 작성해주세요!"></textarea>
+            </div>
+            <div class="button-box">
+                <button onclick="addReview()">리뷰 등록</button>
+            </div>
+        </div>
+        <div id="review-list-container"></div>
+        <div id="pagination"></div>
+    </section>
 </div>
 </body>
-<script th:inline="javascript">
-    let x = [[${cafeDetailResponseDto.getCafeX()}]];
-    let y = [[${cafeDetailResponseDto.getCafeY()}]];
-    let id = [[${cafeDetailResponseDto.getCafeNumber()}]];
-</script>
 <script src="/js/cafe/kakaoMapForDetail.js"></script>
 <script src="/js/cafe/calenderApi.js"></script>
 </html>

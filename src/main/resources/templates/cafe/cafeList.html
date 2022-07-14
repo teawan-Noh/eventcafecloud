@@ -19,9 +19,23 @@
 <div class="topBanner">
     <div class="topFont">카페</div>
 </div>
-<div id="cafeBox">
-    <div id="cafeListContainer"></div>
-</div>
-<div id="pagination" class="pagination"></div>
+<section>
+    <div id="searchBox" class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="이름으로 검색">
+        <button class="btn btn-success" type="submit" onclick="getCafeList()">검색</button>
+    </div>
+    <div class="filter">
+        <span style="font-size: medium">정렬</span> : &nbsp;
+        <select id="sorting" onchange="getCafeList()">
+            <option value="createdDateDesc">-선택-</option>
+            <option value="priceDesc">높은 가격순</option>
+            <option value="priceAsc">낮은 가격순</option>
+        </select>
+    </div>
+    <div id="cafeBox">
+        <div id="cafeListContainer"></div>
+    </div>
+    <div id="pagination" class="cafeListPagePagination"></div>
+</section>
 </body>
 </html>
