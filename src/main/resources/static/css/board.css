@@ -22,7 +22,7 @@
 }
 
 #commentContent {
-    font-size: 19px;
+    font-size: 17px;
 }
 
 #commentCreatedDate {
@@ -69,4 +69,3 @@
     float: right;
     border: white;
 }
-
