@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="fragments/header :: header"/>
+    <th:block th:replace="fragments/mainHeader :: mainHeader"/>
+</head>
+<body>
+<div th:replace="fragments/mainTop :: mainTop"/>
+<div class="topBanner">
+    <div class="topFont" th:text="${cafeName}">호스트페이지</div>
+</div>
+<div class="left">
+    <div class="menuVar">
+        <ul>
+            <li><a class="menuVar-link" th:href="@{/hosts/profile/{id}/info(id=${userId})}">내 프로필</a></li>
+            <li><a class="menuVar-link" th:href="@{/hosts/profile/{id}/cafes(id=${userId})}">내 카페목록</a></li>
+        </ul>
+    </div>
+</div>
+<div class="right">
+    <div class="right-eventList">
+        <div th:replace="profile-host/fragments/reservation :: reservation"/>
+    </div>
+    <div class="right-schedule">
+        <div th:replace="profile-host/fragments/schedule :: schedule"/>
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+    $.datepicker.setDefaults({
+        dateFormat: 'yy-mm-dd',
+        prevText: '이전 달',
+        nextText: '다음 달',
+        monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+        monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+        dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+        dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+        showMonthAfterYear: true,
+        yearSuffix: '년'
+    });
+
+
+    $(function () {
+        $('#datePicker-start').datepicker({});
+
+        $('#datePicker-end').datepicker({});
+    });
+</script>

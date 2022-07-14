@@ -33,7 +33,6 @@ public class PostService {
         User user = userRepository.findByUserEmail(loginUser.getUserEmail()).orElseThrow(() ->
                 new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
         Post post = new Post(requestDto, user, postType);
-
         postRepository.save(post);
     }
 
@@ -69,20 +68,32 @@ public class PostService {
     }
 
     //UserID로 게시글 조회
+
+    /**
+     * 사용자에 따른 게시글 가져오기
+     */
     @Transactional(readOnly = true)
-    public Page<Post> getPostListByUser(Long userId, Pageable pageable) {
+    public Page<Post> findPostListByUser(Long userId, Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-        pageable = PageRequest.of(page, 10);
+        pageable = PageRequest.of(page, 5);
 
         return postRepository.findAllByUserId(userId, pageable);
     }
 
+    @Transactional(readOnly = true)
+    public Page<Post> findAllPostList(Pageable pageable) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 5);
+
+        return postRepository.findAll(pageable);
+    }
+
     //유저게시판 게시글 조회
     @Transactional(readOnly = true)
-    public Page<Post> findPostList(Pageable pageable){
+    public Page<Post> findPostList(Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-        pageable = PageRequest.of(page, 20 , Sort.Direction.DESC,"id");
-        return postRepository.findPostsByPostType(PostType.USERPOST,pageable);
+        pageable = PageRequest.of(page, 20, Sort.Direction.DESC, "id");
+        return postRepository.findPostsByPostType(PostType.USERPOST, pageable);
     }
 
     //공지게시판 게시글 조회

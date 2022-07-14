@@ -13,6 +13,6 @@ public interface CafeRepository extends JpaRepository<Cafe, Long>{
 //    Page<Cafe> findAll(Pageable pageable);
 
     List<Cafe> findTop5ByOrderByCreatedDateDesc();
-
     Page<Cafe> findAllByCafeNameContaining(String searchVal, Pageable pageable);
+    Page<Cafe> findAllByUserId(Long userId, Pageable pageRequest);
 }

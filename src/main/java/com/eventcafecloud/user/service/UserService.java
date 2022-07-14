@@ -34,7 +34,7 @@ public class UserService {
         return user;
     }
 
-    public User getUserById(Long id) {
+    public User findUserById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
         return user;
