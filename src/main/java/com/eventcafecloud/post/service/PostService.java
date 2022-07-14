@@ -29,23 +29,22 @@ public class PostService {
     private final UserRepository userRepository;
 
     //게시글 작성
-    public void createPost(PostCreateRequestDto requestDto, User loginUser, PostType postType) {
+    public void savePost(PostCreateRequestDto requestDto, User loginUser, PostType postType) {
         User user = userRepository.findByUserEmail(loginUser.getUserEmail()).orElseThrow(() ->
                 new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
         Post post = new Post(requestDto, user, postType);
-
         postRepository.save(post);
     }
 
     //게시글 업데이트
-    public void updatePost(@PathVariable Long id, PostUpdateRequestDto requestDto){
+    public void modifyPost(@PathVariable Long id, PostUpdateRequestDto requestDto){
         Post post = postRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
         post.updatePost(requestDto);
     }
 
     //게시글 삭제
-    public void deletePost(Long id) {
+    public void removePost(Long id) {
         try {
             postRepository.deleteById(id);
         }catch (Exception e) {
@@ -61,7 +60,7 @@ public class PostService {
     }
 
     //게시글 조회 및 조회수 증가
-    public PostReadResponseDto getPostUpdatedCount(Long id) {
+    public PostReadResponseDto findPostUpdatedCount(Long id) {
         Post post = postRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
         post.updateCount();
@@ -70,19 +69,28 @@ public class PostService {
 
     //UserID로 게시글 조회
     @Transactional(readOnly = true)
-    public Page<Post> getPostListByUser(Long userId, Pageable pageable) {
+    public Page<Post> findPostListByUser(Long userId, Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-        pageable = PageRequest.of(page, 10);
+        pageable = PageRequest.of(page, 5);
 
         return postRepository.findAllByUserId(userId, pageable);
     }
 
+    //어드민페이지 게시글 조회
+    @Transactional(readOnly = true)
+    public Page<Post> findAllPostList(Pageable pageable) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 5);
+
+        return postRepository.findAll(pageable);
+    }
+
     //유저게시판 게시글 조회
     @Transactional(readOnly = true)
-    public Page<Post> findPostList(Pageable pageable){
+    public Page<Post> findPostList(Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-        pageable = PageRequest.of(page, 20 , Sort.Direction.DESC,"id");
-        return postRepository.findPostsByPostType(PostType.USERPOST,pageable);
+        pageable = PageRequest.of(page, 20, Sort.Direction.DESC, "id");
+        return postRepository.findPostsByPostType(PostType.USERPOST, pageable);
     }
 
     //공지게시판 게시글 조회

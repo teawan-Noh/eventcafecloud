@@ -14,6 +14,8 @@ public class EventCreateRequestDto {
     private EventCategory eventCategory;
     private String eventStartDate;
     private String eventEndDate;
+
+    @NotEmpty(message = "소개 입력은 필수 입니다.")
     private String eventInfo;
     private String eventPrice;
     private List<MultipartFile> files;

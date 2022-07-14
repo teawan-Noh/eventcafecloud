@@ -100,11 +100,18 @@ public class CafeService {
         return cafeListResponseDtos;
     }
 
-    public Page<Cafe> getCafeList(Pageable pageable) {
+    public Page<Cafe> findAllCafeList(Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 10);
 
         return cafeRepository.findAll(pageable);
+    }
+
+    public Page<Cafe> findCafeListByUserId(Long id, Pageable pageable) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 3);
+
+        return cafeRepository.findAllByUserId(id, pageable);
     }
 
     public CafeDetailResponseDto findCafeByIdForDetail(Long id) {
@@ -121,6 +128,7 @@ public class CafeService {
 
         // Builder pattern으로 수정해보기
         return CafeUpdateRequestDto.toDto(cafe);
+//        return new CafeUpdateRequestDto(cafe);
     }
 
     @Transactional

@@ -4,6 +4,7 @@ import com.eventcafecloud.cafe.domain.Cafe;
 import com.eventcafecloud.cafe.repository.CafeRepository;
 import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.event.domain.EventImage;
+import com.eventcafecloud.event.domain.type.EventCategory;
 import com.eventcafecloud.event.dto.*;
 import com.eventcafecloud.event.repository.EventImageRepository;
 import com.eventcafecloud.event.repository.EventRepository;
@@ -83,12 +84,29 @@ public class EventService {
 
 
     // 전체 이벤트 목록
-    public List<EventListResponseDto> findEventList() {
-        List<Event> events = eventRepository.findAll();
-        List<EventListResponseDto> result = events.stream()
-                .map(e  -> new EventListResponseDto(e))
-                .collect(Collectors.toList());
-        return result;
+    public Page<EventListResponseDto> toDtoList(String keyword, EventCategory eventCategory, Pageable pageable) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() -1);
+        pageable = PageRequest.of(page, 10);
+
+        Page<Event> events = null;
+        if (eventCategory == null) {
+            events = eventRepository.findByEventNameContaining(keyword, pageable);
+        } else {
+            events = eventRepository.findByEventNameContainingAndEventCategory(keyword, eventCategory, pageable);
+        }
+
+        Page<EventListResponseDto> eventListResponseDtos = events.map(e ->
+                EventListResponseDto.builder()
+                        .eventNumber(e.getId())
+                        .eventName(e.getEventName())
+                        .eventCategory(e.getEventCategory())
+                        .eventStartDate(e.getEventStartDate())
+                        .eventEndDate(e.getEventEndDate())
+                        .eventImageUrls(e.getEventImages().stream()
+                                .map(i -> i.getEventImageUrl())
+                                .collect(Collectors.toList()))
+                        .build());
+        return eventListResponseDtos;
     }
 
     // 이벤트 상세
@@ -100,7 +118,7 @@ public class EventService {
     }
 
     // 이벤트 넘버로 이벤트 가져오기
-    public Event getEventById(Long eventNumber) {
+    public Event findEventById(Long eventNumber) {
         Event event = eventRepository.findById(eventNumber)
                 .orElseThrow(() -> new IllegalArgumentException(EVENT_NOT_FOUND.getMessage()));
         return event;
@@ -116,12 +134,31 @@ public class EventService {
         return eventListResponseDtos;
     }
 
-
     //이벤트목록가져오기(admin)
-    public Page<Event> getEventList(Pageable pageable) {
+    public Page<Event> findEventList(Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 10);
 
         return eventRepository.findAll(pageable);
+    }
+
+    /**
+     * 이벤트목록(예약내역)가져오기(myProfile)
+     */
+    public Page<Event> findEventListByUser(Long userId, Pageable pageable) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 5);
+
+        return eventRepository.findAllByUserId(userId, pageable);
+    }
+
+    /**
+     * 이벤트목록(예약내역)가져오기(hostProfile)
+     */
+    public Page<Event> findEventListByCafe(Long cafeId, Pageable pageable) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 5);
+
+        return eventRepository.findAllByCafeId(cafeId, pageable);
     }
 }
