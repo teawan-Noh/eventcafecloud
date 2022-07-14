@@ -9,9 +9,19 @@
 
 }
 
-.category-order-select {
+#category-select {
     height: 38px;
-    width: 300px;
+    width: 100%;
+}
+
+#input-search {
+    height: 38px;
+    width: 80%;
+}
+
+#btn-search {
+    height: 38px;
+    width: 17%;
 }
 
 .form-control {
@@ -20,18 +30,21 @@
 
 
 /*container*/
-.container {
-    width: 80%;
+#event-form-container {
+    width: 75%;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .card {
     margin: 15px;
     width: 300px;
-    height: 420px;
+    height: 450px;
 }
 
 .card-img-top {
-    height: 200px;
+    height: 250px;
     margin-bottom: 10px;
 }
 

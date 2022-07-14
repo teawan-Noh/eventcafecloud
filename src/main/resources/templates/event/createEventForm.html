@@ -72,10 +72,7 @@
         let weekendPrice = urlParams.get('weekendPrice');
         console.log(weekdayPrice);
 
-        // $('#eventPrice').attr('value', eventPrice(weekdayPrice, weekendPrice));
         $('#eventPrice').val(eventPrice(weekdayPrice, weekendPrice));
-        // let requestDto = [[${eventCreateRequestDto}]];
-        // requestDto.setEventPrice(eventPrice(weekdayPrice, weekendPrice));
     }
 
     function eventPrice(weekdayPrice, weekendPrice) {
