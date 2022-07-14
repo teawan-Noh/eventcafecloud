@@ -71,9 +71,9 @@ public class CafeService {
         cafeRepository.save(cafe);
     }
 
-    public Page<CafeListResponseDto> findAllCafeList(int page, int size, String searchVal, String searchStrategy) {
+    public Page<CafeListResponseDto> findAllCafeList(int page, int size, String searchVal, String sortStrategyKey) {
 
-        SortStrategy sortStrategy = sortStrategyMap.get(searchStrategy);
+        SortStrategy sortStrategy = sortStrategyMap.get(sortStrategyKey);
         Sort sort = sortStrategy.sort();
 
         Pageable pageable = PageRequest.of(page - 1, size, sort);
@@ -194,9 +194,9 @@ public class CafeService {
         cafeReviewRepository.save(cafeReview);
     }
 
-    public Page<CafeReviewResponseDto> findCafeReviewListByCafeId(Long cafeNumber, int page, int size, String searchStrategy) {
+    public Page<CafeReviewResponseDto> findCafeReviewListByCafeId(Long cafeNumber, int page, int size, String sortStrategyKey) {
 
-        SortStrategy sortStrategy = sortStrategyMap.get(searchStrategy);
+        SortStrategy sortStrategy = sortStrategyMap.get(sortStrategyKey);
         Sort sort = sortStrategy.sort();
 
         Pageable pageable = PageRequest.of(page - 1, size, sort);

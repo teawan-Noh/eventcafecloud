@@ -26,9 +26,9 @@ function addReview() {
 function getCafeReviewList() {
     let dataSource = null;
     // 정렬 조건 추가하면 사용 // 카페 list 페이지에서 사용하는 것 참조
-    // let searchStrategy = $("#sorting option:selected").val();
-    let searchStrategy = "createdDateDesc";
-    dataSource = `/api/cafes/${id}/review?searchStrategy=${searchStrategy}`;
+    // let sortStrategyKey = $("#sorting option:selected").val();
+    let sortStrategyKey = "createdDateDesc";
+    dataSource = `/api/cafes/${id}/review?sortStrategyKey=${sortStrategyKey}`;
 
     $('#review-list-container').empty();
     $('#pagination').pagination({
