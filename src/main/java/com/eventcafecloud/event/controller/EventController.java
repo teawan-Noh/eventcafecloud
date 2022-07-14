@@ -26,9 +26,6 @@ import org.springframework.web.bind.annotation.*;
 public class EventController {
 
     private final EventService eventService;
-    private final UserService userService;
-    private final AuthTokenProvider tokenProvider;
-    private final EventRepository eventRepository;
 
     // 이벤트 예약 폼
     @Secured("ROLE_NORMAL")
@@ -61,7 +58,7 @@ public class EventController {
     @GetMapping("/events/{eventNumber}/edit")
     public String updateEventForm(@PathVariable Long eventNumber, Model model){
         model.addAttribute("eventUpdateRequestDto", new EventUpdateRequestDto());
-        model.addAttribute("event", eventService.getEventById(eventNumber));
+        model.addAttribute("event", eventService.findEventById(eventNumber));
         return "updateEventModal";
     }
 
@@ -74,14 +71,14 @@ public class EventController {
 
     // 이벤트 삭제
     @DeleteMapping("/events/{eventNumber}/cancle")
-    public String cancleEvent(@PathVariable Long eventNumber) {
+    public String deleteEvent(@PathVariable Long eventNumber) {
         eventService.removeEvent(eventNumber);
         return "redirect:/events";
     }
 
     // 이벤트 리스트 보기
     @GetMapping("/events")
-    public String eventList(@PageableDefault(size = 10) Pageable pageable,
+    public String getEventList(@PageableDefault(size = 10) Pageable pageable,
                             @RequestParam(required = false, defaultValue = "", value="keyword") String keyword,
                             @RequestParam(required = false, value="eventCategory") EventCategory eventCategory,
                             User loginUser, Model model) {
@@ -105,7 +102,7 @@ public class EventController {
 
     // 이벤트 상세
     @GetMapping("/events/{eventNumber}/detail")
-    public String eventDetail(User loginUser, @PathVariable Long eventNumber, Model model) {
+    public String getEventDetail(User loginUser, @PathVariable Long eventNumber, Model model) {
         if (loginUser != null) {
             model.addAttribute("userNick", loginUser.getUserNickname());
             model.addAttribute("userId", loginUser.getId());
@@ -113,7 +110,7 @@ public class EventController {
 
         EventReadResponseDto eventReadResponseDto = eventService.findEvent(eventNumber);
         model.addAttribute("eventReadResponseDto", eventReadResponseDto);
-        model.addAttribute("event", eventService.getEventById(eventNumber));
+        model.addAttribute("event", eventService.findEventById(eventNumber));
         return "event/eventDetail";
     }
 }

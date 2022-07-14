@@ -118,7 +118,7 @@ public class EventService {
     }
 
     // 이벤트 넘버로 이벤트 가져오기
-    public Event getEventById(Long eventNumber) {
+    public Event findEventById(Long eventNumber) {
         Event event = eventRepository.findById(eventNumber)
                 .orElseThrow(() -> new IllegalArgumentException(EVENT_NOT_FOUND.getMessage()));
         return event;
