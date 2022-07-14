@@ -140,7 +140,10 @@
                     <p class="card-text" th:text="${eventReadResponseDto.getCafeZonecode()}">카페 우편번호</p>
                     <p class="card-text" th:text="${eventReadResponseDto.getCafeAddress()}">카페 주소</p>
                     <p class="card-text" th:text="${eventReadResponseDto.getCafeAddressDetail()}">카페 상세주소</p>
-                    <button type="button" class="btn btn-outline-dark"><a href = "#" >카페 상세보기</a></button>
+                    <button type="button" class="btn btn-outline-dark"
+                        th:onclick="|location.href='/cafes/${eventReadResponseDto.getCafeNumber()}/detail'|">
+                            카페 상세보기
+                        </button>
                 </div>
             </div>
         </div>
@@ -155,12 +158,11 @@
             <div class="card-img-poster" th:each="imageUrl : ${eventReadResponseDto.EventImageUrls}">
                 <img class="card-img-poster" th:src="${imageUrl}" alt="..." />
             </div>
-<!--            <img class="card-img-poster" th:src="@{${eventReadResponseDto.getEventImageUrls().get(1)}}" alt="..." />-->
         </div>
         <br>
     </section>
     <hr>
-    <button type="button" class="btn btn-outline-dark"><a href = "#" > TOP ▴ </a></button>
+    <button type="button" class="btn btn-outline-dark"><a href = "#" style="text-decoration-line: none;"> TOP ▴ </a></button>
 
 <!--    -->
 <!--    &lt;!&ndash; Update Modal &ndash;&gt;-->
@@ -201,7 +203,7 @@
 <!--        </div>-->
 <!--    </div>-->
 
-    ?
+
 
     <!--    <section>-->
 <!--        <div class="page">-->

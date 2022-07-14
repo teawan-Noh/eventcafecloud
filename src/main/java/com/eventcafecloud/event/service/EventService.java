@@ -133,7 +133,7 @@ public class EventService {
                 .collect(Collectors.toList());
         return eventListResponseDtos;
     }
-    
+
     //이벤트목록가져오기(admin)
     public Page<Event> getEventList(Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);

@@ -15,14 +15,14 @@ function getEventTop5() {
 }
 
 function createHtml(event) {
-    const id = event["id"];
+    const eventNumber = event["eventNumber"];
     const eventImageUrls = event["eventImageUrls"]
     const eventName = event["eventName"];
     const eventCategory = event["eventCategory"];
     const eventStartDate = event["eventStartDate"];
     const eventEndDate = event["eventEndDate"];
 
-    return `<div class="card" onclick="#" >
+    return `<div class="card" onclick="location.href='/events/${eventNumber}/detail'">
                             <div class="card-image">
                                 <figure class="image is-4by3">
                                     <img src="${eventImageUrls[0]}" class="card-img-top" alt="Placeholder image">
