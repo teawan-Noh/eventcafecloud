@@ -112,6 +112,32 @@
     border-radius: 10px;
 }
 
+.button-set {
+    float: right;
+    width: 30%;
+}
+
+.modify-button {
+    float: right;
+    margin-left: 10px;
+    display: inline-block;
+    border: none;
+    color: white;
+    background-color: darkorange;
+    padding: 5px;
+    font-size: 15px;
+}
+
+.delete-button {
+    float: right;
+    display: inline-block;
+    border: none;
+    color: white;
+    background-color: #bd2130;
+    padding: 5px;
+    font-size: 15px;
+}
+
 .cafe-rating {
     display: inline-block;
     padding-left: 10px;
