@@ -1,0 +1,87 @@
+.right-eventList {
+    width: 45%;
+    display: inline-block;
+}
+
+.right-schedule {
+    width: 45%;
+    display: inline-block;
+}
+
+.post-form {
+    padding-top: 20px;
+}
+
+.postBox {
+    width: 80%;
+    margin: auto;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+
+.posts-box {
+    width: 100%;
+}
+
+.res-content {
+    margin-bottom: 10px;
+    width: 100%;
+    float: left;
+    padding: 5px 30px 10px 30px;
+    background-color: #F5F5DC;
+    color: #2b2a29;
+}
+
+.res-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 2px;
+    border-bottom: 1px solid #9B9B9B;
+}
+
+.user-name {
+    font-size: 15px;
+    font-weight: bold;
+    margin-bottom: 2px;
+    color: #4C7A01;
+    border-right: 10px;
+}
+
+.res-comment {
+    float: right;
+    font-weight: bold;
+}
+
+.post-day {
+    float: left;
+    margin-right: 10px;
+    color: #9B9B9B;
+}
+
+.post-info {
+    float: left;
+}
+
+.post-count {
+    float: left;
+    color: #9B9B9B;
+}
+
+.res-button {
+    border: none;
+    color: white;
+    background-color: #4C7A01;
+    padding: 8px;
+    font-size: 15px;
+    border-radius: 10px;
+    float: right;
+}
+
+.holiday-content {
+    margin-bottom: 10px;
+    width: 100%;
+    float: left;
+    padding: 5px 30px 10px 30px;
+    background-color: aliceblue;
+    color: #2b2a29;
+}

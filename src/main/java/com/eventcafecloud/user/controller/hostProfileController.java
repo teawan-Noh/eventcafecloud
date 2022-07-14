@@ -45,16 +45,6 @@ public class hostProfileController {
         return "/profile-host/host-userInfo";
     }
 
-//    @GetMapping("/{id}/reservation")
-//    public String getUserReservationById(@PageableDefault Pageable pageable, @PathVariable Long id, Model model, User loginUser) {
-//        Page<Event> eventList = eventService.getEventListByUser(id, pageable);
-//        model.addAttribute("events", eventList);
-//        model.addAttribute("userNick", loginUser.getUserNickname());
-//        model.addAttribute("userId", loginUser.getId());
-//
-//        return "/profile/profile-reservation";
-//    }
-
     @GetMapping("/{id}/cafes")
     public String getCafeByUserId(@PageableDefault Pageable pageable, @PathVariable Long id, Model model, User loginUser) {
         Page<Cafe> cafeList = cafeService.getCafeListByUserId(id, pageable);
@@ -73,14 +63,19 @@ public class hostProfileController {
         model.addAttribute("schedules", scheduleList);
         model.addAttribute("userNick", loginUser.getUserNickname());
         model.addAttribute("userId", loginUser.getId());
+        model.addAttribute("cafeId", cafeId);
+        model.addAttribute("cafeName", cafeService.findCafeByIdForDetail(cafeId).getCafeName());
+        //휴무일등록시, 등록 정보를 받아올 객체를 넘김
+        model.addAttribute("requestDto", new CafeScheduleRequestDto());
+
         return "/profile-host/host-schedule";
     }
 
-    @PostMapping("/{id}/cafes/{cafeId}/schedule/holiday")
-    public String createHoliday(@Valid CafeScheduleRequestDto requestDto, BindingResult result, @PathVariable Long cafeId, User loginUser) {
+    @PostMapping("/{userId}/cafes/{cafeId}/schedule/holiday")
+    public String createHoliday(@Valid CafeScheduleRequestDto requestDto, BindingResult result, @PathVariable Long userId, @PathVariable Long cafeId) {
         cafeScheduleService.saveCafeSchedule(requestDto, cafeId);
-        
-        return "redirect:/hosts/profile/{id}/cafes/{cafeId}/schedule";
+
+        return "redirect:/hosts/profile/" + userId + "/cafes/" + cafeId + "/schedule";
     }
 
 

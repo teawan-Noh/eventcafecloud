@@ -7,7 +7,7 @@
 <body>
 <div th:replace="fragments/mainTop :: mainTop"/>
 <div class="topBanner">
-    <div class="topFont" th:text="해당카페이름">호스트페이지</div>
+    <div class="topFont" th:text="${cafeName}">호스트페이지</div>
 </div>
 <div class="left">
     <div class="menuVar">
@@ -27,11 +27,24 @@
 </div>
 </body>
 </html>
-<script>
-    $("#file").on('change', function () {
-        var fileName = $("#file").val();
-        $(".upload-name").val(fileName);
+<script type="text/javascript">
+    $.datepicker.setDefaults({
+        dateFormat: 'yy-mm-dd',
+        prevText: '이전 달',
+        nextText: '다음 달',
+        monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+        monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+        dayNames: ['일', '월', '화', '수', '목', '금', '토'],
+        dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
+        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
+        showMonthAfterYear: true,
+        yearSuffix: '년'
     });
 
-    let id = document.location.href.split("/").reverse()[1]
+
+    $(function () {
+        $('#datePicker-start').datepicker({});
+
+        $('#datePicker-end').datepicker({});
+    });
 </script>

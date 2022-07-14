@@ -1,0 +1,40 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="scheduleRegisterModal">
+    <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle" class="modal fade"
+         id="exampleModalCenter"
+         role="dialog" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">휴무일등록</h5>
+                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form method="post"
+                      th:action="@{/hosts/profile/{id}/cafes/{cafeId}/schedule/holiday(id=${userId}, cafeId=${cafeId})}"
+                      th:object="${requestDto}">
+                    <div class="modal-body">
+                        <label>닉네임</label>
+                        <input class="form-control" placeholder="휴무 일정을 간략히 등록해주세요"
+                               th:field="*{cafeScheduleInfo}"
+                               type="text">
+                        <label>기간</label>
+                        <div class="input-group">
+                            <input class="form-control" id="datePicker-start" placeholder="시작일"
+                                   style="float: left; margin-right: 15px" th:field="*{cafeScheduleStartDate}"
+                                   type="text">
+                            <input class="form-control" id="datePicker-end" placeholder="종료일" style="float: right"
+                                   th:field="*{cafeScheduleEndDate}" type="text">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button">닫기</button>
+                        <button class="btn btn-primary cafeBtn" type="submit">확인</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</th:block>

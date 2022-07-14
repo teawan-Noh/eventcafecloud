@@ -222,7 +222,6 @@ li a:hover {
 
 .pagination {
     justify-content: center;
-    padding-right: 380px;
     width: 100%;
 }
 
@@ -234,12 +233,15 @@ li a:hover {
     padding: 5px;
     font-size: 15px;
     font-weight: bold;
+    display: inline-block;
 }
 
 .right-eventList {
-    width: 50%;
+    width: 45%;
+    display: inline-block;
 }
 
 .right-schedule {
-    width: 50%;
+    width: 45%;
+    display: inline-block;
 }
