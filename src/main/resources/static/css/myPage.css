@@ -216,3 +216,22 @@ li a:hover {
     border: 0;
 }
 
+.page {
+    text-align: center;
+}
+
+.pagination {
+    justify-content: center;
+    padding-right: 380px;
+    width: 100%;
+}
+
+.page-number {
+    background-color: white;
+    margin-left: 5px;
+    border: none;
+    color: #2b2a29;
+    padding: 5px;
+    font-size: 15px;
+    font-weight: bold;
+}

@@ -36,7 +36,7 @@ public class Event extends BaseTimeEntity {
     @Column(nullable = false)
     private String eventEndDate;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String eventInfo;
 
     @Column(nullable = false)
@@ -63,7 +63,7 @@ public class Event extends BaseTimeEntity {
         this.eventStartDate = requestDto.getEventStartDate();
         this.eventEndDate = requestDto.getEventEndDate();
         this.eventInfo = requestDto.getEventInfo();
-        this.eventPrice = requestDto.getEventPrice();
+        this.eventPrice = Integer.valueOf(requestDto.getEventPrice());
         this.eventCancelAvail = true;
     }
 

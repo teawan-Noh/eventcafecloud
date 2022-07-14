@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<div th:fragment="manage-cafe">
+<div th:fragment="manage-event">
     <div>
         <div onclick="location.href='/'">
             <img class="logo" src="/ec2logo.png" style="width: 15%">
@@ -20,7 +20,7 @@
             <div class="profileBox">
                 <div class="card mb-4">
                     <div class="card-header">
-                        카페관리
+                        이벤트 관리
                     </div>
                     <div class="card-body">
                         <div class="option-search">
@@ -38,69 +38,66 @@
                                 <thead>
                                 <tr>
                                     <th>번호</th>
-                                    <th>카페이름</th>
-                                    <th>카페주소</th>
-                                    <th>등록일</th>
-                                    <th>수정일</th>
+                                    <th>카테고리</th>
+                                    <th>이벤트이름</th>
+                                    <th>이벤트시작일</th>
+                                    <th>이벤트종료일</th>
+                                    <th>결제금액</th>
                                     <th>상태</th>
-                                    <th>#</th>
                                     <th>#</th>
                                 </tr>
                                 </thead>
-                                <tr th:each="cafe: ${cafes}">
-                                    <td th:text="${cafe.getId}"></td>
-                                    <td th:text="${cafe.getCafeName}"></td>
-                                    <td th:text="${cafe.getCafeAddress}"></td>
-                                    <td th:text="${#temporals.format(cafe.getCreatedDate,'yyyy-MM-dd HH:mm')}"></td>
-                                    <td th:text="${#temporals.format(cafe.getModifiedDate,'yyyy-MM-dd HH:mm')}"></td>
-                                    <td>정상</td>
+                                <tr th:each="event: ${events}">
+                                    <td th:text="${event.getId}"></td>
+                                    <td th:text="${event.getEventCategory}"></td>
+                                    <td th:text="${event.getEventName}"></td>
+                                    <td th:text="${event.getEventStartDate}"></td>
+                                    <td th:text="${event.getEventEndDate}"></td>
+                                    <td th:text="${event.getEventPrice}"></td>
+                                    <td th:text="${event.getEventCancelAvail}"></td>
                                     <td>
                                         <button class="pass-button" data-toggle="modal"
-                                                th:data-target="'#'+${cafe.getId}" type="button">
+                                                th:data-target="'#'+${event.getId}" type="button">
                                             수정
                                         </button>
                                         <!--                                        <div th:replace="admin/fragments/manageCafeModal :: manageCafeModal"/>-->
                                     </td>
-                                    <td>
-                                        <form id="delete-form" method="post" th:action="@{'/cafes/' + ${cafe.getId}}">
-                                            <input name="_method" type="hidden" value="DELETE"/>
-                                            <button class="fail-button">삭제하기</button>
-                                        </form>
-                                    </td>
                                 </tr>
                             </table>
                         </div>
-                        <nav style="text-align: center;">
+                        <nav class="page" style="text-align: center;">
                             <ul class="pagination"
-                                th:with="start=${T(java.lang.Math).floor(cafes.number/10)*10 + 1},
-                    last=(${start + 9 < cafes.totalPages ? start + 9 : cafes.totalPages})">
+                                th:with="start=${T(java.lang.Math).floor(events.number/10)*10 + 1},
+                    last=(${start + 9 < events.totalPages ? start + 9 : events.totalPages})">
                                 <li>
-                                    <a aria-label="First" th:href="@{/admin/cafes(page=1)}">
+                                    <a aria-label="First" class="page-number" th:href="@{/admin/events(page=1)}">
                                         <span aria-hidden="true">First</span>
                                     </a>
                                 </li>
 
-                                <li th:class="${cafes.first} ? 'disabled'">
-                                    <a aria-label="Previous"
-                                       th:href="${cafes.first} ? '#' :@{/admin/cafes(page=${cafes.number})}">
+                                <li th:class="${events.first} ? 'disabled'">
+                                    <a aria-label="Previous" class="page-number"
+                                       th:href="${events.first} ? '#' :@{/admin/events(page=${events.number})}">
                                         <span aria-hidden="true">&lt;</span>
                                     </a>
                                 </li>
 
-                                <li th:class="${page == cafes.number + 1} ? 'active'"
+                                <li th:class="${page == events.number + 1} ? 'active'"
                                     th:each="page: ${#numbers.sequence(start, last)}">
-                                    <a th:href="@{/admin/cafes(page=${page})}" th:text="${page}"></a>
+                                    <a class="page-number" th:href="@{/admin/events(page=${page})}"
+                                       th:text="${page}"></a>
                                 </li>
 
-                                <li th:class="${cafes.last} ? 'disabled'">
-                                    <a aria-label="Next"
-                                       th:href="${cafes.last} ? '#' : @{/admin/cafes(page=${cafes.number + 2})}">
+                                <li th:class="${events.last} ? 'disabled'">
+                                    <a aria-label="Next" class="page-number"
+                                       th:href="${events.last} ? '#' : @{/admin/events(page=${events.number + 2})}">
                                         <span aria-hidden="true">&gt;</span>
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a aria-label="Last" th:href="@{/admin/cafes(page=${cafes.totalPages})}">
+                                    <a aria-label="Last" class="page-number"
+                                       th:href="@{/admin/events(page=${events.totalPages})}">
                                         <span aria-hidden="true">Last</span>
                                     </a>
                                 </li>

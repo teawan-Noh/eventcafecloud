@@ -1,0 +1,46 @@
+.post-form {
+    padding-top: 20px;
+}
+
+.postBox {
+    width: 80%;
+    margin: auto;
+    padding-bottom: 20px;
+    padding-top: 20px;
+}
+
+.posts-box {
+    width: 100%;
+}
+
+.post-content {
+    margin-bottom: 10px;
+    width: 70%;
+    float: left;
+    padding: 5px 0px 10px 30px;
+    background-color: #F5F5DC;
+    color: #2b2a29;
+}
+
+.post-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.post-comment {
+    float: right;
+    padding-right: 30px;
+    font-weight: bold;
+}
+
+.post-day {
+    float: left;
+    margin-right: 10px;
+    color: #9B9B9B;
+}
+
+.post-count {
+    float: left;
+    color: #9B9B9B;
+}

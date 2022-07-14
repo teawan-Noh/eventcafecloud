@@ -4,6 +4,7 @@
     <th:block th:replace="fragments/header :: header"/>
     <th:block th:replace="fragments/mainHeader :: mainHeader"/>
     <link rel="stylesheet" href="/css/board.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-6c4nX2tn5KbzeBJo9Ywpa0Gkt+mzCzJBrE1RB6fmpcsoN+b/w/euwIMuQKNyUoU/nToKN3a8SgNOtPrbW12fug==" crossorigin="anonymous" />
 
 </head>
 <body>
@@ -14,7 +15,7 @@
 <div class="left">
     <div class="menuVar">
         <ul>
-            <li><a class="menuVar-link" href="/posts">공지게시판</a></li>
+            <li><a class="menuVar-link" href="/posts/notice">공지게시판</a></li>
             <li><a class="menuVar-link" href="/posts">유저게시판</a></li>
         </ul>
     </div>
@@ -62,8 +63,7 @@
                     <a id="commentCreatedDate" th:text="${#temporals.format(comment.createdDate,'yy.MM.dd HH:mm')}"></a>
                     <form id="deleteComment-form" th:action="@{'/'+ ${post.id} + '/comment/' + ${comment.id}}" method="post">
                         <input type="hidden" name="_method" value="DELETE"/>
-                        <button th:if="${userId != null && comment.userId == userId}" class="btn-danger" id="comment-delete">x
-                        </button>
+                        <button th:if="${userId != null && comment.userId == userId}" class="fa fa-trash" id="comment-delete" aria-hidden="true"></button>
                     </form>
                     <hr>
                 </tr>
