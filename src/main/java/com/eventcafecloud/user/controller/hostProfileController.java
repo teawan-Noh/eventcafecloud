@@ -1,6 +1,8 @@
 package com.eventcafecloud.user.controller;
 
 import com.eventcafecloud.cafe.domain.Cafe;
+import com.eventcafecloud.cafe.domain.CafeSchedule;
+import com.eventcafecloud.cafe.service.CafeScheduleService;
 import com.eventcafecloud.cafe.service.CafeService;
 import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.event.service.EventService;
@@ -26,6 +28,7 @@ public class hostProfileController {
     private final UserService userService;
     private final CafeService cafeService;
     private final EventService eventService;
+    private final CafeScheduleService cafeScheduleService;
 
     @GetMapping("/{id}/info")
     public String getUserProfileById(@PathVariable Long id, Model model, User loginUser) {
@@ -61,11 +64,11 @@ public class hostProfileController {
     @GetMapping("/{id}/cafes/{cafeId}/schedule")
     public String getReservationByCafe(@PageableDefault Pageable pageable, @PathVariable Long cafeId, Model model, User loginUser) {
         Page<Event> eventList = eventService.getEventListByCafe(cafeId, pageable);
-//        Page<CafeSchedule> scheduleList =
+        Page<CafeSchedule> scheduleList = cafeScheduleService.findCafeScheduleByCafeId(cafeId, pageable);
         model.addAttribute("events", eventList);
+        model.addAttribute("schedules", scheduleList);
         model.addAttribute("userNick", loginUser.getUserNickname());
         model.addAttribute("userId", loginUser.getId());
-
         return "/profile-host/host-schedule";
     }
 
