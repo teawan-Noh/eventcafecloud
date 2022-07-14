@@ -82,5 +82,8 @@
 }
 
 #pagination {
-    margin: 20px 0 20px 100px;
+    margin-top: 50px;
+    justify-content: center;
+    width: 100%;
+    display: flex;
 }
