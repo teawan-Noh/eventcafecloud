@@ -32,7 +32,7 @@ public class ProfileController {
         //프로필 수정시, 수정 한 정보를 담아 올 request 객체를 넘김
         model.addAttribute("userRequestDto", new UserRequestDto());
         //id에 해당하는 유저의 정보를 넘김
-        model.addAttribute("user", userService.getUserById(id));
+        model.addAttribute("user", userService.findUserById(id));
         model.addAttribute("userNick", loginUser.getUserNickname());
         model.addAttribute("userId", loginUser.getId());
 
@@ -41,7 +41,7 @@ public class ProfileController {
 
     @GetMapping("/{id}/reservation")
     public String getUserReservationById(@PageableDefault Pageable pageable, @PathVariable Long id, Model model, User loginUser) {
-        Page<Event> eventList = eventService.getEventListByUser(id, pageable);
+        Page<Event> eventList = eventService.findEventListByUser(id, pageable);
         model.addAttribute("events", eventList);
         model.addAttribute("userNick", loginUser.getUserNickname());
         model.addAttribute("userId", loginUser.getId());
@@ -51,7 +51,7 @@ public class ProfileController {
 
     @GetMapping("/{id}/posts")
     public String getUserPostById(@PageableDefault Pageable pageable, @PathVariable Long id, Model model, User loginUser) {
-        Page<Post> postList = postService.getPostListByUser(id, pageable);
+        Page<Post> postList = postService.findPostListByUser(id, pageable);
         model.addAttribute("posts", postList);
         model.addAttribute("userNick", loginUser.getUserNickname());
         model.addAttribute("userId", loginUser.getId());

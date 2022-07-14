@@ -73,7 +73,7 @@ public class PostService {
      * 사용자에 따른 게시글 가져오기
      */
     @Transactional(readOnly = true)
-    public Page<Post> getPostListByUser(Long userId, Pageable pageable) {
+    public Page<Post> findPostListByUser(Long userId, Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 5);
 
@@ -81,7 +81,7 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Post> getPostList(Pageable pageable) {
+    public Page<Post> findAllPostList(Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 5);
 

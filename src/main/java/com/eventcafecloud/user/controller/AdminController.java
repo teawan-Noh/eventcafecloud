@@ -37,7 +37,7 @@ public class AdminController {
 
     @GetMapping("/cafes")
     public String getCafeList(@PageableDefault Pageable pageable, Model model) {
-        Page<Cafe> cafeList = cafeService.getCafeList(pageable);
+        Page<Cafe> cafeList = cafeService.findAllCafeList(pageable);
         model.addAttribute("cafes", cafeList);
         return "/admin/admin-cafe";
     }
@@ -51,14 +51,14 @@ public class AdminController {
 
     @GetMapping("/events")
     public String getEventsList(@PageableDefault Pageable pageable, Model model) {
-        Page<Event> eventList = eventService.getEventList(pageable);
+        Page<Event> eventList = eventService.findEventList(pageable);
         model.addAttribute("events", eventList);
         return "/admin/admin-event";
     }
 
     @GetMapping("/posts")
     public String getPostList(@PageableDefault Pageable pageable, Model model) {
-        model.addAttribute("posts", postService.getPostList(pageable));
+        model.addAttribute("posts", postService.findAllPostList(pageable));
 //      model.addAttribute("postStatusUpdateRequestDto", new PostStatusUpdateRequestDto());
         return "/admin/admin-post";
     }

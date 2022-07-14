@@ -119,7 +119,7 @@ public class EventService {
     /**
      * 이벤트목록가져오기(admin)
      */
-    public Page<Event> getEventList(Pageable pageable) {
+    public Page<Event> findEventList(Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 10);
 
@@ -129,7 +129,7 @@ public class EventService {
     /**
      * 이벤트목록(예약내역)가져오기(myProfile)
      */
-    public Page<Event> getEventListByUser(Long userId, Pageable pageable) {
+    public Page<Event> findEventListByUser(Long userId, Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 5);
 
@@ -139,7 +139,7 @@ public class EventService {
     /**
      * 이벤트목록(예약내역)가져오기(hostProfile)
      */
-    public Page<Event> getEventListByCafe(Long cafeId, Pageable pageable) {
+    public Page<Event> findEventListByCafe(Long cafeId, Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 5);
 
