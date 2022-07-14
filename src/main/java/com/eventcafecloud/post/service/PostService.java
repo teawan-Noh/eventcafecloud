@@ -68,10 +68,6 @@ public class PostService {
     }
 
     //UserID로 게시글 조회
-
-    /**
-     * 사용자에 따른 게시글 가져오기
-     */
     @Transactional(readOnly = true)
     public Page<Post> findPostListByUser(Long userId, Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
@@ -80,6 +76,7 @@ public class PostService {
         return postRepository.findAllByUserId(userId, pageable);
     }
 
+    //어드민페이지 게시글 조회
     @Transactional(readOnly = true)
     public Page<Post> findAllPostList(Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
