@@ -1,23 +1,25 @@
 package com.eventcafecloud.event.controller;
 
+import com.eventcafecloud.event.domain.type.EventCategory;
 import com.eventcafecloud.event.dto.EventCreateRequestDto;
 import com.eventcafecloud.event.dto.EventListResponseDto;
 import com.eventcafecloud.event.dto.EventReadResponseDto;
 import com.eventcafecloud.event.dto.EventUpdateRequestDto;
+import com.eventcafecloud.event.repository.EventRepository;
 import com.eventcafecloud.event.service.EventService;
 import com.eventcafecloud.oauth.token.AuthTokenProvider;
 import com.eventcafecloud.user.domain.User;
 import com.eventcafecloud.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.apache.http.auth.AUTH;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,6 +28,7 @@ public class EventController {
     private final EventService eventService;
     private final UserService userService;
     private final AuthTokenProvider tokenProvider;
+    private final EventRepository eventRepository;
 
     // 이벤트 예약 폼
     @Secured("ROLE_NORMAL")
@@ -59,7 +62,7 @@ public class EventController {
     public String updateEventForm(@PathVariable Long eventNumber, Model model){
         model.addAttribute("eventUpdateRequestDto", new EventUpdateRequestDto());
         model.addAttribute("event", eventService.getEventById(eventNumber));
-        return "event/updateEventForm";
+        return "updateEventModal";
     }
 
     // 이벤트 수정
@@ -78,13 +81,25 @@ public class EventController {
 
     // 이벤트 리스트 보기
     @GetMapping("/events")
-    public String eventList(User loginUser, Model model) {
-        List<EventListResponseDto> eventListResponseDtos = eventService.findEventList();
-        model.addAttribute("eventListResponseDtos", eventListResponseDtos);
+    public String eventList(@PageableDefault(size = 10) Pageable pageable,
+                            @RequestParam(required = false, defaultValue = "", value="keyword") String keyword,
+                            @RequestParam(required = false, value="eventCategory") EventCategory eventCategory,
+                            User loginUser, Model model) {
+
         if (loginUser != null) {
             model.addAttribute("userNick", loginUser.getUserNickname());
             model.addAttribute("userId", loginUser.getId());
         }
+
+        Page<EventListResponseDto> eventListResponseDtos = eventService.toDtoList(keyword, eventCategory, pageable);
+
+        int start = Math.max(1, eventListResponseDtos.getPageable().getPageNumber() - 10);
+        int last = Math.min(eventListResponseDtos.getTotalPages(), eventListResponseDtos.getPageable().getPageNumber() + 10);
+
+        model.addAttribute("start", start);
+        model.addAttribute("last", last);
+        model.addAttribute("eventListResponseDtos", eventListResponseDtos);
+
         return "event/eventList";
     }
 
