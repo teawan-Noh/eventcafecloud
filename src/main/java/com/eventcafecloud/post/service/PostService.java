@@ -7,6 +7,7 @@ import com.eventcafecloud.post.dto.PostReadResponseDto;
 import com.eventcafecloud.post.dto.PostUpdateRequestDto;
 import com.eventcafecloud.post.repository.PostRepository;
 import com.eventcafecloud.user.domain.User;
+import com.eventcafecloud.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import static com.eventcafecloud.exception.ExceptionStatus.POST_NOT_FOUND;
+import static com.eventcafecloud.exception.ExceptionStatus.USER_NOT_FOUND;
 
 @RequiredArgsConstructor
 @Service
@@ -24,10 +26,14 @@ import static com.eventcafecloud.exception.ExceptionStatus.POST_NOT_FOUND;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
     //게시글 작성
-    public void createPost(PostCreateRequestDto requestDto, User user, PostType postType) {
+    public void createPost(PostCreateRequestDto requestDto, User loginUser, PostType postType) {
+        User user = userRepository.findByUserEmail(loginUser.getUserEmail()).orElseThrow(() ->
+                new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
         Post post = new Post(requestDto, user, postType);
+
         postRepository.save(post);
     }
 

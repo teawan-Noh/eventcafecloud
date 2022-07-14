@@ -17,8 +17,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -38,12 +38,10 @@ public class PostController {
     public String savePost(@Valid @ModelAttribute PostCreateRequestDto requestDto,
                            BindingResult bindingResult, User loginUser, @PathVariable PostType postType) {
         if (loginUser != null) {
-            User user = userRepository.findByUserEmail(loginUser.getUserEmail()).orElseThrow(() ->
-                    new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
             if (bindingResult.hasErrors()) {
                 return "post/createPostForm";
             } else {
-                postService.createPost(requestDto, user, postType);
+                postService.createPost(requestDto, loginUser, postType);
                 if (postType == PostType.NOTICE) {
                     return "redirect:/posts/notice";
                 } else {
@@ -91,13 +89,16 @@ public class PostController {
 
     // 게시글 상세페이지 + 댓글 조회 + 조회수 증가
     @GetMapping("/posts/{id}")
-    public String readPostDetail(User loginUser, @PathVariable Long id, Model model) {
+    public String readPostDetail(User loginUser, @PathVariable Long id, Model model,RedirectAttributes redirectAttributes) {
         if (loginUser != null) {
             model.addAttribute("userNick", loginUser.getUserNickname());
             model.addAttribute("userId", loginUser.getId());
+            model.addAttribute("errors", redirectAttributes.getFlashAttributes());
+            model.addAttribute("requestDto", redirectAttributes.getFlashAttributes());
+            System.out.println("model = " + model);
         }
         PostReadResponseDto postReadResponseDto = postService.getPostUpdatedCount(id);
-        List<CommentReadResponseDto> commentByPostNumber = commentService.getCommentsByPostNumber(id);
+        List<CommentReadResponseDto> commentByPostNumber = commentService.readCommentsByPostNumber(id);
         model.addAttribute("post", postReadResponseDto);
         model.addAttribute("comments", commentByPostNumber);
         model.addAttribute("commentCreateRequestDto", new CommentCreateRequestDto());
