@@ -135,7 +135,7 @@ public class EventService {
     }
 
     //이벤트목록가져오기(admin)
-    public Page<Event> getEventList(Pageable pageable) {
+    public Page<Event> findEventList(Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 10);
 

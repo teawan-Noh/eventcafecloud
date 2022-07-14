@@ -13,6 +13,10 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     List<Event> findALLByCafeId(Long id);
 
+    Page<Event> findAllByCafeId(Long cafeId, Pageable pageRequest);
+
+    Page<Event> findAllByUserId(Long userId, Pageable pageRequest);
+
     Page<Event> findAll(Pageable pageable);
 
     Page<Event> findByEventNameContaining(String keyword, Pageable pageable);
