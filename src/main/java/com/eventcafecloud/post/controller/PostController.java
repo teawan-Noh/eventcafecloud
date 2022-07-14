@@ -36,7 +36,6 @@ public class PostController {
                              BindingResult bindingResult, User loginUser, @PathVariable PostType postType) {
         if (loginUser != null) {
             if (bindingResult.hasErrors()) {
-                System.out.println("bindingResult = " + bindingResult);
                 return "post/createPostForm";
             } else {
                 postService.savePost(requestDto, loginUser, postType);
@@ -116,12 +115,12 @@ public class PostController {
 
     // 유저게시판 전체 조회
     @GetMapping("/posts")
-    public String getPostList(@PageableDefault Pageable pageable, Model model, User loginUser) {
+    public String findPostList(@PageableDefault Pageable pageable, Model model, User loginUser) {
         if (loginUser != null) {
             model.addAttribute("userNick", loginUser.getUserNickname());
             model.addAttribute("userId", loginUser.getId());
         }
-        Page<Post> postList = postService.findAllPostList(pageable);
+        Page<Post> postList = postService.findPostList(pageable);
         model.addAttribute("postList", postList);
         model.addAttribute("postType", PostType.USERPOST);
         return "post/userBoard";
