@@ -10,9 +10,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CafeScheduleService {
 
     private final CafeScheduleRepository cafeScheduleRepository;
@@ -30,6 +32,7 @@ public class CafeScheduleService {
     /**
      * 카페일정등록
      */
+    @Transactional
     public void saveCafeSchedule(CafeScheduleRequestDto requestDto, Long cafeId) {
         Cafe cafe = cafeRepository.findById(cafeId).orElseThrow();
         CafeSchedule cafeSchedule = new CafeSchedule(requestDto);
