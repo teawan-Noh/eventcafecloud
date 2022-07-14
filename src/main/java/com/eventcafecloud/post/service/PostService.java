@@ -29,7 +29,7 @@ public class PostService {
     private final UserRepository userRepository;
 
     //게시글 작성
-    public void createPost(PostCreateRequestDto requestDto, User loginUser, PostType postType) {
+    public void savePost(PostCreateRequestDto requestDto, User loginUser, PostType postType) {
         User user = userRepository.findByUserEmail(loginUser.getUserEmail()).orElseThrow(() ->
                 new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
         Post post = new Post(requestDto, user, postType);
@@ -38,14 +38,14 @@ public class PostService {
     }
 
     //게시글 업데이트
-    public void updatePost(@PathVariable Long id, PostUpdateRequestDto requestDto){
+    public void modifyPost(@PathVariable Long id, PostUpdateRequestDto requestDto){
         Post post = postRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
         post.updatePost(requestDto);
     }
 
     //게시글 삭제
-    public void deletePost(Long id) {
+    public void removePost(Long id) {
         try {
             postRepository.deleteById(id);
         }catch (Exception e) {
@@ -61,7 +61,7 @@ public class PostService {
     }
 
     //게시글 조회 및 조회수 증가
-    public PostReadResponseDto getPostUpdatedCount(Long id) {
+    public PostReadResponseDto findPostUpdatedCount(Long id) {
         Post post = postRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
         post.updateCount();
@@ -70,7 +70,7 @@ public class PostService {
 
     //UserID로 게시글 조회
     @Transactional(readOnly = true)
-    public Page<Post> getPostListByUser(Long userId, Pageable pageable) {
+    public Page<Post> findPostListByUser(Long userId, Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 10);
 

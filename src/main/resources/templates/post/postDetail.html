@@ -5,6 +5,7 @@
     <th:block th:replace="fragments/mainHeader :: mainHeader"/>
     <link rel="stylesheet" href="/css/board.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" integrity="sha512-6c4nX2tn5KbzeBJo9Ywpa0Gkt+mzCzJBrE1RB6fmpcsoN+b/w/euwIMuQKNyUoU/nToKN3a8SgNOtPrbW12fug==" crossorigin="anonymous" />
+    <script src="/js/post/postDetail.js"></script>
 
 </head>
 <body>
@@ -79,8 +80,8 @@
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">
                                     <label th:for="commentContent"></label>
-                                    <textarea th:field="*{commentContent}" placeholder="댓글 작성 시 타인에 대한 배려와 책임을 담아주세요."
-                                              class="form-control" id="exampleFormControlTextarea1" rows="3" style="resize: none;"></textarea>
+                                    <textarea th:field="*{commentContent}" placeholder="댓글 작성 시 타인에 대한 배려와 책임을 담아주세요." class="form-control"
+                                              id="exampleFormControlTextarea1" rows="3" style="resize: none;" required maxlength="55"></textarea>
                                     <button th:if="${userId != null}" type="submit" class="btn btn-dark mt-3">작성</button>
                                     <button th:if="${userId == null}" type="button" class="btn btn-dark mt-3"
                                             onclick='alert("로그인 후 이용해주세요!")'>작성

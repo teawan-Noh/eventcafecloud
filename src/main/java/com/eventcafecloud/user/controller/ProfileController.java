@@ -38,7 +38,7 @@ public class ProfileController {
 
     @GetMapping("/{id}/posts")
     public String getUserPostById(@PageableDefault Pageable pageable, @PathVariable Long id, Model model, User loginUser) {
-        Page<Post> postList = postService.getPostListByUser(id, pageable);
+        Page<Post> postList = postService.findPostListByUser(id, pageable);
         model.addAttribute("posts", postList);
         model.addAttribute("userNick", loginUser.getUserNickname());
         model.addAttribute("userId", loginUser.getId());
