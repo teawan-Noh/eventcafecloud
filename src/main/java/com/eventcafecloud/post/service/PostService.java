@@ -7,6 +7,7 @@ import com.eventcafecloud.post.dto.PostReadResponseDto;
 import com.eventcafecloud.post.dto.PostUpdateRequestDto;
 import com.eventcafecloud.post.repository.PostRepository;
 import com.eventcafecloud.user.domain.User;
+import com.eventcafecloud.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -15,10 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.eventcafecloud.exception.ExceptionStatus.POST_NOT_FOUND;
+import static com.eventcafecloud.exception.ExceptionStatus.USER_NOT_FOUND;
 
 @RequiredArgsConstructor
 @Service
@@ -26,39 +25,24 @@ import static com.eventcafecloud.exception.ExceptionStatus.POST_NOT_FOUND;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
-    public void createPost(PostCreateRequestDto requestDto, User user, PostType postType) {
+    //게시글 작성
+    public void createPost(PostCreateRequestDto requestDto, User loginUser, PostType postType) {
+        User user = userRepository.findByUserEmail(loginUser.getUserEmail()).orElseThrow(() ->
+                new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
         Post post = new Post(requestDto, user, postType);
         postRepository.save(post);
     }
 
-    @Transactional(readOnly = true)
-    public List<PostReadResponseDto> getPostList() {
-        List<Post> posts = postRepository.findPostsByPostTypeOrderByIdDesc(PostType.USERPOST);
-        List<PostReadResponseDto> output = new ArrayList<>();
-
-        for (Post post : posts ) {
-            PostReadResponseDto postReadResponseDto = new PostReadResponseDto();
-            postReadResponseDto.setUserEmail(post.getUser().getUserEmail());
-            postReadResponseDto.setPostTitle(post.getPostTitle());
-            postReadResponseDto.setPostContent(post.getPostContent());
-            postReadResponseDto.setUserNickname(post.getUser().getUserNickname());
-            postReadResponseDto.setId(post.getId());
-            postReadResponseDto.setPostCount(post.getPostCount());
-            postReadResponseDto.setPostType(post.getPostType());
-            postReadResponseDto.setCreatedDate(post.getCreatedDate());
-            postReadResponseDto.setModifiedDate(post.getModifiedDate());
-            output.add(postReadResponseDto);
-        }
-        return output;
-    }
-
+    //게시글 업데이트
     public void updatePost(@PathVariable Long id, PostUpdateRequestDto requestDto){
         Post post = postRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
         post.updatePost(requestDto);
     }
 
+    //게시글 삭제
     public void deletePost(Long id) {
         try {
             postRepository.deleteById(id);
@@ -67,49 +51,22 @@ public class PostService {
         }
     }
 
-    //페이징 처리된 게시글 리스트 반환
-//    public Page<Post> findPostList(Pageable pageable){
-//        pageable = PageRequest.of(pageable.getPageNumber() <= 0 ? 0: pageable.getPageNumber() -1, pageable.getPageSize());
-//        return postRepository.findAll(pageable);
-//    }
-
-//    게시글 ID로 조회
-    @Transactional(readOnly = true)
-    public Post findPostById(Long id) {
-        return postRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
+    //PostId로 게시글 조회
+    public PostUpdateRequestDto findPostByIdForUpdate(Long id) {
+        Post post = postRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
+        return PostUpdateRequestDto.toDto(post);
     }
 
     //게시글 조회 및 조회수 증가
-    public Post getPostUpdatedCount(Long id) {
+    public PostReadResponseDto getPostUpdatedCount(Long id) {
         Post post = postRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
         post.updateCount();
-        return post;
+        return new PostReadResponseDto(post);
     }
 
-    //공지게시판 게시글 조회
-    @Transactional(readOnly = true)
-    public List<PostReadResponseDto> getNoticePostList() {
-        List<Post> posts = postRepository.findPostsByPostTypeOrderByIdDesc(PostType.NOTICE);
-        List<PostReadResponseDto> output = new ArrayList<>();
-
-        for (Post post : posts) {
-            PostReadResponseDto postReadResponseDto = new PostReadResponseDto();
-            postReadResponseDto.setUserEmail(post.getUser().getUserEmail());
-            postReadResponseDto.setPostTitle(post.getPostTitle());
-            postReadResponseDto.setPostContent(post.getPostContent());
-            postReadResponseDto.setUserNickname(post.getUser().getUserNickname());
-            postReadResponseDto.setId(post.getId());
-            postReadResponseDto.setPostCount(post.getPostCount());
-            postReadResponseDto.setPostType(post.getPostType());
-            postReadResponseDto.setCreatedDate(post.getCreatedDate());
-            postReadResponseDto.setModifiedDate(post.getModifiedDate());
-            output.add(postReadResponseDto);
-        }
-        return output;
-    }
-
+    //UserID로 게시글 조회
     /**
      * 사용자에 따른 게시글 가져오기
      */
@@ -120,10 +77,20 @@ public class PostService {
 
         return postRepository.findAllByUserId(userId, pageable);
     }
-    //리팩토링 이후 사용예정
-//    public PostUpdateRequestDto findPostByIdForUpdate(Long id) {
-//        Post post = postRepository.findById(id).orElseThrow(
-//                () -> new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
-//        return new PostUpdateRequestDto(post);
-//    }
+
+    //유저게시판 게시글 조회
+    @Transactional(readOnly = true)
+    public Page<Post> findPostList(Pageable pageable){
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 20 , Sort.Direction.DESC,"id");
+        return postRepository.findPostsByPostType(PostType.USERPOST,pageable);
+    }
+
+    //공지게시판 게시글 조회
+    @Transactional(readOnly = true)
+    public Page<Post> findNoticeList(Pageable pageable) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 20 , Sort.Direction.DESC,"id");
+        return postRepository.findPostsByPostType(PostType.NOTICE,pageable);
+    }
 }
