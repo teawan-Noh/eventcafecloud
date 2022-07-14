@@ -37,6 +37,7 @@ public class MainController {
     public String registerHostForm(User loginUser, Model model) {
         model.addAttribute("hostUserCreateRequestDto", new HostUserCreateRequestDto());
         model.addAttribute("Email", loginUser.getUserEmail());
+        model.addAttribute("userNick", loginUser.getUserNickname());
         return "register/register-host";
     }
 
