@@ -14,6 +14,15 @@
                     <div class="cafe-right">
                         <p class="cafe-title" th:text="${cafe.cafeName}">카페이름</p>
                         <p class="cafe-rating">카페평점</p>
+                        <div class="button-set">
+                            <button class="modify-button"
+                                    th:onclick="|location.href='@{/cafes/updateForm(id=${cafe.id})}'|">수정
+                            </button>
+                            <form id="delete-form" method="post" th:action="@{'/cafes/' + ${cafe.id}}">
+                                <input name="_method" type="hidden" value="DELETE"/>
+                                <button class="delete-button">삭제</button>
+                            </form>
+                        </div>
                         <p class="cafe-info" th:text="${cafe.cafeInfo}">한줄소개</p>
                         <p class="cafe-address" th:text="${cafe.cafeAddress}">카페주소</p>
                         <div>
@@ -26,7 +35,7 @@
                             <div class="cafe-button">
                                 <button class="manage-button"
                                         th:onclick="|location.href='@{/hosts/profile/{id}/cafes/{cafeId}/schedule(id=${userId}, cafeId=${cafe.id})}'|">
-                                    카페일정관리
+                                    카페관리
                                 </button>
                             </div>
                         </div>
