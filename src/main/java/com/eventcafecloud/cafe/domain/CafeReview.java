@@ -22,13 +22,14 @@ public class CafeReview extends BaseTimeEntity {
     private Long id;
 
     @Column(nullable = false)
-    private String reviewContent;
+    private String cafeReviewContent;
 
     @Column(nullable = false)
-    private Integer reviewRating;
+    private Integer cafeReviewRating;
 
-    @Enumerated(EnumType.STRING)
-    private CafeReviewStatus reviewStatus;
+    // 신고기능 구현시 사용
+//    @Enumerated(EnumType.STRING)
+//    private CafeReviewStatus reviewStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cafe_number")
@@ -39,9 +40,8 @@ public class CafeReview extends BaseTimeEntity {
     private User user;
 
     public CafeReview(CafeReviewRequestDto requestDto) {
-        this.reviewContent = requestDto.getReviewContent();
-        this.reviewRating = requestDto.getReviewRating();
-        this.reviewStatus = CafeReviewStatus.VISIBLE;
+        this.cafeReviewContent = requestDto.getReviewContent();
+        this.cafeReviewRating = requestDto.getReviewRating();
     }
 
     public void addUser(User user) {

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="cafes">
+    <div class="post-form">
+        <div class="postBox">
+            <h1 th:text="'총 '+${cafes.stream().count()}+'개의 카페가 있습니다.'"></h1>
+            <p>카페이미지를 클릭하시면 카페상세페이지로 이동합니다</p>
+            <div class="posts-box" th:each="cafe : ${cafes}">
+                <div class="post-content">
+                    <div class="cafe-left">
+                        <img id="cafeImage" th:onclick="|location.href='@{/cafes/{id}/detail (id=${cafe.id})}'|"
+                             th:src="@{${cafe.getCafeImages().get(0).getCafeImageUrl()}}">
+                    </div>
+                    <div class="cafe-right">
+                        <p class="cafe-title" th:text="${cafe.cafeName}">카페이름</p>
+                        <p class="cafe-rating">카페평점</p>
+                        <p class="cafe-info" th:text="${cafe.cafeInfo}">한줄소개</p>
+                        <p class="cafe-address" th:text="${cafe.cafeAddress}">카페주소</p>
+                        <div>
+                            <p class="cafe-time" th:text="'영업시간 : '+${cafe.cafeOpenTime}"></p>
+                            <p class="cafe-time" th:text="'- ' +${cafe.cafeCloseTime}"></p>
+                        </div>
+                        <div>
+                            <p class="cafe-time" th:text="'평일가격 : '+${cafe.cafeWeekdayPrice}"></p>
+                            <p class="cafe-time" th:text="' / 주말가격 ' +${cafe.cafeWeekendPrice}"></p>
+                            <div class="cafe-button">
+                                <button class="manage-button"
+                                        th:onclick="|location.href='@{/hosts/profile/{id}/cafes/{cafeId}/schedule(id=${userId}, cafeId=${cafe.id})}'|">
+                                    카페일정관리
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="page" style="text-align: center;">
+                <ul class="pagination"
+                    th:with="start=${T(java.lang.Math).floor(cafes.number/10)*10 + 1},
+                    last=(${start + 9 < cafes.totalPages ? start + 9 : cafes.totalPages})">
+                    <li>
+                        <a aria-label="First" class="page-number"
+                           th:href="@{/hosts/profile/{userId}/cafes(page=1, userId=${userId})}">
+                            <span aria-hidden="true">First</span>
+                        </a>
+                    </li>
+                    <li th:class="${cafes.first} ? 'disabled'">
+                        <a aria-label="Previous" class="page-number"
+                           th:href="${cafes.first} ? '#' :@{/hosts/profile/{userId}/cafes(page=${cafes.number}, userId=${userId})}">
+                            <span aria-hidden="true">&lt;</span>
+                        </a>
+                    </li>
+
+                    <li th:class="${page == cafes.number + 1} ? 'active'"
+                        th:each="page: ${#numbers.sequence(start, last)}">
+                        <a class="page-number"
+                           th:href="@{/hosts/profile/{userId}/cafes(page=${page}, userId=${userId})}"
+                           th:text="${page}"></a>
+                    </li>
+
+                    <li th:class="${cafes.last} ? 'disabled'">
+                        <a aria-label="Next" class="page-number"
+                           th:href="${cafes.last} ? '#' : @{/hosts/profile/{userId}/cafes(page=${events.number + 2}, userId=${userId})}">
+                            <span aria-hidden="true">&gt;</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a aria-label="Last" class="page-number"
+                           th:href="@{/hosts/profile/{userId}/reservation(page=${cafes.totalPages}, userId=${userId})}">
+                            <span aria-hidden="true">Last</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+

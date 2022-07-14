@@ -116,12 +116,33 @@ public class EventService {
         return eventListResponseDtos;
     }
 
-
-    //이벤트목록가져오기(admin)
-    public Page<Event> getEventList(Pageable pageable) {
+    /**
+     * 이벤트목록가져오기(admin)
+     */
+    public Page<Event> findEventList(Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 10);
 
         return eventRepository.findAll(pageable);
+    }
+
+    /**
+     * 이벤트목록(예약내역)가져오기(myProfile)
+     */
+    public Page<Event> findEventListByUser(Long userId, Pageable pageable) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 5);
+
+        return eventRepository.findAllByUserId(userId, pageable);
+    }
+
+    /**
+     * 이벤트목록(예약내역)가져오기(hostProfile)
+     */
+    public Page<Event> findEventListByCafe(Long cafeId, Pageable pageable) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 5);
+
+        return eventRepository.findAllByCafeId(cafeId, pageable);
     }
 }

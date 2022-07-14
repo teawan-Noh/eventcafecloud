@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="schedule">
+    <div class="post-form">
+        <div class="postBox">
+            <h1 th:text="'총 '+${schedules.stream().count()}+'개의 휴무일정이 있습니다.'"></h1>
+            <hr width="70%">
+            <div class="posts-box" th:each="schedule : ${schedules}">
+                <div class="holiday-content">
+                    <div class="res-title" th:text="${schedule.cafeScheduleInfo}">이벤트제목</div>
+                    <div class="post-info">
+                        <div class="post-day" th:text="'기간 : '+${schedule.cafeScheduleStartDate}">등록일자</div>
+                        <div class="post-day" th:text="' -   '+${schedule.cafeScheduleEndDate}">등록일자</div>
+                    </div>
+                </div>
+            </div>
+            <nav class="page" style="text-align: center;">
+                <ul class="pagination"
+                    th:with="start=${T(java.lang.Math).floor(schedules.number/10)*10 + 1},
+                    last=(${start + 9 < schedules.totalPages ? start + 9 : schedules.totalPages})">
+                    <li>
+                        <a aria-label="First" class="page-number"
+                           th:href="@{/hosts/profile/{userId}/cafes/{cafeId}/schedule(page=${schedules.totalPages}, userId=${userId}, cafeId=${cafeId})}">
+                            <span aria-hidden="true">First</span>
+                        </a>
+                    </li>
+                    <li th:class="${schedules.first} ? 'disabled'">
+                        <a aria-label="Previous" class="page-number"
+                           th:href="${schedules.first} ? '#' :@{/hosts/profile/{userId}/cafes/{cafeId}/schedule(page=${schedules.totalPages}, userId=${userId}, cafeId=${cafeId})}">
+                            <span aria-hidden="true">&lt;</span>
+                        </a>
+                    </li>
+
+                    <li th:class="${page == schedules.number + 1} ? 'active'"
+                        th:each="page: ${#numbers.sequence(start, last)}">
+                        <a class="page-number"
+                           th:href="@{/hosts/profile/{userId}/cafes/{cafeId}/schedule(page=${schedules.totalPages}, userId=${userId}, cafeId=${cafeId})}"
+                           th:text="${page}"></a>
+                    </li>
+
+                    <li th:class="${schedules.last} ? 'disabled'">
+                        <a aria-label="Next" class="page-number"
+                           th:href="${schedules.last} ? '#' : @{/hosts/profile/{userId}/cafes/{cafeId}/schedule(page=${schedules.totalPages}, userId=${userId}, cafeId=${cafeId})}">
+                            <span aria-hidden="true">&gt;</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a aria-label="Last" class="page-number"
+                           th:href="@{/hosts/profile/{userId}/cafes/{cafeId}/schedule(page=${schedules.totalPages}, userId=${userId}, cafeId=${cafeId})}">
+                            <span aria-hidden="true">Last</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <button class="btn btn-primary res-button" data-target="#exampleModalCenter" data-toggle="modal"
+                    type="button">
+                휴무일등록
+            </button>
+            <div th:replace="profile-host/fragments/scheduleRegisterModal :: scheduleRegisterModal"/>
+        </div>
+    </div>
+</div>
+

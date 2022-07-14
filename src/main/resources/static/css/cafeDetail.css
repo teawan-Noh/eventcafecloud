@@ -1,0 +1,97 @@
+#mainContainer {
+    width: 80%;
+    margin: auto;
+}
+
+#cafeDetailTop ul {
+    display: flex;
+}
+
+#cafeDetailTop ul li {
+    font-size: 0.8em;
+    color: black;
+    margin-right: 10px;
+    padding: 3px 4px;
+    border: solid 1px lightslategray;
+    border-radius: 50%;
+}
+
+#cafeDetailTop .titleBox {
+    font-weight: bold;
+}
+
+#cafeDetailMiddle {
+    display: flex;
+    padding-top: 50px;
+}
+
+#cafeDetailMiddle .leftImgBox {
+    width: 65%;
+    /*height: 20%;*/
+}
+
+#cafeDetailMiddle .leftImgBox .carousel-inner div img {
+    height: 600px;
+}
+
+#cafeDetailMiddle .rightInfoBox {
+    width: 33%;
+}
+
+#cafeDetailMiddle .rightInfoBox {
+    margin-left: 50px;
+}
+
+#calendar {
+    height: 500px;
+}
+
+.titleBox {
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.infoBox {
+    color: #9B9B9B;
+}
+
+.eventButton {
+    width: 400px;
+    border: none;
+    padding: 20px;
+    background-color: #4C7A01;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+#eventRegisterBtn {
+    padding-top: 10px;
+    text-align: center;
+    margin: auto;
+}
+
+#cafeDetailTop ul li {
+    background-color: darkorange;
+    color: white;
+    border-radius: 0 0 5px 0;
+    font-family: 'Poor Story', cursive;
+    border: none;
+}
+
+#cafePriceInfo {
+    background-color: #F5F5DC;
+    border-radius: 0 0 20px 0;
+    margin-top: 10px;
+    font-weight: bold;
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+
+#cafeDetailBottom {
+    background-color: floralwhite;
+    padding: 30px;
+    margin-top: 20px;
+}

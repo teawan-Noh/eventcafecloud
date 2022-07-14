@@ -5,7 +5,9 @@ import com.eventcafecloud.comment.dto.CommentReadResponseDto;
 import com.eventcafecloud.comment.service.CommentService;
 import com.eventcafecloud.post.domain.Post;
 import com.eventcafecloud.post.domain.type.PostType;
-import com.eventcafecloud.post.dto.*;
+import com.eventcafecloud.post.dto.PostCreateRequestDto;
+import com.eventcafecloud.post.dto.PostReadResponseDto;
+import com.eventcafecloud.post.dto.PostUpdateRequestDto;
 import com.eventcafecloud.post.service.PostService;
 import com.eventcafecloud.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -119,7 +121,7 @@ public class PostController {
             model.addAttribute("userNick", loginUser.getUserNickname());
             model.addAttribute("userId", loginUser.getId());
         }
-        Page<Post> postList = postService.findPostList(pageable);
+        Page<Post> postList = postService.findAllPostList(pageable);
         model.addAttribute("postList", postList);
         model.addAttribute("postType", PostType.USERPOST);
         return "post/userBoard";

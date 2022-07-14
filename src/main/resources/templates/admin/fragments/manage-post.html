@@ -52,8 +52,8 @@
                                     <td id="number" th:text="${post.getId}"></td>
                                     <td th:text="${post.getPostType}"></td>
                                     <td th:text="${post.getPostTitle}"></td>
-                                    <td th:text="${post.getUserNickname}"></td>
-                                    <td th:text="${post.getUserEmail}"></td>
+                                    <td th:text="${post.getUser.getUserNickname}"></td>
+                                    <td th:text="${post.getUser.getUserEmail}"></td>
                                     <td th:text="${#temporals.format(post.getCreatedDate,'yyyy-MM-dd HH:mm')}"></td>
                                     <td th:text="${#temporals.format(post.getModifiedDate,'yyyy-MM-dd HH:mm')}"></td>
                                     <td th:text="${post.getPostCount}"></td>
