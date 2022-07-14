@@ -7,75 +7,121 @@
     <!--Import CSS-->
     <Link rel="stylesheet" type="text/css" href="css/event.css">
 </head>
+<style>
+    .event-page {
+        text-align: center;
+    }
+
+    #event-pagination {
+        justify-content: center;
+        padding-right: 0;
+        width: 100%;
+    }
+
+    .page-number {
+        background-color: white;
+        margin-left: 5px;
+        border: none;
+        color: #2b2a29;
+        padding: 5px;
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+</style>
 <body>
 <div th:replace="fragments/mainTop :: mainTop"/>
 <div class="topBanner">
     <div class="topFont">이벤트</div>
 </div>
-  <div id="eventListContainer" class="eventListcontainer">
+  <div id="eventListContainer" class="eventListContainer">
     <div class="container-top">
         <div class="row">
-            <div class="col">
-                <select class="category-order-select" id="category-select">
-                    <option selected>카테고리</option>
-                    <option value="1">KPOP</option>
-                    <option value="2">INFLUENCER</option>
-                    <option value="3">ANNIMATION</option>
-                    <option value="3">WEBTOON</option>
-                    <option value="3">NOVEL</option>
-                </select>
-            </div>
-            <div class="col">
-                <select class="category-order-select" id="order-select">
-                    <option selected>이벤트 시작일 순</option>
-                    <option value="1">이벤트 시작일 순</option>
-                    <option value="2">이벤트 이름 순</option>
-                </select>
-            </div>
-            <div class="col">
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
-            </div>
+            <form class="form-inline my-2 my-lg-0" method="GET">
+                <div class="col">
+                    <select class="category-order-select" id="category-select" th:name="eventCategory">
+                        <option value="" selected="">카테고리를 선택 후 검색을 눌러주세요.</option>
+                        <option value="KPOP">KPOP</option>
+                        <option value="INFLUENCER">INFLUENCER</option>
+                        <option value="ANIMATION">ANIMATION</option>
+                        <option value="WEBTOON">WEBTOON</option>
+                        <option value="NOVEL">NOVEL</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <input class="form-control mr-sm-2" id="input-search" name="keyword" type="search" placeholder="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" id="btn-search" type="submit">검색</button>
+                </div>
+            </form>
         </div>
     </div>
-        <!-- Section-->
-        <section class="py-5">
-            <div class="container">
-                <div class="row">
-                    <!-- First Event -->
-                    <div class="col" th:each="eventListResponseDto : ${eventListResponseDtos}">
-                        <div class="card">
-                            <!-- Event image-->
-                            <!--                        <img class="card-img-top" th:src="@{${item.getImgPath()}}" alt="..." />-->
-                            <!-- Event List details-->
-                            <div class="card-body ">
-                                <div class="text">
-                                    <!-- Event image, category, name, startdate, enddate -->
-                                    <img class="card-img-top" th:src="@{${eventListResponseDto.getEventImageUrls().get(0)}}" alt="..." />
-                                    <h5><span class="badge badge-secondary"><p th:text="|${eventListResponseDto.getEventCategory()} |"> 이벤트 카테고리</p></span></h5>
-                                    <h4 class="title-event-bolder" th:text="${eventListResponseDto.getEventName()}">이벤트명</h4>
+      <div class="event-form">
+          <section class="py-5">
+              <div class="event-form-container" id="event-form-container">
+                  <div class="row">
+                      <!-- First Event -->
+                      <div class="col" th:each="eventListResponseDto : ${eventListResponseDtos}">
+                          <div class="card">
+                              <!-- Event List details-->
+                              <div class="card-body ">
+                                  <div class="text">
+                                      <!-- Event image, category, name, startdate, enddate -->
+                                      <img class="card-img-top" th:src="@{${eventListResponseDto.getEventImageUrls().get(0)}}" alt="..." />
+                                      <h5><span class="badge badge-secondary"><p th:text="|${eventListResponseDto.getEventCategory()} |"> 이벤트 카테고리</p></span></h5>
+                                      <h4 class="title-event-bolder" th:text="${eventListResponseDto.getEventName()}">이벤트명</h4>
+                                      <div class="date-start">
+                                          <p th:text="${eventListResponseDto.getEventStartDate()} + ' ~ ' + ${eventListResponseDto.getEventEndDate()}"> 이벤트 기간</p>
+                                      </div>
+                                      <button type="button" class="btn btn-outline-dark">
+                                          <a th:href = "@{/events/{eventNumber}/detail (eventNumber=${eventListResponseDto.getEventNumber()})}" style="text-decoration-line: none;" >이벤트 상세보기</a>
+                                      </button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </section>
 
-                                    <div class="date-start">
-                                        <p th:text="${eventListResponseDto.getEventStartDate()} + ' ~ ' + ${eventListResponseDto.getEventEndDate()}"> 이벤트 기간</p>
-                                    </div>
-                                    <button type="button" class="btn btn-outline-dark">
-                                        <a th:href = "@{/events/{eventNumber}/detail (eventNumber=${eventListResponseDto.getEventNumber()})}" >이벤트 상세보기</a></button>
+          <nav class="page">
+              <ul class="pagination" id="event-pagination"
+                  th:with="start=${T(java.lang.Math).floor(eventListResponseDtos.number/10)*10 + 1},
+                    last=(${start + 9 < eventListResponseDtos.totalPages ? start + 9 : eventListResponseDtos.totalPages})">
+                  <li>
+                      <a aria-label="First" class="page-number"
+                         th:href="@{/events(page=1)}">
+                          <span aria-hidden="true"><<</span>
+                      </a>
+                  </li>
+                  <li th:class="${eventListResponseDtos.first} ? 'disabled'">
+                      <a aria-label="Previous" class="page-number"
+                         th:href="${eventListResponseDtos.first} ? '#' : @{/events(page=${eventListResponseDtos.number})}">
+                          <span aria-hidden="true">&lt;</span>
+                      </a>
+                  </li>
 
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!--        <div class="page">-->
-            <!--            <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">-->
-            <!--                <a th:if="${page != nowPage}" th:href="@{/item/list(page = ${page - 1}, searchKeyword = ${param.searchKeyword})}" th:text="${page}"></a>-->
-            <!--                <strong th:if="${page == nowPage}" th:text="${page}" style="color : red"></strong>-->
-            <!--            </th:block>-->
-            <!--        </div>-->
-        </section>
+                  <li th:class="${page == eventListResponseDtos.number + 1} ? 'active'"
+                      th:each="page: ${#numbers.sequence(start, last)}">
+                      <a class="page-number" th:href="@{/events(page=${page})}"
+                         th:text="${page}"></a>
+                  </li>
+
+                  <li th:class="${eventListResponseDtos.last} ? 'disabled'">
+                      <a aria-label="Next" class="page-number"
+                         th:href="${eventListResponseDtos.last} ? '#' : @{/events(page=${eventListResponseDtos.number + 2})}">
+                          <span aria-hidden="true">&gt;</span>
+                      </a>
+                  </li>
+                  <li>
+                      <a aria-label="Last" class="page-number"
+                         th:href="@{/events(page=${eventListResponseDtos.totalPages})}">
+                          <span aria-hidden="true">>></span>
+                      </a>
+                  </li>
+              </ul>
+              <br>
+          </nav>
+      </div>
     </div>
   </div>
 </body>

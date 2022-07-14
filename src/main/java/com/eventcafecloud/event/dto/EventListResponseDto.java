@@ -2,15 +2,14 @@ package com.eventcafecloud.event.dto;
 
 import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.event.domain.type.EventCategory;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 @Setter
 @Getter
 public class EventListResponseDto {
