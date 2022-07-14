@@ -4,14 +4,16 @@
     <div class="post-form">
         <div class="postBox">
             <h1 th:text="'총 '+${cafes.stream().count()}+'개의 카페가 있습니다.'"></h1>
-            <div class="posts-box" th:each="cafe : ${cafes}"
-                 th:onclick="|location.href='@{/cafes/{id}/detail (id=${cafe.id})}'|">
+            <p>카페이미지를 클릭하시면 카페상세페이지로 이동합니다</p>
+            <div class="posts-box" th:each="cafe : ${cafes}">
                 <div class="post-content">
                     <div class="cafe-left">
-                        <img id="cafeImage" th:src="@{${cafe.getCafeImages().get(0).getCafeImageUrl()}}">
+                        <img id="cafeImage" th:onclick="|location.href='@{/cafes/{id}/detail (id=${cafe.id})}'|"
+                             th:src="@{${cafe.getCafeImages().get(0).getCafeImageUrl()}}">
                     </div>
                     <div class="cafe-right">
                         <p class="cafe-title" th:text="${cafe.cafeName}">카페이름</p>
+                        <p class="cafe-rating">카페평점</p>
                         <p class="cafe-info" th:text="${cafe.cafeInfo}">한줄소개</p>
                         <p class="cafe-address" th:text="${cafe.cafeAddress}">카페주소</p>
                         <div>
@@ -22,7 +24,10 @@
                             <p class="cafe-time" th:text="'평일가격 : '+${cafe.cafeWeekdayPrice}"></p>
                             <p class="cafe-time" th:text="' / 주말가격 ' +${cafe.cafeWeekendPrice}"></p>
                             <div class="cafe-button">
-                                <button class="manage-button">카페일정관리</button>
+                                <button class="manage-button"
+                                        th:onclick="|location.href='@{/hosts/profile/{id}/cafes/{cafeId}/schedule(id=${userId}, cafeId=${cafe.id})}'|">
+                                    카페일정관리
+                                </button>
                             </div>
                         </div>
                     </div>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:replace="fragments/header :: header"/>
+    <th:block th:replace="fragments/mainHeader :: mainHeader"/>
+</head>
+<body>
+<div th:replace="fragments/mainTop :: mainTop"/>
+<div class="topBanner">
+    <div class="topFont" th:text="해당카페이름">호스트페이지</div>
+</div>
+<div class="left">
+    <div class="menuVar">
+        <ul>
+            <li><a class="menuVar-link" th:href="@{/hosts/profile/{id}/info(id=${userId})}">내 프로필</a></li>
+            <li><a class="menuVar-link" th:href="@{/hosts/profile/{id}/cafes(id=${userId})}">내 카페목록</a></li>
+        </ul>
+    </div>
+</div>
+<div class="right">
+</div>
+</body>
+</html>
+<script>
+    $("#file").on('change', function () {
+        var fileName = $("#file").val();
+        $(".upload-name").val(fileName);
+    });
+
+    let id = document.location.href.split("/").reverse()[1]
+</script>
