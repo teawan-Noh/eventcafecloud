@@ -1,9 +1,14 @@
 package com.eventcafecloud.user.controller;
 
+import com.eventcafecloud.cafe.domain.Cafe;
+import com.eventcafecloud.cafe.service.CafeService;
 import com.eventcafecloud.user.domain.User;
 import com.eventcafecloud.user.dto.UserRequestDto;
 import com.eventcafecloud.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class hostProfileController {
 
     private final UserService userService;
+    private final CafeService cafeService;
 
     @GetMapping("/{id}/info")
     public String getUserProfileById(@PathVariable Long id, Model model, User loginUser) {
@@ -27,6 +33,26 @@ public class hostProfileController {
         model.addAttribute("userNick", loginUser.getUserNickname());
         model.addAttribute("userId", loginUser.getId());
         return "/profile-host/host-userInfo";
+    }
+
+//    @GetMapping("/{id}/reservation")
+//    public String getUserReservationById(@PageableDefault Pageable pageable, @PathVariable Long id, Model model, User loginUser) {
+//        Page<Event> eventList = eventService.getEventListByUser(id, pageable);
+//        model.addAttribute("events", eventList);
+//        model.addAttribute("userNick", loginUser.getUserNickname());
+//        model.addAttribute("userId", loginUser.getId());
+//
+//        return "/profile/profile-reservation";
+//    }
+
+    @GetMapping("/{id}/cafes")
+    public String getCafeByUserId(@PageableDefault Pageable pageable, @PathVariable Long id, Model model, User loginUser) {
+        Page<Cafe> cafeList = cafeService.getCafeListByUserId(id, pageable);
+        model.addAttribute("cafes", cafeList);
+        model.addAttribute("userNick", loginUser.getUserNickname());
+        model.addAttribute("userId", loginUser.getId());
+
+        return "/profile-host/host-cafes";
     }
 
     @PostMapping("/{id}/info/update")

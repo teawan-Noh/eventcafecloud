@@ -90,7 +90,7 @@ public class CafeService {
     public Page<CafeListResponseDto> findAllCafeList(int page, int size) {
         Pageable pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdDate"));
         Page<Cafe> all = cafeRepository.findAll(pageRequest);
-//        return all.map(cafe -> new CafeListResponseDto(cafe));
+        //return all.map(cafe -> new CafeListResponseDto(cafe));
         // 위의 주석단 람다식을 아래의 식으로 치환
         return all.map(CafeListResponseDto::new);
     }
@@ -110,6 +110,14 @@ public class CafeService {
         pageable = PageRequest.of(page, 10);
 
         return cafeRepository.findAll(pageable);
+    }
+
+    public Page<Cafe> getCafeListByUserId(Long id, Pageable pageable) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 10);
+
+        return cafeRepository.findAllByUserId(id, pageable);
+
     }
 
     public CafeDetailResponseDto findCafeByIdForDetail(Long id) {

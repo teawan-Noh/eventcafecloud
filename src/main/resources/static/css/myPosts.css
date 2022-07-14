@@ -56,3 +56,57 @@
     float: left;
     color: #9B9B9B;
 }
+
+/* 내카페 */
+
+#cafeImage {
+    width: 300px;
+    height: 200px;
+    padding: 5px;
+    background-color: white;
+}
+
+.cafe-left {
+    width: 40%;
+    float: left;
+}
+
+.cafe-right {
+    width: 60%;
+    float: left;
+    padding: 15px;
+}
+
+.cafe-title {
+    font-weight: bold;
+    font-size: 25px;
+    margin-bottom: 0px;
+}
+
+.cafe-info {
+    font-size: 20px;
+    color: #999999;
+}
+
+.cafe-address {
+    margin-bottom: 0px;
+}
+
+.cafe-time {
+    display: inline-block;
+    margin-bottom: 0px;
+}
+
+.cafe-button {
+    display: inline-block;
+    float: right;
+}
+
+.manage-button {
+    border: none;
+    color: white;
+    background-color: #4C7A01;
+    padding: 8px;
+    font-size: 15px;
+    border-radius: 10px;
+}
