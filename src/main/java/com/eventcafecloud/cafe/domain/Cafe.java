@@ -6,8 +6,9 @@ import com.eventcafecloud.cafe.dto.CafeUpdateRequestDto;
 import com.eventcafecloud.common.base.BaseTimeEntity;
 import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.user.domain.User;
-import lombok.*;
-
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -64,19 +65,19 @@ public class Cafe extends BaseTimeEntity {
     private User user;
 
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
-    private List<CafeOption> cafeOptions = new ArrayList<>();
+    private final List<CafeOption> cafeOptions = new ArrayList<>();
 
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
-    private List<CafeImage> cafeImages = new ArrayList<>();
+    private final List<CafeImage> cafeImages = new ArrayList<>();
 
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
-    private List<CafeReview> cafeReviews = new ArrayList<>();
+    private final List<CafeReview> cafeReviews = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "cafe")
-//    private List<CafeSchedule> cafeSchedules = new ArrayList<>();
+    @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
+    private final List<CafeSchedule> cafeSchedules = new ArrayList<>();
 
     @OneToMany(mappedBy = "cafe")
-    private List<Event> events = new ArrayList<>();
+    private final List<Event> events = new ArrayList<>();
 
     public Cafe(CafeCreateRequestDto requestDto) {
         this.cafeName = requestDto.getCafeName();
@@ -112,6 +113,11 @@ public class Cafe extends BaseTimeEntity {
     public void addCafeReview(CafeReview cafeReview) {
         cafeReview.addCafe(this);
         this.cafeReviews.add(cafeReview);
+    }
+
+    public void addCafeSchedule(CafeSchedule cafeSchedule) {
+        cafeSchedule.addCafe(this);
+        this.cafeSchedules.add(cafeSchedule);
     }
 
     public void updateCafeInfo(CafeUpdateRequestDto requestDto) {

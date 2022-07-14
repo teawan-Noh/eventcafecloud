@@ -30,4 +30,8 @@ public class CafeSchedule {
     private CafeScheduleType cafeScheduleType;
 
     private int cafeSchedulePrice;
+
+    public void addCafe(Cafe cafe) {
+        this.cafe = cafe;
+    }
 }
