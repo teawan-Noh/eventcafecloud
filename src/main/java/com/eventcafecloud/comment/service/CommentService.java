@@ -42,7 +42,7 @@ public class CommentService {
     }
 
     @Transactional(readOnly = true)
-    public List<CommentReadResponseDto> getCommentsByPostNumber(Long id) {
+    public List<CommentReadResponseDto> readCommentsByPostNumber(Long id) {
         List<Comment> comments = commentRepository.findAllByPostId(id);
         List<CommentReadResponseDto> output = new ArrayList<>();
 
