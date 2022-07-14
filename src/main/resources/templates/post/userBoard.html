@@ -33,9 +33,9 @@
             </tr>
             </thead>
             <tbody id="post_box">
-            <tr th:each="post : ${posts}" th:onclick="|location.href='@{/posts/{id} (id=${post.id})}'|">
+            <tr th:each="post : ${postList}" th:onclick="|location.href='@{/posts/{id} (id=${post.id})}'|">
                 <td th:text="${post.id}"></td>
-                <td th:text="${post.userNickname}"></td>
+                <td th:text="${post.user.userNickname}"></td>
                 <td th:text="${post.postTitle}"></td>
                 <td th:text="${post.postCount}"></td>
                 <td th:text="${#temporals.format(post.createdDate,'yyyy-MM-dd')}"></td>
@@ -43,15 +43,44 @@
             </tbody>
         </table>
         <hr>
-        <div>
-            <ul class="pagination justify-content-center">
-                <li><a herf="#" class="text-secondary"> ◀ </a></li>
-                <li><a herf="#" class="text-secondary"> 1 </a></li>
-                <li><a herf="#" class="text-secondary"> 2 </a></li>
-                <li><a herf="#" class="text-secondary"> 3 </a></li>
-                <li><a herf="#" class="text-secondary"> 4 </a></li>
-                <li><a herf="#" class="text-secondary"> ▶ </a></li>
+        <div id="post-page-buttons">
+        <nav class="page" style="text-align: center;">
+            <ul class="pagination" style="margin-left : 15%"
+                th:with="start=${T(java.lang.Math).floor(postList.number/10)*10 + 1},
+                    last=(${start + 9 < postList.totalPages ? start + 9 : postList.totalPages})">
+                <li>
+                    <a aria-label="First" class="page-number"
+                       th:href="@{/posts(page=1)}">
+                        <span aria-hidden="true">First</span>
+                    </a>
+                </li>
+                <li th:class="${postList.first} ? 'disabled'">
+                    <a aria-label="Previous" class="page-number"
+                       th:href="${postList.first} ? '#' :@{/posts(page=${postList.number})}">
+                        <span aria-hidden="true">&lt;</span>
+                    </a>
+                </li>
+
+                <li th:class="${page == postList.number + 1} ? 'active'"
+                    th:each="page: ${#numbers.sequence(start, last)}">
+                    <a class="page-number" th:href="@{/posts(page=${page})}"
+                       th:text="${page}"></a>
+                </li>
+
+                <li th:class="${postList.last} ? 'disabled'">
+                    <a aria-label="Next" class="page-number"
+                       th:href="${postList.last} ? '#' : @{/posts(page=${postList.number + 2})}">
+                        <span aria-hidden="true">&gt;</span>
+                    </a>
+                </li>
+                <li>
+                    <a aria-label="Last" class="page-number"
+                       th:href="@{/posts(page=${postList.totalPages})}">
+                        <span aria-hidden="true">Last</span>
+                    </a>
+                </li>
             </ul>
+        </nav>
         </div>
 
         <button th:if="${userId == null && postType != postType.NOTICE}" class="submit post-button btn btn-outline-info float-right"
