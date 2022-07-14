@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -67,6 +68,7 @@ public class PostService {
     }
 
     //UserID로 게시글 조회
+
     /**
      * 사용자에 따른 게시글 가져오기
      */
@@ -78,12 +80,20 @@ public class PostService {
         return postRepository.findAllByUserId(userId, pageable);
     }
 
+    @Transactional(readOnly = true)
+    public Page<Post> getPostList(Pageable pageable) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 5);
+
+        return postRepository.findAll(pageable);
+    }
+
     //유저게시판 게시글 조회
     @Transactional(readOnly = true)
-    public Page<Post> findPostList(Pageable pageable){
+    public Page<Post> findPostList(Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-        pageable = PageRequest.of(page, 20 , Sort.Direction.DESC,"id");
-        return postRepository.findPostsByPostType(PostType.USERPOST,pageable);
+        pageable = PageRequest.of(page, 20, Sort.Direction.DESC, "id");
+        return postRepository.findPostsByPostType(PostType.USERPOST, pageable);
     }
 
     //공지게시판 게시글 조회
