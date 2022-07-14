@@ -235,3 +235,11 @@ li a:hover {
     font-size: 15px;
     font-weight: bold;
 }
+
+.right-eventList {
+    width: 50%;
+}
+
+.right-schedule {
+    width: 50%;
+}
