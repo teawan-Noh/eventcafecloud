@@ -23,10 +23,10 @@ public class CommentController {
                                 @Valid @ModelAttribute CommentCreateRequestDto requestDto,
                                 BindingResult bindingResult){
         if (loginUser != null) {
-            commentService.createComment(requestDto, postId, loginUser.getUserEmail());
             if (bindingResult.hasErrors()) {
-                return "post/postsDetail";
+                return "redirect:/posts/" + postId;
             } else {
+                commentService.createComment(requestDto, postId, loginUser.getUserEmail());
                 return "redirect:/posts/" + postId;
             }
         }

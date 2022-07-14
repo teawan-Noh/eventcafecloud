@@ -10,7 +10,6 @@ import com.eventcafecloud.post.dto.PostReadResponseDto;
 import com.eventcafecloud.post.dto.PostUpdateRequestDto;
 import com.eventcafecloud.post.service.PostService;
 import com.eventcafecloud.user.domain.User;
-import com.eventcafecloud.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +19,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -30,18 +28,17 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
-    private final UserRepository userRepository;
     private final CommentService commentService;
 
     //게시글 작성
     @PostMapping("/posts/registration/{postType}")
-    public String savePost(@Valid @ModelAttribute PostCreateRequestDto requestDto,
-                           BindingResult bindingResult, User loginUser, @PathVariable PostType postType) {
+    public String createPost(@Valid @ModelAttribute PostCreateRequestDto requestDto,
+                             BindingResult bindingResult, User loginUser, @PathVariable PostType postType) {
         if (loginUser != null) {
             if (bindingResult.hasErrors()) {
                 return "post/createPostForm";
             } else {
-                postService.createPost(requestDto, loginUser, postType);
+                postService.savePost(requestDto, loginUser, postType);
                 if (postType == PostType.NOTICE) {
                     return "redirect:/posts/notice";
                 } else {
@@ -60,7 +57,7 @@ public class PostController {
             if (bindingResult.hasErrors()) {
                 return "redirect:/posts/";
             } else {
-                postService.updatePost(id, requestDto);
+                postService.modifyPost(id, requestDto);
                 return "redirect:/posts/"+id;
             }
         }
@@ -70,7 +67,7 @@ public class PostController {
     // 게시글 삭제
     @DeleteMapping("/posts/{id}")
     public String deletePost(@PathVariable Long id) {
-        postService.deletePost(id);
+        postService.removePost(id);
         return "redirect:/posts";
     }
 
@@ -89,15 +86,13 @@ public class PostController {
 
     // 게시글 상세페이지 + 댓글 조회 + 조회수 증가
     @GetMapping("/posts/{id}")
-    public String readPostDetail(User loginUser, @PathVariable Long id, Model model,RedirectAttributes redirectAttributes) {
+    public String getPostDetail(User loginUser, @PathVariable Long id, Model model) {
         if (loginUser != null) {
             model.addAttribute("userNick", loginUser.getUserNickname());
             model.addAttribute("userId", loginUser.getId());
-            model.addAttribute("errors", redirectAttributes.getFlashAttributes());
-            model.addAttribute("requestDto", redirectAttributes.getFlashAttributes());
             System.out.println("model = " + model);
         }
-        PostReadResponseDto postReadResponseDto = postService.getPostUpdatedCount(id);
+        PostReadResponseDto postReadResponseDto = postService.findPostUpdatedCount(id);
         List<CommentReadResponseDto> commentByPostNumber = commentService.readCommentsByPostNumber(id);
         model.addAttribute("post", postReadResponseDto);
         model.addAttribute("comments", commentByPostNumber);
@@ -125,7 +120,7 @@ public class PostController {
             model.addAttribute("userNick", loginUser.getUserNickname());
             model.addAttribute("userId", loginUser.getId());
         }
-        Page<Post> postList = postService.findAllPostList(pageable);
+        Page<Post> postList = postService.findPostList(pageable);
         model.addAttribute("postList", postList);
         model.addAttribute("postType", PostType.USERPOST);
         return "post/userBoard";
@@ -133,7 +128,7 @@ public class PostController {
 
     // 공지게시판 전체 조회
     @GetMapping("/posts/notice")
-    public String findNoticeList(@PageableDefault Pageable pageable ,User loginUser, Model model) {
+    public String getNoticeList(@PageableDefault Pageable pageable , User loginUser, Model model) {
         if (loginUser != null) {
             model.addAttribute("userNick", loginUser.getUserNickname());
             model.addAttribute("userId", loginUser.getId());
