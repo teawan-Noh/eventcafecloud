@@ -136,4 +136,14 @@ public class EventService {
 
         return eventRepository.findAllByUserId(userId, pageable);
     }
+
+    /**
+     * 이벤트목록(예약내역)가져오기(hostProfile)
+     */
+    public Page<Event> getEventListByCafe(Long cafeId, Pageable pageable) {
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 5);
+
+        return eventRepository.findAllByCafeId(cafeId, pageable);
+    }
 }
