@@ -1,11 +1,11 @@
 package com.eventcafecloud.cafe.domain;
 
+import com.eventcafecloud.cafe.dto.CafeScheduleRequestDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -21,17 +21,18 @@ public class CafeSchedule {
     @JoinColumn(name = "cafe_number")
     private Cafe cafe;
 
-    private LocalDate cafeScheduleStartDate;
-    private LocalDate cafeScheduleEndDate;
+    private String cafeScheduleStartDate;
+    private String cafeScheduleEndDate;
 
     private String cafeScheduleInfo;
 
-    @Enumerated(EnumType.STRING) // EnumType.ORDINAL은 숫자로 들어감 사용하지 말 것.
-    private CafeScheduleType cafeScheduleType;
-
-    private int cafeSchedulePrice;
-
     public void addCafe(Cafe cafe) {
         this.cafe = cafe;
+    }
+
+    public CafeSchedule(CafeScheduleRequestDto requestDto) {
+        this.cafeScheduleStartDate = requestDto.getCafeScheduleStartDate();
+        this.cafeScheduleEndDate = requestDto.getCafeScheduleEndDate();
+        this.cafeScheduleInfo = requestDto.getCafeScheduleInfo();
     }
 }
