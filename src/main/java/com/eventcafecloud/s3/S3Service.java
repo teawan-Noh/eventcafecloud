@@ -48,6 +48,42 @@ public class S3Service {
     // 최초 게시글 작성 시 업로드 : 여러개
     public List<String> upload(List<MultipartFile> files, String dirName){
         List<String> urlList = new ArrayList<>();
+        return getUrlList(files, dirName, urlList);
+    }
+
+    // 글 수정 시 기존 s3에 있는 이미지 정보 삭제,
+    public String reupload(MultipartFile file, String currentFilePath, String imageKey){
+        String fileName = currentFilePath + "/" + createFileName(file.getOriginalFilename()); // 파일명 랜덤화
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentLength(file.getSize());
+        objectMetadata.setContentType(file.getContentType());
+
+        //삭제가 안됨
+//        amazonS3Client.deleteObject(bucket, imageKey);
+
+        try(InputStream inputStream = file.getInputStream()) {
+            amazonS3Client.putObject(new PutObjectRequest(bucket,fileName,inputStream,objectMetadata)
+                    .withCannedAcl(CannedAccessControlList.PublicRead));
+            return amazonS3Client.getUrl(bucket, fileName).toString();
+        }catch (IOException e){
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"파일 업로드에 실패");
+        }
+    }
+
+    public List<String> reupload(List<MultipartFile> files, String dirName, List<String> imageKeys){
+        List<String> urlList = new ArrayList<>();
+
+        for (String imageKey : imageKeys) {
+//            amazonS3Client.deleteObject(bucket, imageKey);
+        }
+
+        return getUrlList(files, dirName, urlList);
+    }
+
+    /**
+     * s3에 저장 후 url 반환받는 메소드
+      */
+    private List<String> getUrlList(List<MultipartFile> files, String dirName, List<String> urlList) {
         for (MultipartFile file : files) {
             String fileName = dirName + "/" + createFileName(file.getOriginalFilename());
             ObjectMetadata objectMetadata = new ObjectMetadata();
@@ -65,24 +101,6 @@ public class S3Service {
             }
         }
         return urlList;
-    }
-
-    // 글 수정 시 기존 s3에 있는 이미지 정보 삭제,
-    public String reupload(MultipartFile file, String currentFilePath, String imageKey){
-        String fileName = currentFilePath + "/" + createFileName(file.getOriginalFilename()); // 파일명 랜덤화
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentLength(file.getSize());
-        objectMetadata.setContentType(file.getContentType());
-
-        amazonS3Client.deleteObject(bucket, imageKey);
-
-        try(InputStream inputStream = file.getInputStream()) {
-            amazonS3Client.putObject(new PutObjectRequest(bucket,fileName,inputStream,objectMetadata)
-                    .withCannedAcl(CannedAccessControlList.PublicRead));
-            return amazonS3Client.getUrl(bucket, fileName).toString();
-        }catch (IOException e){
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"파일 업로드에 실패");
-        }
     }
 
     private String createFileName(String fileName) {
