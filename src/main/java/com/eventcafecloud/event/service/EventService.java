@@ -60,7 +60,6 @@ public class EventService {
             eventImageUrl = eventImageUrls.get(i);
             EventImage eventImage = new EventImage(file.getOriginalFilename(), eventImageUrl);
             event.addEventImage(eventImage);
-
         }
         eventRepository.save(event);
     }
