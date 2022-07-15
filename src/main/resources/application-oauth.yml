@@ -4,14 +4,14 @@ spring:
     oauth2.client:
       registration:
         google:
-          clientId:
-          clientSecret:
+          clientId: ${google_client_id}
+          clientSecret: ${google_client_secret}
           scope:
             - email
             - profile
         naver:
-          clientId:
-          clientSecret:
+          clientId: ${naver_client_id}
+          clientSecret: ${naver_client_secret}
           clientAuthenticationMethod: post
           authorizationGrantType: authorization_code
           redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
@@ -21,8 +21,8 @@ spring:
             - profile_image
           clientName: Naver
         kakao:
-          clientId:
-          clientSecret:
+          clientId: ${kakao_client_id}
+          clientSecret: ${kakao_client_secret}
           clientAuthenticationMethod: post
           authorizationGrantType: authorization_code
           redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
@@ -53,12 +53,12 @@ cors:
 
   # jwt secret key 설정
 
-jwt.secret: 8sknjlO3NPTBqo319DHLNqsQAfRJEdKsETOds
+jwt.secret: ${jwt_secret}
 
   # 토큰 관련 secret Key 및 RedirectUri 설정
 app:
   auth:
-    tokenSecret: 926D96C90030DD58429D2751AC1BDBBC
+    tokenSecret: ${auth_tokenSecret}
     tokenExpiry: 1800000
     refreshTokenExpiry: 604800000
   oauth2:
