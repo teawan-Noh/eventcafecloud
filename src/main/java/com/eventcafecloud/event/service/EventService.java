@@ -167,7 +167,7 @@ public class EventService {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 3, Sort.Direction.ASC, "eventStartDate");
 
-        return eventRepository.findAllByUserId(cafeId, pageable);
+        return eventRepository.findAllByCafeId(cafeId, pageable);
     }
 
     /**
