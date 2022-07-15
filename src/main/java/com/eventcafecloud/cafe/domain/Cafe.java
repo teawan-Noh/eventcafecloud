@@ -22,9 +22,8 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 다른곳에서 생성자 못쓰도록 막아둠
 public class Cafe extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "cafe_number")
-    private Long id;
+    @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
+    private final List<CafeOption> cafeOptions = new ArrayList<>();
 
     @Column(nullable = false)
     private String cafeName;
@@ -63,21 +62,18 @@ public class Cafe extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_number")
     private User user;
-
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
-    private List<CafeOption> cafeOptions = new ArrayList<>();
-
+    private final List<CafeImage> cafeImages = new ArrayList<>();
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
-    private List<CafeImage> cafeImages = new ArrayList<>();
-
+    private final List<CafeReview> cafeReviews = new ArrayList<>();
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
-    private List<CafeReview> cafeReviews = new ArrayList<>();
-
-    @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
-    private List<CafeSchedule> cafeSchedules = new ArrayList<>();
-
+    private final List<CafeSchedule> cafeSchedules = new ArrayList<>();
     @OneToMany(mappedBy = "cafe")
-    private List<Event> events = new ArrayList<>();
+    private final List<Event> events = new ArrayList<>();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "cafe_number")
+    private Long id;
 
     public Cafe(CafeCreateRequestDto requestDto) {
         this.cafeName = requestDto.getCafeName();
@@ -96,7 +92,7 @@ public class Cafe extends BaseTimeEntity {
     }
 
     //==연관관계 편의 메서드==//
-    public void addUser(User user){
+    public void addUser(User user) {
         this.user = user;
     }
 
