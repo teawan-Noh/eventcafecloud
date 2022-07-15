@@ -78,9 +78,8 @@
                 <p th:text="'📌 주말 가격' + ${#numbers.formatInteger(cafeDetailResponseDto.getCafeWeekendPrice(), 3, 'COMMA') + '원'}"></p>
             </div>
             <div id="eventRegisterBtn">
-                <button class="eventButton" th:onclick="|location.href='@{/events/registration(cafeId=${cafeDetailResponseDto.getCafeNumber()}, weekdayPrice=${cafeDetailResponseDto.getCafeWeekdayPrice()}, weekendPrice=${cafeDetailResponseDto.getCafeWeekendPrice()})}'|">
-                    이벤트 예약하기
-                </button>
+                <button th:if="${userId} != null" class="eventButton" th:onclick="|location.href='@{/events/registration(cafeId=${cafeDetailResponseDto.getCafeNumber()}
+                ,weekdayPrice=${cafeDetailResponseDto.getCafeWeekdayPrice()}, weekendPrice=${cafeDetailResponseDto.getCafeWeekendPrice()})}'|">이벤트 예약하기</button>
                 <button th:if="${userId} == null" class="eventButton" onclick='alert("로그인 후 이용해주세요!")'>이벤트 예약하기</button>
             </div>
         </div>
