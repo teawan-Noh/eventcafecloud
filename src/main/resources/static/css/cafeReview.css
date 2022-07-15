@@ -27,7 +27,15 @@
 }
 
 #reviews .review-input-box .button-box{
-    padding-left: 20px;
+    margin-left: 20px;
+    height: 63px;
+    width: 300px;
+    border: none;
+    background-color: #4C7A01;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 5px;
 }
 
 #reviews .review-input-box .button-box button{
@@ -86,4 +94,38 @@
     justify-content: center;
     width: 100%;
     display: flex;
+}
+
+#reviews-user-img {
+    width: 150px;
+    height: 150px;
+    border-radius: 10%;
+    object-fit: cover;
+}
+
+#review-save-btn {
+    width: 300px;
+    border: none;
+    padding: 20px;
+    background-color: #4C7A01;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 5px;
+}
+
+#reviews-user-nickname {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+#review-del-btn {
+    width: 50px;
+    border: none;
+    height: 30px;
+    background-color: #ff4040;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 5px;
 }

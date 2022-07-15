@@ -1,4 +1,3 @@
-
 function addReview() {
     let reviewContent = $("#textarea-review").val()
     let reviewRating = $("input[type=radio][name=rating]:checked").val();
@@ -67,29 +66,29 @@ function makeHtmlReview(review) {
     const cafeReviewNumber = review["cafeReviewNumber"];
     const cafeReviewContent = review["cafeReviewContent"];
     const cafeReviewRating = review["cafeReviewRating"];
-    const createdDate = review["createdDate"];
+    const createdDate = review["createdDate"].split("T")[0];
 
     return `<div class="review-container">
                         <div class="user-img">
-                            <img alt="유저 이미지" src="${userImage}">
+                            <img alt="유저 이미지" src="${userImage}" id="reviews-user-img">
                         </div>
                         <div class="review-info">
                             <div class="review-info-top">
-                                <div class="review-username">${userNickname}</div>
+                                <div class="review-username" id="reviews-user-nickname">${userNickname}</div>
                                 <div class="review-rating">${cafeReviewRating}</div>
                             </div>
                             <div class="review-info-middle">${cafeReviewContent}</div>
                             <div class="review-info-bottom">
                                 <div class="review-create-date">${createdDate}</div>
                                 <div>
-                                    <button onclick="deleteReview(${cafeReviewNumber})">삭제</button>
+                                    <button onclick="deleteReview(${cafeReviewNumber})" id="review-del-btn">삭제</button>
                                 </div>
                             </div>
                         </div>
                     </div>`;
 }
 
-function deleteReview(cafeReviewNumber){
+function deleteReview(cafeReviewNumber) {
     $.ajax({
         type: "DELETE",
         url: `/api/cafes/review/${cafeReviewNumber}`,
