@@ -60,14 +60,14 @@ public class EventController {
     }
 
     // 이벤트 수정
-    @PostMapping("/events/{eventNumber}/edit")
+    @PostMapping("/events/{eventNumber}/detail")
     public String updateEvent(@PathVariable Long eventNumber, @Validated @ModelAttribute EventUpdateRequestDto requestDto, BindingResult result) {
         eventService.modifyEvent(eventNumber, requestDto);
         return "redirect:/events/{eventNumber}/detail";
     }
 
     // 이벤트 삭제
-    @DeleteMapping("/events/{eventNumber}/cancle")
+    @DeleteMapping("/events/{eventNumber}/detail")
     public String deleteEvent(@PathVariable Long eventNumber) {
         eventService.removeEvent(eventNumber);
         return "redirect:/events";
@@ -108,7 +108,8 @@ public class EventController {
 
         return "event/eventList";
     }
-    // 이벤트 상세
+
+    // 이벤트 상세 + 수정 폼
     @GetMapping("/events/{eventNumber}/detail")
     public String getEventDetail(User loginUser, @PathVariable Long eventNumber, Model model) {
         if (loginUser != null) {
@@ -118,6 +119,7 @@ public class EventController {
 
         EventReadResponseDto eventReadResponseDto = eventService.findEvent(eventNumber);
         model.addAttribute("eventReadResponseDto", eventReadResponseDto);
+        model.addAttribute("eventUpdateRequestDto", new EventUpdateRequestDto());
         model.addAttribute("event", eventService.findEventById(eventNumber));
         return "event/eventDetail";
     }

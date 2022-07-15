@@ -6,12 +6,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
     <style>
-        .container {
-            width: 80%;
+        #eventDetailContainer {
+            width: 65%;
             margin: auto;
         }
 
-        .event-detail-header {
+        #event-detail-header {
             margin: 25px auto 25px auto;
         }
 
@@ -20,34 +20,67 @@
             width: 140px;
         }
 
-        .event-detail-info {
+        #event-detail-info {
             margin-top: 20px;
         }
 
-        .row {
-            margin : 35px auto 35px auto;
+        #event-detail-row1 {
+            height: 650px;
+
         }
 
         .col-left {
-            width: 60%;
+            width: 58%;
+            height: 100%;
         }
 
-        .col-left > .card-img-top div img {
-            height : 450px;
+
+        #event-card  {
+            height: 100%
+        }
+
+        #event-card-body {
+            height: 100%;
+        }
+
+        #event-card-img {
+            height: 100%;
+
         }
 
         .col-right {
-            width: 35%;
+            width: 38%;
             margin-left : 30px;
         }
 
+        #event-detail-information {
+            height: 90%;
+        }
+
         #card-text-info {
-            height : 500px;
+            height: 460px;
         }
 
         .btn {
             float: right;
             margin: 0px 5px 0px 5px;
+        }
+
+        #staticMap {
+            width: 80%;
+        }
+
+        #card-cafe-detail {
+            height: 450px;
+        }
+
+        #event-btn {
+            background-color: #4C7A01;
+            color: white;
+        }
+
+        #map-info {
+            margin-top: 70%;
         }
 
         .event-detail-poster div img {
@@ -58,8 +91,20 @@
             margin: 20px 10px 30px 10px;
         }
 
+        #event-img-poster {
+            margin-bottom: 15px;
+        }
+
         .card-info {
             border: none;
+        }
+
+        #btn-top {
+            margin-bottom: 20px;
+        }
+
+        #btn-top:hover {
+            background-color: #4C7A01;
         }
 
     </style>
@@ -71,22 +116,26 @@
     <div class="topFont">이벤트 페이지</div>
 </div>
 
+<div class="right-eventList">
+    <div th:replace="event/fragments/event-updateModal :: eventUpdateModal"/>
+</div>
+
 <!--Event Detail-->
 <div id="eventDetailContainer" class="container">
     <!--Event Category, Name, Period-->
-    <div class="event-detail-header" th:action="@{'/events/' + ${event.id} + '/detail'}" th:object="${eventReadResponseDto}" method="post">
+    <div class="event-detail-header" id="event-detail-header" th:action="@{'/events/' + ${event.id} + '/detail'}" th:object="${eventReadResponseDto}" method="post">
         <h5><span class="badge badge-secondary"><h5 th:text="|${eventReadResponseDto.getEventCategory()} |"> 이벤트 카테고리</h5></span></h5>
         <h1 class="fw-bolder" th:text="${eventReadResponseDto.getEventName()}">이벤트명</h1>
     </div>
     <hr>
 
     <!--Event First Image, Info-->
-    <section class="event-detail-info">
-    <div class="row">
+    <section class="event-detail-info" id="event-detail-info">
+    <div class="row" id="event-detail-row1">
         <div class="col-left">
-            <div class="card">
-                <div class="card-body">
-                    <img class="card-img-top" th:src="@{${eventReadResponseDto.getEventImageUrls().get(0)}}" alt="..." />
+            <div class="card" id="event-card">
+                <div class="event-card-body" id="event-card-body">
+                    <img class="card-img-top" id="event-card-img" th:src="@{${eventReadResponseDto.getEventImageUrls().get(0)}}" alt="..." />
                 </div>
             </div>
         </div>
@@ -96,23 +145,22 @@
                     <h4 style="font-weight: bold">이벤트 기간</h4>
                     <div class="event-detail-period">
                         <div class="event-period">
-                            <h5><p th:text="${eventReadResponseDto.getEventStartDate()} + ' ~ ' + ${eventReadResponseDto.getEventEndDate()}"> 이벤트 시작일</p></h5>
+                            <h6><p th:text="${eventReadResponseDto.getEventStartDate()} + ' ~ ' + ${eventReadResponseDto.getEventEndDate()}"> 이벤트 시작일</p></h6>
                         </div>
                     </div>
                     <br>
-                    </br>
-                    <div class="event-detail-information">
+                    <div class="event-detail-information" id="event-detail-information">
                         <h4 style="font-weight: bold">이벤트 소개</h4>
                         <p id="card-text-info" class="card-text" th:text="${eventReadResponseDto.getEventInfo()}">이벤트 소개</p>
                     </div>
                     <!-- Update, Delete Button-->
                     <button th:if="${event.eventCancelAvail == true}" class="btn btn-primary cafeBtn"
                             data-target="#cancleModalCenter" data-toggle="modal" type="button">
-                        취소
+                        이벤트 취소
                     </button>
                     <button class="btn btn-primary cafeBtn" data-target="#updateModalCenter" data-toggle="modal"
                             type="button">
-                        수정
+                        이벤트 수정
                     </button>
                     &nbsp;
                 </div>
@@ -125,10 +173,10 @@
     <div class="row">
         <div class="col-left">
             <div class="card">
-                <div class="card-body">
+                <div class="card-body" id="card-cafe-detail">
                     <h5 class="event-detail-cafe-info">이벤트 카페 정보</h5>
                     <div id="cafeLocationInfo">
-                        <div id="staticMap" style="width:600px;height:350px;"></div>
+                        <div id="staticMap" style="width:470px;height:350px; margin-top: 30px;"></div>
                     </div>
                 </div>
             </div>
@@ -140,10 +188,14 @@
                     <p class="card-text" th:text="${eventReadResponseDto.getCafeZonecode()}">카페 우편번호</p>
                     <p class="card-text" th:text="${eventReadResponseDto.getCafeAddress()}">카페 주소</p>
                     <p class="card-text" th:text="${eventReadResponseDto.getCafeAddressDetail()}">카페 상세주소</p>
-                    <button type="button" class="btn btn-outline-dark"
+                    <button type="button" class="btn btn-outline-dark" id="event-btn"
                         th:onclick="|location.href='/cafes/${eventReadResponseDto.getCafeNumber()}/detail'|">
                             카페 상세보기
-                        </button>
+                    </button>
+                    <br>
+                    <div class="map-info" id="map-info">
+                        <p style="float: bottom"><small>*지도를 클릭하면 kakao map으로 이동합니다.</small></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -156,63 +208,14 @@
         <div class="poster">
             <h4 class="event-detail-poster-info">이벤트 포스터</h4>
             <div class="card-img-poster" th:each="imageUrl : ${eventReadResponseDto.EventImageUrls}">
-                <img class="card-img-poster" th:src="${imageUrl}" alt="..." />
+                <img class="card-img-poster" id="event-img-poster" th:src="${imageUrl}" alt="..." />
             </div>
         </div>
         <br>
     </section>
     <hr>
-    <button type="button" class="btn btn-outline-dark"><a href = "#" style="text-decoration-line: none;"> TOP ▴ </a></button>
-
-<!--    -->
-<!--    &lt;!&ndash; Update Modal &ndash;&gt;-->
-<!--    <div aria-hidden="true" aria-labelledby="updateModalCenterTitle" class="modal fade"-->
-<!--         id="updateModalCenter"-->
-<!--         role="dialog" tabindex="-1">-->
-<!--        <div class="modal-dialog modal-dialog-centered" role="document">-->
-<!--            <div class="modal-content">-->
-<!--                <div class="modal-header">-->
-<!--                    <h4 class="modal-title" id="updateModalLongTitle" style="font-weight: bold">이벤트 정보 수정</h4>-->
-<!--                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">-->
-<!--                        <span aria-hidden="true">&times;</span>-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--                <form role="form" th:action="@{/events/{eventNumber}/edit (eventNumber=${event.id})}" th:object="${eventUpdateRequestDto}" enctype="multipart/form-data" method="post">-->
-<!--                    <div class="modal-body">-->
-<!--                        <h5><label style= "float: left; font-weight: bold">이벤트 이름</label></h5>-->
-<!--                        <input class="form-control" placeholder="변경할 이벤트 이름을 입력하세요"-->
-<!--                               th:class="${#fields.hasErrors('eventName')}? 'form-control fieldError' : 'form-control'"-->
-<!--                               th:field="*{eventName}"-->
-<!--                               type="text">-->
-<!--                        <p class="warning-message" th:errors="*{eventName}"-->
-<!--                           th:if="${#fields.hasErrors('eventName')}">Incorrect date</p>-->
-<!--                        <br>-->
-<!--                        <h5><label style= "float: left; font-weight: bold">이벤트 소개 및 정보</label></h5>-->
-<!--                        <textarea class="form-control" aria-label="With textarea" placeholder="이벤트의 소개 및 정보를 입력하세요"-->
-<!--                                  th:class="${#fields.hasErrors('eventInfo')}? 'form-control fieldError' : 'form-control'"-->
-<!--                                  th:field="*{eventInfo}"></textarea>-->
-<!--                        <p class="warning-message" th:errors="*{eventInfo}"-->
-<!--                           th:if="${#fields.hasErrors('eventInfo')}">Incorrect date</p>-->
-<!--                    </div>-->
-<!--                    <div class="modal-footer">-->
-<!--                        <button class="btn btn-secondary" data-dismiss="modal" type="button">닫기</button>-->
-<!--                        <button class="btn btn-primary cafeBtn" type="submit">수정</button>-->
-<!--                    </div>-->
-<!--                </form>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-
-
-
-    <!--    <section>-->
-<!--        <div class="page">-->
-<!--            <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">-->
-<!--                <a th:if="${page != nowPage}" th:href="@{/item/list(page = ${page - 1}, searchKeyword = ${param.searchKeyword})}" th:text="${page}"></a>-->
-<!--                <strong th:if="${page == nowPage}" th:text="${page}" style="color : red"></strong>-->
-<!--            </th:block>-->
-<!--        </div>-->
-<!--    </section>-->
+    <button type="button" class="btn btn-outline-dark" id="btn-top"><a href = "#" style="text-decoration-line: none;" > TOP ▴ </a></button>
+    <br>
 </div>
 </body>
 

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <div th:fragment="eventUpdateModal">
+        <!-- Update Modal -->
+        <div aria-hidden="true" aria-labelledby="updateModalCenterTitle" class="modal fade"
+             id="updateModalCenter"
+             role="dialog" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="updateModalLongTitle" style="font-weight: bold">이벤트 정보 수정</h4>
+                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form role="form" th:action="@{/events/{eventNumber}/detail (eventNumber=${event.id})}" th:object="${eventUpdateRequestDto}" enctype="multipart/form-data" method="post">
+                        <div class="modal-body">
+                            <h5><label style= "float: left; font-weight: bold">이벤트 이름</label></h5>
+                            <input class="form-control" placeholder="변경할 이벤트 이름을 입력하세요"
+                                   th:class="${#fields.hasErrors('eventName')}? 'form-control fieldError' : 'form-control'"
+                                   th:field="*{eventName}"
+                                   type="text">
+                            <p class="warning-message" th:errors="*{eventName}"
+                               th:if="${#fields.hasErrors('eventName')}">Incorrect date</p>
+                            <br>
+                            <h5><label style= "float: left; font-weight: bold">이벤트 소개 및 정보</label></h5>
+                            <textarea class="form-control" aria-label="With textarea" placeholder="이벤트의 소개 및 정보를 입력하세요"
+                                      th:class="${#fields.hasErrors('eventInfo')}? 'form-control fieldError' : 'form-control'"
+                                      th:field="*{eventInfo}"></textarea>
+                            <p class="warning-message" th:errors="*{eventInfo}"
+                               th:if="${#fields.hasErrors('eventInfo')}">Incorrect date</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-dismiss="modal" type="button">닫기</button>
+                            <button class="btn btn-primary cafeBtn" type="submit">수정</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Modal -->
+        <div aria-hidden="true" aria-labelledby="cancleModalCenterTitle" class="modal fade"
+             id="cancleModalCenter"
+             role="dialog" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header" style="font-weight: bold">
+                        <h4 class="modal-title" id="cancleModalLongTitle">이벤트 예약 취소</h4>
+                        <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body text-center" >
+                        <p></p>
+                        <label >이벤트 예약을 취소하시겠습니까?</label>
+                        <p></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button">나가기</button>
+                        <form id="cancle-form" th:action="@{'/events/' + ${event.id} + '/detail'}" method="post">
+                            <input type="hidden" name="_method" value="DELETE"/>
+                            <button th:if="${event.eventCancelAvail == true}" class="btn btn-btn-danger" id="cancle">취소하기</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</html>
