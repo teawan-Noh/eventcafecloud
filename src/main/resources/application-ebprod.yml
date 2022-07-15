@@ -2,10 +2,10 @@ spring:
   datasource:
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 #    url: jdbc:mysql://localhost:3306/ec2?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    url: jdbc:mysql://${rds.hostname}:${rds.port}/${rds.dbname}
-    username: ${rds.username}
-    password: ${rds.password}
-    driver-class-name: ${rds.driver}
+    url: jdbc:mysql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DBNAME}
+    username: ${RDS_USERNAME}
+    password: ${RDS_PASSWORD}
+    driver-class-name: ${RDS_DRIVER}
 
   profiles:
     include:

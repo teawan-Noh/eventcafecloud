@@ -1,10 +1,10 @@
 cloud:
   aws:
     credentials:
-      accessKey: ${aws_access_key}
-      secretKey: ${aws_secret_access_key}
+      accessKey: ${AWS_ACCESS_KEY}
+      secretKey: ${AWS_SECRET_ACCESS_KEY}
     s3:
-      bucket: ${bucket}
+      bucket: ${BUCKET}
     region:
       static: ap-northeast-2
     stack:
