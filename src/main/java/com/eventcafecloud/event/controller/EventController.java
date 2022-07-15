@@ -5,11 +5,8 @@ import com.eventcafecloud.event.dto.EventCreateRequestDto;
 import com.eventcafecloud.event.dto.EventListResponseDto;
 import com.eventcafecloud.event.dto.EventReadResponseDto;
 import com.eventcafecloud.event.dto.EventUpdateRequestDto;
-import com.eventcafecloud.event.repository.EventRepository;
 import com.eventcafecloud.event.service.EventService;
-import com.eventcafecloud.oauth.token.AuthTokenProvider;
 import com.eventcafecloud.user.domain.User;
-import com.eventcafecloud.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -76,12 +73,24 @@ public class EventController {
         return "redirect:/events";
     }
 
+    //이벤트삭제(마이페이지)
+    @DeleteMapping("/profile/{userId}/delete/{eventNumber}")
+    public String deleteEventFromProfile(@PathVariable Long eventNumber, @PathVariable Long userId) {
+        boolean result = eventService.isEventCancelAvail(eventNumber);
+        if (result == true) {
+            eventService.removeEvent(eventNumber);
+        } else {
+            return "redirect:/users/profile/" + userId + "/reservation";
+        }
+        return "redirect:/users/profile/" + userId + "/reservation";
+    }
+
     // 이벤트 리스트 보기
     @GetMapping("/events")
     public String getEventList(@PageableDefault(size = 10) Pageable pageable,
-                            @RequestParam(required = false, defaultValue = "", value="keyword") String keyword,
-                            @RequestParam(required = false, value="eventCategory") EventCategory eventCategory,
-                            User loginUser, Model model) {
+                               @RequestParam(required = false, defaultValue = "", value = "keyword") String keyword,
+                               @RequestParam(required = false, value = "eventCategory") EventCategory eventCategory,
+                               User loginUser, Model model) {
 
         if (loginUser != null) {
             model.addAttribute("userNick", loginUser.getUserNickname());

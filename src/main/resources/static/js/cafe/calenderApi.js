@@ -45,7 +45,22 @@
                 // calendar.unselect()
             },
             // 이벤트
-            events: '/api/cafes/calender?id=' + id
+
+            eventSources: [
+                {
+                    url: '/api/cafes/calender?id=' + id,
+                    color: '#F5F5DC',
+                    textColor: 'black',
+                    display: 'background'
+                },
+                {
+                    url: '/hosts/profile/api/cafes/calender/schedule?id=' + id,
+                    color: 'aliceblue',
+                    textColor: 'black',
+                    display: 'background'
+
+                }
+            ]
         });
         // 캘린더 랜더링
         calendar.render();

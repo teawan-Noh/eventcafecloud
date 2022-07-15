@@ -9,14 +9,18 @@ import com.eventcafecloud.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
+@DynamicUpdate
 public class Event extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
@@ -71,6 +75,11 @@ public class Event extends BaseTimeEntity {
         this.eventName = requestDto.getEventName();
         this.eventInfo = requestDto.getEventInfo();
         // this.eventImage = requestDto.getFiles();
+    }
+
+    public String getDate() {
+        SimpleDateFormat today = new SimpleDateFormat("yyyy-MM-dd");
+        return today.format(new Date());
     }
 
     // 연관 관계 편의 메소드
