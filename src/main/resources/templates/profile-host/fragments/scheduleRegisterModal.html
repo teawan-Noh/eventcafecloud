@@ -17,16 +17,16 @@
                       th:object="${requestDto}">
                     <div class="modal-body">
                         <label>닉네임</label>
-                        <input class="form-control" placeholder="휴무 일정을 간략히 등록해주세요"
+                        <input class="form-control" maxlength="30" placeholder="휴무 일정을 간략히 등록해주세요" required
                                th:field="*{cafeScheduleInfo}"
                                type="text">
                         <label>기간</label>
                         <div class="input-group">
                             <input class="form-control" id="datePicker-start" placeholder="시작일"
-                                   style="float: left; margin-right: 15px" th:field="*{cafeScheduleStartDate}"
+                                   required style="float: left; margin-right: 15px" th:field="*{cafeScheduleStartDate}"
                                    type="text">
                             <input class="form-control" id="datePicker-end" placeholder="종료일" style="float: right"
-                                   th:field="*{cafeScheduleEndDate}" type="text">
+                                   required th:field="*{cafeScheduleEndDate}" type="text">
                         </div>
                     </div>
                     <div class="modal-footer">

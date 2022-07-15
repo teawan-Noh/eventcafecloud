@@ -3,7 +3,7 @@
 <div th:fragment="cafes">
     <div class="post-form">
         <div class="postBox">
-            <h1 th:text="'총 '+${cafes.stream().count()}+'개의 카페가 있습니다.'"></h1>
+            <h1 th:text="'총 '+${cafes.getTotalElements()}+'개의 카페가 있습니다.'"></h1>
             <p>카페이미지를 클릭하시면 카페상세페이지로 이동합니다</p>
             <div class="posts-box" th:each="cafe : ${cafes}">
                 <div class="post-content">
@@ -20,7 +20,10 @@
                             </button>
                             <form id="delete-form" method="post" th:action="@{'/cafes/' + ${cafe.id}}">
                                 <input name="_method" type="hidden" value="DELETE"/>
-                                <button class="delete-button">삭제</button>
+                                <button class="delete-button"
+                                        onclick="return confirm(this.getAttribute('data-confirm-delete'))"
+                                        th:data-confirm-delete="|정말 삭제하시겠습니까?|">삭제
+                                </button>
                             </form>
                         </div>
                         <p class="cafe-info" th:text="${cafe.cafeInfo}">한줄소개</p>
