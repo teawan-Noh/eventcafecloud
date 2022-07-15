@@ -20,6 +20,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.transaction.Transactional;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -69,7 +72,7 @@ public class EventService {
     // 이벤트 수정
     @Transactional
     public EventUpdateResponseDto modifyEvent(Long eventNumber, EventUpdateRequestDto requestDto) {
-        Event event =  eventRepository.findById(eventNumber).orElseThrow(
+        Event event = eventRepository.findById(eventNumber).orElseThrow(
                 () -> new IllegalArgumentException(EVENT_NOT_FOUND.getMessage())
         );
 
@@ -86,7 +89,7 @@ public class EventService {
 
     // 전체 이벤트 목록
     public Page<EventListResponseDto> toDtoList(String keyword, EventCategory eventCategory, Pageable pageable) {
-        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() -1);
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 10);
 
         Page<Event> events = null;
@@ -146,6 +149,7 @@ public class EventService {
     /**
      * 이벤트목록(예약내역)가져오기(myProfile)
      */
+    @Transactional
     public Page<Event> findEventListByUser(Long userId, Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 5);
@@ -160,6 +164,24 @@ public class EventService {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 3, Sort.Direction.ASC, "eventStartDate");
 
-        return eventRepository.findAllByCafeId(cafeId, pageable);
+        return eventRepository.findAllByUserId(cafeId, pageable);
+    }
+
+    /**
+     * 이벤트기간과 오늘을 비교해서 취소상태를 변경하는 메소드
+     */
+    public boolean isEventCancleAvail(Long id) {
+        Date now;
+        Calendar cal = java.util.Calendar.getInstance();
+        cal.add(Calendar.DATE, +7);
+        now = cal.getTime();
+
+        Event event = eventRepository.getById(id);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String deadline = sdf.format(now);
+
+        return event.getEventStartDate().compareTo(deadline) > 0;
     }
 }
+
