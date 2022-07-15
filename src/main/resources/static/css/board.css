@@ -44,15 +44,18 @@
     background-color: #ff4040;
     color : #FFFFFF;
     margin-left : 20px;
+    font-weight: bold;
 }
 
 .btn-default {
     background-color: #4C7A01;
     color : #FFFFFF !important;
+    font-weight: bold;
 }
 
 .btn-dark {
     margin-left: 95%;
+    font-weight: bold;
 }
 
 #post-content-box {
