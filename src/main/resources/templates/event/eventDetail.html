@@ -153,16 +153,17 @@
                         <h4 style="font-weight: bold">이벤트 소개</h4>
                         <p id="card-text-info" class="card-text" th:text="${eventReadResponseDto.getEventInfo()}">이벤트 소개</p>
                     </div>
-                    <!-- Update, Delete Button-->
-                    <button th:if="${event.eventCancelAvail == true}" class="btn btn-primary cafeBtn"
+                    &nbsp;<!-- Update, Delete Button-->
+                    <button th:if="${eventReadResponseDto.isCancel == true && userId != null && eventReadResponseDto.userNumber == userId}"
+                            class="btn btn-primary cafeBtn"
                             data-target="#cancleModalCenter" data-toggle="modal" type="button">
                         이벤트 취소
                     </button>
-                    <button class="btn btn-primary cafeBtn" data-target="#updateModalCenter" data-toggle="modal"
+                    <button th:if="${userId != null && eventReadResponseDto.userNumber == userId}"
+                            class="btn btn-primary cafeBtn" data-target="#updateModalCenter" data-toggle="modal"
                             type="button">
                         이벤트 수정
                     </button>
-                    &nbsp;
                 </div>
             </div>
         </div>
