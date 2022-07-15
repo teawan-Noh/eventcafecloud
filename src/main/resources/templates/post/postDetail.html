@@ -49,8 +49,8 @@
                class="btn btn-default">수정하기</a>
             <form id="delete-form" th:action="@{'/posts/' + ${post.id}}" method="post">
                 <input type="hidden" name="_method" value="DELETE"/>
-                <button th:if="${userId != null && post.userId == userId}" class="btn btn-btn-danger" id="delete-comment">삭제하기
-                </button>
+                <button th:if="${userId != null && post.userId == userId}" class="btn btn-btn-danger" id="delete-comment"
+                        th:data-confirm-delete="|정말 삭제하시겠습니까?|" onclick="return confirm(this.getAttribute('data-confirm-delete'))">삭제하기</button>
             </form>
         </div>
         <hr>
@@ -63,7 +63,8 @@
                     <a id="commentCreatedDate" th:text="${#temporals.format(comment.createdDate,'yy.MM.dd HH:mm')}"></a>
                     <form id="deleteComment-form" th:action="@{'/'+ ${post.id} + '/comment/' + ${comment.id}}" method="post">
                         <input type="hidden" name="_method" value="DELETE"/>
-                        <button th:if="${userId != null && comment.userId == userId}" class="fa fa-trash" id="comment-delete" aria-hidden="true"></button>
+                        <button th:if="${userId != null && comment.userId == userId}" class="fa fa-trash" id="comment-delete" aria-hidden="true"
+                                th:data-confirm-delete="|정말 삭제하시겠습니까?|" onclick="return confirm(this.getAttribute('data-confirm-delete'))"></button>
                     </form>
                     <hr>
                 </tr>

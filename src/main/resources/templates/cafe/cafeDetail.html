@@ -49,15 +49,15 @@
                 <div class="carousel-inner">
                     <div class="carousel-item active">
                         <img th:src="${cafeDetailResponseDto.getCafeImgUrls().get(0)}" class="d-block"
-                             style="width:100%">
+                             style="width:100%; object-fit: cover">
                     </div>
                     <div th:if="${cafeDetailResponseDto.getCafeImgUrls().get(1)} != null" class="carousel-item">
                         <img th:src="${cafeDetailResponseDto.getCafeImgUrls().get(1)}" class="d-block"
-                             style="width:100%">
+                             style="width:100%; object-fit: cover">
                     </div>
                     <div th:if="${cafeDetailResponseDto.getCafeImgUrls().get(2)} != null" class="carousel-item">
                         <img th:src="${cafeDetailResponseDto.getCafeImgUrls().get(2)}" class="d-block"
-                             style="width:100%">
+                             style="width:100%; object-fit: cover">
                     </div>
                 </div>
                 <!-- Left and right controls/icons -->
@@ -78,10 +78,9 @@
                 <p th:text="'📌 주말 가격' + ${#numbers.formatInteger(cafeDetailResponseDto.getCafeWeekendPrice(), 3, 'COMMA') + '원'}"></p>
             </div>
             <div id="eventRegisterBtn">
-                <button class="eventButton"
-                        th:onclick="|location.href='@{/events/registration(cafeId=${cafeDetailResponseDto.getCafeNumber()}, weekdayPrice=${cafeDetailResponseDto.getCafeWeekdayPrice()}, weekendPrice=${cafeDetailResponseDto.getCafeWeekendPrice()})}'|">
-                    이벤트 예약하기
-                </button>
+                <button th:if="${userId} != null" class="eventButton" th:onclick="|location.href='@{/events/registration(cafeId=${cafeDetailResponseDto.getCafeNumber()}
+                ,weekdayPrice=${cafeDetailResponseDto.getCafeWeekdayPrice()}, weekendPrice=${cafeDetailResponseDto.getCafeWeekendPrice()})}'|">이벤트 예약하기</button>
+                <button th:if="${userId} == null" class="eventButton" onclick='alert("로그인 후 이용해주세요!")'>이벤트 예약하기</button>
             </div>
         </div>
     </section>
@@ -128,11 +127,17 @@
         </div>
         <div class="review-input-box">
             <div class="textarea-box">
-                <textarea class="form-control" id="textarea-review" placeholder="후기를 작성해주세요!"></textarea>
+                <textarea class="form-control" id="textarea-review" placeholder="후기를 작성해주세요!" style="resize: none"></textarea>
             </div>
-            <div class="button-box">
-                <button onclick="addReview()">리뷰 등록</button>
+            <div>
+            <div th:if="${userId != null}">
+                <button onclick="addReview()" class="button-box">리뷰 등록</button>
             </div>
+            <div th:if="${userId == null}" class="button-box">
+                <button onclick='alert("로그인 후 이용해주세요!")' class="button-box">리뷰 등록</button>
+            </div>
+            </div>
+
         </div>
         <div id="review-list-container"></div>
         <div id="pagination"></div>

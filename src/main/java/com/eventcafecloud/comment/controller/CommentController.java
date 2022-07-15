@@ -26,7 +26,7 @@ public class CommentController {
             if (bindingResult.hasErrors()) {
                 return "redirect:/posts/" + postId;
             } else {
-                commentService.createComment(requestDto, postId, loginUser.getUserEmail());
+                commentService.saveComment(requestDto, postId, loginUser.getUserEmail());
                 return "redirect:/posts/" + postId;
             }
         }

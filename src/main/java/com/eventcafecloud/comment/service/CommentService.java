@@ -26,7 +26,7 @@ public class CommentService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
 
-    public void createComment(CommentCreateRequestDto requestDto, Long postId, String userEmail) {
+    public void saveComment(CommentCreateRequestDto requestDto, Long postId, String userEmail) {
         Comment comment = new Comment(requestDto);
         Post post = postRepository.findById(postId).orElseThrow(() ->
                 new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
