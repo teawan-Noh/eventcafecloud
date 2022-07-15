@@ -2,6 +2,7 @@ package com.eventcafecloud.user.controller;
 
 import com.eventcafecloud.cafe.domain.Cafe;
 import com.eventcafecloud.cafe.domain.CafeSchedule;
+import com.eventcafecloud.cafe.dto.CafeCalenderInfoResponseDto;
 import com.eventcafecloud.cafe.dto.CafeScheduleRequestDto;
 import com.eventcafecloud.cafe.service.CafeScheduleService;
 import com.eventcafecloud.cafe.service.CafeService;
@@ -17,12 +18,10 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -74,7 +73,6 @@ public class hostProfileController {
     @PostMapping("/{userId}/cafes/{cafeId}/schedule/holiday")
     public String createHoliday(@Valid CafeScheduleRequestDto requestDto, BindingResult result, @PathVariable Long userId, @PathVariable Long cafeId) {
         cafeScheduleService.saveCafeSchedule(requestDto, cafeId);
-
         return "redirect:/hosts/profile/" + userId + "/cafes/" + cafeId + "/schedule";
     }
 
@@ -83,5 +81,11 @@ public class hostProfileController {
     public String updateUserProfile(@PathVariable Long id, UserRequestDto requestDto) {
         userService.modifyUserProfile(id, requestDto);
         return "redirect:/host/profile/" + id + "/info";
+    }
+
+    @ResponseBody
+    @GetMapping("/api/cafes/calender/schedule")
+    public List<CafeCalenderInfoResponseDto> ReadCafeScheduleInfo(@RequestParam Long id) {
+        return cafeScheduleService.findScheduleListForCalenderByCafeId(id);
     }
 }

@@ -79,7 +79,7 @@
             </div>
             <div id="eventRegisterBtn">
                 <button class="eventButton"
-                        th:onclick="|location.href='@{/events/registration(cafeId=${cafeDetailResponseDto.getCafeNumber()}), weekdayPrice=${cafeDetailResponseDto.getCafeWeekendPrice()}, weekendPrice=${cafeDetailResponseDto.getCafeWeekendPrice()}}'|">
+                        th:onclick="|location.href='@{/events/registration(cafeId=${cafeDetailResponseDto.getCafeNumber()}, weekdayPrice=${cafeDetailResponseDto.getCafeWeekdayPrice()}, weekendPrice=${cafeDetailResponseDto.getCafeWeekendPrice()})}'|">
                     이벤트 예약하기
                 </button>
             </div>

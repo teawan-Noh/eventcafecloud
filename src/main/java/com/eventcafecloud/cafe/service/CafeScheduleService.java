@@ -2,6 +2,7 @@ package com.eventcafecloud.cafe.service;
 
 import com.eventcafecloud.cafe.domain.Cafe;
 import com.eventcafecloud.cafe.domain.CafeSchedule;
+import com.eventcafecloud.cafe.dto.CafeCalenderInfoResponseDto;
 import com.eventcafecloud.cafe.dto.CafeScheduleRequestDto;
 import com.eventcafecloud.cafe.repository.CafeRepository;
 import com.eventcafecloud.cafe.repository.CafeScheduleRepository;
@@ -11,6 +12,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -39,5 +43,17 @@ public class CafeScheduleService {
         cafe.addCafeSchedule(cafeSchedule);
 
         cafeScheduleRepository.save(cafeSchedule);
+    }
+
+    /**
+     * 캘린더에 카페 스케줄 불러오기
+     */
+    public List<CafeCalenderInfoResponseDto> findScheduleListForCalenderByCafeId(Long id) {
+        List<CafeSchedule> cafeScheduleList = cafeScheduleRepository.findAllByCafeId(id);
+
+        List<CafeCalenderInfoResponseDto> cafeCalenderInfoResponseDtos = cafeScheduleList.stream()
+                .map(e -> new CafeCalenderInfoResponseDto(e))
+                .collect(Collectors.toList());
+        return cafeCalenderInfoResponseDtos;
     }
 }

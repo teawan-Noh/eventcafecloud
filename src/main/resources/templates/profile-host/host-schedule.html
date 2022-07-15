@@ -10,6 +10,9 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="http://code.jquery.com/ui/1.8.18/jquery-ui.min.js"></script>
 
+    <script th:inline="javascript">
+        let id = [[${cafeId}]];
+    </script>
     <script>
         $.datepicker.setDefaults({
             dateFormat: 'yy-mm-dd',
@@ -50,7 +53,11 @@
         </ul>
     </div>
 </div>
+
 <div class="right">
+    <div class="calendar-box" id='calendar-container'>
+        <div id='calendar'></div>
+    </div>
     <div class="right-eventList">
         <div th:replace="profile-host/fragments/reservation :: reservation"/>
     </div>
@@ -59,4 +66,5 @@
     </div>
 </div>
 </body>
+<script src="/js/cafe/calenderApi.js"></script>
 </html>
