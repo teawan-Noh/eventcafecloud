@@ -2,7 +2,7 @@ spring:
   datasource:
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 #    url: jdbc:mysql://localhost:3306/ec2?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    url: jdbc:postgresql://${rds.hostname}:${rds.port}/${rds.dbname}
+    url: jdbc:mysql://${rds.hostname}:${rds.port}/${rds.dbname}
     username: ${rds.username}
     password: ${rds.password}
     driver-class-name: ${rds.driver}
