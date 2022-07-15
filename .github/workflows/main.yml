@@ -2,7 +2,7 @@ name: Upload Docker Image to ECR & Pull Image to Beanstalk
 
 on:
   push:
-    branches: [ develop ]
+    branches: [ feature/cafe ]
 
 jobs:
   deploy:
