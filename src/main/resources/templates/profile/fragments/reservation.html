@@ -13,6 +13,7 @@
                           th:action="@{'/profile/'+${userId}+'/delete/'+${event.id}}">
                         <input name="_method" type="hidden" value="DELETE"/>
                         <button class="delete-button" onclick="return confirm(this.getAttribute('data-confirm-delete'))"
+                                th:if="${event.isCancel==true}"
                                 th:data-confirm-delete="|정말 취소하시겠습니까?|">취소
                         </button>
                     </form>

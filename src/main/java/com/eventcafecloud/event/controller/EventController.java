@@ -76,7 +76,7 @@ public class EventController {
     //이벤트삭제(마이페이지)
     @DeleteMapping("/profile/{userId}/delete/{eventNumber}")
     public String deleteEventFromProfile(@PathVariable Long eventNumber, @PathVariable Long userId) {
-        boolean result = eventService.isEventCancleAvail(eventNumber);
+        boolean result = eventService.isEventCancelAvail(eventNumber);
         if (result == true) {
             eventService.removeEvent(eventNumber);
         } else {

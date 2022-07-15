@@ -150,11 +150,14 @@ public class EventService {
      * 이벤트목록(예약내역)가져오기(myProfile)
      */
     @Transactional
-    public Page<Event> findEventListByUser(Long userId, Pageable pageable) {
+    public Page<EventResponseForProfileDto> findEventListByUser(Long userId, Pageable pageable) {
+
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 5);
 
-        return eventRepository.findAllByUserId(userId, pageable);
+        Page<Event> eventList = eventRepository.findAllByUserId(userId, pageable);
+
+        return eventList.map(EventResponseForProfileDto::new);
     }
 
     /**
@@ -168,9 +171,9 @@ public class EventService {
     }
 
     /**
-     * 이벤트기간과 오늘을 비교해서 취소상태를 변경하는 메소드
+     * 이벤트기간과 오늘을 비교해서 취소상태를 변경하는 메소드(백엔드처리)
      */
-    public boolean isEventCancleAvail(Long id) {
+    public boolean isEventCancelAvail(Long id) {
         Date now;
         Calendar cal = java.util.Calendar.getInstance();
         cal.add(Calendar.DATE, +7);
