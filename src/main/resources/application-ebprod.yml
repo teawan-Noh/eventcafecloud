@@ -7,6 +7,9 @@ spring:
     password: ${RDS_PASSWORD}
     driver-class-name: ${RDS_DRIVER}
 
+  config:
+    use-legacy-processing: true
+
   profiles:
     include:
       - oauth
