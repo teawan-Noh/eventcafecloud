@@ -8,6 +8,13 @@
             <div class="posts-box" th:each="schedule : ${schedules}">
                 <div class="holiday-content">
                     <div class="res-title" th:text="${schedule.cafeScheduleInfo}">이벤트제목</div>
+                    <form id="delete-form" method="post"
+                          th:action="@{'/hosts/profile/'+${cafeId}+'/schedule/delete/'+${schedule.getId}}">
+                        <input name="_method" type="hidden" value="DELETE"/>
+                        <button class="delete-button" onclick="return confirm(this.getAttribute('data-confirm-delete'))"
+                                th:data-confirm-delete="|정말 삭제하시겠습니까?|">삭제
+                        </button>
+                    </form>
                     <div class="post-info">
                         <div class="post-day" th:text="'기간 : '+${schedule.cafeScheduleStartDate}">등록일자</div>
                         <div class="post-day" th:text="' -   '+${schedule.cafeScheduleEndDate}">등록일자</div>

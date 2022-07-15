@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,7 +30,7 @@ public class CafeScheduleService {
      */
     public Page<CafeSchedule> findCafeScheduleByCafeId(Long cafeId, Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-        pageable = PageRequest.of(page, 5);
+        pageable = PageRequest.of(page, 3, Sort.Direction.ASC, "cafeScheduleStartDate");
         return cafeScheduleRepository.findAllByCafeId(cafeId, pageable);
     }
 
@@ -55,5 +56,13 @@ public class CafeScheduleService {
                 .map(e -> new CafeCalenderInfoResponseDto(e))
                 .collect(Collectors.toList());
         return cafeCalenderInfoResponseDtos;
+    }
+
+    /**
+     * 스케줄삭제
+     */
+    @Transactional
+    public void removeSchedule(Long scheduleId) {
+        cafeScheduleRepository.deleteById(scheduleId);
     }
 }

@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -157,7 +158,7 @@ public class EventService {
      */
     public Page<Event> findEventListByCafe(Long cafeId, Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-        pageable = PageRequest.of(page, 5);
+        pageable = PageRequest.of(page, 3, Sort.Direction.ASC, "eventStartDate");
 
         return eventRepository.findAllByCafeId(cafeId, pageable);
     }

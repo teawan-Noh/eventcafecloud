@@ -88,4 +88,10 @@ public class hostProfileController {
     public List<CafeCalenderInfoResponseDto> ReadCafeScheduleInfo(@RequestParam Long id) {
         return cafeScheduleService.findScheduleListForCalenderByCafeId(id);
     }
+
+    @DeleteMapping("/{cafeId}/schedule/delete/{scheduleId}")
+    public String deleteSchedule(@PathVariable Long cafeId, @PathVariable Long scheduleId, User loginUser) {
+        cafeScheduleService.removeSchedule(scheduleId);
+        return "redirect:/hosts/profile/" + loginUser.getId() + "/cafes/" + cafeId + "/schedule";
+    }
 }

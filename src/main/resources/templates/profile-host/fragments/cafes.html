@@ -20,7 +20,10 @@
                             </button>
                             <form id="delete-form" method="post" th:action="@{'/cafes/' + ${cafe.id}}">
                                 <input name="_method" type="hidden" value="DELETE"/>
-                                <button class="delete-button">삭제</button>
+                                <button class="delete-button"
+                                        onclick="return confirm(this.getAttribute('data-confirm-delete'))"
+                                        th:data-confirm-delete="|정말 삭제하시겠습니까?|">삭제
+                                </button>
                             </form>
                         </div>
                         <p class="cafe-info" th:text="${cafe.cafeInfo}">한줄소개</p>
