@@ -16,7 +16,7 @@
                     <form role="form" th:action="@{/events/{eventNumber}/detail (eventNumber=${event.id})}" th:object="${eventUpdateRequestDto}" enctype="multipart/form-data" method="post">
                         <div class="modal-body">
                             <h5><label style= "float: left; font-weight: bold">이벤트 이름</label></h5>
-                            <input class="form-control" placeholder="변경할 이벤트 이름을 입력하세요"
+                            <input class="form-control" placeholder="변경할 이벤트 이름을 입력하세요" required maxlength="24"
                                    th:class="${#fields.hasErrors('eventName')}? 'form-control fieldError' : 'form-control'"
                                    th:field="*{eventName}"
                                    type="text">
@@ -24,7 +24,7 @@
                                th:if="${#fields.hasErrors('eventName')}">Incorrect date</p>
                             <br>
                             <h5><label style= "float: left; font-weight: bold">이벤트 소개 및 정보</label></h5>
-                            <textarea class="form-control" aria-label="With textarea" placeholder="이벤트의 소개 및 정보를 입력하세요"
+                            <textarea class="form-control" aria-label="With textarea" placeholder="이벤트의 소개 및 정보를 입력하세요" required
                                       th:class="${#fields.hasErrors('eventInfo')}? 'form-control fieldError' : 'form-control'"
                                       th:field="*{eventInfo}"></textarea>
                             <p class="warning-message" th:errors="*{eventInfo}"
