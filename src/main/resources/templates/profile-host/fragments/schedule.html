@@ -3,7 +3,7 @@
 <div th:fragment="schedule">
     <div class="post-form">
         <div class="postBox">
-            <h1 th:text="'총 '+${schedules.stream().count()}+'개의 휴무일정이 있습니다.'"></h1>
+            <h1 th:text="'총 '+${schedules..getTotalElements()}+'개의 휴무일정이 있습니다.'"></h1>
             <hr width="70%">
             <div class="posts-box" th:each="schedule : ${schedules}">
                 <div class="holiday-content">

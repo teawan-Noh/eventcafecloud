@@ -3,7 +3,7 @@
 <div th:fragment="posts">
     <div class="post-form">
         <div class="postBox">
-            <h1 th:text="'총 '+${posts.stream().count()}+'개의 글을 작성하셨습니다.'"></h1>
+            <h1 th:text="'총 '+${posts.getTotalElements()}+'개의 글을 작성하셨습니다.'"></h1>
             <hr width="70%">
             <div class="posts-box" th:each="post : ${posts}"
                  th:onclick="|location.href='@{/posts/{id} (id=${post.id})}'|">
