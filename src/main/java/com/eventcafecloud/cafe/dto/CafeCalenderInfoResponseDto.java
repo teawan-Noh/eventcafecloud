@@ -1,5 +1,6 @@
 package com.eventcafecloud.cafe.dto;
 
+import com.eventcafecloud.cafe.domain.CafeSchedule;
 import com.eventcafecloud.event.domain.Event;
 import lombok.Data;
 
@@ -14,5 +15,11 @@ public class CafeCalenderInfoResponseDto {
         title = event.getEventName();
         start = event.getEventStartDate();
         end = event.getEventEndDate();
+    }
+
+    public CafeCalenderInfoResponseDto(CafeSchedule cafeSchedule) {
+        title = cafeSchedule.getCafeScheduleInfo();
+        start = cafeSchedule.getCafeScheduleStartDate();
+        end = cafeSchedule.getCafeScheduleEndDate();
     }
 }

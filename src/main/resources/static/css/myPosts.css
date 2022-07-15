@@ -42,6 +42,11 @@
     font-weight: bold;
 }
 
+.post-comment {
+    float: right;
+    font-weight: bold;
+}
+
 .post-day {
     float: left;
     margin-right: 10px;
@@ -99,11 +104,13 @@
 }
 
 .cafe-button {
+    cursor: pointer;
     display: inline-block;
     float: right;
 }
 
 .manage-button {
+    cursor: pointer;
     border: none;
     color: white;
     background-color: #4C7A01;
@@ -118,6 +125,7 @@
 }
 
 .modify-button {
+    cursor: pointer;
     float: right;
     margin-left: 10px;
     display: inline-block;
@@ -129,6 +137,8 @@
 }
 
 .delete-button {
+    margin-left: 10px;
+    cursor: pointer;
     float: right;
     display: inline-block;
     border: none;
