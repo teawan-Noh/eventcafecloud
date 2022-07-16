@@ -13,7 +13,7 @@ Event Cafe Cloud는 새로운 문화현상으로 급부상한 [이벤트카페]�
 
 ## 🔗 [프로젝트도메인](http://eventcafecloudsparta-env.eba-xh8detzp.ap-northeast-2.elasticbeanstalk.com/)
 
-## 프로젝트 시연
+## ☕ 프로젝트 시연
 
 
 ## ☕ 팀원 소개
