@@ -27,9 +27,9 @@ spring:
     hibernate:
       ddl-auto: update
 
-  thymeleaf:
-    prefix: classpath:/templates/
-    suffix: .html
+#  thymeleaf:
+#    prefix: classpath:/templates/
+#    suffix: .html
 
 #logging:
 #  level:
