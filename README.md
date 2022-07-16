@@ -17,7 +17,7 @@ Event Cafe Cloud는 새로운 문화현상으로 급부상한 [이벤트카페]�
 
 
 ## ☕ 팀원 소개
-| [노태완](https://github.com/teawan-Noh) 🍋  | [강현규](https://github.com/aichyu312) 🥝 | [김예지](https://github.com/nnakki) 🍑  | [박연주](https://github.com/yeonjue-2) 🍒 |
+| [노태완](https://github.com/teawan-Noh)(BE)   | [강현규](https://github.com/aichyu312)(BE)  | [김예지](https://github.com/nnakki)(BE)   | [박연주](https://github.com/yeonjue-2)(BE)  |
 | :--------------------------------------------: | :----------------------------------------: | :----------------------------------------------: | :-------------------------------------------: |
 |![노태완](https://user-images.githubusercontent.com/93200574/179357012-3c547292-b39c-48a2-9d41-1f4fd95b5873.png)|![강현규](https://user-images.githubusercontent.com/93200574/179357021-3cf4fbce-114e-4a53-8004-f803ae778362.png)|![김예지](https://user-images.githubusercontent.com/93200574/179356934-847ba189-a24f-47cd-beb0-4412a29cafcf.png)|![박연주](https://user-images.githubusercontent.com/93200574/179352676-ba9d8635-63e1-41f9-98f5-24207dbd5ed4.png)|
 |    피드백을 적극적으로 주고 받는 개발자    |         함께 일하고 싶은 개발자          |   피드백을 적극적으로 주고 받는 개발자   |   함께 일하고 싶은 개발자     |
@@ -48,10 +48,9 @@ Event Cafe Cloud는 새로운 문화현상으로 급부상한 [이벤트카페]�
 
 
 ## ☕ 기술 스택
-  |  | 기술 스택 |
+  | BE | <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"> <img src="https://img.shields.io/badge/gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white"> |
   | :--- | :---- |
   | FE | <img src="https://img.shields.io/badge/javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black"> <img src="https://img.shields.io/badge/jquery-0769AD?style=for-the-badge&logo=jquery&logoColor=white"> <img src="https://img.shields.io/badge/html5-E34F26?style=for-the-badge&logo=html5&logoColor=white"> <img src="https://img.shields.io/badge/css-1572B6?style=for-the-badge&logo=css3&logoColor=white"> <img src="https://img.shields.io/badge/bootstrap-7952B3?style=for-the-badge&logo=bootstrap&logoColor=white"> |
-  | BE | <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"> <img src="https://img.shields.io/badge/gradle-02303A?style=for-the-badge&logo=gradle&logoColor=white"> |
   | DB | <img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white"> <img src="https://img.shields.io/badge/SpringDataJPA-7A1FA2?style=for-the-badge&logo=java&logoColor=white"> <img src="https://img.shields.io/badge/QueryDSL-FF4747?style=for-the-badge&logo=java&logoColor=white"> |
   | CLOUD | <img src="https://img.shields.io/badge/Amazon AWS-232F32?style=for-the-badge&logo=Amazon%20AWS&logoColor=white"/> <img src="https://img.shields.io/badge/Amazon S3-569A31?style=for-the-badge&logo=Amazon%20S3&logoColor=white"/> <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=Docker&logoColor=white"/> <img src="https://img.shields.io/badge/Amazon EC2-FF9900?style=for-the-badge&logo=Amazon%20EC2&logoColor=white"/> <img src="https://img.shields.io/badge/Amazon RDS-527FFF?style=for-the-badge&logo=Amazon%20RDS&logoColor=white"/> <img src="https://img.shields.io/badge/Amazon ECS-FF9900?style=for-the-badge&logo=Amazon%20ECS&logoColor=white"/>|
   | ETC | <img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=Git&logoColor=white"/> <img src="https://img.shields.io/badge/Slack-4A154B?style=for-the-badge&logo=Slack&logoColor=white"/> |
