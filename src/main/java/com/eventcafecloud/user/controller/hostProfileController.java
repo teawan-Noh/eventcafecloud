@@ -41,7 +41,7 @@ public class hostProfileController {
         model.addAttribute("user", userService.findUserById(id));
         model.addAttribute("userNick", loginUser.getUserNickname());
         model.addAttribute("userId", loginUser.getId());
-        return "/profile-host/host-userInfo";
+        return "profile-host/host-userInfo";
     }
 
     @GetMapping("/{id}/cafes")
@@ -51,7 +51,7 @@ public class hostProfileController {
         model.addAttribute("userNick", loginUser.getUserNickname());
         model.addAttribute("userId", loginUser.getId());
 
-        return "/profile-host/host-cafes";
+        return "profile-host/host-cafes";
     }
 
     @GetMapping("/{id}/cafes/{cafeId}/schedule")
@@ -67,7 +67,7 @@ public class hostProfileController {
         //휴무일등록시, 등록 정보를 받아올 객체를 넘김
         model.addAttribute("requestDto", new CafeScheduleRequestDto());
 
-        return "/profile-host/host-schedule";
+        return "profile-host/host-schedule";
     }
 
     @PostMapping("/{userId}/cafes/{cafeId}/schedule/holiday")

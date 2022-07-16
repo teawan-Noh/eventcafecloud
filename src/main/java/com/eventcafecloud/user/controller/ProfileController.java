@@ -36,7 +36,7 @@ public class ProfileController {
         model.addAttribute("userNick", loginUser.getUserNickname());
         model.addAttribute("userId", loginUser.getId());
 
-        return "/profile/profile-userInfo";
+        return "profile/profile-userInfo";
     }
 
     @GetMapping("/{id}/reservation")
@@ -46,7 +46,7 @@ public class ProfileController {
         model.addAttribute("userNick", loginUser.getUserNickname());
         model.addAttribute("userId", loginUser.getId());
 
-        return "/profile/profile-reservation";
+        return "profile/profile-reservation";
     }
 
     @GetMapping("/{id}/posts")
@@ -56,7 +56,7 @@ public class ProfileController {
         model.addAttribute("userNick", loginUser.getUserNickname());
         model.addAttribute("userId", loginUser.getId());
 
-        return "/profile/profile-posts";
+        return "profile/profile-posts";
     }
 
     @PostMapping("/{id}/info/update")
