@@ -51,9 +51,13 @@ function getCafeReviewList() {
         callback: function (data, pagination) {
             $('#review-list-container').empty();
             for (let review of data) {
-                // console.log(review)
                 let tempHtml = makeHtmlReview(review);
+                let userId = review["userId"];
+                let cafeReviewNumber = review["cafeReviewNumber"];
                 $('#review-list-container').append(tempHtml);
+                if (loginUserId !== userId){
+                    $(`.delete${cafeReviewNumber}`).hide();
+                }
             }
         }
     });
@@ -66,22 +70,22 @@ function makeHtmlReview(review) {
     const cafeReviewNumber = review["cafeReviewNumber"];
     const cafeReviewContent = review["cafeReviewContent"];
     const cafeReviewRating = review["cafeReviewRating"];
-    const createdDate = review["createdDate"].split("T")[0];
+    const createdDate = review["createdDate"].replace("T", " ");
 
     return `<div class="review-container">
                         <div class="user-img">
-                            <img alt="유저 이미지" src="${userImage}" id="reviews-user-img">
+                            <img alt="유저 이미지" src="${userImage}">
                         </div>
                         <div class="review-info">
                             <div class="review-info-top">
-                                <div class="review-username" id="reviews-user-nickname">${userNickname}</div>
-                                <div class="review-rating">${cafeReviewRating}</div>
+                                <div class="review-username">${userNickname}</div>
+                                <div class="review-rating">평점 : ${cafeReviewRating}</div>
                             </div>
                             <div class="review-info-middle">${cafeReviewContent}</div>
                             <div class="review-info-bottom">
                                 <div class="review-create-date">${createdDate}</div>
-                                <div>
-                                    <button onclick="deleteReview(${cafeReviewNumber})" id="review-del-btn">삭제</button>
+                                <div class="form-group del">
+                                    <button onclick="deleteReview(${cafeReviewNumber})" class="delete${cafeReviewNumber}">삭제</button>
                                 </div>
                             </div>
                         </div>
@@ -89,12 +93,14 @@ function makeHtmlReview(review) {
 }
 
 function deleteReview(cafeReviewNumber) {
-    $.ajax({
-        type: "DELETE",
-        url: `/api/cafes/review/${cafeReviewNumber}`,
-        data: {},
-        success: function (response) {
-            getCafeReviewList();
-        }
-    })
+    if(confirm("삭제 하시겠습니까?")){
+        $.ajax({
+            type: "DELETE",
+            url: `/api/cafes/review/${cafeReviewNumber}`,
+            data: {},
+            success: function (response) {
+                getCafeReviewList();
+            }
+        })
+    }
 }
