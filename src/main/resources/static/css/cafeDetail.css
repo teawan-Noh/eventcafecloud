@@ -95,3 +95,29 @@
     padding: 30px;
     margin-top: 20px;
 }
+
+.inner-star::before{
+    color: #FF9600;
+}
+
+.outer-star {
+    position: relative;
+    display: inline-block;
+    color: #CCCCCC;
+}
+
+.inner-star {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0%;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.outer-star::before,
+.inner-star::before {
+    content: '\f005 \f005 \f005 \f005 \f005';
+    font-family: 'Font Awesome 5 free';
+    font-weight: 900;
+}

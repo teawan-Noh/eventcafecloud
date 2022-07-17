@@ -54,10 +54,25 @@ function getCafeReviewList() {
                 // console.log(review)
                 let tempHtml = makeHtmlReview(review);
                 $('#review-list-container').append(tempHtml);
+                rateIt('#review'+ review["cafeReviewNumber"], review["cafeReviewRating"]);
             }
         }
     });
 }
+
+function rateIt(target, rating) {
+    var ratings = {RatingScore: rating}
+    var totalRating = 5;
+    var table = document.querySelector(target);
+
+    for (rating in ratings) {
+        ratingPercentage = ratings[rating] / totalRating * 100;
+        ratingRounded = Math.round(ratingPercentage / 10) * 10 + '%';
+        star = table.querySelector(`.${rating} .inner-star`);
+        star.style.width = ratingRounded;
+    }
+}
+
 
 function makeHtmlReview(review) {
     const userId = review["userId"];
@@ -75,8 +90,12 @@ function makeHtmlReview(review) {
                         <div class="review-info">
                             <div class="review-info-top">
                                 <div class="review-username" id="reviews-user-nickname">${userNickname}</div>
-                                <div class="review-rating">${cafeReviewRating}</div>
+                                <div class='RatingStar' id="review${cafeReviewNumber}" rating="${cafeReviewRating}">
+                                <div class='RatingScore'>
+                                    <div class='outer-star'><div class='inner-star'></div></div>
+                                </div>
                             </div>
+                            </div>  
                             <div class="review-info-middle">${cafeReviewContent}</div>
                             <div class="review-info-bottom">
                                 <div class="review-create-date">${createdDate}</div>
