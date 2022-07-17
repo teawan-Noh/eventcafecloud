@@ -41,13 +41,6 @@ public class AdminController {
         return "admin/admin-cafe";
     }
 
-//    @GetMapping("/users")
-//    public String getUserList(Model model) {
-//        model.addAttribute("users", userService.getUserList());
-//        model.addAttribute("userRequestDto", new UserRequestDto());
-//        return "admin/admin-user";
-//    }
-
     @GetMapping("/users")
     public String getUserList2(@PageableDefault Pageable pageable, @RequestParam(required = false, value = "roleType") RoleType roleType, Model model) {
         Page<UserResponseDto> userList = userService.findAllUserList(roleType, pageable);

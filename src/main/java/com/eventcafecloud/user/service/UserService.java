@@ -105,27 +105,6 @@ public class UserService {
         return result;
     }
 
-//    public List<UserResponseDto> getUserList() {
-//        List<User> users = userRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
-//        List<UserResponseDto> result = new ArrayList<>();
-//
-//        for (User user : users) {
-//            UserResponseDto responseDto = new UserResponseDto();
-//            responseDto.setUserNumber(user.getId());
-//            responseDto.setUserEmail(user.getUserEmail());
-//            responseDto.setUserNickname(user.getUserNickname());
-//            responseDto.setUserRegPath(user.getUserRegPath().getDisplayName());
-//            responseDto.setCreatedDate(user.getCreatedDate());
-//            responseDto.setModifiedDate(user.getModifiedDate());
-//            responseDto.setRole(user.getRole().getDisplayName());
-//            responseDto.setStatus(user.getUserStatus().getDisplayName());
-//            result.add(responseDto);
-//
-//            responseDto.getRole();
-//        }
-//        return result;
-//    }
-
     public Page<UserResponseDto> findAllUserList(RoleType roleType, Pageable pageable) {
 
         Page<User> userList;
