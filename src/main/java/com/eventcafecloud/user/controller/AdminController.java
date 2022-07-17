@@ -32,35 +32,35 @@ public class AdminController {
     @GetMapping("/hosts")
     public String getHostsList(Model model) {
         model.addAttribute("hosts", userService.getHostUserList());
-        return "/admin/admin-host";
+        return "admin/admin-host";
     }
 
     @GetMapping("/cafes")
     public String getCafeList(@PageableDefault Pageable pageable, Model model) {
         Page<Cafe> cafeList = cafeService.findAllCafeList(pageable);
         model.addAttribute("cafes", cafeList);
-        return "/admin/admin-cafe";
+        return "admin/admin-cafe";
     }
 
     @GetMapping("/users")
     public String getUserList(Model model) {
         model.addAttribute("users", userService.getUserList());
         model.addAttribute("userRequestDto", new UserRequestDto());
-        return "/admin/admin-user";
+        return "admin/admin-user";
     }
 
     @GetMapping("/events")
     public String getEventsList(@PageableDefault Pageable pageable, Model model) {
         Page<Event> eventList = eventService.findEventList(pageable);
         model.addAttribute("events", eventList);
-        return "/admin/admin-event";
+        return "admin/admin-event";
     }
 
     @GetMapping("/posts")
     public String getPostList(@PageableDefault Pageable pageable, Model model) {
         model.addAttribute("posts", postService.findAllPostList(pageable));
 //      model.addAttribute("postStatusUpdateRequestDto", new PostStatusUpdateRequestDto());
-        return "/admin/admin-post";
+        return "admin/admin-post";
     }
 
     @PostMapping("/users/{id}/update")
