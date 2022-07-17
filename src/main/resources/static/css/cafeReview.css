@@ -68,6 +68,14 @@
     display: flex;
     margin: 10px 0 5px 0;
 }
+
+#review-list-container .review-container .user-img img{
+    width: 150px;
+    height: 150px;
+    border-radius: 10%;
+    object-fit: cover;
+}
+
 #review-list-container .review-container .review-info{
     padding: 0 20px;
     width: 70%;
@@ -77,6 +85,11 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 15px;
+}
+
+#review-list-container .review-container .review-info-top .review-username{
+    font-weight: bold;
+    font-size: 20px;
 }
 
 #review-list-container .review-container .review-info-middle{
@@ -89,37 +102,7 @@
     margin-top: 15px;
 }
 
-#pagination {
-    margin-top: 50px;
-    justify-content: center;
-    width: 100%;
-    display: flex;
-}
-
-#reviews-user-img {
-    width: 150px;
-    height: 150px;
-    border-radius: 10%;
-    object-fit: cover;
-}
-
-#review-save-btn {
-    width: 300px;
-    border: none;
-    padding: 20px;
-    background-color: #4C7A01;
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
-    border-radius: 5px;
-}
-
-#reviews-user-nickname {
-    font-weight: bold;
-    font-size: 18px;
-}
-
-#review-del-btn {
+#review-list-container .review-container .review-info-bottom .del button{
     width: 50px;
     border: none;
     height: 30px;
@@ -128,4 +111,11 @@
     font-size: 15px;
     font-weight: bold;
     border-radius: 5px;
+}
+
+#pagination {
+    margin-top: 50px;
+    justify-content: center;
+    width: 100%;
+    display: flex;
 }
