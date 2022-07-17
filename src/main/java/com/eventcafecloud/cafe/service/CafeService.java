@@ -149,18 +149,18 @@ public class CafeService {
         }
         if (requestDto.getFiles() != null){
             List<CafeImage> cafeImages = cafe.getCafeImages();
-            List<String> deleteKeys = new ArrayList<>();
+            List<String> imageKeys = new ArrayList<>();
             for (CafeImage cafeImage : cafeImages) {
                 // 3번째 '/'의 위치를 찾아서 +1 번째 부터 문자열 반환받아 key값으로 사용
                 int location = cafeImage.getCafeImageUrl().indexOf("/", 10);
-                String deleteKey = cafeImage.getCafeImageUrl().substring(location + 1);
-                deleteKeys.add(deleteKey);
+                String imageKey = cafeImage.getCafeImageUrl().substring(location + 1);
+                imageKeys.add(imageKey);
             }
             cafeImageRepository.deleteAllInBatch(cafeImages);
 
             List<MultipartFile> files = requestDto.getFiles();
             // s3저장 후 url 반환받음
-            List<String> cafeImageUrlList = s3Service.reupload(files, "cafeImage", deleteKeys);
+            List<String> cafeImageUrlList = s3Service.reupload(files, "cafeImage", imageKeys);
 
             // 카페 이미지 생성
             for (int i = 0; i < files.size(); i++) {
@@ -174,6 +174,18 @@ public class CafeService {
 
     @Transactional
     public void removeCafe(Long id) {
+        Cafe cafe = cafeRepository.getById(id);
+        List<CafeImage> cafeImages = cafe.getCafeImages();
+        List<String> imageKeys = new ArrayList<>();
+        for (CafeImage cafeImage : cafeImages) {
+            // 3번째 '/'의 위치를 찾아서 +1 번째 부터 문자열 반환받아 key값으로 사용
+            int location = cafeImage.getCafeImageUrl().indexOf("/", 10);
+            String imageKey = cafeImage.getCafeImageUrl().substring(location + 1);
+            imageKeys.add(imageKey);
+        }
+        // s3에 저장된 파일들 삭제
+        s3Service.deleteImages(imageKeys);
+
         cafeRepository.deleteById(id);
     }
 

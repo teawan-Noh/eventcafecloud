@@ -42,7 +42,6 @@ public class S3Service {
         }catch (IOException e){
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,"파일 업로드 실패");
         }
-
     }
 
     // 최초 게시글 작성 시 업로드 : 여러개
@@ -58,8 +57,7 @@ public class S3Service {
         objectMetadata.setContentLength(file.getSize());
         objectMetadata.setContentType(file.getContentType());
 
-        //삭제가 안됨
-//        amazonS3Client.deleteObject(bucket, imageKey);
+        amazonS3Client.deleteObject(bucket, imageKey);
 
         try(InputStream inputStream = file.getInputStream()) {
             amazonS3Client.putObject(new PutObjectRequest(bucket,fileName,inputStream,objectMetadata)
@@ -70,11 +68,13 @@ public class S3Service {
         }
     }
 
+    // 글 수정 시 기존 s3에 있는 이미지 정보 삭제 후 새로 저장
+    // 덮어쓰기 방식으로도 처리 가능하지만 기존파일명에 덮어씌워지므로 파일 타입이 새로 저장한 파일과 일치하지 않음
     public List<String> reupload(List<MultipartFile> files, String dirName, List<String> imageKeys){
         List<String> urlList = new ArrayList<>();
 
         for (String imageKey : imageKeys) {
-//            amazonS3Client.deleteObject(bucket, imageKey);
+            amazonS3Client.deleteObject(bucket, imageKey);
         }
 
         return getUrlList(files, dirName, urlList);
@@ -116,12 +116,11 @@ public class S3Service {
         } catch (StringIndexOutOfBoundsException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 형식의 파일(" + fileName + ") 입니다.");
         }
-
     }
 
-    public void deletefeed(String imageKey) {
-
-        amazonS3Client.deleteObject(bucket, imageKey);
-
+    public void deleteImages(List<String> imageKeys) {
+        for (String imageKey : imageKeys) {
+            amazonS3Client.deleteObject(bucket, imageKey);
+        }
     }
 }
