@@ -24,7 +24,7 @@ import java.util.UUID;
 public class S3Service {
     private final AmazonS3Client amazonS3Client;
 
-    @Value("elasticbeanstalk-ap-northeast-2-893068544470")
+    @Value("${cloud.aws.s3.bucket}")
     public String bucket;  // S3 버킷 이름
 
     // 최초 게시글 작성 시 업로드 : 한 개
