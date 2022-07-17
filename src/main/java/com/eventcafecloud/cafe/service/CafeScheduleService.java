@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.ParseException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -53,7 +54,13 @@ public class CafeScheduleService {
         List<CafeSchedule> cafeScheduleList = cafeScheduleRepository.findAllByCafeId(id);
 
         List<CafeCalenderInfoResponseDto> cafeCalenderInfoResponseDtos = cafeScheduleList.stream()
-                .map(e -> new CafeCalenderInfoResponseDto(e))
+                .map(e -> {
+                    try {
+                        return new CafeCalenderInfoResponseDto(e);
+                    } catch (ParseException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                })
                 .collect(Collectors.toList());
         return cafeCalenderInfoResponseDtos;
     }

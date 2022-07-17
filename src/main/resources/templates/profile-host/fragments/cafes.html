@@ -8,7 +8,7 @@
             <div class="posts-box" th:each="cafe : ${cafes}">
                 <div class="post-content">
                     <div class="cafe-left">
-                        <img id="cafeImage" th:onclick="|location.href='@{/cafes/{id}/detail (id=${cafe.id})}'|"
+                        <img id="cafeImage" th:onclick="|location.href='@{/cafes/{id}/detail(id=${cafe.id})}'|"
                              th:src="@{${cafe.getCafeImages().get(0).getCafeImageUrl()}}">
                     </div>
                     <div class="cafe-right">
@@ -45,7 +45,6 @@
                     </div>
                 </div>
             </div>
-
             <nav class="page" style="text-align: center;">
                 <ul class="pagination"
                     th:with="start=${T(java.lang.Math).floor(cafes.number/10)*10 + 1},
@@ -72,13 +71,13 @@
 
                     <li th:class="${cafes.last} ? 'disabled'">
                         <a aria-label="Next" class="page-number"
-                           th:href="${cafes.last} ? '#' : @{/hosts/profile/{userId}/cafes(page=${events.number + 2}, userId=${userId})}">
+                           th:href="${cafes.last} ? '#' : @{/hosts/profile/{userId}/cafes(page=${cafes.number + 2}, userId=${userId})}">
                             <span aria-hidden="true">&gt;</span>
                         </a>
                     </li>
                     <li>
                         <a aria-label="Last" class="page-number"
-                           th:href="@{/hosts/profile/{userId}/reservation(page=${cafes.totalPages}, userId=${userId})}">
+                           th:href="@{/hosts/profile/{userId}/cafes(page=${cafes.totalPages}, userId=${userId})}">
                             <span aria-hidden="true">Last</span>
                         </a>
                     </li>
@@ -86,4 +85,4 @@
             </nav>
         </div>
     </div>
-
+</div>

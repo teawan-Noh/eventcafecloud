@@ -27,13 +27,13 @@
                     last=(${start + 9 < schedules.totalPages ? start + 9 : schedules.totalPages})">
                     <li>
                         <a aria-label="First" class="page-number"
-                           th:href="@{/hosts/profile/{userId}/cafes/{cafeId}/schedule(page=${schedules.totalPages}, userId=${userId}, cafeId=${cafeId})}">
+                           th:href="@{/hosts/profile/{userId}/cafes/{cafeId}/schedule(page=1, userId=${userId}, cafeId=${cafeId})}">
                             <span aria-hidden="true">First</span>
                         </a>
                     </li>
                     <li th:class="${schedules.first} ? 'disabled'">
                         <a aria-label="Previous" class="page-number"
-                           th:href="${schedules.first} ? '#' :@{/hosts/profile/{userId}/cafes/{cafeId}/schedule(page=${schedules.totalPages}, userId=${userId}, cafeId=${cafeId})}">
+                           th:href="${schedules.first} ? '#' :@{/hosts/profile/{userId}/cafes/{cafeId}/schedule(page=${schedules.number}, userId=${userId}, cafeId=${cafeId})}">
                             <span aria-hidden="true">&lt;</span>
                         </a>
                     </li>
@@ -41,13 +41,13 @@
                     <li th:class="${page == schedules.number + 1} ? 'active'"
                         th:each="page: ${#numbers.sequence(start, last)}">
                         <a class="page-number"
-                           th:href="@{/hosts/profile/{userId}/cafes/{cafeId}/schedule(page=${schedules.totalPages}, userId=${userId}, cafeId=${cafeId})}"
+                           th:href="@{/hosts/profile/{userId}/cafes/{cafeId}/schedule(page=${page}, userId=${userId}, cafeId=${cafeId})}"
                            th:text="${page}"></a>
                     </li>
 
                     <li th:class="${schedules.last} ? 'disabled'">
                         <a aria-label="Next" class="page-number"
-                           th:href="${schedules.last} ? '#' : @{/hosts/profile/{userId}/cafes/{cafeId}/schedule(page=${schedules.totalPages}, userId=${userId}, cafeId=${cafeId})}">
+                           th:href="${schedules.last} ? '#' : @{/hosts/profile/{userId}/cafes/{cafeId}/schedule(page=${schedules.number+2}, userId=${userId}, cafeId=${cafeId})}">
                             <span aria-hidden="true">&gt;</span>
                         </a>
                     </li>

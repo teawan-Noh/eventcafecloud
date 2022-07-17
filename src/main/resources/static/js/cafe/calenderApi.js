@@ -49,16 +49,15 @@
             eventSources: [
                 {
                     url: '/api/cafes/calender?id=' + id,
-                    color: '#F5F5DC',
-                    textColor: 'black',
-                    display: 'background'
+                    color: '#4C7A01',
+                    textColor: 'white',
+                    // display: 'background'
                 },
                 {
                     url: '/hosts/profile/api/cafes/calender/schedule?id=' + id,
-                    color: 'aliceblue',
-                    textColor: 'black',
-                    display: 'background'
-
+                    color: 'darkorange',
+                    textColor: 'white',
+                    // display: 'background'
                 }
             ]
         });

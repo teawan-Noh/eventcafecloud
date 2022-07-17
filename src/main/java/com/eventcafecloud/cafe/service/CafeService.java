@@ -11,6 +11,7 @@ import com.eventcafecloud.s3.S3Service;
 import com.eventcafecloud.user.domain.User;
 import com.eventcafecloud.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -180,7 +181,13 @@ public class CafeService {
         List<Event> eventList = eventRepository.findALLByCafeId(id);
 
         List<CafeCalenderInfoResponseDto> cafeCalenderInfoResponseDtos = eventList.stream()
-                .map(e -> new CafeCalenderInfoResponseDto(e))
+                .map(e -> {
+                    try {
+                        return new CafeCalenderInfoResponseDto(e);
+                    } catch (ParseException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                })
                 .collect(Collectors.toList());
 
         return cafeCalenderInfoResponseDtos;
@@ -232,7 +239,7 @@ public class CafeService {
     /**
      * 카페에 저장 되어 있는 일정목록을 전부 리스트에 담는 메소드
      */
-    public ArrayList<String> eventAndScheduleFromCafe(List<Event> eventList, List<CafeSchedule> cafeScheduleList) throws ParseException {
+    public ArrayList<String> eventAndScheduleFromCafe(@NotNull List<Event> eventList, List<CafeSchedule> cafeScheduleList) throws ParseException {
         final String DATE_PATTERN = "yyyy-MM-dd";
         SimpleDateFormat sdf = new SimpleDateFormat(DATE_PATTERN);
         ArrayList<String> dates = new ArrayList<>();
