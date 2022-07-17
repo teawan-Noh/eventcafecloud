@@ -79,13 +79,12 @@ function makeHtmlReview(review) {
                         <div class="review-info">
                             <div class="review-info-top">
                                 <div class="review-username" id="reviews-user-nickname">${userNickname}</div>
-                                <div class="review-rating">${cafeReviewRating}</div>
+                                <div class="review-rating">평점 : ${cafeReviewRating}</div>
                             </div>
                             <div class="review-info-middle">${cafeReviewContent}</div>
                             <div class="review-info-bottom">
                                 <div class="review-create-date">${createdDate}</div>
                                 <div class="form-group">
-                                    <script>alert("loginUserId = " + ${loginUserId} + "userId =" + ${userId})</script>
                                     <button onclick="deleteReview(${cafeReviewNumber})" class="delete${cafeReviewNumber}" id="review-del-btn">삭제</button>
                                 </div>
                             </div>
