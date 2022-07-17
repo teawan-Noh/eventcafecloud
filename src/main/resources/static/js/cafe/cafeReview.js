@@ -8,18 +8,22 @@ function addReview() {
         alert("별점을 등록해주세요")
         return;
     }
-    $.ajax({
-        type: "POST",
-        url: `/api/cafes/${id}/review`,
-        data: {
-            reviewContent: reviewContent,
-            reviewRating: reviewRating
-        },
-        success: function (response) {
-            console.log(response);
-            getCafeReviewList();
-        }
-    })
+
+    if(confirm("리뷰를 등록하시겠습니까?")){
+        $.ajax({
+            type: "POST",
+            url: `/api/cafes/${id}/review`,
+            data: {
+                reviewContent: reviewContent,
+                reviewRating: reviewRating
+            },
+            success: function (response) {
+                console.log(response);
+                getCafeReviewList();
+            }
+        })
+    }
+
 }
 
 function getCafeReviewList() {
