@@ -15,13 +15,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static com.eventcafecloud.exception.ExceptionStatus.USER_NOT_FOUND;
@@ -95,23 +92,6 @@ public class UserService {
         hostUser.updateApprove(ApproveType.FAIL);
     }
 
-    public List<HostUserResponseDto> getHostUserList() {
-        List<HostUser> hostUsers = hostUserRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
-        List<HostUserResponseDto> result = new ArrayList<>();
-
-        for (HostUser hostUser : hostUsers) {
-            HostUserResponseDto responseDto = new HostUserResponseDto();
-            responseDto.setHost_user_number(hostUser.getId());
-            responseDto.setUserEmail(hostUser.getUserEmail());
-            responseDto.setCertificationFile(hostUser.getCertificationFile());
-            responseDto.setIsApprove(hostUser.getIsApprove());
-            responseDto.setUser_number(hostUser.getUser().getId());
-            responseDto.setCreated_date(hostUser.getCreatedDate());
-            result.add(responseDto);
-        }
-        return result;
-    }
-
     public Page<UserResponseDto> findAllUserList(RoleType roleType, Pageable pageable) {
 
         Page<User> userList;
@@ -126,5 +106,21 @@ public class UserService {
         }
 
         return userList.map(UserResponseDto::new);
+    }
+
+    public Page<HostUserResponseDto> findAllHostUserList(ApproveType approveType, Pageable pageable) {
+
+        Page<HostUser> hostList;
+
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 15);
+
+        if (approveType == null) {
+            hostList = hostUserRepository.findAll(pageable);
+        } else {
+            hostList = hostUserRepository.findAllByIsApprove(approveType, pageable);
+        }
+
+        return hostList.map(HostUserResponseDto::new);
     }
 }

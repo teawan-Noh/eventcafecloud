@@ -5,7 +5,9 @@ import com.eventcafecloud.cafe.service.CafeService;
 import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.event.service.EventService;
 import com.eventcafecloud.post.service.PostService;
+import com.eventcafecloud.user.domain.type.ApproveType;
 import com.eventcafecloud.user.domain.type.RoleType;
+import com.eventcafecloud.user.dto.HostUserResponseDto;
 import com.eventcafecloud.user.dto.UserRequestDto;
 import com.eventcafecloud.user.dto.UserResponseDto;
 import com.eventcafecloud.user.service.UserService;
@@ -29,8 +31,9 @@ public class AdminController {
     private final EventService eventService;
 
     @GetMapping("/hosts")
-    public String getHostsList(Model model) {
-        model.addAttribute("hosts", userService.getHostUserList());
+    public String getHostsList(@PageableDefault Pageable pageable, @RequestParam(required = false, value = "approveType") ApproveType approveType, Model model) {
+        Page<HostUserResponseDto> hostList = userService.findAllHostUserList(approveType, pageable);
+        model.addAttribute("hosts", hostList);
         return "/admin/admin-host";
     }
 
@@ -42,7 +45,7 @@ public class AdminController {
     }
 
     @GetMapping("/users")
-    public String getUserList2(@PageableDefault Pageable pageable, @RequestParam(required = false, value = "roleType") RoleType roleType, Model model) {
+    public String getUserList(@PageableDefault Pageable pageable, @RequestParam(required = false, value = "roleType") RoleType roleType, Model model) {
         Page<UserResponseDto> userList = userService.findAllUserList(roleType, pageable);
         model.addAttribute("users", userList);
         model.addAttribute("userRequestDto", new UserRequestDto());
