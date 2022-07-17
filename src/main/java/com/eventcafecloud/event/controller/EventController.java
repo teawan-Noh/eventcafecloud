@@ -69,8 +69,13 @@ public class EventController {
     // 이벤트 삭제
     @DeleteMapping("/events/{eventNumber}/detail")
     public String deleteEvent(@PathVariable Long eventNumber) {
-        eventService.removeEvent(eventNumber);
-        return "redirect:/events";
+        boolean result = eventService.isEventCancelAvail(eventNumber);
+        if (result == true) {
+            eventService.removeEvent(eventNumber);
+        } else {
+            return "redirect:/events/" + eventNumber + "/detail";
+        }
+        return "redirect:/events/" + eventNumber + "/detail";
     }
 
     //이벤트삭제(마이페이지)
@@ -98,12 +103,6 @@ public class EventController {
         }
 
         Page<EventListResponseDto> eventListResponseDtos = eventService.toDtoList(keyword, eventCategory, pageable);
-
-        int start = Math.max(1, eventListResponseDtos.getPageable().getPageNumber() - 10);
-        int last = Math.min(eventListResponseDtos.getTotalPages(), eventListResponseDtos.getPageable().getPageNumber() + 10);
-
-        model.addAttribute("start", start);
-        model.addAttribute("last", last);
         model.addAttribute("eventListResponseDtos", eventListResponseDtos);
 
         return "event/eventList";
