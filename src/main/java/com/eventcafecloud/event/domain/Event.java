@@ -60,7 +60,6 @@ public class Event extends BaseTimeEntity {
     @Column(name = "event_number")
     private Long id;
 
-
     public Event(EventCreateRequestDto requestDto) {
         this.eventName = requestDto.getEventName();
         this.eventCategory = requestDto.getEventCategory();

@@ -56,18 +56,23 @@ public class Cafe extends BaseTimeEntity {
     private int cafeWeekendPrice;
 
     private String cafeOpenTime;
+
     private String cafeCloseTime;
 
     // 단반향 연관관계
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_number")
     private User user;
+
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
     private final List<CafeImage> cafeImages = new ArrayList<>();
+
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
     private final List<CafeReview> cafeReviews = new ArrayList<>();
+
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
     private final List<CafeSchedule> cafeSchedules = new ArrayList<>();
+
     @OneToMany(mappedBy = "cafe")
     private final List<Event> events = new ArrayList<>();
     @Id
