@@ -26,7 +26,7 @@ public class Error implements ErrorController {
                 return ERROR_TEMPLATES_PATH + "405";
             }
 
-            if(statusCode == HttpStatus.FORBIDDEN.value()){
+            if(statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()){
                 return ERROR_TEMPLATES_PATH + "500";
             }
         }
