@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.eventcafecloud.exception.ExceptionStatus.USER_NOT_FOUND;
 
@@ -50,13 +51,19 @@ public class UserService {
         User user = userRepository.findByUserEmail(hostUserCreateRequestDto.getUserEmail())
                 .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
 
-        HostUser hostUser = HostUser.builder()
-                .userEmail(hostUserCreateRequestDto.getUserEmail())
-                .certificationFile(hostUserCreateRequestDto.getCertificationFile())
-                .isApprove(ApproveType.WAITING)
-                .build();
+        Optional<HostUser> checkUser = hostUserRepository.findByUserEmail(hostUserCreateRequestDto.getUserEmail());
 
-        user.registHost(hostUser);
+        if (checkUser.isEmpty()) {
+            HostUser hostUser = HostUser.builder()
+                    .userEmail(hostUserCreateRequestDto.getUserEmail())
+                    .certificationFile(hostUserCreateRequestDto.getCertificationFile())
+                    .isApprove(ApproveType.WAITING)
+                    .build();
+
+            user.registHost(hostUser);
+        } else {
+            checkUser.get().updateIsApprove();
+        }
     }
 
     @Transactional
