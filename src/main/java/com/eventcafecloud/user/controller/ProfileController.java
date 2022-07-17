@@ -36,7 +36,7 @@ public class ProfileController {
         model.addAttribute("userNick", loginUser.getUserNickname());
         model.addAttribute("userId", loginUser.getId());
 
-        return "/profile/profile-userInfo";
+        return "profile/profile-userInfo";
     }
 
     @GetMapping("/{id}/reservation")

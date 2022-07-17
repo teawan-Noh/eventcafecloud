@@ -34,7 +34,7 @@ public class AdminController {
     public String getHostsList(@PageableDefault Pageable pageable, @RequestParam(required = false, value = "approveType") ApproveType approveType, Model model) {
         Page<HostUserResponseDto> hostList = userService.findAllHostUserList(approveType, pageable);
         model.addAttribute("hosts", hostList);
-        return "/admin/admin-host";
+        return "admin/admin-host";
     }
 
     @GetMapping("/cafes")
