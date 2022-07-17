@@ -1,5 +1,10 @@
 package com.eventcafecloud.event.controller;
 
+import com.eventcafecloud.cafe.domain.CafeSchedule;
+import com.eventcafecloud.cafe.dto.CafeScheduleRequestDto;
+import com.eventcafecloud.cafe.service.CafeScheduleService;
+import com.eventcafecloud.cafe.service.CafeService;
+import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.event.domain.type.EventCategory;
 import com.eventcafecloud.event.dto.EventCreateRequestDto;
 import com.eventcafecloud.event.dto.EventListResponseDto;
@@ -18,22 +23,37 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.util.ArrayList;
+
 @Controller
 @RequiredArgsConstructor
 public class EventController {
 
     private final EventService eventService;
+    private final CafeScheduleService cafeScheduleService;
+    private final CafeService cafeService;
 
     // 이벤트 예약 폼
-    @Secured("ROLE_NORMAL")
+    @Secured({"ROLE_NORMAL", "ROLE_HOST"})
     @GetMapping("/events/registration")
-    public String createEventForm(User loginUser, Model model, @RequestParam Long cafeId) {
+    public String createEventForm(@PageableDefault Pageable pageable, User loginUser, Model model, @RequestParam Long cafeId) throws ParseException {
 
         if (loginUser != null) {
             model.addAttribute("userNick", loginUser.getUserNickname());
             model.addAttribute("userId", loginUser.getId());
             model.addAttribute("cafeId", cafeId);
         }
+
+        Page<Event> eventList = eventService.findEventListByCafe(cafeId, pageable);
+        Page<CafeSchedule> scheduleList = cafeScheduleService.findCafeScheduleByCafeId(cafeId, pageable);
+        ArrayList<String> dates = cafeService.AllReservationListByCafe(cafeId);
+        model.addAttribute("events", eventList);
+        model.addAttribute("schedules", scheduleList);
+        model.addAttribute("dates", dates);
+        model.addAttribute("cafeName", cafeService.findCafeByIdForDetail(cafeId).getCafeName());
+        //휴무일등록시, 등록 정보를 받아올 객체를 넘김
+        model.addAttribute("requestDto", new CafeScheduleRequestDto());
         model.addAttribute("eventCreateRequestDto", new EventCreateRequestDto());
         return "event/createEventForm";
     }

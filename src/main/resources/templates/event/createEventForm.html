@@ -52,7 +52,11 @@
             results.push(curDate.toISOString().split("T")[0]);
             curDate.setDate(curDate.getDate() + 1);
         }
-        findDate(results);  // 7-15, 7-18 -> 7-15, 7-16, 7-17, 7-18 이 배열형태로 저장
+
+        for (let index = 0; index < results.length; index++) {
+            results[index] = results[index].replace(/-0+/g, '-')
+        }
+        findDate(results);
     }
 
     function findDate(results) {
@@ -92,6 +96,11 @@
 
 </script>
 <body>
+
+<script th:inline="javascript">
+    let id = [[${cafeId}]];
+    let dates = [[${dates}]];
+</script>
 <script type="text/javascript">
     $.datepicker.setDefaults({
         dateFormat: 'yy-mm-dd',
@@ -108,7 +117,11 @@
     });
 
     // 제외할 날짜 (받아오기) - 휴무일, 예약된 날짜
-    let disabledDays = ["2022-7-17", "2022-7-24"];
+    let disabledDays = dates;
+    for (let index = 0; index < disabledDays.length; index++) {
+        disabledDays[index] = disabledDays[index].replace(/-0+/g, '-')
+    }
+    console.log(disabledDays);
 
     // 이전 날짜들은 선택막기
     function noBefore(date){
@@ -181,7 +194,7 @@
             <br />
             <div>
                 <p><small>* 이벤트 메인 이미지와 포스터를 업로드해 주세요.  * 2MB 이하의 파일을 선택해 주세요.</small></p>
-                <input type="file" multiple="multiple" th:field="*{files}" name="imageFiles" >
+                <input type="file" multiple="multiple" th:field="*{files}" name="imageFiles" required>
             </div>
             <br>
             <div class="form-group-event">
