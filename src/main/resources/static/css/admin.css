@@ -89,6 +89,10 @@ form {
     font-size: 15px;
 }
 
+.option-search {
+    margin-bottom: 10px;
+}
+
 .fail-button {
     background-color: #ff4040;
     color: white;

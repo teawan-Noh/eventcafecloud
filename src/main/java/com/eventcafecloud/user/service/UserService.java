@@ -4,6 +4,7 @@ import com.eventcafecloud.s3.S3Service;
 import com.eventcafecloud.user.domain.HostUser;
 import com.eventcafecloud.user.domain.User;
 import com.eventcafecloud.user.domain.type.ApproveType;
+import com.eventcafecloud.user.domain.type.RoleType;
 import com.eventcafecloud.user.dto.HostUserCreateRequestDto;
 import com.eventcafecloud.user.dto.HostUserResponseDto;
 import com.eventcafecloud.user.dto.UserRequestDto;
@@ -11,6 +12,9 @@ import com.eventcafecloud.user.dto.UserResponseDto;
 import com.eventcafecloud.user.repository.HostUserRepository;
 import com.eventcafecloud.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -101,24 +105,40 @@ public class UserService {
         return result;
     }
 
-    public List<UserResponseDto> getUserList() {
-        List<User> users = userRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
-        List<UserResponseDto> result = new ArrayList<>();
+//    public List<UserResponseDto> getUserList() {
+//        List<User> users = userRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+//        List<UserResponseDto> result = new ArrayList<>();
+//
+//        for (User user : users) {
+//            UserResponseDto responseDto = new UserResponseDto();
+//            responseDto.setUserNumber(user.getId());
+//            responseDto.setUserEmail(user.getUserEmail());
+//            responseDto.setUserNickname(user.getUserNickname());
+//            responseDto.setUserRegPath(user.getUserRegPath().getDisplayName());
+//            responseDto.setCreatedDate(user.getCreatedDate());
+//            responseDto.setModifiedDate(user.getModifiedDate());
+//            responseDto.setRole(user.getRole().getDisplayName());
+//            responseDto.setStatus(user.getUserStatus().getDisplayName());
+//            result.add(responseDto);
+//
+//            responseDto.getRole();
+//        }
+//        return result;
+//    }
 
-        for (User user : users) {
-            UserResponseDto responseDto = new UserResponseDto();
-            responseDto.setUserNumber(user.getId());
-            responseDto.setUserEmail(user.getUserEmail());
-            responseDto.setUserNickname(user.getUserNickname());
-            responseDto.setUserRegPath(user.getUserRegPath().getDisplayName());
-            responseDto.setCreatedDate(user.getCreatedDate());
-            responseDto.setModifiedDate(user.getModifiedDate());
-            responseDto.setRole(user.getRole().getDisplayName());
-            responseDto.setStatus(user.getUserStatus().getDisplayName());
-            result.add(responseDto);
+    public Page<UserResponseDto> findAllUserList(RoleType roleType, Pageable pageable) {
 
-            responseDto.getRole();
+        Page<User> userList;
+
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 15);
+
+        if (roleType == null) {
+            userList = userRepository.findAll(pageable);
+        } else {
+            userList = userRepository.findAllByRole(roleType, pageable);
         }
-        return result;
+
+        return userList.map(UserResponseDto::new);
     }
 }

@@ -5,7 +5,9 @@ import com.eventcafecloud.cafe.service.CafeService;
 import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.event.service.EventService;
 import com.eventcafecloud.post.service.PostService;
+import com.eventcafecloud.user.domain.type.RoleType;
 import com.eventcafecloud.user.dto.UserRequestDto;
+import com.eventcafecloud.user.dto.UserResponseDto;
 import com.eventcafecloud.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,10 +16,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
@@ -39,28 +38,36 @@ public class AdminController {
     public String getCafeList(@PageableDefault Pageable pageable, Model model) {
         Page<Cafe> cafeList = cafeService.findAllCafeList(pageable);
         model.addAttribute("cafes", cafeList);
-        return "/admin/admin-cafe";
+        return "admin/admin-cafe";
     }
 
+//    @GetMapping("/users")
+//    public String getUserList(Model model) {
+//        model.addAttribute("users", userService.getUserList());
+//        model.addAttribute("userRequestDto", new UserRequestDto());
+//        return "admin/admin-user";
+//    }
+
     @GetMapping("/users")
-    public String getUserList(Model model) {
-        model.addAttribute("users", userService.getUserList());
+    public String getUserList2(@PageableDefault Pageable pageable, @RequestParam(required = false, value = "roleType") RoleType roleType, Model model) {
+        Page<UserResponseDto> userList = userService.findAllUserList(roleType, pageable);
+        model.addAttribute("users", userList);
         model.addAttribute("userRequestDto", new UserRequestDto());
-        return "/admin/admin-user";
+        return "admin/admin-user";
     }
 
     @GetMapping("/events")
     public String getEventsList(@PageableDefault Pageable pageable, Model model) {
         Page<Event> eventList = eventService.findEventList(pageable);
         model.addAttribute("events", eventList);
-        return "/admin/admin-event";
+        return "admin/admin-event";
     }
 
     @GetMapping("/posts")
     public String getPostList(@PageableDefault Pageable pageable, Model model) {
         model.addAttribute("posts", postService.findAllPostList(pageable));
 //      model.addAttribute("postStatusUpdateRequestDto", new PostStatusUpdateRequestDto());
-        return "/admin/admin-post";
+        return "admin/admin-post";
     }
 
     @PostMapping("/users/{id}/update")
