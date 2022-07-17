@@ -64,6 +64,7 @@ function getCafeReviewList() {
 }
 
 function makeHtmlReview(review) {
+    const userId = review["userId"];
     const userNickname = review["userNickname"];
     const userImage = review["userImage"];
     const cafeReviewNumber = review["cafeReviewNumber"];
