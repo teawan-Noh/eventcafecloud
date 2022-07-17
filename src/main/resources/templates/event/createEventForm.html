@@ -56,7 +56,22 @@
         for (let index = 0; index < results.length; index++) {
             results[index] = results[index].replace(/-0+/g, '-')
         }
-        findDate(results);
+
+        let number = 0;
+        for (let i = 0; i < results.length; i++) {
+            if (dates.includes(results[i])) {
+                number += 1;
+            }
+        }
+
+        // 휴무일 및 예약된 날짜 포함 기간 설정 시
+        if (number == 0) {
+            findDate(results);
+        } else {
+            alert("휴무일 및 예약된 날짜가 포함되어있습니다!");
+            $('#datePicker-start').focus();
+            results = [];
+        }
     }
 
     function findDate(results) {
