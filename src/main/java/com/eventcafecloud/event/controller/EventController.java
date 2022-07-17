@@ -108,7 +108,6 @@ public class EventController {
 
         return "event/eventList";
     }
-
     // 이벤트 상세
     @GetMapping("/events/{eventNumber}/detail")
     public String getEventDetail(User loginUser, @PathVariable Long eventNumber, Model model) {

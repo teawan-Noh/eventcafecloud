@@ -17,22 +17,28 @@
             </div>
         </div>
         <div class="right">
+            <h1 class="admin-h1" th:text="'총 '+${hosts.getTotalElements()}+'개의 신청내역이 있습니다.'"></h1>
             <div class="profileBox">
                 <div class="card mb-4">
                     <div class="card-header">
                         호스트관리
                     </div>
                     <div class="card-body">
-                        <div class="option-search">
-                            <div style="display: flex; margin-left: auto;">
-                                <select class="bbsOrReply">
-                                    <option value="">--상태--</option>
-                                    <option value="normal">승인</option>
-                                    <option value="quit">승인대기</option>
-                                    <option value="quit">거절</option>
-                                </select>
+                        <form method="GET">
+                            <div class="option-search">
+                                <div style="display: flex; margin-left: auto;">
+                                    <select class="ApproveType" id="approveType" th:name="approveType">
+                                        <option value="">전체</option>
+                                        <option value="WAITING">승인대기</option>
+                                        <option value="PASS">승인완료</option>
+                                        <option value="FAIL">승인거절</option>
+                                    </select> &nbsp;
+                                    <button class="btn btn-outline-success my-2 my-sm-0" id="btn-search" type="submit">
+                                        검색
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                         <div class="table-responsive">
                             <table class="table table-bordered" id="userTable">
                                 <thead>
@@ -64,25 +70,46 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>ssk900620@gmail.com</td>
-                                    <td>사업자등록증</td>
-                                    <td>2020/07/12</td>
-                                    <td>승인대기</td>
-                                    <td></td>
-                                </tr>
                             </table>
                         </div>
-                        <div style="display: flex; justify-content: space-between;">
-                            <div class="page" id="page">
-                                <button class="page-number"><</button>
-                                <button class="page-number">1</button>
-                                <button class="page-number">2</button>
-                                <button class="page-number">3</button>
-                                <button class="page-number">></button>
-                            </div>
-                        </div>
+                        <nav class="page" style="text-align: center;">
+                            <ul class="pagination"
+                                th:with="start=${T(java.lang.Math).floor(hosts.number/10)*10 + 1},
+                    last=(${start + 9 < hosts.totalPages ? start + 9 : hosts.totalPages})">
+                                <li>
+                                    <a aria-label="First" class="page-number"
+                                       th:href="@{/admin/hosts(page=1)}">
+                                        <span aria-hidden="true">First</span>
+                                    </a>
+                                </li>
+                                <li th:class="${hosts.first} ? 'disabled'">
+                                    <a aria-label="Previous" class="page-number"
+                                       th:href="${hosts.first} ? '#' :@{/admin/hosts}">
+                                        <span aria-hidden="true">&lt;</span>
+                                    </a>
+                                </li>
+
+                                <li th:class="${page == hosts.number + 1} ? 'active'"
+                                    th:each="page: ${#numbers.sequence(start, last)}">
+                                    <a class="page-number"
+                                       th:href="@{/admin/hosts(page=${page})}"
+                                       th:text="${page}"></a>
+                                </li>
+
+                                <li th:class="${hosts.last} ? 'disabled'">
+                                    <a aria-label="Next" class="page-number"
+                                       th:href="${hosts.last} ? '#' : @{/admin/hosts(page=${hosts.number + 2})}">
+                                        <span aria-hidden="true">&gt;</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a aria-label="Last" class="page-number"
+                                       th:href="@{/admin/hosts(page=${hosts.totalPages})}">
+                                        <span aria-hidden="true">Last</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>

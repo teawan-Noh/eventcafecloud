@@ -21,6 +21,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -55,14 +57,16 @@ public class hostProfileController {
     }
 
     @GetMapping("/{id}/cafes/{cafeId}/schedule")
-    public String getReservationByCafe(@PageableDefault Pageable pageable, @PathVariable Long cafeId, Model model, User loginUser) {
+    public String getReservationByCafe(@PageableDefault Pageable pageable, @PathVariable Long cafeId, Model model, User loginUser) throws ParseException {
         Page<Event> eventList = eventService.findEventListByCafe(cafeId, pageable);
         Page<CafeSchedule> scheduleList = cafeScheduleService.findCafeScheduleByCafeId(cafeId, pageable);
+        ArrayList<String> dates = cafeService.AllReservationListByCafe(cafeId);
         model.addAttribute("events", eventList);
         model.addAttribute("schedules", scheduleList);
         model.addAttribute("userNick", loginUser.getUserNickname());
         model.addAttribute("userId", loginUser.getId());
         model.addAttribute("cafeId", cafeId);
+        model.addAttribute("dates", dates);
         model.addAttribute("cafeName", cafeService.findCafeByIdForDetail(cafeId).getCafeName());
         //휴무일등록시, 등록 정보를 받아올 객체를 넘김
         model.addAttribute("requestDto", new CafeScheduleRequestDto());

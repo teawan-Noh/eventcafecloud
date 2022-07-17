@@ -3,10 +3,7 @@ package com.eventcafecloud.cafe.service;
 
 import com.eventcafecloud.cafe.domain.*;
 import com.eventcafecloud.cafe.dto.*;
-import com.eventcafecloud.cafe.repository.CafeImageRepository;
-import com.eventcafecloud.cafe.repository.CafeOptionRepository;
-import com.eventcafecloud.cafe.repository.CafeRepository;
-import com.eventcafecloud.cafe.repository.CafeReviewRepository;
+import com.eventcafecloud.cafe.repository.*;
 import com.eventcafecloud.cafe.sort.SortStrategy;
 import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.event.repository.EventRepository;
@@ -14,6 +11,7 @@ import com.eventcafecloud.s3.S3Service;
 import com.eventcafecloud.user.domain.User;
 import com.eventcafecloud.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -22,9 +20,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.eventcafecloud.exception.ExceptionStatus.CAFE_NOT_FOUND;
@@ -38,6 +36,7 @@ public class CafeService {
     private final CafeRepository cafeRepository;
     private final UserRepository userRepoistory;
     private final CafeReviewRepository cafeReviewRepository;
+    private final CafeScheduleRepository cafeScheduleRepository;
     private final EventRepository eventRepository;
     private final S3Service s3Service;
     private final Map<String, SortStrategy> sortStrategyMap;
@@ -182,7 +181,13 @@ public class CafeService {
         List<Event> eventList = eventRepository.findALLByCafeId(id);
 
         List<CafeCalenderInfoResponseDto> cafeCalenderInfoResponseDtos = eventList.stream()
-                .map(e -> new CafeCalenderInfoResponseDto(e))
+                .map(e -> {
+                    try {
+                        return new CafeCalenderInfoResponseDto(e);
+                    } catch (ParseException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                })
                 .collect(Collectors.toList());
 
         return cafeCalenderInfoResponseDtos;
@@ -209,7 +214,7 @@ public class CafeService {
 
         Pageable pageable = PageRequest.of(page - 1, size, sort);
 
-        Page<CafeReview> all = cafeReviewRepository.findAllByCafeId(cafeNumber ,pageable);
+        Page<CafeReview> all = cafeReviewRepository.findAllByCafeId(cafeNumber, pageable);
 
 //        return all.map(CafeReview -> new CafeReviewResponseDto(CafeReview));
         return all.map(CafeReviewResponseDto::new);
@@ -218,5 +223,61 @@ public class CafeService {
     @Transactional
     public void removeCafeReviewByReviewId(Long id) {
         cafeReviewRepository.deleteById(id);
+    }
+
+    /**
+     * 카페에 등록된 모든 일정을 조회하는 메소드
+     */
+    public ArrayList<String> AllReservationListByCafe(Long cafeId) throws ParseException {
+        List<Event> eventList = eventRepository.findALLByCafeId(cafeId);
+        List<CafeSchedule> scheduleList = cafeScheduleRepository.findAllByCafeId(cafeId);
+        ArrayList<String> dates = eventAndScheduleFromCafe(eventList, scheduleList);
+
+        return dates;
+    }
+
+    /**
+     * 카페에 저장 되어 있는 일정목록을 전부 리스트에 담는 메소드
+     */
+    public ArrayList<String> eventAndScheduleFromCafe(@NotNull List<Event> eventList, List<CafeSchedule> cafeScheduleList) throws ParseException {
+        final String DATE_PATTERN = "yyyy-MM-dd";
+        SimpleDateFormat sdf = new SimpleDateFormat(DATE_PATTERN);
+        ArrayList<String> dates = new ArrayList<>();
+
+        for (int i = 0; i < eventList.size(); i++) {
+            String inputEventStartDate = eventList.get(i).getEventStartDate();
+            String inputEventEndDate = eventList.get(i).getEventEndDate();
+
+            Date startDate = sdf.parse(inputEventStartDate);
+            Date endDate = sdf.parse(inputEventEndDate);
+            Date currentEvent = startDate;
+
+            while (currentEvent.compareTo(endDate) <= 0) {
+                dates.add(sdf.format(currentEvent));
+                Calendar c = Calendar.getInstance();
+                c.setTime(currentEvent);
+                c.add(Calendar.DAY_OF_MONTH, 1);
+                currentEvent = c.getTime();
+            }
+        }
+
+        for (int i = 0; i < cafeScheduleList.size(); i++) {
+            String inputScheduleStart = cafeScheduleList.get(i).getCafeScheduleStartDate();
+            String inputScheduleEnd = cafeScheduleList.get(i).getCafeScheduleEndDate();
+
+            Date startDate = sdf.parse(inputScheduleStart);
+            Date endDate = sdf.parse(inputScheduleEnd);
+            Date currentSchedule = startDate;
+
+            while (currentSchedule.compareTo(endDate) <= 0) {
+                dates.add(sdf.format(currentSchedule));
+                Calendar c = Calendar.getInstance();
+                c.setTime(currentSchedule);
+                c.add(Calendar.DAY_OF_MONTH, 1);
+                currentSchedule = c.getTime();
+            }
+        }
+
+        return dates;
     }
 }

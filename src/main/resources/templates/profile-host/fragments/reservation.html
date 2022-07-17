@@ -3,7 +3,7 @@
 <div th:fragment="reservation">
     <div class="post-form">
         <div class="postBox">
-            <h1 th:text="'총 '+${events..getTotalElements()}+'개의 예약내역이 있습니다.'"></h1>
+            <h1 th:text="'총 '+${events.getTotalElements()}+'개의 예약내역이 있습니다.'"></h1>
             <hr width="70%">
             <div class="posts-box" th:each="event : ${events}"
                  th:onclick="|location.href='@{/events/{id}/detail (id=${event.id})}'|">
@@ -23,13 +23,13 @@
                     last=(${start + 9 < events.totalPages ? start + 9 : events.totalPages})">
                     <li>
                         <a aria-label="First" class="page-number"
-                           th:href="@{/hosts/profile/{userId}/cafes/{cafeId}/schedule(page=${events.totalPages}, userId=${userId}, cafeId=${cafeId})}">
+                           th:href="@{/hosts/profile/{userId}/cafes/{cafeId}/schedule(page=1, userId=${userId}, cafeId=${cafeId})}">
                             <span aria-hidden="true">First</span>
                         </a>
                     </li>
                     <li th:class="${events.first} ? 'disabled'">
                         <a aria-label="Previous" class="page-number"
-                           th:href="${events.first} ? '#' :@{/hosts/profile/{userId}/cafes/{cafeId}/schedule(page=${events.totalPages}, userId=${userId}, cafeId=${cafeId})}">
+                           th:href="${events.first} ? '#' :@{/hosts/profile/{userId}/cafes/{cafeId}/schedule(page=${events.number}, userId=${userId}, cafeId=${cafeId})}">
                             <span aria-hidden="true">&lt;</span>
                         </a>
                     </li>
@@ -37,13 +37,13 @@
                     <li th:class="${page == events.number + 1} ? 'active'"
                         th:each="page: ${#numbers.sequence(start, last)}">
                         <a class="page-number"
-                           th:href="@{/hosts/profile/{userId}/cafes/{cafeId}/schedule(page=${events.totalPages}, userId=${userId}, cafeId=${cafeId})}"
+                           th:href="@{/hosts/profile/{userId}/cafes/{cafeId}/schedule(page=${page}, userId=${userId}, cafeId=${cafeId})}"
                            th:text="${page}"></a>
                     </li>
 
                     <li th:class="${events.last} ? 'disabled'">
                         <a aria-label="Next" class="page-number"
-                           th:href="${events.last} ? '#' : @{/hosts/profile/{userId}/cafes/{cafeId}/schedule(page=${events.totalPages}, userId=${userId}, cafeId=${cafeId})}">
+                           th:href="${events.last} ? '#' : @{/hosts/profile/{userId}/cafes/{cafeId}/schedule(page=${events.number+2}, userId=${userId}, cafeId=${cafeId})}">
                             <span aria-hidden="true">&gt;</span>
                         </a>
                     </li>

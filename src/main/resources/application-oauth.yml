@@ -55,7 +55,7 @@ cors:
 
 jwt.secret: ${JWT_SECRET}
 
-  # 토큰 관련 secret Key 및 RedirectUri 설정
+# 토큰 관련 secret Key 및 RedirectUri 설정
 app:
   auth:
     tokenSecret: ${AUTH_TOKENSECRET}
