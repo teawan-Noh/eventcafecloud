@@ -17,22 +17,27 @@
             </div>
         </div>
         <div class="right">
+            <h1 class="admin-h1" th:text="'총 '+${posts.getTotalElements()}+'개의 게시글이 등록되었습니다.'"></h1>
             <div class="profileBox">
                 <div class="card mb-4">
                     <div class="card-header">
-                        회원관리
+                        게시글관리
                     </div>
                     <div class="card-body">
-                        <div class="option-search">
-                            <div style="display: flex; margin-left: auto;">
-                                <select class="bbsOrReply">
-                                    <option value="">--카테고리--</option>
-                                    <option value="normal">일반</option>
-                                    <option value="quit">공지</option>
-                                    <option value="quit">자유</option>
-                                </select> &nbsp;
+                        <form method="GET">
+                            <div class="option-search">
+                                <div style="display: flex; margin-left: auto;">
+                                    <select class="postType" id="postType" th:name="postType">
+                                        <option value="">전체</option>
+                                        <option value="NOTICE">공지글</option>
+                                        <option value="USERPOST">자유글</option>
+                                    </select> &nbsp;
+                                    <button class="btn btn-outline-success my-2 my-sm-0" id="btn-search" type="submit">
+                                        검색
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                         <div class="table-responsive">
                             <table class="table table-bordered" id="userTable">
                                 <thead>
@@ -44,8 +49,8 @@
                                     <th>작성자이메일</th>
                                     <th>등록일</th>
                                     <th>수정일</th>
-                                    <th>상태</th>
-                                    <th>#</th>
+                                    <th>조회수</th>
+                                    <th>글 내용</th>
                                 </tr>
                                 </thead>
                                 <tr th:each="post: ${posts}">
@@ -66,7 +71,7 @@
                                             <button class="pass-button" data-target="#exampleModalCenter"
                                                     data-toggle="modal"
                                                     type="button">
-                                                수정
+                                                확인
                                             </button>
                                             <!-- Modal -->
                                             <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle"
@@ -91,24 +96,12 @@
                                                                     <div th:text="${post.getPostContent}"></div>
                                                                 </div>
                                                             </div>
-                                                            <div class="input-group mb-3">
-                                                                <!--                                                                <div class="input-group-prepend">-->
-                                                                <!--                                                                    <label class="input-group-text"-->
-                                                                <!--                                                                           for="postStatus">상태변경</label>-->
-                                                                <!--                                                                </div>-->
-                                                                <!--                                                                <select class="custom-select" id="postStatus"-->
-                                                                <!--                                                                        th:field="*{postStatus}">-->
-                                                                <!--                                                                    <option th:value="STATUS_ACTIVATE">정상</option>-->
-                                                                <!--                                                                    <option th:value="STATUS_BLOCKED">신고정지</option>-->
-                                                                <!--                                                                </select>-->
-                                                            </div>
                                                         </div>
                                                         <div class="modal-footer">
                                                             <button class="fail-button" data-dismiss="modal"
                                                                     type="button">
                                                                 취소
                                                             </button>
-                                                            <button class="pass-button" type="submit">확인</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -116,30 +109,45 @@
                                         </form>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>0</td>
-                                    <td>자유게시판</td>
-                                    <td>첫 게시글</td>
-                                    <td>메구</td>
-                                    <td>yvely001@naver.com</td>
-                                    <td>등록일</td>
-                                    <td>수정일</td>
-                                    <td>정상</td>
-                                    <td>
-                                        <button class="pass-button" type="submit">수정</button>
-                                    </td>
-                                </tr>
                             </table>
                         </div>
-                        <div style="display: flex; justify-content: space-between;">
-                            <div class="page" id="page">
-                                <button class="page-number"><</button>
-                                <button class="page-number">1</button>
-                                <button class="page-number">2</button>
-                                <button class="page-number">3</button>
-                                <button class="page-number">></button>
-                            </div>
-                        </div>
+                        <nav class="page" style="text-align: center;">
+                            <ul class="pagination"
+                                th:with="start=${T(java.lang.Math).floor(posts.number/10)*10 + 1},
+                    last=(${start + 9 < posts.totalPages ? start + 9 : posts.totalPages})">
+                                <li>
+                                    <a aria-label="First" class="page-number"
+                                       th:href="@{/admin/posts(page=1)}">
+                                        <span aria-hidden="true">First</span>
+                                    </a>
+                                </li>
+                                <li th:class="${posts.first} ? 'disabled'">
+                                    <a aria-label="Previous" class="page-number"
+                                       th:href="${posts.first} ? '#' :@{/admin/posts(page=${posts.number})}">
+                                        <span aria-hidden="true">&lt;</span>
+                                    </a>
+                                </li>
+
+                                <li th:class="${page == posts.number + 1} ? 'active'"
+                                    th:each="page: ${#numbers.sequence(start, last)}">
+                                    <a class="page-number" th:href="@{/admin/posts(page=${page})}"
+                                       th:text="${page}"></a>
+                                </li>
+
+                                <li th:class="${posts.last} ? 'disabled'">
+                                    <a aria-label="Next" class="page-number"
+                                       th:href="${posts.last} ? '#' : @{/admin/posts(page=${posts.number + 2})}">
+                                        <span aria-hidden="true">&gt;</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a aria-label="Last" class="page-number"
+                                       th:href="@{/admin/posts(page=${posts.totalPages})}">
+                                        <span aria-hidden="true">Last</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>

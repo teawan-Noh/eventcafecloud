@@ -104,6 +104,10 @@ form {
     text-align: center;
 }
 
+.admin-h1 {
+    margin-left: 10%;
+}
+
 .pagination {
     margin-left: 45%;
 }

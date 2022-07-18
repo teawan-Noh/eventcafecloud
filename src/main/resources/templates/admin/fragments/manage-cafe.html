@@ -17,22 +17,13 @@
             </div>
         </div>
         <div class="right">
+            <h1 class="admin-h1" th:text="'총 '+${cafes.getTotalElements()}+'개의 카페가 등록되었습니다.'"></h1>
             <div class="profileBox">
                 <div class="card mb-4">
                     <div class="card-header">
                         카페관리
                     </div>
                     <div class="card-body">
-                        <div class="option-search">
-                            <div style="display: flex; margin-left: auto;">
-                                <select class="bbsOrReply">
-                                    <option value="">--카테고리--</option>
-                                    <option value="normal">일반</option>
-                                    <option value="quit">공지</option>
-                                    <option value="quit">자유</option>
-                                </select> &nbsp;
-                            </div>
-                        </div>
                         <div class="table-responsive">
                             <table class="table table-bordered" id="userTable">
                                 <thead>
@@ -62,23 +53,25 @@
                                         <!--                                        <div th:replace="admin/fragments/manageCafeModal :: manageCafeModal"/>-->
                                     </td>
                                     <td>
-                                        <button class="delete-button" th:cafeId="${cafe.id}" th:onclick="deleteCafe(this.getAttribute('cafeId'))">삭제</button>
+                                        <button class="delete-button" th:cafeId="${cafe.id}"
+                                                th:onclick="deleteCafe(this.getAttribute('cafeId'))">삭제
+                                        </button>
                                     </td>
                                 </tr>
                             </table>
                         </div>
-                        <nav style="text-align: center;">
+                        <nav class="page" style="text-align: center;">
                             <ul class="pagination"
                                 th:with="start=${T(java.lang.Math).floor(cafes.number/10)*10 + 1},
                     last=(${start + 9 < cafes.totalPages ? start + 9 : cafes.totalPages})">
                                 <li>
-                                    <a aria-label="First" th:href="@{/admin/cafes(page=1)}">
+                                    <a aria-label="First" class="page-number" th:href="@{/admin/cafes(page=1)}">
                                         <span aria-hidden="true">First</span>
                                     </a>
                                 </li>
 
                                 <li th:class="${cafes.first} ? 'disabled'">
-                                    <a aria-label="Previous"
+                                    <a aria-label="Previous" class="page-number"
                                        th:href="${cafes.first} ? '#' :@{/admin/cafes(page=${cafes.number})}">
                                         <span aria-hidden="true">&lt;</span>
                                     </a>
@@ -86,18 +79,20 @@
 
                                 <li th:class="${page == cafes.number + 1} ? 'active'"
                                     th:each="page: ${#numbers.sequence(start, last)}">
-                                    <a th:href="@{/admin/cafes(page=${page})}" th:text="${page}"></a>
+                                    <a class="page-number" th:href="@{/admin/cafes(page=${page})}"
+                                       th:text="${page}"></a>
                                 </li>
 
                                 <li th:class="${cafes.last} ? 'disabled'">
-                                    <a aria-label="Next"
+                                    <a aria-label="Next" class="page-number"
                                        th:href="${cafes.last} ? '#' : @{/admin/cafes(page=${cafes.number + 2})}">
                                         <span aria-hidden="true">&gt;</span>
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a aria-label="Last" th:href="@{/admin/cafes(page=${cafes.totalPages})}">
+                                    <a aria-label="Last" class="page-number"
+                                       th:href="@{/admin/cafes(page=${cafes.totalPages})}">
                                         <span aria-hidden="true">Last</span>
                                     </a>
                                 </li>

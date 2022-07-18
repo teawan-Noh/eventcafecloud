@@ -17,22 +17,30 @@
             </div>
         </div>
         <div class="right">
+            <h1 class="admin-h1" th:text="'총 '+${events.getTotalElements()}+'개의 이벤트가 등록되었습니다.'"></h1>
             <div class="profileBox">
                 <div class="card mb-4">
                     <div class="card-header">
                         이벤트 관리
                     </div>
                     <div class="card-body">
-                        <div class="option-search">
-                            <div style="display: flex; margin-left: auto;">
-                                <select class="bbsOrReply">
-                                    <option value="">--카테고리--</option>
-                                    <option value="normal">일반</option>
-                                    <option value="quit">공지</option>
-                                    <option value="quit">자유</option>
-                                </select> &nbsp;
+                        <form method="GET">
+                            <div class="option-search">
+                                <div style="display: flex; margin-left: auto;">
+                                    <select class="category" id="category" th:name="eventCategory">
+                                        <option value="">전체</option>
+                                        <option value="KPOP">K-POP</option>
+                                        <option value="INFLUENCER">INFLUENCER</option>
+                                        <option value="ANIMATION">ANIMATION</option>
+                                        <option value="WEBTOON">WEBTOON</option>
+                                        <option value="NOVEL">NOVEL</option>
+                                    </select> &nbsp;
+                                    <button class="btn btn-outline-success my-2 my-sm-0" id="btn-search" type="submit">
+                                        검색
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                         <div class="table-responsive">
                             <table class="table table-bordered" id="userTable">
                                 <thead>
@@ -43,7 +51,7 @@
                                     <th>이벤트시작일</th>
                                     <th>이벤트종료일</th>
                                     <th>결제금액</th>
-                                    <th>상태</th>
+                                    <th>취소여부</th>
                                     <th>#</th>
                                 </tr>
                                 </thead>
@@ -54,13 +62,13 @@
                                     <td th:text="${event.getEventStartDate}"></td>
                                     <td th:text="${event.getEventEndDate}"></td>
                                     <td th:text="${event.getEventPrice}"></td>
-                                    <td th:text="${event.getEventCancelAvail}"></td>
+                                    <td th:if="${event.getEventCancelAvail}==true" th:text="가능"></td>
+                                    <td th:if="${event.getEventCancelAvail}==false" th:text="불가"></td>
                                     <td>
                                         <button class="pass-button" data-toggle="modal"
                                                 th:data-target="'#'+${event.getId}" type="button">
                                             수정
                                         </button>
-                                        <!--                                        <div th:replace="admin/fragments/manageCafeModal :: manageCafeModal"/>-->
                                     </td>
                                 </tr>
                             </table>

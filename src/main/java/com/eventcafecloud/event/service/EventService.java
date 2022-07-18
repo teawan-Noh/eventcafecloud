@@ -139,12 +139,23 @@ public class EventService {
         return eventListResponseDtos;
     }
 
-    //이벤트목록가져오기(admin)
-    public Page<Event> findEventList(Pageable pageable) {
-        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-        pageable = PageRequest.of(page, 10);
+    /**
+     * 이벤트목록가져오기(admin)
+     */
+    public Page<Event> findEventList(EventCategory eventCategory, Pageable pageable) {
 
-        return eventRepository.findAll(pageable);
+        Page<Event> eventList;
+
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 10, Sort.Direction.DESC, "id");
+
+        if (eventCategory == null) {
+            eventList = eventRepository.findAll(pageable);
+        } else {
+            eventList = eventRepository.findAllByEventCategory(eventCategory, pageable);
+        }
+
+        return eventList;
     }
 
     /**
@@ -154,7 +165,7 @@ public class EventService {
     public Page<EventResponseForProfileDto> findEventListByUser(Long userId, Pageable pageable) {
 
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-        pageable = PageRequest.of(page, 5);
+        pageable = PageRequest.of(page, 5, Sort.Direction.ASC, "eventStartDate");
 
         Page<Event> eventList = eventRepository.findAllByUserId(userId, pageable);
 
