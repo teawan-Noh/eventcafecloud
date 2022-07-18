@@ -23,5 +23,6 @@ public interface EventRepository extends JpaRepository<Event, Long> {
 
     Page<Event> findByEventNameContainingAndEventCategory(String keyword, EventCategory eventCategory, Pageable pageable);
 
-
+    // 카페 삭제시 사용
+    Event findTop1ByCafeIdAndEventStartDateAfter(Long id, String now);
 }
