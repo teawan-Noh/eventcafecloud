@@ -152,7 +152,7 @@
         </div>
         <br/>
         <div>
-            카페 이미지를 2장 업로드해 주세요. <small>* Ctrl 클릭으로 여러장 선택</small><br/>
+            카페 이미지를 2장 업로드해 주세요. <small>* Ctrl 클릭으로 여러장 선택, 용량 제한: 3MB</small><br/>
             <input type="file" multiple="multiple" th:field="*{files}" name="imageFiles"
                    th:class="${#fields.hasErrors('files')}? 'form-control fieldError' : 'form-control'">
             <p style="color: #ff4040" th:if="${#fields.hasErrors('files')}" th:errors="*{files}">Incorrect date</p>
