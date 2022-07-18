@@ -63,6 +63,10 @@ function getCafeReviewList() {
                 if (loginUserId !== userId){
                     $(`.delete${cafeReviewNumber}`).hide();
                 }
+                if (loginUserId === userId){
+                    $('#reviews .review-input-box').hide();
+                    $('#reviews .star-box').hide();
+                }
             }
         }
     });

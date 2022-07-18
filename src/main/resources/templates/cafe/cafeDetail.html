@@ -16,11 +16,10 @@
     </script>
     <script src="/js/cafe/cafeReview.js"></script>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function () {
             getCafeReviewList();
         });
     </script>
-
 </head>
 <body>
 <div th:replace="fragments/mainTop :: mainTop"/>
@@ -37,7 +36,8 @@
         </div>
         <div class="optionBox">
             <ul>
-                <li class="optionList" th:each="cafeOption : ${cafeDetailResponseDto.getCafeOptions()}" th:text="'#'+${cafeOption}"></li>
+                <li class="optionList" th:each="cafeOption : ${cafeDetailResponseDto.getCafeOptions()}"
+                    th:text="'#'+${cafeOption}"></li>
             </ul>
         </div>
     </section>
@@ -77,7 +77,9 @@
             </div>
             <div id="eventRegisterBtn">
                 <button th:if="${userId} != null" class="eventButton" th:onclick="|location.href='@{/events/registration(cafeId=${cafeDetailResponseDto.getCafeNumber()}
-                ,weekdayPrice=${cafeDetailResponseDto.getCafeWeekdayPrice()}, weekendPrice=${cafeDetailResponseDto.getCafeWeekendPrice()})}'|">이벤트 예약하기</button>
+                ,weekdayPrice=${cafeDetailResponseDto.getCafeWeekdayPrice()}, weekendPrice=${cafeDetailResponseDto.getCafeWeekendPrice()})}'|">
+                    이벤트 예약하기
+                </button>
                 <button th:if="${userId} == null" class="eventButton" onclick='alert("로그인 후 이용해주세요!")'>이벤트 예약하기</button>
             </div>
         </div>
@@ -129,14 +131,13 @@
                 <textarea class="form-control" id="textarea-review" placeholder="후기를 작성해주세요!" style="resize: none"></textarea>
             </div>
             <div>
-            <div th:if="${userId != null}">
-                <button onclick="addReview()" class="button-box">리뷰 등록</button>
+                <div th:if="${userId != null}">
+                    <button onclick="addReview()" class="button-box">리뷰 등록</button>
+                </div>
+                <div th:if="${userId == null}" class="button-box">
+                    <button onclick='alert("로그인 후 이용해주세요!")' class="button-box">리뷰 등록</button>
+                </div>
             </div>
-            <div th:if="${userId == null}" class="button-box">
-                <button onclick='alert("로그인 후 이용해주세요!")' class="button-box">리뷰 등록</button>
-            </div>
-            </div>
-
         </div>
         <div id="review-list-container"></div>
         <div id="pagination"></div>
