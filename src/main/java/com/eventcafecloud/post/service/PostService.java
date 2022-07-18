@@ -78,11 +78,19 @@ public class PostService {
 
     //어드민페이지 게시글 조회
     @Transactional(readOnly = true)
-    public Page<Post> findAllPostList(Pageable pageable) {
-        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-        pageable = PageRequest.of(page, 5);
+    public Page<Post> findAllPostList(PostType postType, Pageable pageable) {
 
-        return postRepository.findAll(pageable);
+        Page<Post> postList;
+
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 10);
+
+        if (postType == null) {
+            postList = postRepository.findAll(pageable);
+        } else {
+            postList = postRepository.findAllByPostType(postType, pageable);
+        }
+        return postList;
     }
 
     //유저게시판 게시글 조회

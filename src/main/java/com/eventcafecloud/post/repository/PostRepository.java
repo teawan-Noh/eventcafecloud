@@ -11,4 +11,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Page<Post> findPostsByPostType(PostType postType, Pageable pageRequest);
 
     Page<Post> findAll(Pageable pageRequest);
+
+    Page<Post> findAllByPostType(PostType postType, Pageable pageRequest);
 }
