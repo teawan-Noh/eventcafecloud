@@ -100,11 +100,5 @@ public class CafeController {
         return "redirect:/cafes/allList";
     }
 
-    // 카페 삭제
-    @DeleteMapping("/cafes/{id}")
-    public String deleteCafe(@PathVariable Long id, User loginUser) {
-        cafeService.removeCafe(id);
 
-        return "redirect:/hosts/profile/" + loginUser.getId() + "/cafes";
-    }
 }

@@ -62,10 +62,7 @@
                                         <!--                                        <div th:replace="admin/fragments/manageCafeModal :: manageCafeModal"/>-->
                                     </td>
                                     <td>
-                                        <form id="delete-form" method="post" th:action="@{'/cafes/' + ${cafe.getId}}">
-                                            <input name="_method" type="hidden" value="DELETE"/>
-                                            <button class="fail-button">삭제하기</button>
-                                        </form>
+                                        <button class="delete-button" th:cafeId="${cafe.id}" th:onclick="deleteCafe(this.getAttribute('cafeId'))">삭제</button>
                                     </td>
                                 </tr>
                             </table>

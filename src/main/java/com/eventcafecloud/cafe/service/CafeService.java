@@ -22,11 +22,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.eventcafecloud.exception.ExceptionStatus.CAFE_NOT_FOUND;
-import static com.eventcafecloud.exception.ExceptionStatus.USER_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -78,9 +78,9 @@ public class CafeService {
         Pageable pageable = PageRequest.of(page - 1, size, sort);
 
         Page<Cafe> all;
-        if (searchVal.equals("")){
+        if (searchVal.equals("")) {
             all = cafeRepository.findAll(pageable);
-        }else {
+        } else {
             all = cafeRepository.findAllByCafeNameContaining(searchVal, pageable);
             // like 대신 Containing
         }
@@ -115,7 +115,7 @@ public class CafeService {
 
     public CafeDetailResponseDto findCafeByIdForDetail(Long id) {
         Cafe cafe = cafeRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
+                () -> new IllegalArgumentException(CAFE_NOT_FOUND.getMessage()));
 
         return new CafeDetailResponseDto(cafe);
     }
@@ -123,7 +123,7 @@ public class CafeService {
     public CafeUpdateRequestDto findCafeByIdForUpdateForm(Long id) {
 
         Cafe cafe = cafeRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
+                () -> new IllegalArgumentException(CAFE_NOT_FOUND.getMessage()));
 
         // Builder pattern으로 수정해보기
         return CafeUpdateRequestDto.toDto(cafe);
@@ -135,7 +135,7 @@ public class CafeService {
         Cafe cafe = cafeRepository.getById(id);
         cafe.updateCafeInfo(requestDto);
 
-        if(requestDto.getOptions() != null){
+        if (requestDto.getOptions() != null) {
             // db에 저장된 데이터 삭제
             List<CafeOption> cafeOptions = cafe.getCafeOptions();
             cafeOptionRepository.deleteAllInBatch(cafeOptions);
@@ -147,20 +147,20 @@ public class CafeService {
                 cafe.addCafeOption(cafeOption);
             }
         }
-        if (requestDto.getFiles() != null){
+        if (requestDto.getFiles() != null) {
             List<CafeImage> cafeImages = cafe.getCafeImages();
-            List<String> deleteKeys = new ArrayList<>();
+            List<String> imageKeys = new ArrayList<>();
             for (CafeImage cafeImage : cafeImages) {
                 // 3번째 '/'의 위치를 찾아서 +1 번째 부터 문자열 반환받아 key값으로 사용
                 int location = cafeImage.getCafeImageUrl().indexOf("/", 10);
-                String deleteKey = cafeImage.getCafeImageUrl().substring(location + 1);
-                deleteKeys.add(deleteKey);
+                String imageKey = cafeImage.getCafeImageUrl().substring(location + 1);
+                imageKeys.add(imageKey);
             }
             cafeImageRepository.deleteAllInBatch(cafeImages);
 
             List<MultipartFile> files = requestDto.getFiles();
             // s3저장 후 url 반환받음
-            List<String> cafeImageUrlList = s3Service.reupload(files, "cafeImage", deleteKeys);
+            List<String> cafeImageUrlList = s3Service.reupload(files, "cafeImage", imageKeys);
 
             // 카페 이미지 생성
             for (int i = 0; i < files.size(); i++) {
@@ -172,9 +172,35 @@ public class CafeService {
         }
     }
 
+    /**
+     * 카페 삭제
+     * 카페 삭제시 s3에 등록된 파일 함께 삭제
+     * 현재 날짜 기준 뒤로 이벤트가 등록되어 있으면 삭제 불가
+     */
     @Transactional
-    public void removeCafe(Long id) {
-        cafeRepository.deleteById(id);
+    public String removeCafe(Long id) {
+        Cafe cafe = cafeRepository.getById(id);
+        LocalDate now = LocalDate.now();
+        // 이벤트 존재 여부 확인
+        Event hasEventAfterNow = eventRepository.findTop1ByCafeIdAndEventStartDateAfter(id, now.toString());
+
+        if (hasEventAfterNow != null) {
+            return "이벤트 예약내역이 존재하므로 삭제가 불가능합니다.";
+        } else {
+            List<CafeImage> cafeImages = cafe.getCafeImages();
+            List<String> imageKeys = new ArrayList<>();
+            for (CafeImage cafeImage : cafeImages) {
+                // 3번째 '/'의 위치를 찾아서 +1 번째 부터 문자열 반환받아 key값으로 사용
+                int location = cafeImage.getCafeImageUrl().indexOf("/", 10);
+                String imageKey = cafeImage.getCafeImageUrl().substring(location + 1);
+                imageKeys.add(imageKey);
+            }
+            // s3에 저장된 파일들 삭제
+            s3Service.deleteImages(imageKeys);
+
+            cafeRepository.deleteById(id);
+            return "삭제 성공";
+        }
     }
 
     public List<CafeCalenderInfoResponseDto> findEventListForCalenderByCafeId(Long id) {
@@ -211,11 +237,9 @@ public class CafeService {
 
         SortStrategy sortStrategy = sortStrategyMap.get(sortStrategyKey);
         Sort sort = sortStrategy.sort();
-
         Pageable pageable = PageRequest.of(page - 1, size, sort);
 
         Page<CafeReview> all = cafeReviewRepository.findAllByCafeId(cafeNumber, pageable);
-
 //        return all.map(CafeReview -> new CafeReviewResponseDto(CafeReview));
         return all.map(CafeReviewResponseDto::new);
     }
@@ -260,7 +284,6 @@ public class CafeService {
                 currentEvent = c.getTime();
             }
         }
-
         for (int i = 0; i < cafeScheduleList.size(); i++) {
             String inputScheduleStart = cafeScheduleList.get(i).getCafeScheduleStartDate();
             String inputScheduleEnd = cafeScheduleList.get(i).getCafeScheduleEndDate();
@@ -277,7 +300,6 @@ public class CafeService {
                 currentSchedule = c.getTime();
             }
         }
-
         return dates;
     }
 }

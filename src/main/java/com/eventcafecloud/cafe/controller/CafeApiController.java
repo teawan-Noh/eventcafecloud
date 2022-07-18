@@ -66,4 +66,9 @@ public class CafeApiController {
         cafeService.removeCafeReviewByReviewId(id);
     }
 
+    // 카페 삭제
+    @DeleteMapping("/cafes/{id}")
+    public String deleteCafe(@PathVariable Long id, User loginUser) {
+        return cafeService.removeCafe(id);
+    }
 }

@@ -76,7 +76,7 @@ public class Cafe extends BaseTimeEntity {
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
     private List<CafeSchedule> cafeSchedules = new ArrayList<>();
 
-    @OneToMany(mappedBy = "cafe")
+    @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
     private List<Event> events = new ArrayList<>();
 
     public Cafe(CafeCreateRequestDto requestDto) {
