@@ -19,8 +19,6 @@ function createHtml(event) {
     const eventImageUrls = event["eventImageUrls"]
     const eventName = event["eventName"];
     const eventCategory = event["eventCategory"];
-    const eventStartDate = event["eventStartDate"];
-    const eventEndDate = event["eventEndDate"];
 
     return `<div class="card" onclick="location.href='/events/${eventNumber}/detail'">
                             <div class="card-image">
@@ -31,12 +29,6 @@ function createHtml(event) {
                             <div class="card-content" id="card-content">
                                 <h5><span class="badge badge-secondary">${eventCategory}</span></h5>
                                 <p id="title" class="title is-4">${eventName}</p>
-                                <div class="date-start">
-                                    <p id="event-start-date">${eventStartDate}</p>
-                                </div>
-                                <div class="date-end">
-                                    <p id="event-end-date"> ~ ${eventEndDate}</p>
-                                </div>
                             </div>
                        </div>`;
 }

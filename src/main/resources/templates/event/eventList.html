@@ -7,34 +7,17 @@
     <!--Import CSS-->
     <Link rel="stylesheet" type="text/css" href="css/event.css">
 </head>
-<style>
-    .event-page {
-        text-align: center;
-    }
-
-    #event-pagination {
-        justify-content: center;
-        padding-right: 0;
-        width: 100%;
-    }
-
-    .page-number {
-        background-color: white;
-        margin-left: 5px;
-        border: none;
-        color: #2b2a29;
-        padding: 5px;
-        font-size: 15px;
-        font-weight: bold;
-    }
-
-</style>
 <body>
-<div th:replace="fragments/mainTop :: mainTop"/>
-<div class="topBanner">
-    <div class="topFont">이벤트</div>
-</div>
+  <div th:replace="fragments/mainTop :: mainTop"/>
+
+  <!--TOP Banner-->
+  <div class="topBanner">
+      <div class="topFont">이벤트</div>
+  </div>
+
+  <!--Event List-->
   <div id="eventListContainer" class="eventListContainer">
+    <!--Event Container Top  -->
     <div class="container-top">
         <div class="row">
             <form class="form-inline my-2 my-lg-0" method="GET">
@@ -55,6 +38,8 @@
             </form>
         </div>
     </div>
+
+      <!--Event List Body & Pagination-->
       <div class="event-form">
           <section class="py-5" id="section-list">
               <div class="event-form-container" id="event-form-container">
@@ -62,7 +47,7 @@
                       <!-- First Event -->
                       <div class="col" th:each="eventListResponseDto : ${eventListResponseDtos}">
                           <div class="card" id="eventlist-card">
-                              <!-- Event List details-->
+                              <!-- Details-->
                               <div class="card-body ">
                                   <div class="text">
                                       <!-- Event image, category, name, startdate, enddate -->
@@ -83,6 +68,7 @@
               </div>
           </section>
 
+          <!--Pagination-->
           <nav class="page">
               <ul class="pagination" id="event-pagination"
                   th:with="start=${T(java.lang.Math).floor(eventListResponseDtos.number/10)*10 + 1},
@@ -103,7 +89,7 @@
                   <li th:class="${page == eventListResponseDtos.number + 1} ? 'active'"
                       th:each="page: ${#numbers.sequence(start, last)}">
                       <a class="page-number" th:href="@{/events(page=${page})}"
-                         th:text="${page}"></a>
+                         th:text="${page}" style="font-weight: bolder"></a>
                   </li>
 
                   <li th:class="${eventListResponseDtos.last} ? 'disabled'">
