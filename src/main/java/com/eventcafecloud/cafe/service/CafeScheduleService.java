@@ -31,7 +31,7 @@ public class CafeScheduleService {
      */
     public Page<CafeSchedule> findCafeScheduleByCafeId(Long cafeId, Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-        pageable = PageRequest.of(page, 3, Sort.Direction.ASC, "cafeScheduleStartDate");
+        pageable = PageRequest.of(page, 4, Sort.Direction.ASC, "cafeScheduleStartDate");
         return cafeScheduleRepository.findAllByCafeId(cafeId, pageable);
     }
 
