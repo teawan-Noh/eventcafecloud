@@ -253,8 +253,15 @@ public class CafeService {
         return all.map(CafeReviewResponseDto::new);
     }
 
+    /**
+     * 리뷰 삭제
+     */
     @Transactional
     public void removeCafeReviewByReviewId(Long id) {
+        CafeReview reviewById = cafeReviewRepository.getById(id);
+        Cafe cafe = reviewById.getCafe();
+        int newCafeReviewScore = cafe.getCafeReviewScore() - cafeReviewRepository.getById(id).getCafeReviewRating();
+        cafe.updateCafeReviewScore(newCafeReviewScore);
         cafeReviewRepository.deleteById(id);
     }
 
