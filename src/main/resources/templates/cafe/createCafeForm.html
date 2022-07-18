@@ -33,7 +33,7 @@
         }
 
         #submitButton {
-            float: right;
+            text-align: center;
             margin-top: 20px;
             margin-bottom: 40px;
         }
@@ -127,7 +127,7 @@
         <div class="form-group-cafe">
             <label th:for="city">주소</label>
             <!-- Button to Open the Modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" style="float: right;" >주소 등록</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">주소 등록</button>
             <input type="text" id="zonecode" th:field="*{cafeZonecode}" class="form-control" hidden>
             <input type="text" id="address" th:field="*{cafeAddress}" class="form-control" placeholder="주소"
                    th:class="${#fields.hasErrors('cafeAddress')}? 'form-control fieldError' : 'form-control'">
@@ -158,8 +158,7 @@
             <p style="color: #ff4040" th:if="${#fields.hasErrors('files')}" th:errors="*{files}">Incorrect date</p>
         </div>
         <div id="submitButton">
-            <button type="submit" th:data-confirm-crete="|등록 하시겠습니까?|" onclick="return confirm(this.getAttribute('data-confirm-crete'))" class="btn btn-primary">카페 등록
-            </button>
+            <button type="submit" th:data-confirm-crete="|등록 하시겠습니까?|" onclick="return confirm(this.getAttribute('data-confirm-crete'))" class="btn btn-primary">카페 등록</button>
         </div>
     </form>
     <!-- The Modal -->
