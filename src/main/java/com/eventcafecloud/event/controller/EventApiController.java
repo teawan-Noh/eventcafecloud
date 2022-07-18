@@ -3,7 +3,6 @@ package com.eventcafecloud.event.controller;
 import com.eventcafecloud.event.dto.*;
 import com.eventcafecloud.event.service.EventService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
