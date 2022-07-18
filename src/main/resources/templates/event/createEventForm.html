@@ -4,7 +4,7 @@
     <th:block th:replace="fragments/header :: header"/>
     <th:block th:replace="fragments/mainHeader :: mainHeader"/>
 
-<!--    추가-->
+    <!--추가-->
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker3.standalone.min.css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
@@ -32,153 +32,22 @@
         font-weight: bolder;
         font-size: large;
     }
-
 </style>
-<script>
-    let results = [];
-    let weekends = 0;
-
-    function startCal() {
-        results = [];
-        weekends = 0;
-        getDatesStartToLast();
-    }
-
-    function getDatesStartToLast() {
-        let startDate = document.getElementById('datePicker-start').value;
-        let lastDate = document.getElementById('datePicker-end').value;
-        let curDate = new Date(startDate);
-        while (curDate <= new Date(lastDate)) {
-            results.push(curDate.toISOString().split("T")[0]);
-            curDate.setDate(curDate.getDate() + 1);
-        }
-
-        for (let index = 0; index < results.length; index++) {
-            results[index] = results[index].replace(/-0+/g, '-')
-        }
-
-        let number = 0;
-        for (let i = 0; i < results.length; i++) {
-            if (dates.includes(results[i])) {
-                number += 1;
-            }
-        }
-
-        // 휴무일 및 예약된 날짜 포함 기간 설정 시
-        if (number == 0) {
-            findDate(results);
-        } else {
-            alert("휴무일 및 예약된 날짜가 포함되어있습니다!");
-            $('#datePicker-start').focus();
-            results = [];
-        }
-    }
-
-    function findDate(results) {
-        let week = ['일', '월', '화', '수', '목', '금', '토'];
-        for (result of results) {
-            let dayOfWeek = week[new Date(result).getDay()];
-            if (dayOfWeek === week[0] || dayOfWeek === week[6]) {
-                weekends += 1;     // 주말 날짜의 수만큼 증가
-            }
-        }
-
-        $('#eventPeriod').text("  총 " +results.length+ " 일 : 평일 " + (results.length - weekends) + "일 + 주말 " + weekends + "일");
-        getParams();
-    }
-
-    function getParams() {
-        const curUrl = window.location.href;
-        const url = new URL(curUrl);
-
-        const urlParams = url.searchParams;
-
-        let weekdayPrice = urlParams.get('weekdayPrice');
-        let weekendPrice = urlParams.get('weekendPrice');
-
-        $('#eventPrice').val(eventPrice(weekdayPrice, weekendPrice));
-    }
-
-    function eventPrice(weekdayPrice, weekendPrice) {
-        let totalPrice = 0;
-        let totalWeek = (results.length - weekends) * weekdayPrice;
-        let totalWeekend = weekends * weekendPrice;
-        totalPrice = totalWeek + totalWeekend;
-
-        $('#eventTotalPrice').text("총 결제 금액 : " + totalWeek.toLocaleString() + "원 + " + totalWeekend.toLocaleString() + "원");
-        return totalPrice.toString();
-    }
-
-</script>
 <body>
+    <script th:inline="javascript">
+        let dates = [[${dates}]];
+    </script>
 
-<script th:inline="javascript">
-    let dates = [[${dates}]];
-</script>
-<script type="text/javascript">
-    let today = new Date();
-
-    $.datepicker.setDefaults({
-        dateFormat: 'yy-mm-dd',
-        prevText: '이전 달',
-        nextText: '다음 달',
-        monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-        monthNamesShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
-        dayNames: ['일', '월', '화', '수', '목', '금', '토'],
-        dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
-        dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
-        showMonthAfterYear: true,
-        yearSuffix: '년',
-        beforeShowDay: disableSomeDay
-    });
-
-    // 제외할 날짜 (받아오기) - 휴무일, 예약된 날짜
-    let disabledDays = dates;
-    for (let index = 0; index < disabledDays.length; index++) {
-        disabledDays[index] = disabledDays[index].replace(/-0+/g, '-')
-    }
-    console.log(disabledDays);
-
-    // 이전 날짜들은 선택막기
-    function noBefore(date){
-        if (date < new Date())
-            return [false];
-        return [true];
-    }
-
-    // 날짜 선택을 막기위한 함수
-    function disableSomeDay(date) {
-        let dates = date.getDate();
-        let month = date.getMonth();
-        let year = date.getFullYear();
-
-        for (let i = 0; i < disabledDays.length; i++) {
-            if($.inArray(year + '-' + (month+1) + '-' + dates, disabledDays) !== -1) {
-                return [false];
-            }
-        }
-        return [true];
-    }
-
-    $(function() {
-        $('#datePicker-start').datepicker();
-        $('#datePicker-start').datepicker("option", "maxDate", $("#datePicker-end").val());
-        $('#datePicker-start').datepicker("option", "onClose", function ( selectedDate ) {
-            $("#datePicker-end").datepicker( "option", "minDate", selectedDate );
-        });
-
-        $('#datePicker-end').datepicker();
-        $('#datePicker-end').datepicker("option", "minDate", $("#datePicker-start").val());
-        $('#datePicker-end').datepicker("option", "onClose", function ( selectedDate ) {
-            $("#datePicker-start").datepicker( "option", "maxDate", selectedDate );
-        });
-    });
-</script>
-
+    <!--DatePicker JS-->
+    <script type="text/javascript" src="/js/event/eventCreate-datepicker.js">
+    </script>
     <div th:replace="fragments/mainTop :: mainTop"/>
+
+    <!--TOP Banner-->
     <div class="topBanner">
         <div class="topFont">이벤트 예약하기</div>
     </div>
+
     <!--    Event Reservation Form-->
     <div class="container">
         <form role="form" action="/events" th:object="${eventCreateRequestDto}" method="post" enctype="multipart/form-data">
