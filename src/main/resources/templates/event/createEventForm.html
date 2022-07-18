@@ -34,9 +34,15 @@
     }
 
 </style>
-<script th:inline="javascript">
+<script>
     let results = [];
     let weekends = 0;
+
+    function startCal() {
+        results = [];
+        weekends = 0;
+        getDatesStartToLast();
+    }
 
     function getDatesStartToLast() {
         let startDate = document.getElementById('datePicker-start').value;
@@ -46,18 +52,37 @@
             results.push(curDate.toISOString().split("T")[0]);
             curDate.setDate(curDate.getDate() + 1);
         }
-        findDate(results);
+
+        for (let index = 0; index < results.length; index++) {
+            results[index] = results[index].replace(/-0+/g, '-')
+        }
+
+        let number = 0;
+        for (let i = 0; i < results.length; i++) {
+            if (dates.includes(results[i])) {
+                number += 1;
+            }
+        }
+
+        // 휴무일 및 예약된 날짜 포함 기간 설정 시
+        if (number == 0) {
+            findDate(results);
+        } else {
+            alert("휴무일 및 예약된 날짜가 포함되어있습니다!");
+            $('#datePicker-start').focus();
+            results = [];
+        }
     }
 
     function findDate(results) {
         let week = ['일', '월', '화', '수', '목', '금', '토'];
         for (result of results) {
             let dayOfWeek = week[new Date(result).getDay()];
-            console.log(dayOfWeek);
             if (dayOfWeek === week[0] || dayOfWeek === week[6]) {
-                weekends += 1;
+                weekends += 1;     // 주말 날짜의 수만큼 증가
             }
         }
+
         $('#eventPeriod').text("  총 " +results.length+ " 일 : 평일 " + (results.length - weekends) + "일 + 주말 " + weekends + "일");
         getParams();
     }
@@ -70,7 +95,6 @@
 
         let weekdayPrice = urlParams.get('weekdayPrice');
         let weekendPrice = urlParams.get('weekendPrice');
-        console.log(weekdayPrice);
 
         $('#eventPrice').val(eventPrice(weekdayPrice, weekendPrice));
     }
@@ -87,6 +111,10 @@
 
 </script>
 <body>
+
+<script th:inline="javascript">
+    let dates = [[${dates}]];
+</script>
 <script type="text/javascript">
     $.datepicker.setDefaults({
         dateFormat: 'yy-mm-dd',
@@ -98,15 +126,49 @@
         dayNamesShort: ['일', '월', '화', '수', '목', '금', '토'],
         dayNamesMin: ['일', '월', '화', '수', '목', '금', '토'],
         showMonthAfterYear: true,
-        yearSuffix: '년'
+        yearSuffix: '년',
+        beforeShowDay: disableSomeDay
     });
 
+    // 제외할 날짜 (받아오기) - 휴무일, 예약된 날짜
+    let disabledDays = dates;
+    for (let index = 0; index < disabledDays.length; index++) {
+        disabledDays[index] = disabledDays[index].replace(/-0+/g, '-')
+    }
+    console.log(disabledDays);
+
+    // 이전 날짜들은 선택막기
+    function noBefore(date){
+        if (date < new Date())
+            return [false];
+        return [true];
+    }
+
+    // 날짜 선택을 막기위한 함수
+    function disableSomeDay(date) {
+        let dates = date.getDate();
+        let month = date.getMonth();
+        let year = date.getFullYear();
+
+        for (let i = 0; i < disabledDays.length; i++) {
+            if($.inArray(year + '-' + (month+1) + '-' + dates, disabledDays) !== -1) {
+                return [false];
+            }
+        }
+        return [true];
+    }
 
     $(function() {
-        $('#datePicker-start').datepicker({
+        $('#datePicker-start').datepicker();
+        $('#datePicker-start').datepicker("option", "maxDate", $("#datePicker-end").val());
+        $('#datePicker-start').datepicker("option", "onClose", function ( selectedDate ) {
+            $("#datePicker-end").datepicker( "option", "minDate", selectedDate );
         });
 
-        $('#datePicker-end').datepicker({
+        $('#datePicker-end').datepicker();
+        $('#datePicker-end').datepicker("option", "minDate", $("#datePicker-start").val());
+        $('#datePicker-end').datepicker("option", "onClose", function ( selectedDate ) {
+            $("#datePicker-start").datepicker( "option", "maxDate", selectedDate );
         });
     });
 </script>
@@ -132,28 +194,28 @@
             <br />
             <div class="form-group-event">
                 <label th:for="evnetName">이벤트 이름</label>
-                <input type="text" th:field="*{eventName}" class="form-control" placeholder="이벤트 이름을 입력하세요."
+                <input type="text" th:field="*{eventName}" class="form-control" placeholder="이벤트 이름을 입력하세요." required maxlength="24"
                        th:class="${#fields.hasErrors('eventName')}? 'form-control fieldError' : 'form-control'">
                 <p th:if="${#fields.hasErrors('eventName')}" th:errors="*{eventName}">이벤트명은 필수입니다.</p>
             </div>
             <br />
             <div class="form-group-event">
                 <label th:for="eventInfo">이벤트 소개 및 정보</label>
-                <textarea type="text" th:field="*{eventInfo}" class="form-control" rows="6" placeholder="이벤트 소개를 입력하세요."></textarea>
+                <textarea type="text" th:field="*{eventInfo}" class="form-control" rows="6" placeholder="이벤트 소개를 입력하세요." required></textarea>
             </div>
             <br />
             <label th:for="files">이벤트 대표 이미지 및 포스터</label>
             <br />
             <div>
-                <p><small>* 이벤트 메인 이미지와 포스터를 업로드해 주세요.  * Ctrl + 클릭으로  여러장 선택</small></p>
-                <input type="file" multiple="multiple" th:field="*{files}" name="imageFiles" >
+                <p><small>* 이벤트 메인 이미지와 포스터를 업로드해 주세요.  * 2MB 이하의 파일을 선택해 주세요.</small></p>
+                <input type="file" multiple="multiple" th:field="*{files}" name="imageFiles" required>
             </div>
             <br>
             <div class="form-group-event">
                 <label th:for="eventStartDate">이벤트 기간</label>
                 <div class="input-group">
-                    <input id="datePicker-start" style="float: left; margin-right: 15px" type="text" th:field="*{eventStartDate}" class="form-control" placeholder="시작일">
-                    <input id="datePicker-end" style="float: right" type="text" th:field="*{eventEndDate}" class="form-control" placeholder="종료일" onchange="getDatesStartToLast()" >
+                    <input id="datePicker-start" style="float: left; margin-right: 15px" type="text" th:field="*{eventStartDate}" class="form-control" placeholder="시작일" onchange="startCal()">
+                    <input id="datePicker-end" style="float: right" type="text" th:field="*{eventEndDate}" class="form-control" placeholder="종료일" onchange="startCal()" >
                 </div>
             </div>
             <br>
@@ -174,7 +236,8 @@
                 <input type="text" id="cafeNumber" name="cafeNumber" th:value="${cafeId}" class="form-control">
             </div>
             <br />
-            <button type="submit" class="btn btn-primary" style="float: right;">이벤트 예약하기</button>
+            <button type="submit" class="btn btn-primary" style="float: right;"
+                    th:data-confirm-create="|이벤트를 예약하시겠습니까?|" onclick="return confirm(this.getAttribute('data-confirm-create'))">이벤트 예약하기</button>
             <br>
         </form>
     </div>
