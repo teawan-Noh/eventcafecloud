@@ -8,12 +8,14 @@
 }
 
 #cafeDetailTop ul li {
+    background-color: darkorange;
+    color: white;
+    border-radius: 0 0 5px 0;
+    font-family: 'Poor Story', cursive;
+    border: none;
     font-size: 0.8em;
-    color: black;
     margin-right: 10px;
     padding: 3px 4px;
-    border: solid 1px lightslategray;
-    border-radius: 50%;
 }
 
 #cafeDetailTop .titleBox {
@@ -32,6 +34,8 @@
 
 #cafeDetailMiddle .leftImgBox .carousel-inner div img {
     height: 600px;
+    width:100%;
+    object-fit: contain;
 }
 
 #cafeDetailMiddle .rightInfoBox {
@@ -40,6 +44,52 @@
 
 #cafeDetailMiddle .rightInfoBox {
     margin-left: 50px;
+}
+
+#cafePriceInfo {
+    background-color: #F5F5DC;
+    border-radius: 0 0 20px 0;
+    margin-top: 10px;
+    font-weight: bold;
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+
+#eventRegisterBtn {
+    padding-top: 10px;
+    text-align: center;
+    margin: auto;
+}
+
+#cafeDetailBottom {
+    background-color: floralwhite;
+    padding: 30px;
+    margin-top: 20px;
+}
+
+#cafeInfoDetail p{
+    font-size: 19px;
+}
+
+#openHour{
+    font-size: 25px;
+    margin: 20px 0 20px 0;
+}
+
+#cafePrecaution{
+    margin-top: 30px;
+}
+
+#cafePrecaution p{
+    font-size: 19px;
+}
+
+#cafeLocationInfo{
+    margin-top: 40px;
+}
+#cafeLocationInfo .cafeAddress p{
+    font-size: 19px;
 }
 
 #calendar {
@@ -64,37 +114,6 @@
     font-size: 20px;
     font-weight: bold;
     border-radius: 5px;
-}
-
-#eventRegisterBtn {
-    padding-top: 10px;
-    text-align: center;
-    margin: auto;
-}
-
-#cafeDetailTop ul li {
-    background-color: darkorange;
-    color: white;
-    border-radius: 0 0 5px 0;
-    font-family: 'Poor Story', cursive;
-    border: none;
-}
-
-#cafePriceInfo {
-    background-color: #F5F5DC;
-    border-radius: 0 0 20px 0;
-    margin-top: 10px;
-    font-weight: bold;
-    padding-left: 20px;
-    padding-top: 10px;
-    padding-bottom: 5px;
-}
-
-#cafeDetailBottom {
-    background-color: floralwhite;
-    padding: 30px;
-    margin-top: 20px;
-}
 
 .inner-star::before{
     color: #FF9600;

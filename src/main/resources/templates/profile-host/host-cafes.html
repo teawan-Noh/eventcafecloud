@@ -3,6 +3,7 @@
 <head>
     <th:block th:replace="fragments/header :: header"/>
     <th:block th:replace="fragments/mainHeader :: mainHeader"/>
+    <script src="/js/cafe/cafeDelete.js"></script>
 </head>
 <body>
 <div th:replace="fragments/mainTop :: mainTop"/>
@@ -25,10 +26,5 @@
 </body>
 </html>
 <script>
-    $("#file").on('change', function () {
-        var fileName = $("#file").val();
-        $(".upload-name").val(fileName);
-    });
-
     let id = document.location.href.split("/").reverse()[1]
 </script>

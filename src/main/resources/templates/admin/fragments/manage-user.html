@@ -17,22 +17,28 @@
             </div>
         </div>
         <div class="right">
+            <h1 class="admin-h1" th:text="'총 '+${users.getTotalElements()}+'명의 회원이 있습니다.'"></h1>
             <div class="profileBox">
                 <div class="card mb-4">
                     <div class="card-header">
                         회원관리
                     </div>
                     <div class="card-body">
-                        <div class="option-search">
-                            <div style="display: flex; margin-left: auto;">
-                                <select class="bbsOrReply">
-                                    <option value="">--회원--</option>
-                                    <option value="normal">일반</option>
-                                    <option value="quit">호스트</option>
-                                    <option value="quit">관리자</option>
-                                </select> &nbsp;
+                        <form method="GET">
+                            <div class="option-search">
+                                <div style="display: flex; margin-left: auto;">
+                                    <select class="userRoleType" id="userRoleType" th:name="roleType">
+                                        <option value="">전체</option>
+                                        <option value="NORMAL">일반회원</option>
+                                        <option value="HOST">호스트</option>
+                                        <option value="ADMIN">관리자</option>
+                                    </select> &nbsp;
+                                    <button class="btn btn-outline-success my-2 my-sm-0" id="btn-search" type="submit">
+                                        검색
+                                    </button>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                         <div class="table-responsive">
                             <table class="table table-bordered" id="userTable">
                                 <thead>
@@ -55,8 +61,8 @@
                                     <td th:text="${user.getUserRegPath}"></td>
                                     <td th:text="${#temporals.format(user.getCreatedDate,'yyyy-MM-dd HH:mm')}"></td>
                                     <td th:text="${#temporals.format(user.getModifiedDate,'yyyy-MM-dd HH:mm')}"></td>
-                                    <td th:text="${user.getRole}"></td>
-                                    <td th:text="${user.getStatus}"></td>
+                                    <td th:text="${user.getRole.getDisplayName}"></td>
+                                    <td th:text="${user.getStatus.getDisplayName}"></td>
                                     <td>
                                         <button class="pass-button" data-toggle="modal"
                                                 th:data-target="'#'+${user.getUserNumber}" type="button">
@@ -67,15 +73,44 @@
                                 </tr>
                             </table>
                         </div>
-                        <div style="display: flex; justify-content: space-between;">
-                            <div class="page" id="page">
-                                <button class="page-number"><</button>
-                                <button class="page-number">1</button>
-                                <button class="page-number">2</button>
-                                <button class="page-number">3</button>
-                                <button class="page-number">></button>
-                            </div>
-                        </div>
+                        <nav class="page" style="text-align: center;">
+                            <ul class="pagination"
+                                th:with="start=${T(java.lang.Math).floor(users.number/10)*10 + 1},
+                    last=(${start + 9 < users.totalPages ? start + 9 : users.totalPages})">
+                                <li>
+                                    <a aria-label="First" class="page-number"
+                                       th:href="@{/admin/users(page=1)}">
+                                        <span aria-hidden="true">First</span>
+                                    </a>
+                                </li>
+                                <li th:class="${users.first} ? 'disabled'">
+                                    <a aria-label="Previous" class="page-number"
+                                       th:href="${users.first} ? '#' :@{/admin/users}">
+                                        <span aria-hidden="true">&lt;</span>
+                                    </a>
+                                </li>
+
+                                <li th:class="${page == users.number + 1} ? 'active'"
+                                    th:each="page: ${#numbers.sequence(start, last)}">
+                                    <a class="page-number"
+                                       th:href="@{/admin/users(page=${page})}"
+                                       th:text="${page}"></a>
+                                </li>
+
+                                <li th:class="${users.last} ? 'disabled'">
+                                    <a aria-label="Next" class="page-number"
+                                       th:href="${users.last} ? '#' : @{/admin/users(page=${users.number + 2})}">
+                                        <span aria-hidden="true">&gt;</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a aria-label="Last" class="page-number"
+                                       th:href="@{/admin/users(page=${users.totalPages})}">
+                                        <span aria-hidden="true">Last</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>

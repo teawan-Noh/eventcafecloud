@@ -17,9 +17,10 @@ public class CafeCreateRequestDto {
 
     private Integer cafeZonecode;
 
+    @NotEmpty(message = "주소 입력은 필수 입니다.")
     private String cafeAddress;
 
-    @NotEmpty(message = "주소 입력은 필수 입니다.")
+    @NotEmpty(message = "상세 주소 입력은 필수 입니다.")
     private String cafeAddressDetail;
 
     // 경도 : x : Longitude
@@ -47,7 +48,7 @@ public class CafeCreateRequestDto {
 
     private String cafeCloseTime;
 
-    @Size(min=3,max=3, message = "이미지 파일을 3장 선택해 주세요.")
+    @Size(min=2,max=2, message = "* 이미지 파일을 2장 선택해 주세요.")
     private List<MultipartFile> files;
 
     @Size(min=1, message = "옵션 선택은 필수 입니다.")

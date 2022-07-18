@@ -1,5 +1,10 @@
 package com.eventcafecloud.event.controller;
 
+import com.eventcafecloud.cafe.domain.CafeSchedule;
+import com.eventcafecloud.cafe.dto.CafeScheduleRequestDto;
+import com.eventcafecloud.cafe.service.CafeScheduleService;
+import com.eventcafecloud.cafe.service.CafeService;
+import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.event.domain.type.EventCategory;
 import com.eventcafecloud.event.dto.EventCreateRequestDto;
 import com.eventcafecloud.event.dto.EventListResponseDto;
@@ -18,22 +23,33 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.util.ArrayList;
+
 @Controller
 @RequiredArgsConstructor
 public class EventController {
 
     private final EventService eventService;
+    private final CafeScheduleService cafeScheduleService;
+    private final CafeService cafeService;
 
     // 이벤트 예약 폼
-    @Secured("ROLE_NORMAL")
+    @Secured({"ROLE_NORMAL", "ROLE_HOST"})
     @GetMapping("/events/registration")
-    public String createEventForm(User loginUser, Model model, @RequestParam Long cafeId) {
+    public String createEventForm(User loginUser, Model model, @RequestParam Long cafeId) throws ParseException {
 
         if (loginUser != null) {
             model.addAttribute("userNick", loginUser.getUserNickname());
             model.addAttribute("userId", loginUser.getId());
             model.addAttribute("cafeId", cafeId);
         }
+
+        ArrayList<String> dates = cafeService.AllReservationListByCafe(cafeId);
+        model.addAttribute("dates", dates);
+        model.addAttribute("cafeName", cafeService.findCafeByIdForDetail(cafeId).getCafeName());
+        //휴무일등록시, 등록 정보를 받아올 객체를 넘김
+        model.addAttribute("requestDto", new CafeScheduleRequestDto());
         model.addAttribute("eventCreateRequestDto", new EventCreateRequestDto());
         return "event/createEventForm";
     }
@@ -60,17 +76,22 @@ public class EventController {
     }
 
     // 이벤트 수정
-    @PostMapping("/events/{eventNumber}/edit")
+    @PostMapping("/events/{eventNumber}/detail")
     public String updateEvent(@PathVariable Long eventNumber, @Validated @ModelAttribute EventUpdateRequestDto requestDto, BindingResult result) {
         eventService.modifyEvent(eventNumber, requestDto);
         return "redirect:/events/{eventNumber}/detail";
     }
 
     // 이벤트 삭제
-    @DeleteMapping("/events/{eventNumber}/cancle")
+    @DeleteMapping("/events/{eventNumber}/detail")
     public String deleteEvent(@PathVariable Long eventNumber) {
-        eventService.removeEvent(eventNumber);
-        return "redirect:/events";
+        boolean result = eventService.isEventCancelAvail(eventNumber);
+        if (result == true) {
+            eventService.removeEvent(eventNumber);
+        } else {
+            return "redirect:/events/" + eventNumber + "/detail";
+        }
+        return "redirect:/events/" + eventNumber + "/detail";
     }
 
     //이벤트삭제(마이페이지)
@@ -98,18 +119,12 @@ public class EventController {
         }
 
         Page<EventListResponseDto> eventListResponseDtos = eventService.toDtoList(keyword, eventCategory, pageable);
-
-        int start = Math.max(1, eventListResponseDtos.getPageable().getPageNumber() - 10);
-        int last = Math.min(eventListResponseDtos.getTotalPages(), eventListResponseDtos.getPageable().getPageNumber() + 10);
-
-        model.addAttribute("start", start);
-        model.addAttribute("last", last);
         model.addAttribute("eventListResponseDtos", eventListResponseDtos);
 
         return "event/eventList";
     }
 
-    // 이벤트 상세
+    // 이벤트 상세 + 수정 폼
     @GetMapping("/events/{eventNumber}/detail")
     public String getEventDetail(User loginUser, @PathVariable Long eventNumber, Model model) {
         if (loginUser != null) {
@@ -119,6 +134,7 @@ public class EventController {
 
         EventReadResponseDto eventReadResponseDto = eventService.findEvent(eventNumber);
         model.addAttribute("eventReadResponseDto", eventReadResponseDto);
+        model.addAttribute("eventUpdateRequestDto", new EventUpdateRequestDto());
         model.addAttribute("event", eventService.findEventById(eventNumber));
         return "event/eventDetail";
     }

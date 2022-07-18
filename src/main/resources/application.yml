@@ -5,6 +5,9 @@ spring:
     username: root
     password: 1234
 
+  config:
+    use-legacy-processing: true
+
   profiles:
     include:
       - oauth
@@ -13,22 +16,25 @@ spring:
   jpa:
     properties:
       hibernate:
+        format_sql: true
         default_batch_fetch_size: 10 # 페이징 최적화 'in' query를 사용해서 지연로딩을 초기화 시켜준다
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     generate-ddl: true
-    show-sql: true
+#    show-sql: true
     hibernate:
       ddl-auto: update
 
-  thymeleaf:
-    prefix: classpath:/templates/
-    suffix: .html
+#  thymeleaf:
+#    prefix: classpath:/templates/
+#    suffix: .html
 
-logging:
-  level:
-    org:
-      hibernate:
-        type:
-          descriptor:
-            sql: trace
+#logging:
+#  level:
+#    org:
+#      hibernate:
+#        type:
+#          descriptor:
+#            sql: trace
+logging.level:
+  org.hibernate.SQL: debug # logger를 통해 하이버네이트 실행 SQL을 남긴다.

@@ -12,19 +12,19 @@
         let x = [[${cafeDetailResponseDto.getCafeX()}]];
         let y = [[${cafeDetailResponseDto.getCafeY()}]];
         let id = [[${cafeDetailResponseDto.getCafeNumber()}]];
+        let loginUserId = [[${userId}]];
     </script>
     <script src="/js/cafe/cafeReview.js"></script>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function () {
             getCafeReviewList();
         });
     </script>
-
 </head>
 <body>
 <div th:replace="fragments/mainTop :: mainTop"/>
 <div class="topBanner">
-    <div class="topFont">카페 상세 페이지</div>
+    <div class="topFont">카페 정보</div>
 </div>
 <div id="mainContainer">
     <section id="cafeDetailTop">
@@ -36,7 +36,8 @@
         </div>
         <div class="optionBox">
             <ul>
-                <li class="optionList" th:each="cafeOption : ${cafeDetailResponseDto.getCafeOptions()}" th:text="'#'+${cafeOption}"></li>
+                <li class="optionList" th:each="cafeOption : ${cafeDetailResponseDto.getCafeOptions()}"
+                    th:text="'#'+${cafeOption}"></li>
             </ul>
         </div>
     </section>
@@ -48,17 +49,14 @@
                 <!-- The slideshow/carousel -->
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img th:src="${cafeDetailResponseDto.getCafeImgUrls().get(0)}" class="d-block"
-                             style="width:100%; object-fit: cover">
+                        <img th:src="${cafeDetailResponseDto.getCafeImgUrls().get(0)}" class="d-block">
                     </div>
                     <div th:if="${cafeDetailResponseDto.getCafeImgUrls().get(1)} != null" class="carousel-item">
-                        <img th:src="${cafeDetailResponseDto.getCafeImgUrls().get(1)}" class="d-block"
-                             style="width:100%; object-fit: cover">
+                        <img th:src="${cafeDetailResponseDto.getCafeImgUrls().get(1)}" class="d-block">
                     </div>
-                    <div th:if="${cafeDetailResponseDto.getCafeImgUrls().get(2)} != null" class="carousel-item">
-                        <img th:src="${cafeDetailResponseDto.getCafeImgUrls().get(2)}" class="d-block"
-                             style="width:100%; object-fit: cover">
-                    </div>
+<!--                    <div th:if="${cafeDetailResponseDto.getCafeImgUrls().get(2)} != null" class="carousel-item">-->
+<!--                        <img th:src="${cafeDetailResponseDto.getCafeImgUrls().get(2)}" class="d-block">-->
+<!--                    </div>-->
                 </div>
                 <!-- Left and right controls/icons -->
                 <button class="carousel-control-prev" type="button" data-bs-target="#demo" data-bs-slide="prev">
@@ -79,7 +77,9 @@
             </div>
             <div id="eventRegisterBtn">
                 <button th:if="${userId} != null" class="eventButton" th:onclick="|location.href='@{/events/registration(cafeId=${cafeDetailResponseDto.getCafeNumber()}
-                ,weekdayPrice=${cafeDetailResponseDto.getCafeWeekdayPrice()}, weekendPrice=${cafeDetailResponseDto.getCafeWeekendPrice()})}'|">이벤트 예약하기</button>
+                ,weekdayPrice=${cafeDetailResponseDto.getCafeWeekdayPrice()}, weekendPrice=${cafeDetailResponseDto.getCafeWeekendPrice()})}'|">
+                    이벤트 예약하기
+                </button>
                 <button th:if="${userId} == null" class="eventButton" onclick='alert("로그인 후 이용해주세요!")'>이벤트 예약하기</button>
             </div>
         </div>
@@ -87,18 +87,19 @@
     <section id="cafeDetailBottom">
         <hr>
         <div id="cafeInfoDetail">
-            <h3>상세 정보</h3>
-            <h5 th:text="${cafeDetailResponseDto.getCafeInfoDetail()}"></h5>
+            <h2>상세 정보</h2>
+            <p th:text="${cafeDetailResponseDto.getCafeInfoDetail()}"></p>
         </div>
         <div id="openHour">
             <span>영업 시간 : </span>
             <span th:text="${cafeDetailResponseDto.getCafeOpenTime()} + ' ~ ' + ${cafeDetailResponseDto.getCafeCloseTime()}"></span>
         </div>
         <div id="cafePrecaution">
-            <h3>유의사항</h3>
+            <h2>유의사항</h2>
             <p th:text="${cafeDetailResponseDto.getCafePrecaution()}"></p>
         </div>
         <div id="cafeLocationInfo">
+            <h2>카페 위치</h2>
             <div class="cafeAddress">
                 <p th:text="${cafeDetailResponseDto.getCafeZonecode()} + ' &nbsp;' + ${cafeDetailResponseDto.getCafeAddress()}"></p>
                 <p th:text="${cafeDetailResponseDto.getCafeAddressDetail()}"></p>
@@ -107,7 +108,7 @@
         </div>
     </section>
     <section id="reviews">
-        <h2>이용 후기</h2>
+        <h2>이용 후기</h2> 평균 평점 : <span th:text="${cafeDetailResponseDto.getCafeAvgStarRate()}"></span>
         <div class="star-box">
             <div class="star-rating">
                 <input id="5-stars" name="rating" type="radio" value="5"/>
@@ -130,14 +131,13 @@
                 <textarea class="form-control" id="textarea-review" placeholder="후기를 작성해주세요!" style="resize: none"></textarea>
             </div>
             <div>
-            <div th:if="${userId != null}">
-                <button onclick="addReview()" class="button-box">리뷰 등록</button>
+                <div th:if="${userId != null}">
+                    <button onclick="addReview()" class="button-box">리뷰 등록</button>
+                </div>
+                <div th:if="${userId == null}" class="button-box">
+                    <button onclick='alert("로그인 후 이용해주세요!")' class="button-box">리뷰 등록</button>
+                </div>
             </div>
-            <div th:if="${userId == null}" class="button-box">
-                <button onclick='alert("로그인 후 이용해주세요!")' class="button-box">리뷰 등록</button>
-            </div>
-            </div>
-
         </div>
         <div id="review-list-container"></div>
         <div id="pagination"></div>
