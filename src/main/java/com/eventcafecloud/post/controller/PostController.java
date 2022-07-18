@@ -88,7 +88,6 @@ public class PostController {
         if (loginUser != null) {
             model.addAttribute("userNick", loginUser.getUserNickname());
             model.addAttribute("userId", loginUser.getId());
-            System.out.println("model = " + model);
         }
         PostReadResponseDto postReadResponseDto = postService.findPostUpdatedCount(id);
         List<CommentReadResponseDto> commentByPostNumber = commentService.readCommentsByPostNumber(id);
