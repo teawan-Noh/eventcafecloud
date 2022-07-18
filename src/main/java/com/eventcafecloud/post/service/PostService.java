@@ -71,7 +71,7 @@ public class PostService {
     @Transactional(readOnly = true)
     public Page<Post> findPostListByUser(Long userId, Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-        pageable = PageRequest.of(page, 5);
+        pageable = PageRequest.of(page, 5, Sort.Direction.DESC, "id");
 
         return postRepository.findAllByUserId(userId, pageable);
     }
@@ -83,7 +83,7 @@ public class PostService {
         Page<Post> postList;
 
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-        pageable = PageRequest.of(page, 10);
+        pageable = PageRequest.of(page, 10, Sort.Direction.DESC, "id");
 
         if (postType == null) {
             postList = postRepository.findAll(pageable);

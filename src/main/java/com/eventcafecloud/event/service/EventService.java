@@ -147,7 +147,7 @@ public class EventService {
         Page<Event> eventList;
 
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-        pageable = PageRequest.of(page, 10);
+        pageable = PageRequest.of(page, 10, Sort.Direction.DESC, "id");
 
         if (eventCategory == null) {
             eventList = eventRepository.findAll(pageable);
@@ -165,7 +165,7 @@ public class EventService {
     public Page<EventResponseForProfileDto> findEventListByUser(Long userId, Pageable pageable) {
 
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-        pageable = PageRequest.of(page, 5);
+        pageable = PageRequest.of(page, 5, Sort.Direction.ASC, "eventStartDate");
 
         Page<Event> eventList = eventRepository.findAllByUserId(userId, pageable);
 
