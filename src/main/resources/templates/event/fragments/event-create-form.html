@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <div th:fragment="eventCreateForm">
+        <!--Event Reservation Form-->
+        <div class="container">
+            <form role="form" action="/events" th:object="${eventCreateRequestDto}" method="post" enctype="multipart/form-data">
+                <div class="form-group-event">
+                    <br />
+                    <label th:for="eventCategory">이벤트 카테고리</label>
+                    <select th:field="*{eventCategory}" class="form-control">
+                        <option value="">카테고리를 선택하세요.</option>
+                        <option th:each="eventCategory : ${T(com.eventcafecloud.event.domain.type.EventCategory).values()}"
+                                th:value="${eventCategory}"
+                                th:text="${eventCategory}">option
+                        </option>
+                    </select>
+                </div>
+                <br />
+                <div class="form-group-event">
+                    <label th:for="evnetName">이벤트 이름</label>
+                    <input type="text" th:field="*{eventName}" class="form-control" placeholder="이벤트 이름을 입력하세요." required maxlength="24"
+                           th:class="${#fields.hasErrors('eventName')}? 'form-control fieldError' : 'form-control'">
+                    <p th:if="${#fields.hasErrors('eventName')}" th:errors="*{eventName}">이벤트명은 필수입니다.</p>
+                </div>
+                <br />
+                <div class="form-group-event">
+                    <label th:for="eventInfo">이벤트 소개 및 정보</label>
+                    <textarea type="text" th:field="*{eventInfo}" class="form-control" rows="6" placeholder="이벤트 소개를 입력하세요." required></textarea>
+                </div>
+                <br />
+                <label th:for="files">이벤트 대표 이미지 및 포스터</label>
+                <br />
+                <div>
+                    <p><small>* 이벤트 메인 이미지와 포스터를 업로드해 주세요.  * 2MB 이하의 파일을 선택해 주세요.</small></p>
+                    <input type="file" multiple="multiple" th:field="*{files}" name="imageFiles" required>
+                </div>
+                <br>
+                <div class="form-group-event">
+                    <label th:for="eventStartDate">이벤트 기간</label>
+                    <div class="input-group">
+                        <input id="datePicker-start" style="float: left; margin-right: 15px" type="text" th:field="*{eventStartDate}" class="form-control" placeholder="시작일" onchange="startCal()">
+                        <input id="datePicker-end" style="float: right" type="text" th:field="*{eventEndDate}" class="form-control" placeholder="종료일" onchange="startCal()" >
+                    </div>
+                </div>
+                <br>
+                <br />
+                <div class="form-group-event">
+                    <label th:for="eventPrice">결제 정보</label>
+                    <hr>
+                    <p id="eventPeriod"><small>이벤트 기간</small></p>
+                    <p id="eventTotalPrice"><small>이벤트 금액</small></p>
+                    <input readonly id="eventPrice" name=eventPrice type="text" class="form-control" placeholder="결제하실 금액입니다.">
+                    <hr>
+                </div>
+                <div class="form-group-event">
+
+                </div>
+                <div class="form-group-event" HIDDEN>
+                    <label th:for="cafeNumber">카페 정보</label>
+                    <input type="text" id="cafeNumber" name="cafeNumber" th:value="${cafeId}" class="form-control">
+                </div>
+                <br />
+                <button type="submit" class="btn btn-primary" style="float: right;"
+                        th:data-confirm-create="|이벤트를 예약하시겠습니까?|" onclick="return confirm(this.getAttribute('data-confirm-create'))">이벤트 예약하기</button>
+                <br>
+            </form>
+        </div>
+    </div>
+</html>

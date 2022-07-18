@@ -17,7 +17,6 @@ let disabledDays = dates;
 for (let index = 0; index < disabledDays.length; index++) {
     disabledDays[index] = disabledDays[index].replace(/-0+/g, '-')
 }
-console.log(disabledDays);
 
 // 이전 날짜들은 선택막기
 function noBefore(date){
