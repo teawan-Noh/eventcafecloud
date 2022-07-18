@@ -26,6 +26,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.eventcafecloud.exception.ExceptionStatus.CAFE_NOT_FOUND;
 import static com.eventcafecloud.exception.ExceptionStatus.EVENT_NOT_FOUND;
 
 @RequiredArgsConstructor
@@ -45,7 +46,7 @@ public class EventService {
         User user = userRepository.getById(securityUser.getId());
 
         Cafe cafe = cafeRepository.findById(requestDto.getCafeNumber()).orElseThrow(
-                () -> new NullPointerException("해당 카페가 존재하지 않습니다.")
+                () -> new IllegalArgumentException(CAFE_NOT_FOUND.getMessage())
         );
 
         Event event = new Event(requestDto);
@@ -90,7 +91,7 @@ public class EventService {
     // 전체 이벤트 목록
     public Page<EventListResponseDto> toDtoList(String keyword, EventCategory eventCategory, Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-        pageable = PageRequest.of(page, 10);
+        pageable = PageRequest.of(page, 9);
 
         Page<Event> events = null;
         if (eventCategory == null) {

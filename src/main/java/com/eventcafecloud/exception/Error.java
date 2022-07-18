@@ -17,11 +17,16 @@ public class Error implements ErrorController {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
         if(status != null){
             int statusCode = Integer.valueOf(status.toString());
-            if(statusCode == HttpStatus.NOT_FOUND.value()){
+            if (statusCode == HttpStatus.UNAUTHORIZED.value()) {
+                return ERROR_TEMPLATES_PATH + "401";
+            }
+            if (statusCode == HttpStatus.FORBIDDEN.value()) {
+                return ERROR_TEMPLATES_PATH + "403";
+            }
+            if (statusCode == HttpStatus.NOT_FOUND.value()) {
                 return ERROR_TEMPLATES_PATH + "404";
             }
-            // 405
-            if(statusCode == HttpStatus.METHOD_NOT_ALLOWED.value()){
+            if (statusCode == HttpStatus.METHOD_NOT_ALLOWED.value()) {
                 System.out.println("실행");
                 return ERROR_TEMPLATES_PATH + "405";
             }
