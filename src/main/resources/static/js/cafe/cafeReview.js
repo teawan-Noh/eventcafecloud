@@ -18,7 +18,8 @@ function addReview() {
                 reviewRating: reviewRating
             },
             success: function (response) {
-                console.log(response);
+                // console.log(response);
+                location.reload(true);
                 getCafeReviewList();
             }
         })
@@ -61,6 +62,10 @@ function getCafeReviewList() {
                 $('#review-list-container').append(tempHtml);
                 if (loginUserId !== userId){
                     $(`.delete${cafeReviewNumber}`).hide();
+                }
+                if (loginUserId === userId){
+                    $('#reviews .review-input-box').hide();
+                    $('#reviews .star-box').hide();
                 }
             }
         }

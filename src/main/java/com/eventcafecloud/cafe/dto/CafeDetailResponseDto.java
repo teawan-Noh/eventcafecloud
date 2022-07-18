@@ -2,6 +2,8 @@ package com.eventcafecloud.cafe.dto;
 
 import com.eventcafecloud.cafe.domain.Cafe;
 import lombok.Data;
+
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +28,7 @@ public class CafeDetailResponseDto {
     private String cafeCloseTime;
     private List<String> cafeOptions;
     private List<String> cafeImgUrls;
-//    private List<CafeReview> cafeReviews = new ArrayList<>();
+    private String cafeAvgStarRate;
 
     public CafeDetailResponseDto(Cafe cafe) {
         cafeNumber = cafe.getId();
@@ -49,5 +51,11 @@ public class CafeDetailResponseDto {
         cafeImgUrls = cafe.getCafeImages().stream()
                 .map(i -> i.getCafeImageUrl())
                 .collect(Collectors.toList());
+        if(cafe.getCafeReviewScore() == 0){
+            cafeAvgStarRate = "0.0";
+        }else {
+            DecimalFormat df = new DecimalFormat("0.0");
+            cafeAvgStarRate = df.format((float) cafe.getCafeReviewScore() / (float) cafe.getCafeReviews().size());
+        }
     }
 }
