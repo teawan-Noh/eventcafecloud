@@ -37,7 +37,7 @@ public class EventController {
     // 이벤트 예약 폼
     @Secured({"ROLE_NORMAL", "ROLE_HOST"})
     @GetMapping("/events/registration")
-    public String createEventForm(@PageableDefault Pageable pageable, User loginUser, Model model, @RequestParam Long cafeId) throws ParseException {
+    public String createEventForm(User loginUser, Model model, @RequestParam Long cafeId) throws ParseException {
 
         if (loginUser != null) {
             model.addAttribute("userNick", loginUser.getUserNickname());
@@ -45,11 +45,7 @@ public class EventController {
             model.addAttribute("cafeId", cafeId);
         }
 
-        Page<Event> eventList = eventService.findEventListByCafe(cafeId, pageable);
-        Page<CafeSchedule> scheduleList = cafeScheduleService.findCafeScheduleByCafeId(cafeId, pageable);
         ArrayList<String> dates = cafeService.AllReservationListByCafe(cafeId);
-        model.addAttribute("events", eventList);
-        model.addAttribute("schedules", scheduleList);
         model.addAttribute("dates", dates);
         model.addAttribute("cafeName", cafeService.findCafeByIdForDetail(cafeId).getCafeName());
         //휴무일등록시, 등록 정보를 받아올 객체를 넘김
