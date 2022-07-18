@@ -36,12 +36,13 @@
                                 </div>
                                 <!-- Update, Delete Button-->
                                 <button th:if="${eventReadResponseDto.isCancel == true && userId != null && eventReadResponseDto.userNumber == userId}"
-                                        class="btn btn-primary cafeBtn"
+                                        class="btn btn-primary cafeBtn eventBtn"
                                         data-target="#cancleModalCenter" data-toggle="modal" type="button">
                                     이벤트 취소
                                 </button>
                                 <button th:if="${userId != null && eventReadResponseDto.userNumber == userId}"
-                                        class="btn btn-primary cafeBtn" data-target="#updateModalCenter" data-toggle="modal"
+                                        class="btn btn-primary cafeBtn eventBtn" data-target="#updateModalCenter"
+                                        data-toggle="modal"
                                         type="button">
                                     이벤트 수정
                                 </button>

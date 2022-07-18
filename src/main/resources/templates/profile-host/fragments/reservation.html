@@ -4,6 +4,7 @@
     <div class="post-form">
         <div class="postBox">
             <h1 th:text="'총 '+${events.getTotalElements()}+'개의 예약내역이 있습니다.'"></h1>
+            <h6>이벤트를 클릭하시면 해당 이벤트로 이동합니다.</h6>
             <hr width="70%">
             <div class="posts-box" th:each="event : ${events}"
                  th:onclick="|location.href='@{/events/{id}/detail (id=${event.id})}'|">
