@@ -38,7 +38,7 @@
   <input type="hidden" name="_method" value="put"/>
   <div class="form-group" id="update-content-box">
     <label th:for="postContent" style="font-size: 20px; margin-left: 20px;">내용</label>
-    <textarea type="text" th:field="*{postContent}" class="form-control" placeholder="내용을 입력하세요"
+    <textarea type="text" th:field="*{postContent}" class="form-control" placeholder="내용을 입력하세요" required
            th:class="${#fields.hasErrors('postContent')}? 'form-control fieldError' : 'form-control'" rows="10" style="resize: none; width: 70%;"></textarea>
     <p th:if="${#fields.hasErrors('postContent')}" th:errors="*{postContent}"></p>
     <div id="edit-buttons">

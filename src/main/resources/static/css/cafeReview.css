@@ -70,8 +70,8 @@
 }
 
 #review-list-container .review-container .user-img img{
-    width: 150px;
-    height: 150px;
+    width: 110px;
+    height: 110px;
     border-radius: 10%;
     object-fit: cover;
 }

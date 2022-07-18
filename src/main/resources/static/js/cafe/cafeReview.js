@@ -60,6 +60,8 @@ function getCafeReviewList() {
                 let userId = review["userId"];
                 let cafeReviewNumber = review["cafeReviewNumber"];
                 $('#review-list-container').append(tempHtml);
+                // 별표시
+                rateIt('#review'+ review["cafeReviewNumber"], review["cafeReviewRating"]);
                 if (loginUserId !== userId){
                     $(`.delete${cafeReviewNumber}`).hide();
                 }
@@ -70,6 +72,19 @@ function getCafeReviewList() {
             }
         }
     });
+}
+
+function rateIt(target, rating) {
+    var ratings = {RatingScore: rating}
+    var totalRating = 5;
+    var table = document.querySelector(target);
+
+    for (rating in ratings) {
+        ratingPercentage = ratings[rating] / totalRating * 100;
+        ratingRounded = Math.round(ratingPercentage / 10) * 10 + '%';
+        star = table.querySelector(`.${rating} .inner-star`);
+        star.style.width = ratingRounded;
+    }
 }
 
 function makeHtmlReview(review) {
@@ -87,9 +102,13 @@ function makeHtmlReview(review) {
                         </div>
                         <div class="review-info">
                             <div class="review-info-top">
-                                <div class="review-username">${userNickname}</div>
-                                <div class="review-rating">평점 : ${cafeReviewRating}</div>
+                                <div class="review-username" id="reviews-user-nickname">${userNickname}</div>
+                                <div class='RatingStar' id="review${cafeReviewNumber}" rating="${cafeReviewRating}">
+                                <div class='RatingScore'>
+                                    <div class='outer-star'><div class='inner-star'></div></div>
+                                </div>
                             </div>
+                            </div>  
                             <div class="review-info-middle">${cafeReviewContent}</div>
                             <div class="review-info-bottom">
                                 <div class="review-create-date">${createdDate}</div>
@@ -109,6 +128,7 @@ function deleteReview(cafeReviewNumber) {
             data: {},
             success: function (response) {
                 getCafeReviewList();
+                location.reload(true);
             }
         })
     }
