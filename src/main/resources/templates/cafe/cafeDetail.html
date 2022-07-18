@@ -49,16 +49,13 @@
                 <!-- The slideshow/carousel -->
                 <div class="carousel-inner">
                     <div class="carousel-item active">
-                        <img th:src="${cafeDetailResponseDto.getCafeImgUrls().get(0)}" class="d-block"
-                             style="width:100%; object-fit: cover">
+                        <img th:src="${cafeDetailResponseDto.getCafeImgUrls().get(0)}" class="d-block">
                     </div>
                     <div th:if="${cafeDetailResponseDto.getCafeImgUrls().get(1)} != null" class="carousel-item">
-                        <img th:src="${cafeDetailResponseDto.getCafeImgUrls().get(1)}" class="d-block"
-                             style="width:100%; object-fit: cover">
+                        <img th:src="${cafeDetailResponseDto.getCafeImgUrls().get(1)}" class="d-block">
                     </div>
                     <div th:if="${cafeDetailResponseDto.getCafeImgUrls().get(2)} != null" class="carousel-item">
-                        <img th:src="${cafeDetailResponseDto.getCafeImgUrls().get(2)}" class="d-block"
-                             style="width:100%; object-fit: cover">
+                        <img th:src="${cafeDetailResponseDto.getCafeImgUrls().get(2)}" class="d-block">
                     </div>
                 </div>
                 <!-- Left and right controls/icons -->

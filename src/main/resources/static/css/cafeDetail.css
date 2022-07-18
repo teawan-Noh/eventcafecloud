@@ -34,6 +34,8 @@
 
 #cafeDetailMiddle .leftImgBox .carousel-inner div img {
     height: 600px;
+    width:100%;
+    object-fit: contain;
 }
 
 #cafeDetailMiddle .rightInfoBox {
