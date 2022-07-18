@@ -20,19 +20,23 @@
                     <label th:for="evnetName">이벤트 이름</label>
                     <input type="text" th:field="*{eventName}" class="form-control" placeholder="이벤트 이름을 입력하세요." required maxlength="24"
                            th:class="${#fields.hasErrors('eventName')}? 'form-control fieldError' : 'form-control'">
-                    <p th:if="${#fields.hasErrors('eventName')}" th:errors="*{eventName}">이벤트명은 필수입니다.</p>
+                    <p style="color: #ff4040" th:if="${#fields.hasErrors('eventName')}" th:errors="*{eventName}">Incorrect data</p>
                 </div>
                 <br />
                 <div class="form-group-event">
                     <label th:for="eventInfo">이벤트 소개 및 정보</label>
-                    <textarea type="text" th:field="*{eventInfo}" class="form-control" rows="6" placeholder="이벤트 소개를 입력하세요." required></textarea>
+                    <textarea type="text" th:field="*{eventInfo}" class="form-control" rows="6" placeholder="이벤트 소개를 입력하세요." required
+                              th:class="${#fields.hasErrors('eventInfo')}? 'form-control fieldError' : 'form-control'"></textarea>
+                    <p style="color: #ff4040" th:if="${#fields.hasErrors('eventInfo')}" th:errors="*{eventInfo}">Incorrect data</p>
                 </div>
                 <br />
                 <label th:for="files">이벤트 대표 이미지 및 포스터</label>
                 <br />
                 <div>
                     <p><small>* 이벤트 메인 이미지와 포스터를 업로드해 주세요.  * 2MB 이하의 파일을 선택해 주세요.</small></p>
-                    <input type="file" multiple="multiple" th:field="*{files}" name="imageFiles" required>
+                    <input type="file" multiple="multiple" th:field="*{files}" name="imageFiles" required
+                           th:class="${#fields.hasErrors('files')}? 'form-control fieldError' : 'form-control'">
+                    <p style="color: #ff4040" th:if="${#fields.hasErrors('files')}" th:errors="*{files}">Incorrect date</p>
                 </div>
                 <br>
                 <div class="form-group-event">
