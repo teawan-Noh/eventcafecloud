@@ -25,6 +25,9 @@ spring:
     hibernate:
       ddl-auto: update
 
+server:
+  port: 80
+
 #  thymeleaf:
 #    prefix: classpath:/templates/
 #    suffix: .html
