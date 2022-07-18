@@ -152,7 +152,7 @@ public class CafeService {
                 cafe.addCafeOption(cafeOption);
             }
         }
-        if (requestDto.getFiles() != null) {
+        if (requestDto.getFiles().size() == 2) {
             List<CafeImage> cafeImages = cafe.getCafeImages();
             List<String> imageKeys = new ArrayList<>();
             for (CafeImage cafeImage : cafeImages) {
