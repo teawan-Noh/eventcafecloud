@@ -57,13 +57,13 @@
         </logger>
 
         <!-- input aspect 클래스 분리 / 콘솔과 input file 기록 -->
-        <logger name="com.eventcafecloud.log4j.InputLogAspect" level="debug" additivity="false">
+        <logger name="com.eventcafecloud.log4j.InputLogAspect" level="info" additivity="false">
             <AppenderRef ref="console"></AppenderRef>
             <AppenderRef ref="inputFile"></AppenderRef>
         </logger>
 
         <!-- output aspect 클래스 분리 / 콘솔과 output file 기록 -->
-        <logger name="com.eventcafecloud.log4j.OutputLogAspect" level="debug" additivity="false">
+        <logger name="com.eventcafecloud.log4j.OutputLogAspect" level="info" additivity="false">
             <AppenderRef ref="console"></AppenderRef>
             <AppenderRef ref="outputFile"></AppenderRef>
         </logger>
