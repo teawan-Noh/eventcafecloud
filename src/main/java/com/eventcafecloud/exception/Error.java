@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class Error implements ErrorController {
-    private final String ERROR_TEMPLATES_PATH = "/error/";
+    private String ERROR_TEMPLATES_PATH = "/error/";
 
     @RequestMapping(value = "/error")
     public String handleError(HttpServletRequest request, User loginUser) {
