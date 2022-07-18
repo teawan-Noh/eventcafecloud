@@ -8,12 +8,14 @@
 }
 
 #cafeDetailTop ul li {
+    background-color: darkorange;
+    color: white;
+    border-radius: 0 0 5px 0;
+    font-family: 'Poor Story', cursive;
+    border: none;
     font-size: 0.8em;
-    color: black;
     margin-right: 10px;
     padding: 3px 4px;
-    border: solid 1px lightslategray;
-    border-radius: 50%;
 }
 
 #cafeDetailTop .titleBox {
@@ -32,6 +34,8 @@
 
 #cafeDetailMiddle .leftImgBox .carousel-inner div img {
     height: 600px;
+    width:100%;
+    object-fit: contain;
 }
 
 #cafeDetailMiddle .rightInfoBox {
@@ -40,6 +44,52 @@
 
 #cafeDetailMiddle .rightInfoBox {
     margin-left: 50px;
+}
+
+#cafePriceInfo {
+    background-color: #F5F5DC;
+    border-radius: 0 0 20px 0;
+    margin-top: 10px;
+    font-weight: bold;
+    padding-left: 20px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+
+#eventRegisterBtn {
+    padding-top: 10px;
+    text-align: center;
+    margin: auto;
+}
+
+#cafeDetailBottom {
+    background-color: floralwhite;
+    padding: 30px;
+    margin-top: 20px;
+}
+
+#cafeInfoDetail p{
+    font-size: 19px;
+}
+
+#openHour{
+    font-size: 25px;
+    margin: 20px 0 20px 0;
+}
+
+#cafePrecaution{
+    margin-top: 30px;
+}
+
+#cafePrecaution p{
+    font-size: 19px;
+}
+
+#cafeLocationInfo{
+    margin-top: 40px;
+}
+#cafeLocationInfo .cafeAddress p{
+    font-size: 19px;
 }
 
 #calendar {
@@ -66,32 +116,28 @@
     border-radius: 5px;
 }
 
-#eventRegisterBtn {
-    padding-top: 10px;
-    text-align: center;
-    margin: auto;
+.inner-star::before{
+    color: #FF9600;
 }
 
-#cafeDetailTop ul li {
-    background-color: darkorange;
-    color: white;
-    border-radius: 0 0 5px 0;
-    font-family: 'Poor Story', cursive;
-    border: none;
+.outer-star {
+    position: relative;
+    display: inline-block;
+    color: #CCCCCC;
 }
 
-#cafePriceInfo {
-    background-color: #F5F5DC;
-    border-radius: 0 0 20px 0;
-    margin-top: 10px;
-    font-weight: bold;
-    padding-left: 20px;
-    padding-top: 10px;
-    padding-bottom: 5px;
+.inner-star {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0%;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
-#cafeDetailBottom {
-    background-color: floralwhite;
-    padding: 30px;
-    margin-top: 20px;
+.outer-star::before,
+.inner-star::before {
+    content: '\f005 \f005 \f005 \f005 \f005';
+    font-family: 'Font Awesome 5 free';
+    font-weight: 900;
 }

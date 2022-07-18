@@ -89,6 +89,10 @@ form {
     font-size: 15px;
 }
 
+.option-search {
+    margin-bottom: 10px;
+}
+
 .fail-button {
     background-color: #ff4040;
     color: white;
@@ -98,6 +102,10 @@ form {
 
 .page {
     text-align: center;
+}
+
+.admin-h1 {
+    margin-left: 10%;
 }
 
 .pagination {

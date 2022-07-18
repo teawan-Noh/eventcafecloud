@@ -23,8 +23,10 @@ import java.util.List;
 @DynamicUpdate
 public class Event extends BaseTimeEntity {
 
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
-    private final List<EventImage> eventImages = new ArrayList<>();
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "event_number")
+    private Long id;
 
     @Column(nullable = false)
     private String eventName;
@@ -55,11 +57,9 @@ public class Event extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cafe_number")
     private Cafe cafe;
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "event_number")
-    private Long id;
 
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private List<EventImage> eventImages = new ArrayList<>();
 
     public Event(EventCreateRequestDto requestDto) {
         this.eventName = requestDto.getEventName();
@@ -74,7 +74,6 @@ public class Event extends BaseTimeEntity {
     public void updateEvent(EventUpdateRequestDto requestDto) {
         this.eventName = requestDto.getEventName();
         this.eventInfo = requestDto.getEventInfo();
-        // this.eventImage = requestDto.getFiles();
     }
 
     public String getDate() {

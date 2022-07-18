@@ -1,12 +1,6 @@
-#eventListContainer{
-    padding-top: 10px;
-}
-
-
  /*container top*/
 .container-top {
-    margin: 10px 250px 10px;
-
+    margin: 20px 250px 15px;
 }
 
 #category-select {
@@ -16,7 +10,8 @@
 
 #input-search {
     height: 38px;
-    width: 80%;
+    width: 78%;
+    border-color: #2b2a29;
 }
 
 #btn-search {
@@ -24,8 +19,21 @@
     width: 17%;
 }
 
+#btn-search:hover {
+    background-color: #4C7A01;
+}
+
 .form-control {
     width: 260px;
+}
+
+.py-5 {
+    padding-top: 0;
+}
+
+#section-list {
+    padding-top: 15px;
+
 }
 
 
@@ -40,11 +48,11 @@
 .card {
     margin: 15px;
     width: 300px;
-    height: 450px;
+    height: 490px;
 }
 
 .card-img-top {
-    height: 250px;
+    height: 265px;
     margin-bottom: 10px;
 }
 
@@ -53,7 +61,7 @@
     width: 110px;
 }
 
-.title-event-bolder {
+#title-event-bolder {
     margin: 10px 0px 10px 0px;
 }
 
@@ -65,6 +73,27 @@
     float: right;
 }
 
-.btn {
+#btn-list {
     float: right;
 }
+
+#btn-list:hover {
+    background-color: #4C7A01;
+}
+
+/*eventList*/
+ #event-pagination {
+     justify-content: center;
+     padding-right: 0;
+     width: 100%;
+ }
+
+ .page-number {
+     background-color: white;
+     margin-left: 5px;
+     border: none;
+     color: #2b2a29;
+     padding: 5px;
+     font-size: 15px;
+     font-weight: bold;
+ }

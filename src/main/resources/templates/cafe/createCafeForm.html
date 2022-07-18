@@ -3,22 +3,39 @@
 <head>
     <th:block th:replace="fragments/header :: header"/>
     <th:block th:replace="fragments/mainHeader :: mainHeader"/>
-
-
     <!--    <link rel="stylesheet" type="text/css" href="/css/style.css">-->
     <style>
         #cafeContainer{
-            padding-top: 100px;
+            padding-top: 30px;
+            width: 60%;
+            display: flex;
+            margin-left: auto;
+            margin-right: auto;
         }
-        #cafeOptionCheckBox{
-            border: solid lightgray 1px ;
+
+        #form-cafe{
+            width: 100%;
+        }
+
+        .form-group-cafe{
+            width : 100%;
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+        #cafeOptionCheckBox {
+            border: solid lightgray 1px;
             padding: 3px 0 3px 10px;
         }
-        .form-check-label{
+
+        .form-check-label {
             padding-left: 20px;
         }
-        #submitButton{
-            text-align: center;
+
+        #submitButton {
+            float: right;
+            margin-top: 20px;
+            margin-bottom: 40px;
         }
     </style>
 </head>
@@ -28,22 +45,26 @@
     <div class="topFont">카페 등록</div>
 </div>
 <div id="cafeContainer" class="container">
-    <form role="form" action="/cafes" th:object="${cafeCreateRequestDto}" method="post" enctype="multipart/form-data">
-        <div class="form-group">
+    <form role="form" id="form-cafe" action="/cafes" th:object="${cafeCreateRequestDto}" method="post" enctype="multipart/form-data">
+        <div class="form-group-cafe">
             <label th:for="cafeName">카페 이름</label>
-            <input type="text" th:field="*{cafeName}" class="form-control" placeholder="카페 이름을 입력하세요"
+            <input type="text" th:field="*{cafeName}" class="form-control" placeholder="카페 이름을 입력하세요" maxlength="53"
                    th:class="${#fields.hasErrors('cafeName')}? 'form-control fieldError' : 'form-control'">
-            <p th:if="${#fields.hasErrors('cafeName')}" th:errors="*{cafeName}">Incorrect date</p>
+            <p style="color: #ff4040" th:if="${#fields.hasErrors('cafeName')}" th:errors="*{cafeName}">Incorrect data</p>
         </div>
-        <div class="form-group">
+        <div class="form-group-cafe">
             <label th:for="cafeInfo">한줄 소개</label>
-            <input type="text" th:field="*{cafeInfo}" class="form-control" placeholder="한줄 소개를 입력하세요">
+            <input type="text" th:field="*{cafeInfo}" class="form-control" placeholder="한줄 소개를 입력하세요" maxlength="40"
+                   th:class="${#fields.hasErrors('cafeInfo')}? 'form-control fieldError' : 'form-control'">
+            <p style="color: #ff4040" th:if="${#fields.hasErrors('cafeInfo')}" th:errors="*{cafeInfo}">Incorrect data</p>
         </div>
-        <div class="form-group">
+        <div class="form-group-cafe">
             <label th:for="cafeInfoDetail">상세 소개</label>
-            <input type="text" th:field="*{cafeInfoDetail}" class="form-control" placeholder="상세 소개를 입력하세요">
+            <input type="text" th:field="*{cafeInfoDetail}" class="form-control" placeholder="상세 소개를 입력하세요" maxlength="50"
+                   th:class="${#fields.hasErrors('cafeInfoDetail')}? 'form-control fieldError' : 'form-control'">
+            <p style="color: #ff4040" th:if="${#fields.hasErrors('cafeInfoDetail')}" th:errors="*{cafeInfoDetail}">Incorrect data</p>
         </div>
-        <div class="form-group">
+        <div class="form-group-cafe">
             <label th:for="cafeOpenTime">영업 시작 시간
                 <select class="form-select form-select-sm mt-3" th:field="*{cafeOpenTime}">
                     <option name="cafeOpenTime" value="00:00">00:00</option>
@@ -63,7 +84,7 @@
                 </select>
             </label>
         </div>
-        <div class="form-group">
+        <div class="form-group-cafe">
             <label th:for="cafeCloseTime">영업 종료 시간
                 <select class="form-select form-select-sm mt-3" th:field="*{cafeCloseTime}">
                     <option name="cafeCloseTime" value="24:00">24:00</option>
@@ -76,53 +97,71 @@
                 </select>
             </label>
         </div>
-        <div class="form-group">
+        <div class="form-group-cafe">
             <label th:for="cafePrecaution">주의 사항</label>
-            <input type="text" th:field="*{cafePrecaution}" class="form-control" placeholder="주의사항을 입력하세요">
+            <input type="text" th:field="*{cafePrecaution}" class="form-control" placeholder="주의사항을 입력하세요"
+                   th:class="${#fields.hasErrors('cafePrecaution')}? 'form-control fieldError' : 'form-control'">
+            <p style="color: #ff4040" th:if="${#fields.hasErrors('cafePrecaution')}" th:errors="*{cafePrecaution}">Incorrect data</p>
         </div>
         <div>
-            <label th:for="options">사용 가능 옵션을 체크해 주세요</label>
+            <label th:for="options">사용 가능 옵션을 1개 이상 체크해 주세요</label>
             <div id="cafeOptionCheckBox" class="form-check">
-                <label class="form-check-label"><input type="checkbox" class="form-check-input" name="options" value="PARK"> 주차 가능 &nbsp;</label>
-                <label class="form-check-label"><input type="checkbox" class="form-check-input" name="options" value="FOOD"> 음식물 반입 가능 &nbsp;</label>
-                <label class="form-check-label"><input type="checkbox" class="form-check-input" name="options" value="WIFI"> WIFI &nbsp;</label>
-                <label class="form-check-label"><input type="checkbox" class="form-check-input" name="options" value="NOSMOKE"> 금연 &nbsp;</label>
-                <label class="form-check-label"><input type="checkbox" class="form-check-input" name="options" value="PROJECTOR"> 프로젝터 &nbsp;</label>
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" name="options" value="PARK"> 주차 가능 &nbsp;
+                </label>
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" name="options" value="FOOD"> 음식물 반입 가능 &nbsp;
+                </label>
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" name="options" value="WIFI"> WIFI &nbsp;
+                </label>
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" name="options" value="NOSMOKE"> 금연 &nbsp;
+                </label>
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" name="options" value="PROJECTOR"> 프로젝터 &nbsp;
+                </label>
             </div>
         </div>
-        <br />
-        <div class="form-group">
+        <br/>
+        <div class="form-group-cafe">
             <label th:for="city">주소</label>
             <!-- Button to Open the Modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">주소 등록</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" style="float: right;" >주소 등록</button>
             <input type="text" id="zonecode" th:field="*{cafeZonecode}" class="form-control" hidden>
-            <input type="text" id="address" th:field="*{cafeAddress}" class="form-control" placeholder="주소">
-            <input type="text" id="addressDetail" th:field="*{cafeAddressDetail}" class="form-control"
-                   placeholder="상세 주소">
+            <input type="text" id="address" th:field="*{cafeAddress}" class="form-control" placeholder="주소"
+                   th:class="${#fields.hasErrors('cafeAddress')}? 'form-control fieldError' : 'form-control'">
+            <p style="color: #ff4040" th:if="${#fields.hasErrors('cafeAddress')}" th:errors="*{cafeAddress}">Incorrect data</p>
+            <input type="text" id="addressDetail" th:field="*{cafeAddressDetail}" class="form-control" placeholder="상세 주소"
+                   th:class="${#fields.hasErrors('cafeAddressDetail')}? 'form-control fieldError' : 'form-control'">
+            <p style="color: #ff4040" th:if="${#fields.hasErrors('cafeAddressDetail')}" th:errors="*{cafeAddressDetail}">Incorrect data</p>
             <input type="text" id="cafeY" th:field="*{cafeY}" class="form-control" hidden>
             <input type="text" id="cafeX" th:field="*{cafeX}" class="form-control" hidden>
         </div>
-
-        <div class="form-group">
+        <div class="form-group-cafe">
             <label th:for="cafeWeekdayPrice">평일 가격</label>
-            <input type="text" th:field="*{cafeWeekdayPrice}" class="form-control" placeholder="평일 가격을 입력하세요">
+            <input type="text" th:field="*{cafeWeekdayPrice}" class="form-control" placeholder="평일 가격을 입력하세요" maxlength="7"
+                   th:class="${#fields.hasErrors('cafeWeekdayPrice')}? 'form-control fieldError' : 'form-control'">
+            <p style="color: #ff4040" th:if="${#fields.hasErrors('cafeWeekdayPrice')}" th:errors="*{cafeWeekdayPrice}">Incorrect date</p>
         </div>
-        <div class="form-group">
+        <div class="form-group-cafe">
             <label th:for="cafeWeekendPrice">주말 가격</label>
-            <input type="text" th:field="*{cafeWeekendPrice}" class="form-control" placeholder="주말 가격 입력하세요">
+            <input type="text" th:field="*{cafeWeekendPrice}" class="form-control" placeholder="주말 가격 입력하세요" maxlength="7"
+                   th:class="${#fields.hasErrors('cafeWeekendPrice')}? 'form-control fieldError' : 'form-control'">
+            <p style="color: #ff4040" th:if="${#fields.hasErrors('cafeWeekendPrice')}" th:errors="*{cafeWeekendPrice}">Incorrect date</p>
         </div>
-        <br />
+        <br/>
         <div>
-            카페 이미지를 3장 업로드해 주세요. <small>* Ctrl 클릭으로 여러장 선택</small><br />
+            카페 이미지를 2장 업로드해 주세요. <small>* Ctrl 클릭으로 여러장 선택</small><br/>
             <input type="file" multiple="multiple" th:field="*{files}" name="imageFiles"
                    th:class="${#fields.hasErrors('files')}? 'form-control fieldError' : 'form-control'">
-            <p th:if="${#fields.hasErrors('files')}" th:errors="*{files}">Incorrect date</p>
+            <p style="color: #ff4040" th:if="${#fields.hasErrors('files')}" th:errors="*{files}">Incorrect date</p>
         </div>
         <div id="submitButton">
-            <button type="submit" class="btn btn-primary">카페 등록</button>
+            <button type="submit" th:data-confirm-crete="|등록 하시겠습니까?|" onclick="return confirm(this.getAttribute('data-confirm-crete'))" class="btn btn-primary">카페 등록
+            </button>
         </div>
     </form>
-
     <!-- The Modal -->
     <div class="modal" id="myModal">
         <div class="modal-dialog">
@@ -150,5 +189,4 @@
 </div>
 <script src="/js/cafe/kakaoMapForRegistration.js"></script>
 </body>
-
 </html>

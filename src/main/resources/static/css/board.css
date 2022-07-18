@@ -1,13 +1,8 @@
 .post-button {
-    outline: 0px;
-    border: 0px;
+    background-color: #4C7A01;
+    color : #FFFFFF !important;
+    float: right;
     border-radius: 10px;
-    background-color: #FFAFAF;
-    color: white;
-    padding: 5px 15px 5px 15px;
-    font-size: 17px;
-    margin-bottom: 100px;
-    font-family: 'Gowun Dodum', sans-serif;
 }
 
 #commentProfileImage {

@@ -6,7 +6,6 @@ import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.event.domain.EventImage;
 import com.eventcafecloud.event.domain.type.EventCategory;
 import com.eventcafecloud.event.dto.*;
-import com.eventcafecloud.event.repository.EventImageRepository;
 import com.eventcafecloud.event.repository.EventRepository;
 import com.eventcafecloud.s3.S3Service;
 import com.eventcafecloud.user.domain.User;
@@ -26,6 +25,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.eventcafecloud.exception.ExceptionStatus.CAFE_NOT_FOUND;
 import static com.eventcafecloud.exception.ExceptionStatus.EVENT_NOT_FOUND;
 
 @RequiredArgsConstructor
@@ -35,7 +35,6 @@ public class EventService {
     private final EventRepository eventRepository;
     private final CafeRepository cafeRepository;
     private final UserRepository userRepository;
-    private final EventImageRepository eventImageRepository;
     private final S3Service s3Service;
 
     // 이벤트 예약
@@ -45,11 +44,10 @@ public class EventService {
         User user = userRepository.getById(securityUser.getId());
 
         Cafe cafe = cafeRepository.findById(requestDto.getCafeNumber()).orElseThrow(
-                () -> new NullPointerException("해당 카페가 존재하지 않습니다.")
+                () -> new IllegalArgumentException(CAFE_NOT_FOUND.getMessage())
         );
 
         Event event = new Event(requestDto);
-        System.out.println(event);
         event.addCafe(cafe);
         event.addUser(user);
 
@@ -90,7 +88,7 @@ public class EventService {
     // 전체 이벤트 목록
     public Page<EventListResponseDto> toDtoList(String keyword, EventCategory eventCategory, Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-        pageable = PageRequest.of(page, 10);
+        pageable = PageRequest.of(page, 9);
 
         Page<Event> events = null;
         if (eventCategory == null) {
@@ -138,12 +136,23 @@ public class EventService {
         return eventListResponseDtos;
     }
 
-    //이벤트목록가져오기(admin)
-    public Page<Event> findEventList(Pageable pageable) {
-        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-        pageable = PageRequest.of(page, 10);
+    /**
+     * 이벤트목록가져오기(admin)
+     */
+    public Page<Event> findEventList(EventCategory eventCategory, Pageable pageable) {
 
-        return eventRepository.findAll(pageable);
+        Page<Event> eventList;
+
+        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+        pageable = PageRequest.of(page, 10, Sort.Direction.DESC, "id");
+
+        if (eventCategory == null) {
+            eventList = eventRepository.findAll(pageable);
+        } else {
+            eventList = eventRepository.findAllByEventCategory(eventCategory, pageable);
+        }
+
+        return eventList;
     }
 
     /**
@@ -153,7 +162,7 @@ public class EventService {
     public Page<EventResponseForProfileDto> findEventListByUser(Long userId, Pageable pageable) {
 
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-        pageable = PageRequest.of(page, 5);
+        pageable = PageRequest.of(page, 5, Sort.Direction.ASC, "eventStartDate");
 
         Page<Event> eventList = eventRepository.findAllByUserId(userId, pageable);
 

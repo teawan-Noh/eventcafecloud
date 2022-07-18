@@ -6,17 +6,6 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <title>EventCafeCloud</title>
   <link rel="stylesheet" href="/css/postForm.css">
-  <!-- REQUIRED SCRIPTS -->
-
-  <!-- jQuery -->
-  <script src="${path}/plugins/jquery/jquery.min.js"></script>
-  <!-- Bootstrap 4 -->
-  <script src="${path}/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <!-- AdminLTE App -->
-  <script src="${path}/dist/js/adminlte.min.js"></script>
-  <!-- HandleBars JS -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
-
 </head>
 
 <body>
@@ -38,7 +27,7 @@
   <input type="hidden" name="_method" value="put"/>
   <div class="form-group" id="update-content-box">
     <label th:for="postContent" style="font-size: 20px; margin-left: 20px;">내용</label>
-    <textarea type="text" th:field="*{postContent}" class="form-control" placeholder="내용을 입력하세요"
+    <textarea type="text" th:field="*{postContent}" class="form-control" placeholder="내용을 입력하세요" required
            th:class="${#fields.hasErrors('postContent')}? 'form-control fieldError' : 'form-control'" rows="10" style="resize: none; width: 70%;"></textarea>
     <p th:if="${#fields.hasErrors('postContent')}" th:errors="*{postContent}"></p>
     <div id="edit-buttons">

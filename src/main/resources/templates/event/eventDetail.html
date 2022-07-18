@@ -1,221 +1,28 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:replace="fragments/header :: header"/>
-    <th:block th:replace="fragments/mainHeader :: mainHeader"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-
-    <style>
-        .container {
-            width: 80%;
-            margin: auto;
-        }
-
-        .event-detail-header {
-            margin: 25px auto 25px auto;
-        }
-
-        .badge {
-            height: 32px;
-            width: 140px;
-        }
-
-        .event-detail-info {
-            margin-top: 20px;
-        }
-
-        .row {
-            margin : 35px auto 35px auto;
-        }
-
-        .col-left {
-            width: 60%;
-        }
-
-        .col-left > .card-img-top div img {
-            height : 450px;
-        }
-
-        .col-right {
-            width: 35%;
-            margin-left : 30px;
-        }
-
-        #card-text-info {
-            height : 500px;
-        }
-
-        .btn {
-            float: right;
-            margin: 0px 5px 0px 5px;
-        }
-
-        .event-detail-poster div img {
-            width: 100%;
-        }
-
-        .event-detail-poster div h4 {
-            margin: 20px 10px 30px 10px;
-        }
-
-        .card-info {
-            border: none;
-        }
-
-    </style>
+    <th:block th:replace="fragments/header :: header"></th:block>
+    <th:block th:replace="fragments/mainHeader :: mainHeader"></th:block>
 </head>
+
 <body>
-<div th:replace="fragments/mainTop :: mainTop"/>
-<!--TOP Banner-->
-<div class="topBanner">
-    <div class="topFont">이벤트 페이지</div>
-</div>
+    <div th:replace="fragments/mainTop :: mainTop"></div>
 
-<!--Event Detail-->
-<div id="eventDetailContainer" class="container">
-    <!--Event Category, Name, Period-->
-    <div class="event-detail-header" th:action="@{'/events/' + ${event.id} + '/detail'}" th:object="${eventReadResponseDto}" method="post">
-        <h5><span class="badge badge-secondary"><h5 th:text="|${eventReadResponseDto.getEventCategory()} |"> 이벤트 카테고리</h5></span></h5>
-        <h1 class="fw-bolder" th:text="${eventReadResponseDto.getEventName()}">이벤트명</h1>
+    <!--TOP Banner-->
+    <div class="topBanner">
+        <div class="topFont">이벤트 페이지</div>
     </div>
-    <hr>
 
-    <!--Event First Image, Info-->
-    <section class="event-detail-info">
-    <div class="row">
-        <div class="col-left">
-            <div class="card">
-                <div class="card-body">
-                    <img class="card-img-top" th:src="@{${eventReadResponseDto.getEventImageUrls().get(0)}}" alt="..." />
-                </div>
-            </div>
-        </div>
-        <div class="col-right">
-            <div class="card-info">
-                <div class="card-body">
-                    <h4 style="font-weight: bold">이벤트 기간</h4>
-                    <div class="event-detail-period">
-                        <div class="event-period">
-                            <h5><p th:text="${eventReadResponseDto.getEventStartDate()} + ' ~ ' + ${eventReadResponseDto.getEventEndDate()}"> 이벤트 시작일</p></h5>
-                        </div>
-                    </div>
-                    <br>
-                    </br>
-                    <div class="event-detail-information">
-                        <h4 style="font-weight: bold">이벤트 소개</h4>
-                        <p id="card-text-info" class="card-text" th:text="${eventReadResponseDto.getEventInfo()}">이벤트 소개</p>
-                    </div>
-                    <!-- Update, Delete Button-->
-                    <button th:if="${event.eventCancelAvail == true}" class="btn btn-primary cafeBtn"
-                            data-target="#cancleModalCenter" data-toggle="modal" type="button">
-                        취소
-                    </button>
-                    <button class="btn btn-primary cafeBtn" data-target="#updateModalCenter" data-toggle="modal"
-                            type="button">
-                        수정
-                    </button>
-                    &nbsp;
-                </div>
-            </div>
-        </div>
+    <!--Update & Delete Modal-->
+    <div class="right-eventList">
+        <div th:replace="event/fragments/event-updateModal :: eventUpdateModal"></div>
     </div>
-    <hr>
 
-    <!--Cafe Map, name, address-->
-    <div class="row">
-        <div class="col-left">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="event-detail-cafe-info">이벤트 카페 정보</h5>
-                    <div id="cafeLocationInfo">
-                        <div id="staticMap" style="width:600px;height:350px;"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-right">
-            <div class="card-info">
-                <div class="card-body">
-                    <h5 class="fw-bolder" th:text="${eventReadResponseDto.getCafeName()}">카페 이름</h5>
-                    <p class="card-text" th:text="${eventReadResponseDto.getCafeZonecode()}">카페 우편번호</p>
-                    <p class="card-text" th:text="${eventReadResponseDto.getCafeAddress()}">카페 주소</p>
-                    <p class="card-text" th:text="${eventReadResponseDto.getCafeAddressDetail()}">카페 상세주소</p>
-                    <button type="button" class="btn btn-outline-dark"
-                        th:onclick="|location.href='/cafes/${eventReadResponseDto.getCafeNumber()}/detail'|">
-                            카페 상세보기
-                        </button>
-                </div>
-            </div>
-        </div>
+    <!--EventDetail-->
+    <div class="eventList">
+        <div th:replace="event/fragments/event-detail :: eventDetail"></div>
     </div>
-    </section>
-    <hr>
-
-    <!--Event Poster-->
-    <section class="event-detail-poster">
-        <div class="poster">
-            <h4 class="event-detail-poster-info">이벤트 포스터</h4>
-            <div class="card-img-poster" th:each="imageUrl : ${eventReadResponseDto.EventImageUrls}">
-                <img class="card-img-poster" th:src="${imageUrl}" alt="..." />
-            </div>
-        </div>
-        <br>
-    </section>
-    <hr>
-    <button type="button" class="btn btn-outline-dark"><a href = "#" style="text-decoration-line: none;"> TOP ▴ </a></button>
-
-<!--    -->
-<!--    &lt;!&ndash; Update Modal &ndash;&gt;-->
-<!--    <div aria-hidden="true" aria-labelledby="updateModalCenterTitle" class="modal fade"-->
-<!--         id="updateModalCenter"-->
-<!--         role="dialog" tabindex="-1">-->
-<!--        <div class="modal-dialog modal-dialog-centered" role="document">-->
-<!--            <div class="modal-content">-->
-<!--                <div class="modal-header">-->
-<!--                    <h4 class="modal-title" id="updateModalLongTitle" style="font-weight: bold">이벤트 정보 수정</h4>-->
-<!--                    <button aria-label="Close" class="close" data-dismiss="modal" type="button">-->
-<!--                        <span aria-hidden="true">&times;</span>-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--                <form role="form" th:action="@{/events/{eventNumber}/edit (eventNumber=${event.id})}" th:object="${eventUpdateRequestDto}" enctype="multipart/form-data" method="post">-->
-<!--                    <div class="modal-body">-->
-<!--                        <h5><label style= "float: left; font-weight: bold">이벤트 이름</label></h5>-->
-<!--                        <input class="form-control" placeholder="변경할 이벤트 이름을 입력하세요"-->
-<!--                               th:class="${#fields.hasErrors('eventName')}? 'form-control fieldError' : 'form-control'"-->
-<!--                               th:field="*{eventName}"-->
-<!--                               type="text">-->
-<!--                        <p class="warning-message" th:errors="*{eventName}"-->
-<!--                           th:if="${#fields.hasErrors('eventName')}">Incorrect date</p>-->
-<!--                        <br>-->
-<!--                        <h5><label style= "float: left; font-weight: bold">이벤트 소개 및 정보</label></h5>-->
-<!--                        <textarea class="form-control" aria-label="With textarea" placeholder="이벤트의 소개 및 정보를 입력하세요"-->
-<!--                                  th:class="${#fields.hasErrors('eventInfo')}? 'form-control fieldError' : 'form-control'"-->
-<!--                                  th:field="*{eventInfo}"></textarea>-->
-<!--                        <p class="warning-message" th:errors="*{eventInfo}"-->
-<!--                           th:if="${#fields.hasErrors('eventInfo')}">Incorrect date</p>-->
-<!--                    </div>-->
-<!--                    <div class="modal-footer">-->
-<!--                        <button class="btn btn-secondary" data-dismiss="modal" type="button">닫기</button>-->
-<!--                        <button class="btn btn-primary cafeBtn" type="submit">수정</button>-->
-<!--                    </div>-->
-<!--                </form>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-
-
-
-    <!--    <section>-->
-<!--        <div class="page">-->
-<!--            <th:block th:each="page : ${#numbers.sequence(startPage, endPage)}">-->
-<!--                <a th:if="${page != nowPage}" th:href="@{/item/list(page = ${page - 1}, searchKeyword = ${param.searchKeyword})}" th:text="${page}"></a>-->
-<!--                <strong th:if="${page == nowPage}" th:text="${page}" style="color : red"></strong>-->
-<!--            </th:block>-->
-<!--        </div>-->
-<!--    </section>-->
-</div>
 </body>
-
 <script th:inline="javascript">
     let x = [[${eventReadResponseDto.getCafeX()}]];
     let y = [[${eventReadResponseDto.getCafeY()}]];

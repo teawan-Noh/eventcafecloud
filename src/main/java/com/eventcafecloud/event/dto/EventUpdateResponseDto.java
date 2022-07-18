@@ -8,12 +8,9 @@ import lombok.*;
 public class EventUpdateResponseDto {
     private String eventName;
     private String eventInfo;
-    // private List<MultipartFile> files;
 
     public EventUpdateResponseDto(String eventName, String eventInfo){
         this.eventName = eventName;
         this.eventInfo = eventInfo;
-        // this.files = files;
-
     }
 }

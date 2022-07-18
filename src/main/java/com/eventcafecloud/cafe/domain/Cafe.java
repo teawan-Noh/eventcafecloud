@@ -31,6 +31,7 @@ public class Cafe extends BaseTimeEntity {
 
     private int cafeZonecode;
 
+    @Column(nullable = false)
     private String cafeAddress;
 
     @Column(nullable = false)
@@ -42,6 +43,7 @@ public class Cafe extends BaseTimeEntity {
     // 위도 : y : Latitude
     private Double cafeY;
 
+    @Column(nullable = false)
     private String cafeInfo;
 
     @Column(columnDefinition = "TEXT")
@@ -50,14 +52,15 @@ public class Cafe extends BaseTimeEntity {
     @Column(columnDefinition = "TEXT")
     private String cafePrecaution;
 
-    //    @Column(nullable = false)
+    @Column(nullable = false)
     private int cafeWeekdayPrice;
 
-    //    @Column(nullable = false)
+    @Column(nullable = false)
     private int cafeWeekendPrice;
 
     private String cafeOpenTime;
     private String cafeCloseTime;
+    private int cafeReviewScore;
 
     // 단반향 연관관계
     @ManyToOne(fetch = FetchType.LAZY)
@@ -76,7 +79,7 @@ public class Cafe extends BaseTimeEntity {
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
     private List<CafeSchedule> cafeSchedules = new ArrayList<>();
 
-    @OneToMany(mappedBy = "cafe")
+    @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
     private List<Event> events = new ArrayList<>();
 
     public Cafe(CafeCreateRequestDto requestDto) {
@@ -93,6 +96,7 @@ public class Cafe extends BaseTimeEntity {
         this.cafeWeekendPrice = requestDto.getCafeWeekendPrice();
         this.cafeOpenTime = requestDto.getCafeOpenTime();
         this.cafeCloseTime = requestDto.getCafeCloseTime();
+        this.cafeReviewScore = 0;
     }
 
     //==연관관계 편의 메서드==//
@@ -134,6 +138,11 @@ public class Cafe extends BaseTimeEntity {
         this.cafeWeekendPrice = requestDto.getCafeWeekendPrice();
         this.cafeOpenTime = requestDto.getCafeOpenTime();
         this.cafeCloseTime = requestDto.getCafeCloseTime();
+    }
+
+    public void updateCafeReviewScore(Integer newReviewScore) {
+        cafeReviewScore = newReviewScore;
+
     }
 }
 

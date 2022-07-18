@@ -46,23 +46,21 @@ public class PostController {
                 }
             }
         }
-        return "redirect:/posts"+postType;
+        return "redirect:/posts" + postType;
     }
 
     //게시글 수정
     @PutMapping("/posts/update/{id}")
     public String updatePost(@PathVariable Long id, PostUpdateRequestDto requestDto,
                              BindingResult bindingResult, User loginUser) {
-        if (loginUser != null) {
-            if (bindingResult.hasErrors()) {
-                return "redirect:/posts/";
-            } else {
-                postService.modifyPost(id, requestDto);
-                return "redirect:/posts/"+id;
-            }
-        }
-        return "redirect:/posts/";
+        if (loginUser == null || bindingResult.hasErrors() )
+            return "redirect:/posts/";
+        postService.modifyPost(id, requestDto);
+        return "redirect:/posts/" + id;
     }
+
+
+
 
     // 게시글 삭제
     @DeleteMapping("/posts/{id}")
@@ -74,7 +72,7 @@ public class PostController {
     // 글작성 페이지 호출
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/posts/registration/{postType}")
-    public String createPost(User loginUser, Model model,@PathVariable PostType postType) {
+    public String createPost(User loginUser, Model model, @PathVariable PostType postType) {
         model.addAttribute("postCreateRequestDto", new PostCreateRequestDto(postType));
         if (loginUser != null) {
             model.addAttribute("userNick", loginUser.getUserNickname());
@@ -90,7 +88,6 @@ public class PostController {
         if (loginUser != null) {
             model.addAttribute("userNick", loginUser.getUserNickname());
             model.addAttribute("userId", loginUser.getId());
-            System.out.println("model = " + model);
         }
         PostReadResponseDto postReadResponseDto = postService.findPostUpdatedCount(id);
         List<CommentReadResponseDto> commentByPostNumber = commentService.readCommentsByPostNumber(id);
@@ -108,7 +105,7 @@ public class PostController {
             model.addAttribute("userId", loginUser.getId());
         }
         PostUpdateRequestDto postUpdateRequestDto = postService.findPostByIdForUpdate(id);
-        model.addAttribute("postId",id);
+        model.addAttribute("postId", id);
         model.addAttribute("postUpdateRequestDto", postUpdateRequestDto);
         return "post/editPostForm";
     }
@@ -128,7 +125,7 @@ public class PostController {
 
     // 공지게시판 전체 조회
     @GetMapping("/posts/notice")
-    public String getNoticeList(@PageableDefault Pageable pageable , User loginUser, Model model) {
+    public String getNoticeList(@PageableDefault Pageable pageable, User loginUser, Model model) {
         if (loginUser != null) {
             model.addAttribute("userNick", loginUser.getUserNickname());
             model.addAttribute("userId", loginUser.getId());

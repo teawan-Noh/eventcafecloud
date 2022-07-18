@@ -1,11 +1,9 @@
 spring:
   datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/ec2?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
-    url: jdbc:mysql://${RDS_HOSTNAME}:${RDS_PORT}/${RDS_DBNAME}
-    username: ${RDS_USERNAME}
-    password: ${RDS_PASSWORD}
-    driver-class-name: ${RDS_DRIVER}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/ec2?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: 1234
 
   config:
     use-legacy-processing: true
@@ -40,6 +38,3 @@ spring:
 #            sql: trace
 logging.level:
   org.hibernate.SQL: debug # logger를 통해 하이버네이트 실행 SQL을 남긴다.
-
-server:
-  port: 80

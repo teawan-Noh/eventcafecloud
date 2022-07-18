@@ -37,4 +37,8 @@ public class HostUser extends BaseTimeEntity {
     public void updateApprove(ApproveType approveType) {
         this.isApprove = approveType;
     }
+
+    public void updateIsApprove() {
+        this.isApprove = ApproveType.WAITING;
+    }
 }
