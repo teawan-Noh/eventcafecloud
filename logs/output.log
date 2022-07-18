@@ -1,0 +1,6 @@
+[2022-07-18 23:03:57] [JpaBaseConfiguration$JpaWebConfiguration] [219] [WARN] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning 
+[2022-07-18 23:04:18] [OutputLogAspect] [25] [ERROR] ---- output ---- 
+[2022-07-18 23:04:18] [OutputLogAspect] [26] [ERROR] 메소드: handleError() 
+[2022-07-18 23:04:18] [OutputLogAspect] [27] [ERROR] 파라미터: /error/401 
+[2022-07-18 23:04:18] [OutputLogAspect] [28] [ERROR] ---- end output ----
+ 
