@@ -17,9 +17,10 @@ public class CafeCreateRequestDto {
 
     private Integer cafeZonecode;
 
+    @NotEmpty(message = "주소 입력은 필수 입니다.")
     private String cafeAddress;
 
-    @NotEmpty(message = "주소 입력은 필수 입니다.")
+    @NotEmpty(message = "상세 주소 입력은 필수 입니다.")
     private String cafeAddressDetail;
 
     // 경도 : x : Longitude
