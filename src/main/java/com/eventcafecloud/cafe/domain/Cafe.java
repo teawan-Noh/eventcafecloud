@@ -31,6 +31,7 @@ public class Cafe extends BaseTimeEntity {
 
     private int cafeZonecode;
 
+    @Column(nullable = false)
     private String cafeAddress;
 
     @Column(nullable = false)
@@ -42,6 +43,7 @@ public class Cafe extends BaseTimeEntity {
     // 위도 : y : Latitude
     private Double cafeY;
 
+    @Column(nullable = false)
     private String cafeInfo;
 
     @Column(columnDefinition = "TEXT")
@@ -50,10 +52,10 @@ public class Cafe extends BaseTimeEntity {
     @Column(columnDefinition = "TEXT")
     private String cafePrecaution;
 
-    //    @Column(nullable = false)
+    @Column(nullable = false)
     private int cafeWeekdayPrice;
 
-    //    @Column(nullable = false)
+    @Column(nullable = false)
     private int cafeWeekendPrice;
 
     private String cafeOpenTime;
