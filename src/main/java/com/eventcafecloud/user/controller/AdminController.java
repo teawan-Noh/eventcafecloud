@@ -3,6 +3,7 @@ package com.eventcafecloud.user.controller;
 import com.eventcafecloud.cafe.domain.Cafe;
 import com.eventcafecloud.cafe.service.CafeService;
 import com.eventcafecloud.event.domain.Event;
+import com.eventcafecloud.event.domain.type.EventCategory;
 import com.eventcafecloud.event.service.EventService;
 import com.eventcafecloud.post.domain.Post;
 import com.eventcafecloud.post.domain.type.PostType;
@@ -48,7 +49,6 @@ public class AdminController {
         return "admin/admin-host";
     }
 
-
     @GetMapping("/posts")
     public String getPostList(@PageableDefault Pageable pageable, @RequestParam(required = false, value = "postType") PostType postType, Model model) {
         Page<Post> postList = postService.findAllPostList(postType, pageable);
@@ -56,20 +56,18 @@ public class AdminController {
         return "admin/admin-post";
     }
 
+    @GetMapping("/events")
+    public String getEventsList(@PageableDefault Pageable pageable, @RequestParam(required = false, value = "eventCategory") EventCategory eventCategory, Model model) {
+        Page<Event> eventList = eventService.findEventList(eventCategory, pageable);
+        model.addAttribute("events", eventList);
+        return "admin/admin-event";
+    }
+
     @GetMapping("/cafes")
     public String getCafeList(@PageableDefault Pageable pageable, Model model) {
         Page<Cafe> cafeList = cafeService.findAllCafeList(pageable);
         model.addAttribute("cafes", cafeList);
         return "admin/admin-cafe";
-    }
-
-
-
-    @GetMapping("/events")
-    public String getEventsList(@PageableDefault Pageable pageable, Model model) {
-        Page<Event> eventList = eventService.findEventList(pageable);
-        model.addAttribute("events", eventList);
-        return "admin/admin-event";
     }
 
     @PostMapping("/users/{id}/update")

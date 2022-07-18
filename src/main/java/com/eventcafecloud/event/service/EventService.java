@@ -139,12 +139,23 @@ public class EventService {
         return eventListResponseDtos;
     }
 
-    //이벤트목록가져오기(admin)
-    public Page<Event> findEventList(Pageable pageable) {
+    /**
+     * 이벤트목록가져오기(admin)
+     */
+    public Page<Event> findEventList(EventCategory eventCategory, Pageable pageable) {
+
+        Page<Event> eventList;
+
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 10);
 
-        return eventRepository.findAll(pageable);
+        if (eventCategory == null) {
+            eventList = eventRepository.findAll(pageable);
+        } else {
+            eventList = eventRepository.findAllByEventCategory(eventCategory, pageable);
+        }
+
+        return eventList;
     }
 
     /**
