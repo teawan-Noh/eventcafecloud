@@ -89,6 +89,9 @@ public class CafeService {
         return all.map(CafeListResponseDto::new);
     }
 
+    /**
+     * 카페 리스트 for 메인페이지
+     */
     public List<CafeListResponseDto> findCafeTopFiveList() {
         List<Cafe> cafeList = cafeRepository.findTop5ByOrderByCreatedDateDesc();
 
@@ -116,6 +119,8 @@ public class CafeService {
     public CafeDetailResponseDto findCafeByIdForDetail(Long id) {
         Cafe cafe = cafeRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException(CAFE_NOT_FOUND.getMessage()));
+
+//        System.out.println((double) (cafe.getCafeReviewScore() / cafe.getCafeReviews().size()));
 
         return new CafeDetailResponseDto(cafe);
     }
@@ -226,9 +231,13 @@ public class CafeService {
         Cafe cafe = cafeRepository.findById(cafeNumber).orElseThrow(
                 () -> new IllegalArgumentException(CAFE_NOT_FOUND.getMessage())
         );
+
         CafeReview cafeReview = new CafeReview(requestDto);
         user.addCafeReview(cafeReview);
         cafe.addCafeReview(cafeReview);
+
+        int newCafeReviewScore = cafe.getCafeReviewScore() + requestDto.getReviewRating();
+        cafe.updateCafeReviewScore(newCafeReviewScore);
 
         cafeReviewRepository.save(cafeReview);
     }

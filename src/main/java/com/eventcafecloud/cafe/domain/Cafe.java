@@ -58,6 +58,7 @@ public class Cafe extends BaseTimeEntity {
 
     private String cafeOpenTime;
     private String cafeCloseTime;
+    private int cafeReviewScore;
 
     // 단반향 연관관계
     @ManyToOne(fetch = FetchType.LAZY)
@@ -93,6 +94,7 @@ public class Cafe extends BaseTimeEntity {
         this.cafeWeekendPrice = requestDto.getCafeWeekendPrice();
         this.cafeOpenTime = requestDto.getCafeOpenTime();
         this.cafeCloseTime = requestDto.getCafeCloseTime();
+        this.cafeReviewScore = 0;
     }
 
     //==연관관계 편의 메서드==//
@@ -134,6 +136,11 @@ public class Cafe extends BaseTimeEntity {
         this.cafeWeekendPrice = requestDto.getCafeWeekendPrice();
         this.cafeOpenTime = requestDto.getCafeOpenTime();
         this.cafeCloseTime = requestDto.getCafeCloseTime();
+    }
+
+    public void updateCafeReviewScore(Integer newReviewScore) {
+        cafeReviewScore = newReviewScore;
+
     }
 }
 

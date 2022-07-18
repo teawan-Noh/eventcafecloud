@@ -18,7 +18,8 @@ function addReview() {
                 reviewRating: reviewRating
             },
             success: function (response) {
-                console.log(response);
+                // console.log(response);
+                location.reload(true);
                 getCafeReviewList();
             }
         })
