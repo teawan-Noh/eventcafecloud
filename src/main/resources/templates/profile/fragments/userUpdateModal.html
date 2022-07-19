@@ -17,7 +17,7 @@
                       th:object="${userRequestDto}">
                     <div class="modal-body">
                         <label>닉네임</label>
-                        <input class="form-control" placeholder="변경할 닉네임을 입력하세요"
+                        <input class="form-control" placeholder="변경할 닉네임을 입력하세요" required
                                th:class="${#fields.hasErrors('userNickname')}? 'form-control fieldError' : 'form-control'"
                                th:field="*{userNickname}"
                                type="text">
@@ -27,7 +27,14 @@
                         <div class="filebox">
                             <input class="upload-name" placeholder="첨부파일" readonly th:value="*{userImage}">
                             <label for="file">파일찾기</label>
-                            <input id="file" name="attachFile" th:field="*{userImage}" type="file">
+                            <input id="file" name="attachFile" required
+                                   th:class="${#fields.hasErrors('userImage')}? 'form-control fieldError' : 'form-control'"
+                                   th:field="*{userImage}"
+                                   type="file">
+                            <p style="color: #ff4040" th:errors="*{userImage}"
+                               th:if="${#fields.hasErrors('userImage')}">
+                                Incorrect date</p>
+                            <small> 프로필 사진을 선택해주세요 (2MB 이하) </small>
                         </div>
                     </div>
                     <div class="modal-footer">
