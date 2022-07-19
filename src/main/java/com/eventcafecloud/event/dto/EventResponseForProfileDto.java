@@ -3,6 +3,7 @@ package com.eventcafecloud.event.dto;
 import com.eventcafecloud.cafe.domain.Cafe;
 import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.event.domain.type.EventCategory;
+import com.eventcafecloud.user.domain.User;
 import lombok.Data;
 
 import java.text.SimpleDateFormat;
@@ -20,6 +21,7 @@ public class EventResponseForProfileDto {
     private Integer eventPrice;
     private boolean isCancel;
     private Cafe cafe;
+    private User user;
 
     public EventResponseForProfileDto(Event event) {
         id = event.getId();
@@ -30,6 +32,7 @@ public class EventResponseForProfileDto {
         eventPrice = event.getEventPrice();
         isCancel = eventCancelAVail(event.getEventStartDate());
         cafe = event.getCafe();
+        user = event.getUser();
     }
 
     public boolean eventCancelAVail(String eventStartDate) {
