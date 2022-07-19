@@ -14,8 +14,10 @@
                     <div class="cafe-right">
                         <p class="cafe-title" th:text="${cafe.cafeName}">카페이름</p>
                         <p class="cafe-rating">카페평점</p>
-                        <div class="button-set">
-                            <button class="delete-button" th:cafeId="${cafe.id}" th:onclick="deleteCafe(this.getAttribute('cafeId'))">삭제</button>
+                        <div class="button-set" th:if="${cafe.getUser.getId == userId}">
+                            <button class="delete-button" th:cafeId="${cafe.id}"
+                                    th:onclick="deleteCafe(this.getAttribute('cafeId'))">삭제
+                            </button>
                             <button class="modify-button"
                                     th:onclick="|location.href='@{/cafes/updateForm(id=${cafe.id})}'|">수정
                             </button>
@@ -30,7 +32,7 @@
                             <p class="cafe-time" th:text="'평일가격 : '+${cafe.cafeWeekdayPrice}"></p>
                             <p class="cafe-time" th:text="' / 주말가격 ' +${cafe.cafeWeekendPrice}"></p>
                             <div class="cafe-button">
-                                <button class="manage-button"
+                                <button class="manage-button" th:if="${cafe.getUser.getId == userId}"
                                         th:onclick="|location.href='@{/hosts/profile/{id}/cafes/{cafeId}/schedule(id=${userId}, cafeId=${cafe.id})}'|">
                                     카페관리
                                 </button>
