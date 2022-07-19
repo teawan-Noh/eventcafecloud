@@ -10,6 +10,7 @@
             <div class="profile-info" th:text="${user.getUserEmail()}">yvely001@naver.com</div>
             <!-- Button trigger modal -->
             <button class="btn btn-primary cafeBtn" data-target="#exampleModalCenter" data-toggle="modal"
+                    th:if="${user.getId == userId}"
                     type="button">
                 프로필 수정
             </button>
