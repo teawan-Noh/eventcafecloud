@@ -72,21 +72,11 @@
         <div>
             <label th:for="options">사용 가능 옵션을 1개 이상 체크해 주세요</label>
             <div id="cafeOptionCheckBox" class="form-check">
-                <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input" name="options" value="PARK"> 주차 가능 &nbsp;
-                </label>
-                <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input" name="options" value="FOOD"> 음식물 반입 가능 &nbsp;
-                </label>
-                <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input" name="options" value="WIFI"> WIFI &nbsp;
-                </label>
-                <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input" name="options" value="NOSMOKE"> 금연 &nbsp;
-                </label>
-                <label class="form-check-label">
-                    <input type="checkbox" class="form-check-input" name="options" value="PROJECTOR"> 프로젝터 &nbsp;
-                </label>
+                <label class="form-check-label"><input type="checkbox" class="form-check-input" name="options" value="PARK"> 주차 가능 &nbsp;</label>
+                <label class="form-check-label"><input type="checkbox" class="form-check-input" name="options" value="FOOD"> 음식물 반입 가능 &nbsp;</label>
+                <label class="form-check-label"><input type="checkbox" class="form-check-input" name="options" value="WIFI"> WIFI &nbsp;</label>
+                <label class="form-check-label"><input type="checkbox" class="form-check-input" name="options" value="NOSMOKE"> 금연 &nbsp;</label>
+                <label class="form-check-label"><input type="checkbox" class="form-check-input" name="options" value="PROJECTOR"> 프로젝터 &nbsp;</label>
             </div>
         </div>
         <br/>
@@ -96,7 +86,7 @@
             <button type="button" id="address-register-button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">주소 등록</button>
             <input type="text" id="zonecode" th:field="*{cafeZonecode}" class="form-control" hidden>
             <input type="text" id="address" th:field="*{cafeAddress}" class="form-control" placeholder="주소" readonly>
-            <input type="text" id="addressDetail" th:field="*{cafeAddressDetail}" class="form-control" placeholder="상세 주소"
+            <input type="text" id="addressDetail" th:field="*{cafeAddressDetail}" class="form-control" placeholder="상세 주소" maxlength="25"
                    th:class="${#fields.hasErrors('cafeAddressDetail')}? 'form-control fieldError' : 'form-control'">
             <p style="color: #ff4040" th:if="${#fields.hasErrors('cafeAddressDetail')}" th:errors="*{cafeAddressDetail}">Incorrect data</p>
             <input type="text" id="cafeY" th:field="*{cafeY}" class="form-control" hidden>
