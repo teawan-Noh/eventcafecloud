@@ -71,6 +71,7 @@
 
 #card-text-info {
     white-space: pre-line;
+    word-break: break-word;
 }
 
 .date-start {
