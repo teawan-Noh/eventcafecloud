@@ -50,6 +50,7 @@
 
 #card-text-info {
     height: 460px;
+    white-space: pre-line;
 }
 
 .eventBtn {

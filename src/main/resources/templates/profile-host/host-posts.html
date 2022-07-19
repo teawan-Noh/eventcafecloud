@@ -8,7 +8,7 @@
 <div th:replace="fragments/mainTop :: mainTop"/>
 <div>
     <div class="topBanner">
-        <div class="topFont">호스트페이지</div>
+        <div class="topFont">마이페이지</div>
     </div>
     <div class="left">
         <div class="menuVar">
@@ -20,7 +20,7 @@
         </div>
     </div>
     <div class="right">
-        <div th:replace="profile-host/fragments/hostUserInfo :: hostUserInfo"/>
+        <div th:replace="profile-host/fragments/posts :: posts"/>
     </div>
 </div>
 </body>
@@ -30,6 +30,4 @@
         var fileName = $("#file").val();
         $(".upload-name").val(fileName);
     });
-
-    let id = document.location.href.split("/").reverse()[1]
 </script>
