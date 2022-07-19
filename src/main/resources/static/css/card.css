@@ -2,17 +2,20 @@
     height: 550px;
 }
 
-/* 카페 리스트 페이지*/
-#cafeListContainer {
-    width: 100%;
+#cafeListContainer{
+    width: 101%;
     text-align: center;
+    justify-content: space-evenly;
     display: flex;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 #cafeListContainer .card div figure .card-img-top {
     height: 180px;
+}
+
+/* 카페 리스트 페이지에 적용*/
+#cafeBox .cafeListContainerListPage{
+    flex-wrap: wrap;
 }
 
 #searchBox{
@@ -28,6 +31,12 @@
     display: flex;
     justify-content: end;
 }
+
+#cafeBox {
+    width: 80%;
+    margin: auto;
+}
+/* 카페 리스트 페이지에 적용 이 위까지*/
 
 /* cards */
 #title {
@@ -68,16 +77,6 @@
     display: flex;
 }
 
-#cafeBox {
-    width: 70%;
-    margin: auto;
-}
-
-#cafeTop5 {
-    width: 80%;
-    margin: auto;
-}
-
 .card {
     margin: 10px;
     width: 300px;
@@ -97,23 +96,29 @@
     font-family: 'Montserrat Subrayada', sans-serif;
 }
 
-.cafeMore {
-    float: right;
-    border: 0px;
-    outline: 0px;
+#cafeTop5 {
+    width: 80%;
+    margin: auto;
+}
+
+#cafeTop5 .cafeMore{
+    text-align: right;
+}
+
+#cafeTop5 .cafeMore button {
+    border: 0;
+    outline: 0;
     background-color: #4C7A01;
     padding: 5px;
     color: white;
 }
 
-
 /* Event Top 5 */
 #eventListContainer {
-    width: 100%;
+    width: 101%;
     text-align: center;
+    justify-content: space-evenly;
     display: flex;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 #eventListContainer .card div figure .card-img-top {
@@ -126,13 +131,12 @@
 }
 
 #card-event-top5 {
-    margin: 20px;
-    width: 300px;
+    /*margin: 20px;*/
+    /*width: 300px;*/
     height: 330px;
 }
 
 #badge-cate {
-    float: right;
     background-color: #774B00;
     color: #F5F5DC;
     font-weight: bold;
@@ -152,8 +156,11 @@
     margin: 0;
 }
 
-.eventMore {
-    float: right;
+#eventTop5 .eventMore{
+    text-align: right;
+}
+
+#eventTop5 .eventMore button {
     border: 0;
     outline: 0;
     background-color: #4C7A01;
