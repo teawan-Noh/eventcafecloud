@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="posts">
+  <div class="post-form">
+    <div class="postBox">
+      <h1 th:text="'총 '+${posts.getTotalElements()}+'개의 글을 작성하셨습니다.'"></h1>
+      <hr width="70%">
+      <div class="posts-box" th:each="post : ${posts}"
+           th:onclick="|location.href='@{/posts/{id} (id=${post.id})}'|">
+        <div class="post-content">
+          <div class="post-title" th:text="${post.postTitle}">글제목</div>
+          <div class="post-comment" th:text="${post.comments.size}">댓글개수</div>
+          <div class="post-info">
+            <div class="post-day" th:text="'등록일 : '+${#temporals.format(post.createdDate,'yyyy-MM-dd')}">
+              등록일자
+            </div>
+            <div class="post-count" th:text="'조회수 : '+${post.postCount}">조회수</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <nav class="page" style="text-align: center;">
+      <ul class="pagination"
+          th:with="start=${T(java.lang.Math).floor(posts.number/10)*10 + 1},
+                    last=(${start + 9 < posts.totalPages ? start + 9 : posts.totalPages})">
+        <li>
+          <a aria-label="First" class="page-number"
+             th:href="@{/hosts/profile/{userId}/posts(page=1, userId=${userId})}">
+            <span aria-hidden="true">First</span>
+          </a>
+        </li>
+        <li th:class="${posts.first} ? 'disabled'">
+          <a aria-label="Previous" class="page-number"
+             th:href="${posts.first} ? '#' :@{/hosts/profile/{userId}/posts(page=${posts.number}, userId=${userId})}">
+            <span aria-hidden="true">&lt;</span>
+          </a>
+        </li>
+
+        <li th:class="${page == posts.number + 1} ? 'active'"
+            th:each="page: ${#numbers.sequence(start, last)}">
+          <a class="page-number" th:href="@{/hosts/profile/{userId}/posts(page=${page}, userId=${userId})}"
+             th:text="${page}"></a>
+        </li>
+
+        <li th:class="${posts.last} ? 'disabled'">
+          <a aria-label="Next" class="page-number"
+             th:href="${posts.last} ? '#' : @{/hosts/profile/{userId}/posts(page=${posts.number + 2}, userId=${userId})}">
+            <span aria-hidden="true">&gt;</span>
+          </a>
+        </li>
+        <li>
+          <a aria-label="Last" class="page-number"
+             th:href="@{/hosts/profile/{userId}/posts(page=${posts.totalPages}, userId=${userId})}">
+            <span aria-hidden="true">Last</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+

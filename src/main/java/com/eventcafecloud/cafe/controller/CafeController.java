@@ -95,9 +95,14 @@ public class CafeController {
 
     // 카페 수정
     @PostMapping("/cafes/{id}")
-    public String updateCafeInfo(@PathVariable Long id, @Valid CafeUpdateRequestDto requestDto, BindingResult result){
+    public String updateCafeInfo(@PathVariable Long id, @Valid CafeUpdateRequestDto requestDto, BindingResult result, User loginUser, Model model){
         if(result.hasErrors()){
-            return "/cafes/updateForm?id="+id;
+            if (loginUser != null) {
+                model.addAttribute("userNick", loginUser.getUserNickname());
+                model.addAttribute("userId", loginUser.getId());
+            }
+            model.addAttribute("cafeId", id);
+            return "cafe/updateCafeForm";
         }
         cafeService.modifyCafe(id, requestDto);
 
