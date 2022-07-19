@@ -88,7 +88,7 @@ public class EventService {
     // 전체 이벤트 목록
     public Page<EventListResponseDto> toDtoList(String keyword, EventCategory eventCategory, Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-        pageable = PageRequest.of(page, 12);
+        pageable = PageRequest.of(page, 12, Sort.Direction.DESC, "id");
 
         Page<Event> events = null;
         if (eventCategory == null) {
