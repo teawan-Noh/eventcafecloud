@@ -46,6 +46,13 @@ public class hostProfileController {
         return "profile-host/host-userInfo";
     }
 
+
+    @PostMapping("/{id}/info/host/update")
+    public String updateHostProfile(@PathVariable Long id, UserRequestDto requestDto) {
+        userService.modifyUserProfile(id, requestDto);
+        return "redirect:/hosts/profile/" + id + "/info";
+    }
+
     @GetMapping("/{id}/cafes")
     public String getCafeByUserId(@PageableDefault Pageable pageable, @PathVariable Long id, Model model, User loginUser) {
         Page<Cafe> cafeList = cafeService.findCafeListByUserId(id, pageable);
