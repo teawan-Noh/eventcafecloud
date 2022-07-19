@@ -46,6 +46,7 @@
 }
 
 .card {
+    cursor: pointer;
     margin: 15px;
     width: 300px;
     height: 520px;
