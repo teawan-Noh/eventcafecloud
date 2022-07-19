@@ -74,12 +74,12 @@
 }
 
 #cafeTop5 {
-    width: 70%;
+    width: 80%;
     margin: auto;
 }
 
 .card {
-    margin: 20px;
+    margin: 10px;
     width: 300px;
     height: 300px;
 }
@@ -121,29 +121,41 @@
 }
 
 #eventTop5 {
-    width: 70%;
+    width: 80%;
     margin: auto;
 }
 
-.badge {
-    height: 28px;
-    width: 110px;
+#card-event-top5 {
+    margin: 20px;
+    width: 300px;
+    height: 330px;
 }
 
-.date-start {
-    float: left;
-    margin-left: 45px;
-}
-
-.date-end {
+#badge-cate {
     float: right;
-    margin-right: 45px;
+    background-color: #774B00;
+    color: #F5F5DC;
+    font-weight: bold;
+    font-size: 20px;
+    padding-right: 10px;
+    margin-bottom: 8px;
+    margin-right: 10px;
+    margin-top: 0;
+    border-radius: 25px;
+    font-family: 'Cute Font', cursive;
+}
+
+#title-event-top5 {
+    color: #2b2a29;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 0;
 }
 
 .eventMore {
     float: right;
-    border: 0px;
-    outline: 0px;
+    border: 0;
+    outline: 0;
     background-color: #4C7A01;
     padding: 5px;
     color: white;

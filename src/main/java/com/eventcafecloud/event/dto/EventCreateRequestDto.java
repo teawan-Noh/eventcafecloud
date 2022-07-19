@@ -23,7 +23,7 @@ public class EventCreateRequestDto {
     private String eventInfo;
     private String eventPrice;
 
-    @Size(min=1,max=6, message = "이미지 파일을 선택해 주세요.")
+    @Size(min=1,max=4, message = "이미지 파일을 선택해 주세요.")
     private List<MultipartFile> files;
     private Long cafeNumber;
 }
