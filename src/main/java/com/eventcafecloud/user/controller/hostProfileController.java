@@ -8,6 +8,8 @@ import com.eventcafecloud.cafe.service.CafeScheduleService;
 import com.eventcafecloud.cafe.service.CafeService;
 import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.event.service.EventService;
+import com.eventcafecloud.post.domain.Post;
+import com.eventcafecloud.post.service.PostService;
 import com.eventcafecloud.user.domain.User;
 import com.eventcafecloud.user.dto.UserRequestDto;
 import com.eventcafecloud.user.service.UserService;
@@ -31,6 +33,7 @@ import java.util.List;
 public class hostProfileController {
 
     private final UserService userService;
+    private final PostService postService;
     private final CafeService cafeService;
     private final EventService eventService;
     private final CafeScheduleService cafeScheduleService;
@@ -51,6 +54,16 @@ public class hostProfileController {
     public String updateHostProfile(@PathVariable Long id, UserRequestDto requestDto) {
         userService.modifyUserProfile(id, requestDto);
         return "redirect:/hosts/profile/" + id + "/info";
+    }
+
+    @GetMapping("/{id}/host/posts")
+    public String getUserPostById(@PageableDefault Pageable pageable, @PathVariable Long id, Model model, User loginUser) {
+        Page<Post> postList = postService.findPostListByUser(id, pageable);
+        model.addAttribute("posts", postList);
+        model.addAttribute("userNick", loginUser.getUserNickname());
+        model.addAttribute("userId", loginUser.getId());
+
+        return "profile-host/host-posts";
     }
 
     @GetMapping("/{id}/cafes")
