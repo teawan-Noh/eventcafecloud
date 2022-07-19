@@ -34,33 +34,25 @@ public class PostController {
     @PostMapping("/posts/registration/{postType}")
     public String createPost(@Valid @ModelAttribute PostCreateRequestDto requestDto,
                              BindingResult bindingResult, User loginUser, @PathVariable PostType postType) {
-        if (loginUser != null) {
-            if (bindingResult.hasErrors()) {
-                return "post/createPostForm";
-            } else {
-                postService.savePost(requestDto, loginUser, postType);
-                if (postType == PostType.NOTICE) {
-                    return "redirect:/posts/notice";
-                } else {
-                    return "redirect:/posts";
-                }
-            }
+        if (loginUser == null || bindingResult.hasErrors())
+            return "post/createPostForm";
+        postService.savePost(requestDto, loginUser, postType);
+        if (postType == PostType.NOTICE) {
+            return "redirect:/posts/notice";
+        } else {
+            return "redirect:/posts";
         }
-        return "redirect:/posts" + postType;
     }
 
     //게시글 수정
     @PutMapping("/posts/update/{id}")
     public String updatePost(@PathVariable Long id, PostUpdateRequestDto requestDto,
                              BindingResult bindingResult, User loginUser) {
-        if (loginUser == null || bindingResult.hasErrors() )
+        if (loginUser == null || bindingResult.hasErrors())
             return "redirect:/posts/";
         postService.modifyPost(id, requestDto);
         return "redirect:/posts/" + id;
     }
-
-
-
 
     // 게시글 삭제
     @DeleteMapping("/posts/{id}")
