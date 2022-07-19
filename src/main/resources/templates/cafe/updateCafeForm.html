@@ -88,12 +88,12 @@
         </div>
         <div>
             <label th:for="options">사용 가능 옵션을 체크해 주세요</label> <small> * 변동 사항이 있는 경우에만 체크해 주세요 </small>
-            <div id="cafeOptionCheckBox" class="form-check">
-                <label class="form-check-label"><input type="checkbox" class="form-check-input" name="options" value="PARK"> 주차 가능 &nbsp;</label>
-                <label class="form-check-label"><input type="checkbox" class="form-check-input" name="options" value="FOOD"> 음식물 반입 가능 &nbsp;</label>
-                <label class="form-check-label"><input type="checkbox" class="form-check-input" name="options" value="WIFI"> WIFI &nbsp;</label>
-                <label class="form-check-label"><input type="checkbox" class="form-check-input" name="options" value="NOSMOKE"> 금연 &nbsp;</label>
-                <label class="form-check-label"><input type="checkbox" class="form-check-input" name="options" value="PROJECTOR"> 프로젝터 &nbsp;</label>
+            <div id="cafeOptionCheckBox" class="form-check" th:field="*{cafeOptions}">
+                <label class="form-check-label"><input type="checkbox" class="form-check-input" name="cafeOptions" value="PARK"> 주차 가능 &nbsp;</label>
+                <label class="form-check-label"><input type="checkbox" class="form-check-input" name="cafeOptions" value="FOOD"> 음식물 반입 가능 &nbsp;</label>
+                <label class="form-check-label"><input type="checkbox" class="form-check-input" name="cafeOptions" value="WIFI"> WIFI &nbsp;</label>
+                <label class="form-check-label"><input type="checkbox" class="form-check-input" name="cafeOptions" value="NOSMOKE"> 금연 &nbsp;</label>
+                <label class="form-check-label"><input type="checkbox" class="form-check-input" name="cafeOptions" value="PROJECTOR"> 프로젝터 &nbsp;</label>
             </div>
         </div>
         <br/>
@@ -123,7 +123,8 @@
         </div>
         <br/>
         <div>
-            카페 이미지를 업로드.<small> * 변동 사항이 있는 경우에만 체크해 주세요 </small> <small>* Ctrl 클릭으로 여러장 선택, 용량 제한: 3MB</small><br />
+            카페 이미지를 업로드.<small> * 변동 사항이 있는 경우에만 체크해 주세요 </small> <br />
+            <small>* Ctrl 클릭으로 여러장 선택, 파일당 용량 제한: 3MB, 전체 용량 제한: 12MB</small><br />
             <input type="file" multiple="multiple" th:field="*{files}" name="imageFiles">
         </div>
         <div id="submitButton">
