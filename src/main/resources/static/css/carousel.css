@@ -1,0 +1,17 @@
+.carousel-control-prev span{
+    background-color: #4c7a01;;
+    padding: 25px;
+    border-top-left-radius: 3em 5em;
+    border-top-right-radius: 3em 5em;
+    border-bottom-right-radius: 3em 5em;
+    border-bottom-left-radius: 3em 5em;
+}
+
+.carousel-control-next span{
+    background-color: #4c7a01;;
+    padding: 25px;
+    border-top-left-radius: 3em 5em;
+    border-top-right-radius: 3em 5em;
+    border-bottom-right-radius: 3em 5em;
+    border-bottom-left-radius: 3em 5em;
+}
