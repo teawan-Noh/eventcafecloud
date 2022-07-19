@@ -17,6 +17,7 @@
     <script type="text/javascript">
         $.datepicker.setDefaults({
             dateFormat: 'yy-mm-dd',
+            minDate: 0,
             prevText: '이전 달',
             nextText: '다음 달',
             monthNames: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
@@ -33,13 +34,6 @@
         let disabledDays = dates;
         for (let index = 0; index < disabledDays.length; index++) {
             disabledDays[index] = disabledDays[index].replace(/-0+/g, '-')
-        }
-
-        // 이전 날짜들은 선택막기
-        function noBefore(date) {
-            if (date < new Date())
-                return [false];
-            return [true];
         }
 
         // 날짜 선택을 막기위한 함수

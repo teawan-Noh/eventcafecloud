@@ -38,8 +38,12 @@ public class CafeController {
     // ajax 호춣이 아니라서 ContentType 지정을 json으로 못함. -> 데이터 타입 에러
     // 카페 등록
     @PostMapping("/cafes")
-    public String cafeCreate(@Valid CafeCreateRequestDto requestDto, BindingResult result, User loginUser){
+    public String cafeCreate(@Valid CafeCreateRequestDto requestDto, BindingResult result, User loginUser, Model model){
         if(result.hasErrors()){
+            if (loginUser != null) {
+                model.addAttribute("userNick", loginUser.getUserNickname());
+                model.addAttribute("userId", loginUser.getId());
+            }
             return "cafe/createCafeForm";
         }
         cafeService.createCafe(requestDto, loginUser);

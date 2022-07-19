@@ -14,7 +14,7 @@
                         <div class="post-day" th:text="'기간 : '+${event.eventStartDate}">등록일자</div>
                         <div class="post-day" th:text="' -   '+${event.eventEndDate}">등록일자</div>
                     </div>
-                    <form id="delete-form" method="post"
+                    <form id="delete-form" method="post" th:if="${event.user.getId == userId}"
                           th:action="@{'/profile/'+${userId}+'/delete/'+${event.id}}">
                         <input name="_method" type="hidden" value="DELETE"/>
                         <button class="delete-button" onclick="return confirm(this.getAttribute('data-confirm-delete'))"

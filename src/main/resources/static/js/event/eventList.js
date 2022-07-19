@@ -20,15 +20,15 @@ function createHtml(event) {
     const eventName = event["eventName"];
     const eventCategory = event["eventCategory"];
 
-    return `<div class="card" onclick="location.href='/events/${eventNumber}/detail'">
+    return `<div class="card" id="card-event-top5" onclick="location.href='/events/${eventNumber}/detail'">
                             <div class="card-image">
                                 <figure class="image is-4by3">
                                     <img src="${eventImageUrls[0]}" class="card-img-top" alt="Placeholder image">
                                 </figure>
                             </div>
                             <div class="card-content" id="card-content">
-                                <h5><span class="badge badge-secondary">${eventCategory}</span></h5>
-                                <p id="title" class="title is-4">${eventName}</p>
+                                <h5><span class="badge badge-secondary" id="badge-cate" >${eventCategory}</span></h5>
+                                <p id="title-event-top5" class="title is-4">${eventName}</p>
                             </div>
                        </div>`;
 }

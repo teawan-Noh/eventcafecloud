@@ -2,17 +2,20 @@
     height: 550px;
 }
 
-/* 카페 리스트 페이지*/
-#cafeListContainer {
-    width: 100%;
+#cafeListContainer{
+    width: 101%;
     text-align: center;
+    justify-content: space-evenly;
     display: flex;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 #cafeListContainer .card div figure .card-img-top {
     height: 180px;
+}
+
+/* 카페 리스트 페이지에 적용*/
+#cafeBox .cafeListContainerListPage{
+    flex-wrap: wrap;
 }
 
 #searchBox{
@@ -28,6 +31,12 @@
     display: flex;
     justify-content: end;
 }
+
+#cafeBox {
+    width: 80%;
+    margin: auto;
+}
+/* 카페 리스트 페이지에 적용 이 위까지*/
 
 /* cards */
 #title {
@@ -68,18 +77,8 @@
     display: flex;
 }
 
-#cafeBox {
-    width: 70%;
-    margin: auto;
-}
-
-#cafeTop5 {
-    width: 70%;
-    margin: auto;
-}
-
 .card {
-    margin: 20px;
+    margin: 10px;
     width: 300px;
     height: 300px;
 }
@@ -97,23 +96,29 @@
     font-family: 'Montserrat Subrayada', sans-serif;
 }
 
-.cafeMore {
-    float: right;
-    border: 0px;
-    outline: 0px;
+#cafeTop5 {
+    width: 80%;
+    margin: auto;
+}
+
+#cafeTop5 .cafeMore{
+    text-align: right;
+}
+
+#cafeTop5 .cafeMore button {
+    border: 0;
+    outline: 0;
     background-color: #4C7A01;
     padding: 5px;
     color: white;
 }
 
-
 /* Event Top 5 */
 #eventListContainer {
-    width: 100%;
+    width: 101%;
     text-align: center;
+    justify-content: space-evenly;
     display: flex;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 #eventListContainer .card div figure .card-img-top {
@@ -121,29 +126,43 @@
 }
 
 #eventTop5 {
-    width: 70%;
+    width: 80%;
     margin: auto;
 }
 
-.badge {
-    height: 28px;
-    width: 110px;
+#card-event-top5 {
+    /*margin: 20px;*/
+    /*width: 300px;*/
+    height: 330px;
 }
 
-.date-start {
-    float: left;
-    margin-left: 45px;
+#badge-cate {
+    background-color: #774B00;
+    color: #F5F5DC;
+    font-weight: bold;
+    font-size: 20px;
+    padding-right: 10px;
+    margin-bottom: 8px;
+    margin-right: 10px;
+    margin-top: 0;
+    border-radius: 25px;
+    font-family: 'Cute Font', cursive;
 }
 
-.date-end {
-    float: right;
-    margin-right: 45px;
+#title-event-top5 {
+    color: #2b2a29;
+    font-weight: bold;
+    font-size: 18px;
+    margin: 0;
 }
 
-.eventMore {
-    float: right;
-    border: 0px;
-    outline: 0px;
+#eventTop5 .eventMore{
+    text-align: right;
+}
+
+#eventTop5 .eventMore button {
+    border: 0;
+    outline: 0;
     background-color: #4C7A01;
     padding: 5px;
     color: white;

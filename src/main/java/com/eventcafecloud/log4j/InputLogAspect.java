@@ -1,6 +1,5 @@
 package com.eventcafecloud.log4j;
 
-import com.eventcafecloud.user.domain.User;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,10 +24,9 @@ public class InputLogAspect {
         MethodSignature methodSignature = (MethodSignature) jp.getSignature();
         Method method = methodSignature.getMethod();
         Object[] params = jp.getArgs();
-        String email = ((User) params[1]).getUserEmail();
         logger.error("---- input ----");
-        logger.error("유저:" + email);
         logger.error("메소드: " + method.getName() + "()");
+        logger.error("파라미터: " + params[0]);
         logger.error("---- end input ----\n");
     }
 }
