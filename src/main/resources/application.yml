@@ -16,7 +16,7 @@ spring:
   servlet:
     multipart:
       maxFileSize : 3MB
-      maxRequestSize : 3MB
+      maxRequestSize : 12MB
 
   jpa:
     properties:
