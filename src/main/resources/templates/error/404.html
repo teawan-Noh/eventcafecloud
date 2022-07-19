@@ -3,8 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        .error-page {
+            height: 100%;
+            width: 100%;
+            text-align: center;
+        }
+
+        .error-img {
+            object-fit: contain;
+        }
+    </style>
 </head>
 <body>
-<img src="/error/404.png" alt="404">
+<div class="error-page">
+    <img alt="404" class="error-img" src="/error/404.png">
+</div>
 </body>
 </html>

@@ -17,7 +17,9 @@ public class Error implements ErrorController {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
         if (status != null) {
             int statusCode = Integer.valueOf(status.toString());
-            System.out.println("코드 :" + statusCode);
+            if (statusCode == HttpStatus.BAD_REQUEST.value()) {
+                return ERROR_TEMPLATES_PATH + "400";
+            }
             if (statusCode == HttpStatus.UNAUTHORIZED.value()) {
                 return ERROR_TEMPLATES_PATH + "401";
             }
