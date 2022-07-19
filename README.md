@@ -7,7 +7,7 @@
 
 Event Cafe Cloud는 새로운 문화현상으로 급부상한 [이벤트카페]를 대상으로  
 **카페사장님과 고객을 연결하는 <U>✨카페대여 중개플랫폼✨</U> 입니다.**
-### 🔗 [프로젝트도메인](http://eventcafecloudsparta-env.eba-xh8detzp.ap-northeast-2.elasticbeanstalk.com/)
+### 🔗 [프로젝트도메인](http://www.eventcafecloud.com/)
 
 ![EC2소개](https://user-images.githubusercontent.com/93200574/179353228-2d739644-d50c-4ab4-9269-13834e449e5e.jpg)
 </div>
