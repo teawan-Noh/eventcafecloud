@@ -5,8 +5,12 @@
         <div id="eventDetailContainer" class="container">
             <!--Event Category, Name, Period-->
             <div class="event-detail-header" id="event-detail-header" th:action="@{'/events/' + ${event.id} + '/detail'}" th:object="${eventReadResponseDto}" method="post">
-                <h5><span class="badge badge-secondary"><h5 th:text="|${eventReadResponseDto.getEventCategory()} |"> 이벤트 카테고리</h5></span></h5>
-                <h1 class="fw-bolder" th:text="${eventReadResponseDto.getEventName()}">이벤트명</h1>
+                <div>
+                    <h5><span class="badge badge-secondary"><h5 th:text="|${eventReadResponseDto.getEventCategory()} |"> 이벤트 카테고리</h5></span></h5>
+                </div>
+                <div id="h1-name">
+                    <h1 class="fw-bolder" th:text="${eventReadResponseDto.getEventName()}">이벤트명</h1>
+                </div>
             </div>
             <hr>
 
