@@ -67,3 +67,14 @@
     float: right;
     border: white;
 }
+
+.title-bar {
+    text-align: left;
+    padding-left: 50px !important;
+}
+
+#comments-count {
+    color: #4376f3;
+    font-weight: bold;
+    font-size: 14px;
+}

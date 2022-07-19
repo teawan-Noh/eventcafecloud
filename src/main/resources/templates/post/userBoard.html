@@ -36,7 +36,10 @@
             <tr th:each="post : ${postList}" th:onclick="|location.href='@{/posts/{id} (id=${post.id})}'|">
                 <td th:text="${post.id}"></td>
                 <td th:text="${post.user.userNickname}"></td>
-                <td th:text="${post.postTitle}"></td>
+                <td class="title-bar">
+                    <a th:text="${post.postTitle}"></a>
+                    <span th:if="${post.comments.size} != 0" th:text="|(${post.comments.size})|" id="comments-count"/>
+                </td>
                 <td th:text="${post.postCount}"></td>
                 <td th:text="${#temporals.format(post.createdDate,'yyyy-MM-dd')}"></td>
             </tr>
@@ -45,69 +48,74 @@
         <hr>
         <div id="post-page-buttons">
 
-        <nav class="page" style="text-align: center;">
-            <ul class="pagination"
-                th:with="start=${T(java.lang.Math).floor(postList.number/10)*10 + 1},
+            <nav class="page" style="text-align: center;">
+                <ul class="pagination"
+                    th:with="start=${T(java.lang.Math).floor(postList.number/10)*10 + 1},
                     last=(${start + 9 < postList.totalPages ? start + 9 : postList.totalPages})">
-                <li>
-                    <a aria-label="First" class="page-number" th:if="${postType == postType.NOTICE}"
-                       th:href="@{/posts/notice(page=1)}">
-                        <span aria-hidden="true">First</span>
-                    </a>
-                    <a aria-label="First" class="page-number" th:if="${postType == postType.USERPOST}"
-                       th:href="@{/posts(page=1)}">
-                        <span aria-hidden="true">First</span>
-                    </a>
-                </li>
-                <li th:class="${postList.first} ? 'disabled'">
-                    <a aria-label="Previous" class="page-number" th:if="${postType == postType.NOTICE}"
-                       th:href="${postList.first} ? '#' :@{/posts/notice(page=${postList.number})}">
-                        <span aria-hidden="true">&lt;</span>
-                    </a>
-                    <a aria-label="Previous" class="page-number" th:if="${postType == postType.USERPOST}"
-                       th:href="${postList.first} ? '#' :@{/posts(page=${postList.number})}">
-                        <span aria-hidden="true">&lt;</span>
-                    </a>
-                </li>
-                <li th:class="${page == postList.number + 1} ? 'active'"
-                    th:each="page: ${#numbers.sequence(start, last)}">
-                    <a class="page-number" th:href="@{/posts/notice(page=${page})}" th:if="${postType == postType.NOTICE}"
-                       th:text="${page}"></a>
-                    <a class="page-number" th:href="@{/posts(page=${page})}" th:if="${postType == postType.USERPOST}"
-                       th:text="${page}"></a>
-                </li>
+                    <li>
+                        <a aria-label="First" class="page-number" th:if="${postType == postType.NOTICE}"
+                           th:href="@{/posts/notice(page=1)}">
+                            <span aria-hidden="true">First</span>
+                        </a>
+                        <a aria-label="First" class="page-number" th:if="${postType == postType.USERPOST}"
+                           th:href="@{/posts(page=1)}">
+                            <span aria-hidden="true">First</span>
+                        </a>
+                    </li>
+                    <li th:class="${postList.first} ? 'disabled'">
+                        <a aria-label="Previous" class="page-number" th:if="${postType == postType.NOTICE}"
+                           th:href="${postList.first} ? '#' :@{/posts/notice(page=${postList.number})}">
+                            <span aria-hidden="true">&lt;</span>
+                        </a>
+                        <a aria-label="Previous" class="page-number" th:if="${postType == postType.USERPOST}"
+                           th:href="${postList.first} ? '#' :@{/posts(page=${postList.number})}">
+                            <span aria-hidden="true">&lt;</span>
+                        </a>
+                    </li>
+                    <li th:class="${page == postList.number + 1} ? 'active'"
+                        th:each="page: ${#numbers.sequence(start, last)}">
+                        <a class="page-number" th:href="@{/posts/notice(page=${page})}"
+                           th:if="${postType == postType.NOTICE}"
+                           th:text="${page}"></a>
+                        <a class="page-number" th:href="@{/posts(page=${page})}"
+                           th:if="${postType == postType.USERPOST}"
+                           th:text="${page}"></a>
+                    </li>
 
-                <li th:class="${postList.last} ? 'disabled'">
-                    <a aria-label="Next" class="page-number" th:if="${postType == postType.NOTICE}"
-                       th:href="${postList.last} ? '#' : @{/posts/notice(page=${postList.number + 2})}">
-                        <span aria-hidden="true">&gt;</span>
-                    </a>
-                    <a aria-label="Next" class="page-number" th:if="${postType == postType.USERPOST}"
-                       th:href="${postList.last} ? '#' : @{/posts(page=${postList.number + 2})}">
-                        <span aria-hidden="true">&gt;</span>
-                    </a>
-                </li>
-                <li>
-                    <a aria-label="Last" class="page-number" th:if="${postType == postType.NOTICE}"
-                       th:href="@{/posts/notice(page=${postList.totalPages})}">
-                        <span aria-hidden="true">Last</span>
-                    </a>
-                    <a aria-label="Last" class="page-number" th:if="${postType == postType.USERPOST}"
-                       th:href="@{/posts(page=${postList.totalPages})}">
-                        <span aria-hidden="true">Last</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+                    <li th:class="${postList.last} ? 'disabled'">
+                        <a aria-label="Next" class="page-number" th:if="${postType == postType.NOTICE}"
+                           th:href="${postList.last} ? '#' : @{/posts/notice(page=${postList.number + 2})}">
+                            <span aria-hidden="true">&gt;</span>
+                        </a>
+                        <a aria-label="Next" class="page-number" th:if="${postType == postType.USERPOST}"
+                           th:href="${postList.last} ? '#' : @{/posts(page=${postList.number + 2})}">
+                            <span aria-hidden="true">&gt;</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a aria-label="Last" class="page-number" th:if="${postType == postType.NOTICE}"
+                           th:href="@{/posts/notice(page=${postList.totalPages})}">
+                            <span aria-hidden="true">Last</span>
+                        </a>
+                        <a aria-label="Last" class="page-number" th:if="${postType == postType.USERPOST}"
+                           th:href="@{/posts(page=${postList.totalPages})}">
+                            <span aria-hidden="true">Last</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
 
-        <button th:if="${userId == null && postType != postType.NOTICE}" class="submit post-button btn btn-outline-info float-right"
+        <button th:if="${userId == null && postType != postType.NOTICE}"
+                class="submit post-button btn btn-outline-info float-right"
                 onclick='alert("로그인 후 이용해주세요!")'>글쓰기
         </button>
-        <button th:if="${postType != postType.NOTICE}" class="submit post-button btn btn-outline-info float-right" sec:authorize="isAuthenticated()"
+        <button th:if="${postType != postType.NOTICE}" class="submit post-button btn btn-outline-info float-right"
+                sec:authorize="isAuthenticated()"
                 th:onclick="|location.href='@{/posts/registration/{postType}(postType=${postType})}'|">글쓰기
         </button>
-        <button th:if="${postType == postType.NOTICE}" class="submit post-button btn btn-outline-info float-right" sec:authorize="hasRole('ROLE_ADMIN')"
+        <button th:if="${postType == postType.NOTICE}" class="submit post-button btn btn-outline-info float-right"
+                sec:authorize="hasRole('ROLE_ADMIN')"
                 th:onclick="|location.href='@{/posts/registration/{postType}(postType=${postType})}'|">작성
         </button>
     </div>
