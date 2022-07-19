@@ -6,7 +6,6 @@ import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.event.domain.EventImage;
 import com.eventcafecloud.event.domain.type.EventCategory;
 import com.eventcafecloud.event.dto.*;
-import com.eventcafecloud.event.repository.EventImageRepository;
 import com.eventcafecloud.event.repository.EventRepository;
 import com.eventcafecloud.s3.S3Service;
 import com.eventcafecloud.user.domain.User;
@@ -36,7 +35,6 @@ public class EventService {
     private final EventRepository eventRepository;
     private final CafeRepository cafeRepository;
     private final UserRepository userRepository;
-    private final EventImageRepository eventImageRepository;
     private final S3Service s3Service;
 
     // 이벤트 예약
@@ -50,7 +48,6 @@ public class EventService {
         );
 
         Event event = new Event(requestDto);
-        System.out.println(event);
         event.addCafe(cafe);
         event.addUser(user);
 

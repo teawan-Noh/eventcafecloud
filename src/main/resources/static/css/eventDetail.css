@@ -18,7 +18,6 @@
 
 #event-detail-row1 {
     height: 650px;
-
 }
 
 .col-left {
@@ -55,7 +54,7 @@
 
 .eventBtn {
     float: right;
-    margin: 0px 5px 0px 5px;
+    margin: 0 5px 0 5px;
 }
 
 #staticMap {
@@ -69,6 +68,7 @@
 #event-btn {
     background-color: #4C7A01;
     color: white;
+    float: right;
 }
 
 #map-info {
@@ -93,6 +93,7 @@
 
 #btn-top {
     margin-bottom: 20px;
+    float: right;
 }
 
 #btn-top:hover {

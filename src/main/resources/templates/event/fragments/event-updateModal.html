@@ -13,7 +13,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form role="form" th:action="@{/events/{eventNumber}/detail (eventNumber=${event.id})}" th:object="${eventUpdateRequestDto}" enctype="multipart/form-data" method="post">
+                    <form role="form" th:action="@{/events/{eventNumber}/detail (eventNumber=${event.id})}" th:object="${eventUpdateRequestDto}" method="post">
                         <div class="modal-body">
                             <h5><label style= "float: left; font-weight: bold">이벤트 이름</label></h5>
                             <input class="form-control" placeholder="변경할 이벤트 이름을 입력하세요" required maxlength="24"
@@ -60,7 +60,7 @@
                         <button class="btn btn-secondary" data-dismiss="modal" type="button">나가기</button>
                         <form id="cancle-form" th:action="@{'/events/' + ${event.id} + '/detail'}" method="post">
                             <input type="hidden" name="_method" value="DELETE"/>
-                            <button th:if="${event.eventCancelAvail == true}" class="btn btn-btn-danger" id="cancle">취소하기</button>
+                            <button th:if="${eventReadResponseDto.isCancel == true}" class="btn btn-btn-danger" id="cancle">취소하기</button>
                         </form>
                     </div>
                 </div>

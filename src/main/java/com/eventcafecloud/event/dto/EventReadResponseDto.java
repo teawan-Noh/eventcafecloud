@@ -1,14 +1,9 @@
 package com.eventcafecloud.event.dto;
 
-import com.eventcafecloud.cafe.domain.Cafe;
 import com.eventcafecloud.event.domain.Event;
-import com.eventcafecloud.event.domain.EventImage;
 import com.eventcafecloud.event.domain.type.EventCategory;
 import lombok.*;
-import org.springframework.web.multipart.MultipartFile;
-
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -18,16 +13,13 @@ import java.util.stream.Collectors;
 @Setter
 @Getter
 public class EventReadResponseDto {
-    // private Long eventNumber;
     private String eventName;
     private EventCategory eventCategory;
     private String eventStartDate;
     private String eventEndDate;
     private String eventInfo;
     private boolean isCancel;
-
     private Long userNumber;
-
     private Long cafeNumber;
     private String cafeName;
     private Integer cafeZonecode;
@@ -35,12 +27,10 @@ public class EventReadResponseDto {
     private String cafeAddressDetail;
     private double cafeX;
     private double cafeY;
-
     private List<String> eventImageUrls;
 
 
     public EventReadResponseDto(Event event) {
-        // this.eventNumber = event.getId();
         this.eventName = event.getEventName();
         this.eventCategory = event.getEventCategory();
         this.eventStartDate = event.getEventStartDate();
@@ -55,7 +45,6 @@ public class EventReadResponseDto {
         this.cafeAddressDetail = event.getCafe().getCafeAddressDetail();
         this.cafeX = event.getCafe().getCafeX();
         this.cafeY = event.getCafe().getCafeY();
-
         eventImageUrls = event.getEventImages().stream()
                         .map(i -> i.getEventImageUrl())
                         .collect(Collectors.toList());

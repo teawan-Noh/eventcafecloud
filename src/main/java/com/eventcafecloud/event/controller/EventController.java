@@ -1,10 +1,7 @@
 package com.eventcafecloud.event.controller;
 
-import com.eventcafecloud.cafe.domain.CafeSchedule;
 import com.eventcafecloud.cafe.dto.CafeScheduleRequestDto;
-import com.eventcafecloud.cafe.service.CafeScheduleService;
 import com.eventcafecloud.cafe.service.CafeService;
-import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.event.domain.type.EventCategory;
 import com.eventcafecloud.event.dto.EventCreateRequestDto;
 import com.eventcafecloud.event.dto.EventListResponseDto;
@@ -31,7 +28,6 @@ import java.util.ArrayList;
 public class EventController {
 
     private final EventService eventService;
-    private final CafeScheduleService cafeScheduleService;
     private final CafeService cafeService;
 
     // 이벤트 예약 폼
@@ -67,14 +63,6 @@ public class EventController {
         }
     }
 
-    // 이벤트 수정 폼
-    @GetMapping("/events/{eventNumber}/edit")
-    public String updateEventForm(@PathVariable Long eventNumber, Model model){
-        model.addAttribute("eventUpdateRequestDto", new EventUpdateRequestDto());
-        model.addAttribute("event", eventService.findEventById(eventNumber));
-        return "updateEventModal";
-    }
-
     // 이벤트 수정
     @PostMapping("/events/{eventNumber}/detail")
     public String updateEvent(@PathVariable Long eventNumber, @Validated @ModelAttribute EventUpdateRequestDto requestDto, BindingResult result) {
@@ -86,12 +74,12 @@ public class EventController {
     @DeleteMapping("/events/{eventNumber}/detail")
     public String deleteEvent(@PathVariable Long eventNumber) {
         boolean result = eventService.isEventCancelAvail(eventNumber);
-        if (result == true) {
+        if (result) {
             eventService.removeEvent(eventNumber);
         } else {
             return "redirect:/events/" + eventNumber + "/detail";
         }
-        return "redirect:/events/" + eventNumber + "/detail";
+        return "redirect:/events";
     }
 
     //이벤트삭제(마이페이지)
@@ -108,7 +96,7 @@ public class EventController {
 
     // 이벤트 리스트 보기
     @GetMapping("/events")
-    public String getEventList(@PageableDefault(size = 10) Pageable pageable,
+    public String getEventList(@PageableDefault Pageable pageable,
                                @RequestParam(required = false, defaultValue = "", value = "keyword") String keyword,
                                @RequestParam(required = false, value = "eventCategory") EventCategory eventCategory,
                                User loginUser, Model model) {

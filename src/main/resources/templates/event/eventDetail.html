@@ -1,13 +1,12 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <th:block th:replace="fragments/header :: header"/>
-    <th:block th:replace="fragments/mainHeader :: mainHeader"/>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <th:block th:replace="fragments/header :: header"></th:block>
+    <th:block th:replace="fragments/mainHeader :: mainHeader"></th:block>
 </head>
 
 <body>
-    <div th:replace="fragments/mainTop :: mainTop"/>
+    <div th:replace="fragments/mainTop :: mainTop"></div>
 
     <!--TOP Banner-->
     <div class="topBanner">
@@ -16,15 +15,14 @@
 
     <!--Update & Delete Modal-->
     <div class="right-eventList">
-        <div th:replace="event/fragments/event-updateModal :: eventUpdateModal"/>
+        <div th:replace="event/fragments/event-updateModal :: eventUpdateModal"></div>
     </div>
 
     <!--EventDetail-->
     <div class="eventList">
-        <div th:replace="event/fragments/event-detail :: eventDetail"/>
+        <div th:replace="event/fragments/event-detail :: eventDetail"></div>
     </div>
 </body>
-
 <script th:inline="javascript">
     let x = [[${eventReadResponseDto.getCafeX()}]];
     let y = [[${eventReadResponseDto.getCafeY()}]];
