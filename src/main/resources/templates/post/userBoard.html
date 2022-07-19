@@ -21,7 +21,7 @@
     </div>
 </div>
 <div class="right">
-    <div class="container">
+    <div class="post-container">
         <table class="table table-hover text-center">
             <thead>
             <tr>
@@ -33,7 +33,8 @@
             </tr>
             </thead>
             <tbody id="post_box">
-            <tr th:each="post : ${postList}" th:onclick="|location.href='@{/posts/{id} (id=${post.id})}'|">
+            <tr style="cursor: pointer" th:each="post : ${postList}"
+                th:onclick="|location.href='@{/posts/{id} (id=${post.id})}'|">
                 <td th:text="${post.id}"></td>
                 <td th:text="${post.user.userNickname}"></td>
                 <td class="title-bar">

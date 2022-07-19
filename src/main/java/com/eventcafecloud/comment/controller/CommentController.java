@@ -21,15 +21,10 @@ public class CommentController {
     @PostMapping("/{postId}/comment/registration")
     public String createComment(@PathVariable Long postId, User loginUser,
                                 @Valid @ModelAttribute CommentCreateRequestDto requestDto,
-                                BindingResult bindingResult){
-        if (loginUser != null) {
-            if (bindingResult.hasErrors()) {
-                return "redirect:/posts/" + postId;
-            } else {
-                commentService.saveComment(requestDto, postId, loginUser.getUserEmail());
-                return "redirect:/posts/" + postId;
-            }
-        }
+                                BindingResult bindingResult) {
+        if (loginUser == null || bindingResult.hasErrors())
+            return "redirect:/posts/" + postId;
+        commentService.saveComment(requestDto, postId, loginUser.getUserEmail());
         return "redirect:/posts/" + postId;
     }
 
@@ -40,7 +35,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/{postId}/comment/{commentId}")
-    public String deleteComment(@PathVariable Long commentId, @PathVariable Long postId){
+    public String deleteComment(@PathVariable Long commentId, @PathVariable Long postId) {
         commentService.deleteComment(commentId);
         return "redirect:/posts/" + postId;
     }
