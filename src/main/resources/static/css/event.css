@@ -27,10 +27,6 @@
     width: 260px;
 }
 
-.py-5 {
-    padding-top: 0rem;
-}
-
 #section-list {
     padding-top: 15px;
 
@@ -71,6 +67,10 @@
 
 #title-event-bolder {
     margin: 10px 0 10px 0;
+}
+
+#card-text-info {
+    white-space: pre-line;
 }
 
 .date-start {
