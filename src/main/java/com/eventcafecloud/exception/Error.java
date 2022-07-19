@@ -1,6 +1,5 @@
 package com.eventcafecloud.exception;
 
-import com.eventcafecloud.user.domain.User;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -11,13 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class Error implements ErrorController {
-    private String ERROR_TEMPLATES_PATH = "/error/";
+    private final String ERROR_TEMPLATES_PATH = "/error/";
 
     @RequestMapping(value = "/error")
-    public String handleError(HttpServletRequest request, User loginUser) {
+    public String handleError(HttpServletRequest request) {
         Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
         if (status != null) {
             int statusCode = Integer.valueOf(status.toString());
+            System.out.println("코드 :" + statusCode);
             if (statusCode == HttpStatus.UNAUTHORIZED.value()) {
                 return ERROR_TEMPLATES_PATH + "401";
             }
@@ -28,10 +28,8 @@ public class Error implements ErrorController {
                 return ERROR_TEMPLATES_PATH + "404";
             }
             if (statusCode == HttpStatus.METHOD_NOT_ALLOWED.value()) {
-                System.out.println("실행");
                 return ERROR_TEMPLATES_PATH + "405";
             }
-
             if(statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()){
                 return ERROR_TEMPLATES_PATH + "500";
             }
