@@ -3,41 +3,7 @@
 <head>
     <th:block th:replace="fragments/header :: header"/>
     <th:block th:replace="fragments/mainHeader :: mainHeader"/>
-    <!--    <link rel="stylesheet" type="text/css" href="/css/style.css">-->
-    <style>
-        #cafeContainer{
-            padding-top: 30px;
-            width: 60%;
-            display: flex;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        #form-cafe{
-            width: 100%;
-        }
-
-        .form-group-cafe{
-            width : 100%;
-            margin-top: 15px;
-            margin-bottom: 15px;
-        }
-
-        #cafeOptionCheckBox {
-            border: solid lightgray 1px;
-            padding: 3px 0 3px 10px;
-        }
-
-        .form-check-label {
-            padding-left: 20px;
-        }
-
-        #submitButton {
-            text-align: center;
-            margin-top: 20px;
-            margin-bottom: 40px;
-        }
-    </style>
+        <link rel="stylesheet" type="text/css" href="/css/cafeCreateForm.css">
 </head>
 <body>
 <div th:replace="fragments/mainTop :: mainTop"/>
@@ -127,7 +93,7 @@
         <div class="form-group-cafe">
             <label th:for="city">주소</label>
             <!-- Button to Open the Modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">주소 등록</button>
+            <button type="button" id="address-register-button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">주소 등록</button>
             <input type="text" id="zonecode" th:field="*{cafeZonecode}" class="form-control" hidden>
             <input type="text" id="address" th:field="*{cafeAddress}" class="form-control" placeholder="주소" readonly>
             <input type="text" id="addressDetail" th:field="*{cafeAddressDetail}" class="form-control" placeholder="상세 주소"
