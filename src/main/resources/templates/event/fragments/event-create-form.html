@@ -33,7 +33,7 @@
                 <label th:for="files">이벤트 대표 이미지 및 포스터</label>
                 <br />
                 <div>
-                    <p><small>* 이벤트 메인 이미지와 포스터를 업로드해 주세요.  * 3MB 이하의 파일을 선택해 주세요.</small></p>
+                    <p><small>* 이벤트 메인 이미지와 포스터를 업로드해 주세요. (최대 4장)  * 3MB 이하의 파일을 선택해 주세요.</small></p>
                     <input type="file" multiple="multiple" th:field="*{files}" name="imageFiles" required
                            th:class="${#fields.hasErrors('files')}? 'form-control fieldError' : 'form-control'">
                     <p style="color: #ff4040" th:if="${#fields.hasErrors('files')}" th:errors="*{files}">Incorrect date</p>

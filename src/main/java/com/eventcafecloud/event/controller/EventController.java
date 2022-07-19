@@ -59,7 +59,7 @@ public class EventController {
         if (result.hasErrors()) {
             return "event/createEventForm";
         } else {
-            return "redirect:/events";
+            return "redirect:/cafes/" + requestDto.getCafeNumber()+ "/detail";
         }
     }
 

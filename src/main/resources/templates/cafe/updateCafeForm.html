@@ -3,24 +3,22 @@
 <head>
     <th:block th:replace="fragments/header :: header"/>
     <th:block th:replace="fragments/mainHeader :: mainHeader"/>
-
-
-    <!--    <link rel="stylesheet" type="text/css" href="/css/style.css">-->
-    <style>
-        #cafeContainer{
-            padding-top: 100px;
-        }
-        #cafeOptionCheckBox{
-            border: solid lightgray 1px ;
-            padding: 3px 0 3px 10px;
-        }
-        .form-check-label{
-            padding-left: 20px;
-        }
-        #submitButton{
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="/css/cafeCreateForm.css">
+<!--    <style>-->
+<!--        #cafeContainer{-->
+<!--            padding-top: 100px;-->
+<!--        }-->
+<!--        #cafeOptionCheckBox{-->
+<!--            border: solid lightgray 1px ;-->
+<!--            padding: 3px 0 3px 10px;-->
+<!--        }-->
+<!--        .form-check-label{-->
+<!--            padding-left: 20px;-->
+<!--        }-->
+<!--        #submitButton{-->
+<!--            text-align: center;-->
+<!--        }-->
+<!--    </style>-->
 </head>
 <body>
 <div th:replace="fragments/mainTop :: mainTop"/>
@@ -87,7 +85,7 @@
             <p style="color: #ff4040" th:if="${#fields.hasErrors('cafePrecaution')}" th:errors="*{cafePrecaution}">Incorrect data</p>
         </div>
         <div>
-            <label th:for="options">사용 가능 옵션을 체크해 주세요</label> <small> * 변동 사항이 있는 경우에만 체크해 주세요 </small>
+            <label th:for="options">사용 가능 옵션을 체크해 주세요</label> <small style="color: red"> * 변동 사항이 있는 경우에만 체크해 주세요 </small>
             <div id="cafeOptionCheckBox" class="form-check" th:field="*{cafeOptions}">
                 <label class="form-check-label"><input type="checkbox" class="form-check-input" name="cafeOptions" value="PARK"> 주차 가능 &nbsp;</label>
                 <label class="form-check-label"><input type="checkbox" class="form-check-input" name="cafeOptions" value="FOOD"> 음식물 반입 가능 &nbsp;</label>
@@ -123,7 +121,7 @@
         </div>
         <br/>
         <div>
-            카페 이미지를 업로드.<small> * 변동 사항이 있는 경우에만 체크해 주세요 </small> <br />
+            카페 이미지를 업로드.<small style="color: red"> * 변동 사항이 있는 경우에만 선택해 주세요 </small> <br />
             <small>* Ctrl 클릭으로 여러장 선택, 파일당 용량 제한: 3MB, 전체 용량 제한: 12MB</small><br />
             <input type="file" multiple="multiple" th:field="*{files}" name="imageFiles">
         </div>
