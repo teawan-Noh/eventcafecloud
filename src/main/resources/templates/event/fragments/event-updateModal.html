@@ -26,7 +26,7 @@
                             <h5><label style= "float: left; font-weight: bold">이벤트 소개 및 정보</label></h5>
                             <textarea class="form-control" aria-label="With textarea" placeholder="이벤트의 소개 및 정보를 입력하세요" required
                                       th:class="${#fields.hasErrors('eventInfo')}? 'form-control fieldError' : 'form-control'"
-                                      th:field="*{eventInfo}"></textarea>
+                                      th:field="*{eventInfo}" style="white-space: pre-line"></textarea>
                             <p class="warning-message" th:errors="*{eventInfo}"
                                th:if="${#fields.hasErrors('eventInfo')}">Incorrect date</p>
                         </div>
