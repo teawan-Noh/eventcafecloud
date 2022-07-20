@@ -44,7 +44,7 @@ public class CafeService {
     private final CafeImageRepository cafeImageRepository;
 
     @Transactional
-    public void createCafe(CafeCreateRequestDto requestDto, User securityUser) {
+    public void saveCafe(CafeCreateRequestDto requestDto, User securityUser) {
         User user = userRepoistory.getById(securityUser.getId());
         Cafe cafe = new Cafe(requestDto);
         user.addCafe(cafe);
