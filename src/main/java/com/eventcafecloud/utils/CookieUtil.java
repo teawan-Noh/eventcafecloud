@@ -64,6 +64,7 @@ public class CookieUtil {
                     cookie.setValue("");
                     cookie.setPath("/");
                     cookie.setMaxAge(0);
+                    cookie.setDomain("eventcafecloud.com");
                     response.addCookie(cookie);
                 }
             }
