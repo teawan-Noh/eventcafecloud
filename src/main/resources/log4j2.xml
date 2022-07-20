@@ -7,7 +7,8 @@
             ERROR=red,
             INFO=green, DEBUG=blue} [%C] %style{[%t]}{yellow}- %m%n -
         </Property>
-        <Property name="fileLayout">[%d{yyyy-MM-dd HH:mm:ss}] [%c{1}] [%L] [%p] : %m %n</Property>
+<!--        <Property name="fileLayout">[%d{yyyy-MM-dd HH:mm:ss}] [%c{1}] [%L] [%p] : %m %n</Property>-->
+        <Property name="fileLayout">%d [%t] %-5level %c(%M:%L) - %m%n</Property>
     </Properties>
 
     <Appenders>
