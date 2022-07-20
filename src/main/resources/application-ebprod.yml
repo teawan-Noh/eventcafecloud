@@ -28,7 +28,7 @@ spring:
     generate-ddl: true
 #    show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
 
 server:
   port: 80
