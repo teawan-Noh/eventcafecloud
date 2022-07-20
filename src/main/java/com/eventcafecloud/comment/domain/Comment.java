@@ -7,15 +7,13 @@ import com.eventcafecloud.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Comment {
+public class Comment extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,9 +21,6 @@ public class Comment {
 
     @Column(nullable = false)
     private String commentContent;
-
-    private LocalDateTime createdDate;
-    private LocalDateTime modifiedDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_number")
@@ -37,8 +32,6 @@ public class Comment {
 
     public Comment (CommentCreateRequestDto commentCreateRequestDto) {
         this.commentContent = commentCreateRequestDto.getCommentContent();
-        this.createdDate = LocalDateTime.now();
-        this.modifiedDate = LocalDateTime.now();
     }
 
     public void updateComment(CommentUpdateRequestDto requestDto) {
