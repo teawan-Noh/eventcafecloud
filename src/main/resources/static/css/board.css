@@ -82,3 +82,8 @@
 .post-container {
     margin-top: 50px;
 }
+
+.post-under {
+    width: 97%;
+    padding-right: 20px;
+}
