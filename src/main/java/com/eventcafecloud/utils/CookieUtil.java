@@ -42,7 +42,6 @@ public class CookieUtil {
         cookie.setPath("/");
         cookie.setHttpOnly(false);
         cookie.setMaxAge(maxAge);
-        cookie.setDomain("eventcafecloud.com");
         response.addCookie(cookie);
     }
 
@@ -51,7 +50,6 @@ public class CookieUtil {
         cookie.setPath("/");
         cookie.setHttpOnly(true);
         cookie.setMaxAge(maxAge);
-        cookie.setDomain("eventcafecloud.com");
         response.addCookie(cookie);
     }
 
