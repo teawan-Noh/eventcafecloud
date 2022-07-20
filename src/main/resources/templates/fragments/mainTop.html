@@ -40,7 +40,7 @@
             <div class="form-group" th:if="${#authorization.expression('hasRole(''HOST'')')}">
                 <a class="user-nick" th:href="@{/hosts/profile/{id}/info(id=${userId})}"><p
                         style="display: inline-block" th:text="${userNick}"></p></a>&nbsp;호스트님 환영합니다.
-                <button class="submit_out" style="display:inline-block;" th:onclick="logout()">로그아웃</button>
+                <button class="submit_out" onclick="logout()" style="display:inline-block;">로그아웃</button>
             </div>
         </div>
     </div>
