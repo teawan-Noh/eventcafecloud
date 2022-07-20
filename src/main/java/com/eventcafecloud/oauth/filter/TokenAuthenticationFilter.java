@@ -26,7 +26,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        System.out.println("doFilterInternal 실행 = " + LocalDateTime.now());
         //todo Header에서 token을 받아올 수 있도록 변경 예정
         String tokenStr = CookieUtil.getAccessToken(request);
         AuthToken token = tokenProvider.convertAuthToken(tokenStr);
