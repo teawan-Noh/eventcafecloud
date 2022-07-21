@@ -3,7 +3,7 @@
     <Properties>
         <Property name="inputFileName">input</Property>
         <Property name="outputFileName">output</Property>
-        <Property name="consoleLayout">%style{%d{yyyy/MM/dd HH:mm:ss,SSS}}{cyan} %highlight{[%-5p]}{FATAL=bg_red,
+        <Property name="consoleLayout">%style{%d{yyyy/MM/dd HH:mm:ss,SSS, GMT+9}}{cyan} %highlight{[%-5p]}{FATAL=bg_red,
             ERROR=red,
             INFO=green, DEBUG=blue} [%C] %style{[%t]}{yellow}- %m%n -
         </Property>
