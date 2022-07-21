@@ -19,7 +19,7 @@
 
         <!-- input 로그를 기록하기 위한 파일 패턴 및 정책 정의 -->
         <RollingFile name="inputFile" fileName="logs/${inputFileName}.log"
-                     filePattern="/logs/${inputFileName}.%d{yyyy-MM-dd-hh, GMT+9}.log">
+                     filePattern="/logs/${inputFileName}.%d{yyyy-MM-dd-hh}.log">
             <PatternLayout pattern="${fileLayout}"></PatternLayout>
             <Policies>
                 <TimeBasedTriggeringPolicy modulate="true" interval="1"></TimeBasedTriggeringPolicy><!-- 시간별 로그 파일 생성-->
