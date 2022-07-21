@@ -3,7 +3,7 @@
     <Properties>
         <Property name="inputFileName">input</Property>
         <Property name="outputFileName">output</Property>
-        <Property name="consoleLayout">%style{%d{yyyy/MM/dd HH:mm:ss,SSS, GMT+9}}{cyan} %highlight{[%-5p]}{FATAL=bg_red,
+        <Property name="consoleLayout">%style{%d{yyyy/MM/dd HH:mm:ss,SSS}}{cyan} %highlight{[%-5p]}{FATAL=bg_red,
             ERROR=red,
             INFO=green, DEBUG=blue} [%C] %style{[%t]}{yellow}- %m%n -
         </Property>
@@ -19,7 +19,7 @@
 
         <!-- input 로그를 기록하기 위한 파일 패턴 및 정책 정의 -->
         <RollingFile name="inputFile" fileName="logs/${inputFileName}.log"
-                     filePattern="logs/${inputFileName}.%d{yyyy-MM-dd-hh, GMT+9}.log">
+                     filePattern="/logs/${inputFileName}.%d{yyyy-MM-dd-hh, GMT+9}.log">
             <PatternLayout pattern="${fileLayout}"></PatternLayout>
             <Policies>
                 <TimeBasedTriggeringPolicy modulate="true" interval="1"></TimeBasedTriggeringPolicy><!-- 시간별 로그 파일 생성-->
