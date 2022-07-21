@@ -7,7 +7,7 @@
             ERROR=red,
             INFO=green, DEBUG=blue} [%C] %style{[%t]}{yellow}- %m%n -
         </Property>
-        <Property name="fileLayout">[%d{yyyy-MM-dd HH:mm:ss, zzz}{GMT}] [%c{1}] [%L] [%p] : %m %n</Property>
+        <Property name="fileLayout">[%d{yyyy-MM-dd HH:mm:ss, zzz}{GMT+9}] [%c{1}] [%L] [%p] : %m %n</Property>
     </Properties>
 
     <Appenders>
@@ -19,7 +19,7 @@
 
         <!-- input 로그를 기록하기 위한 파일 패턴 및 정책 정의 -->
         <RollingFile name="inputFile" fileName="logs/${inputFileName}.log"
-                     filePattern="logs/${inputFileName}.%d{yyyy-MM-dd-hh, zzz}{GMT}.log">
+                     filePattern="logs/${inputFileName}.%d{yyyy-MM-dd-hh, zzz}{GMT+9}.log">
             <PatternLayout pattern="${fileLayout}"></PatternLayout>
             <Policies>
                 <TimeBasedTriggeringPolicy modulate="true" interval="1"></TimeBasedTriggeringPolicy><!-- 시간별 로그 파일 생성-->
