@@ -85,7 +85,6 @@ public class EventService {
     }
 
 
-    // 전체 이벤트 목록
     public Page<EventListResponseDto> toDtoList(String keyword, EventCategory eventCategory, Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 12, Sort.Direction.DESC, "id");
@@ -97,19 +96,36 @@ public class EventService {
             events = eventRepository.findByEventNameContainingAndEventCategory(keyword, eventCategory, pageable);
         }
 
-        Page<EventListResponseDto> eventListResponseDtos = events.map(e ->
-                EventListResponseDto.builder()
-                        .eventNumber(e.getId())
-                        .eventName(e.getEventName())
-                        .eventCategory(e.getEventCategory())
-                        .eventStartDate(e.getEventStartDate())
-                        .eventEndDate(e.getEventEndDate())
-                        .eventImageUrls(e.getEventImages().stream()
-                                .map(i -> i.getEventImageUrl())
-                                .collect(Collectors.toList()))
-                        .build());
+        Page<EventListResponseDto> eventListResponseDtos = events.map(EventListResponseDto::new);
+
         return eventListResponseDtos;
     }
+
+    // 전체 이벤트 목록
+//    public Page<EventListResponseDto> toDtoList(String keyword, EventCategory eventCategory, Pageable pageable) {
+//        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
+//        pageable = PageRequest.of(page, 12, Sort.Direction.DESC, "id");
+//
+//        Page<Event> events = null;
+//        if (eventCategory == null) {
+//            events = eventRepository.findByEventNameContaining(keyword, pageable);
+//        } else {
+//            events = eventRepository.findByEventNameContainingAndEventCategory(keyword, eventCategory, pageable);
+//        }
+//
+//        Page<EventListResponseDto> eventListResponseDtos = events.map(e ->
+//                EventListResponseDto.builder()
+//                        .eventNumber(e.getId())
+//                        .eventName(e.getEventName())
+//                        .eventCategory(e.getEventCategory())
+//                        .eventStartDate(e.getEventStartDate())
+//                        .eventEndDate(e.getEventEndDate())
+//                        .eventImageUrls(e.getEventImages().stream()
+//                                .map(i -> i.getEventImageUrl())
+//                                .collect(Collectors.toList()))
+//                        .build());
+//        return eventListResponseDtos;
+//    }
 
     // 이벤트 상세
     public EventReadResponseDto findEvent(Long eventNumber) {
