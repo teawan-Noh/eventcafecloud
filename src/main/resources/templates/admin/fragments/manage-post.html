@@ -68,7 +68,7 @@
                                               method="post"
                                               th:action="@{/admin/posts/{id}/update(id=${post.getId})}"
                                               th:object="${PostStatusUpdateRequestDto}">
-                                            <button class="pass-button" data-target="#exampleModalCenter"
+                                            <button class="pass-button" th:data-target="'#'+${post.getId}"
                                                     data-toggle="modal"
                                                     type="button">
                                                 확인
@@ -76,7 +76,7 @@
                                             <!-- Modal -->
                                             <div aria-hidden="true" aria-labelledby="exampleModalCenterTitle"
                                                  class="modal fade"
-                                                 id="exampleModalCenter"
+                                                 th:id="${post.getId}"
                                                  role="dialog" tabindex="-1">
                                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                                     <div class="modal-content">

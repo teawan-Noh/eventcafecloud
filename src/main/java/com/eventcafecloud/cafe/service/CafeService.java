@@ -45,7 +45,7 @@ public class CafeService {
     private final CafeImageRepository cafeImageRepository;
 
     @Transactional
-    public void createCafe(CafeCreateRequestDto requestDto, User securityUser) {
+    public void saveCafe(CafeCreateRequestDto requestDto, User securityUser) {
         User user = userRepoistory.getById(securityUser.getId());
         Cafe cafe = new Cafe(requestDto);
         user.addCafe(cafe);
@@ -63,7 +63,7 @@ public class CafeService {
         }
 
         // 카페 옵션 생성성
-        List<CafeOptionType> optionList = requestDto.getOptions();
+        List<CafeOptionType> optionList = requestDto.getCafeOptions();
         for (CafeOptionType option : optionList) {
             CafeOption cafeOption = new CafeOption(option);
             cafe.addCafeOption(cafeOption);
@@ -136,17 +136,18 @@ public class CafeService {
 //        return new CafeUpdateRequestDto(cafe);
     }
 
+    // 카페 수정
     @Transactional
     public void modifyCafe(Long id, CafeUpdateRequestDto requestDto) {
         Cafe cafe = cafeRepository.getById(id);
         cafe.updateCafeInfo(requestDto);
 
-        if (requestDto.getOptions() != null) {
+        if (requestDto.getCafeOptions() != null) {
             // db에 저장된 데이터 삭제
             List<CafeOption> cafeOptions = cafe.getCafeOptions();
             cafeOptionRepository.deleteAllInBatch(cafeOptions);
 
-            List<CafeOptionType> optionList = requestDto.getOptions();
+            List<CafeOptionType> optionList = requestDto.getCafeOptions();
             for (CafeOptionType option : optionList) {
                 CafeOption cafeOption = new CafeOption(option);
 

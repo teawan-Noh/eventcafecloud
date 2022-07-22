@@ -50,6 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .csrf().disable()
                 .httpBasic().disable()
+                .formLogin().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(new RestAuthenticationEntryPoint())
                 .accessDeniedHandler(tokenAccessDeniedHandler)
@@ -61,14 +62,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //              .antMatchers("/**").permitAll()   //권한관리대상을 지정, URL, HTTP 메소드별로 관리 가능
                 .antMatchers("/register/**").hasAuthority(RoleType.NORMAL.getCode())
                 .antMatchers("/login").permitAll()
+                .antMatchers("/userLogout").permitAll()
                 .antMatchers("/events/**").permitAll()
                 .antMatchers("/cafes/**").permitAll()
                 .antMatchers("/posts/**").permitAll()
                 .antMatchers("/api/**").permitAll()
                 .anyRequest().authenticated() //설정된 값 이외의 나머지 URL, 인증된 사용자, 로그인한 사용자만 볼 수 있음
-                .and()
-                .logout()
-                .logoutSuccessUrl("/")
                 .and()
                 .oauth2Login()  //Oauth2 로그인 기능에대한 여러가지 설정의 진입점
                 .authorizationEndpoint()

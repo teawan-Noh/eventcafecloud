@@ -70,6 +70,7 @@
 
 #cafeInfoDetail p{
     font-size: 19px;
+    white-space: pre-line;
 }
 
 #openHour{
@@ -82,6 +83,7 @@
 }
 
 #cafePrecaution p{
+    white-space: pre-line;
     font-size: 19px;
 }
 

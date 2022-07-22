@@ -23,7 +23,7 @@ public class CafeController {
     // 카페 등록 페이지 호출
     @Secured("ROLE_HOST")
     @GetMapping("/cafes/registration")
-    public String cafeCreateForm(Model model, User loginUser){
+    public String getCreateCafeForm(Model model, User loginUser){
         if (loginUser != null) {
             model.addAttribute("userNick", loginUser.getUserNickname());
             model.addAttribute("userId", loginUser.getId());
@@ -38,7 +38,7 @@ public class CafeController {
     // ajax 호춣이 아니라서 ContentType 지정을 json으로 못함. -> 데이터 타입 에러
     // 카페 등록
     @PostMapping("/cafes")
-    public String cafeCreate(@Valid CafeCreateRequestDto requestDto, BindingResult result, User loginUser, Model model){
+    public String createCafe(@Valid CafeCreateRequestDto requestDto, BindingResult result, User loginUser, Model model){
         if(result.hasErrors()){
             if (loginUser != null) {
                 model.addAttribute("userNick", loginUser.getUserNickname());
@@ -46,7 +46,7 @@ public class CafeController {
             }
             return "cafe/createCafeForm";
         }
-        cafeService.createCafe(requestDto, loginUser);
+        cafeService.saveCafe(requestDto, loginUser);
 
         return "redirect:/";
     }
@@ -95,9 +95,14 @@ public class CafeController {
 
     // 카페 수정
     @PostMapping("/cafes/{id}")
-    public String updateCafeInfo(@PathVariable Long id, @Valid CafeUpdateRequestDto requestDto, BindingResult result){
+    public String updateCafeInfo(@PathVariable Long id, @Valid CafeUpdateRequestDto requestDto, BindingResult result, User loginUser, Model model){
         if(result.hasErrors()){
-            return "/cafes/updateForm?id="+id;
+            if (loginUser != null) {
+                model.addAttribute("userNick", loginUser.getUserNickname());
+                model.addAttribute("userId", loginUser.getId());
+            }
+            model.addAttribute("cafeId", id);
+            return "cafe/updateCafeForm";
         }
         cafeService.modifyCafe(id, requestDto);
 

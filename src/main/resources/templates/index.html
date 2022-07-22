@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
+    <link rel="favicon" href="/favicon.ico">
     <th:block th:replace="fragments/header :: header"/>
     <th:block th:replace="fragments/mainHeader :: mainHeader"/>
     <script>
@@ -59,7 +60,7 @@
         </div>
         <div id="cafeListContainer"></div>
         <div class="cafeMore">
-            <button onclick="location.href='/cafes/allList'">더보기</button>
+            <button onclick="location.href='/cafes/allList'" style="cursor: pointer">더보기</button>
         </div>
     </div>
     <br>
@@ -70,7 +71,7 @@
         </div>
         <div id="eventListContainer"></div>
         <div class="eventMore">
-            <button onclick="location.href='/events'">더보기</button>
+            <button onclick="location.href='/events'" style="cursor: pointer">더보기</button>
         </div>
     </div>
     <br>

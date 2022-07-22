@@ -25,7 +25,7 @@
                 <br />
                 <div class="form-group-event">
                     <label th:for="eventInfo">이벤트 소개 및 정보</label>
-                    <textarea type="text" th:field="*{eventInfo}" class="form-control" rows="6" placeholder="이벤트 소개를 입력하세요." required
+                    <textarea id="text-info" th:field="*{eventInfo}" class="form-control" rows="6" placeholder="이벤트 소개를 입력하세요." required
                               th:class="${#fields.hasErrors('eventInfo')}? 'form-control fieldError' : 'form-control'"></textarea>
                     <p style="color: #ff4040" th:if="${#fields.hasErrors('eventInfo')}" th:errors="*{eventInfo}">Incorrect data</p>
                 </div>
@@ -33,7 +33,7 @@
                 <label th:for="files">이벤트 대표 이미지 및 포스터</label>
                 <br />
                 <div>
-                    <p><small>* 이벤트 메인 이미지와 포스터를 업로드해 주세요.  * 3MB 이하의 파일을 선택해 주세요.</small></p>
+                    <p><small>* 이벤트 메인 이미지와 포스터를 업로드해 주세요. (최대 4장)  * 3MB 이하의 파일을 선택해 주세요.</small></p>
                     <input type="file" multiple="multiple" th:field="*{files}" name="imageFiles" required
                            th:class="${#fields.hasErrors('files')}? 'form-control fieldError' : 'form-control'">
                     <p style="color: #ff4040" th:if="${#fields.hasErrors('files')}" th:errors="*{files}">Incorrect date</p>
@@ -63,10 +63,8 @@
                     <label th:for="cafeNumber">카페 정보</label>
                     <input type="text" id="cafeNumber" name="cafeNumber" th:value="${cafeId}" class="form-control">
                 </div>
-                <br />
-                <button type="submit" class="btn btn-primary" style="float: right;"
+                <button type="submit" class="btn btn-primary" id="btn-submit"
                         th:data-confirm-create="|이벤트를 예약하시겠습니까?|" onclick="return confirm(this.getAttribute('data-confirm-create'))">이벤트 예약하기</button>
-                <br>
             </form>
         </div>
     </div>
