@@ -1,11 +1,15 @@
 package com.eventcafecloud.event.service;
 
 import com.eventcafecloud.cafe.domain.Cafe;
+import com.eventcafecloud.cafe.domain.CafeReview;
 import com.eventcafecloud.cafe.repository.CafeRepository;
+import com.eventcafecloud.cafe.sort.SortStrategy;
 import com.eventcafecloud.event.domain.Event;
+import com.eventcafecloud.event.domain.EventComment;
 import com.eventcafecloud.event.domain.EventImage;
 import com.eventcafecloud.event.domain.type.EventCategory;
 import com.eventcafecloud.event.dto.*;
+import com.eventcafecloud.event.repository.EventCommentRepository;
 import com.eventcafecloud.event.repository.EventRepository;
 import com.eventcafecloud.s3.S3Service;
 import com.eventcafecloud.user.domain.User;
@@ -23,6 +27,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.eventcafecloud.exception.ExceptionStatus.CAFE_NOT_FOUND;
@@ -35,6 +40,8 @@ public class EventService {
     private final EventRepository eventRepository;
     private final CafeRepository cafeRepository;
     private final UserRepository userRepository;
+    private final EventCommentRepository eventCommentRepository;
+    private final Map<String, SortStrategy> sortStrategyMap;
     private final S3Service s3Service;
 
     // 이벤트 예약
@@ -84,7 +91,7 @@ public class EventService {
         eventRepository.deleteById(eventNumber);
     }
 
-
+    // 전체 이벤트 목록
     public Page<EventListResponseDto> toDtoList(String keyword, EventCategory eventCategory, Pageable pageable) {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 12, Sort.Direction.DESC, "id");
@@ -100,32 +107,6 @@ public class EventService {
 
         return eventListResponseDtos;
     }
-
-    // 전체 이벤트 목록
-//    public Page<EventListResponseDto> toDtoList(String keyword, EventCategory eventCategory, Pageable pageable) {
-//        int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
-//        pageable = PageRequest.of(page, 12, Sort.Direction.DESC, "id");
-//
-//        Page<Event> events = null;
-//        if (eventCategory == null) {
-//            events = eventRepository.findByEventNameContaining(keyword, pageable);
-//        } else {
-//            events = eventRepository.findByEventNameContainingAndEventCategory(keyword, eventCategory, pageable);
-//        }
-//
-//        Page<EventListResponseDto> eventListResponseDtos = events.map(e ->
-//                EventListResponseDto.builder()
-//                        .eventNumber(e.getId())
-//                        .eventName(e.getEventName())
-//                        .eventCategory(e.getEventCategory())
-//                        .eventStartDate(e.getEventStartDate())
-//                        .eventEndDate(e.getEventEndDate())
-//                        .eventImageUrls(e.getEventImages().stream()
-//                                .map(i -> i.getEventImageUrl())
-//                                .collect(Collectors.toList()))
-//                        .build());
-//        return eventListResponseDtos;
-//    }
 
     // 이벤트 상세
     public EventReadResponseDto findEvent(Long eventNumber) {
@@ -150,6 +131,36 @@ public class EventService {
                 .map(e -> new EventListResponseDto(e))
                 .collect(Collectors.toList());
         return eventListResponseDtos;
+    }
+
+    // 댓글등록
+    @Transactional
+    public void saveEventComment(EventCmtRequestDto requestDto, Long eventNumber, User securityUser) {
+        User user = userRepository.getById(securityUser.getId());
+        Event event = eventRepository.findById(eventNumber)
+                .orElseThrow(() -> new IllegalArgumentException(EVENT_NOT_FOUND.getMessage()));
+
+        EventComment eventComment = new EventComment(requestDto);
+        user.addEventComment(eventComment);
+        event.addEventComment(eventComment);
+
+        eventCommentRepository.save(eventComment);
+    }
+
+    public Page<EventCmtResponseDto> findEventCmtListByEventId(Long eventNumber, int page, int size, String sortStrategyKey) {
+
+        SortStrategy sortStrategy = sortStrategyMap.get(sortStrategyKey);
+        Sort sort = sortStrategy.sort();
+        Pageable pageable = PageRequest.of(page - 1, size, sort);
+
+        Page<EventComment> all = eventCommentRepository.findAllByEventId(eventNumber, pageable);
+        return all.map(EventCmtResponseDto::new);
+    }
+
+    // 댓글 삭제
+    @org.springframework.transaction.annotation.Transactional
+    public void removeEventCmtByCmtId(Long id) {
+        eventCommentRepository.deleteById(id);
     }
 
     /**
