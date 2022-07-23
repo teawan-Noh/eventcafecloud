@@ -1,9 +1,10 @@
 spring:
   datasource:
-    url: jdbc:mysql://${rds.hostname}:${rds.port}/${rds.dbname}
+    url: jdbc:mysql://${rds.hostname}:${rds.port}/${rds.dbname}?serverTimezone=KST&useLegacyDatetimeCode=false
     username: ${rds.username}
     password: ${rds.password}
     driver-class-name: ${rds.driver}
+
 
   config:
     use-legacy-processing: true
