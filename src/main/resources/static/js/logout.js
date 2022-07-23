@@ -7,7 +7,6 @@ function logout() {
         type: "GET",
         url: "/userLogout",
         success: function (response) {
-            alert("실행")
             window.location.href = '/';
         }
     });
