@@ -10,6 +10,7 @@ import com.eventcafecloud.event.repository.EventRepository;
 import com.eventcafecloud.s3.S3Service;
 import com.eventcafecloud.user.domain.User;
 import com.eventcafecloud.user.repository.UserRepository;
+import com.nhncorp.lucy.security.xss.XssPreventer;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
@@ -233,6 +234,7 @@ public class CafeService {
                 () -> new IllegalArgumentException(CAFE_NOT_FOUND.getMessage())
         );
 
+        requestDto.setReviewContent(XssPreventer.escape(requestDto.getReviewContent()));
         CafeReview cafeReview = new CafeReview(requestDto);
         user.addCafeReview(cafeReview);
         cafe.addCafeReview(cafeReview);
