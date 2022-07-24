@@ -1,0 +1,109 @@
+ /*container top*/
+.container-top {
+    margin: 20px 250px 15px;
+}
+
+#category-select {
+    height: 38px;
+    width: 100%;
+}
+
+#input-search {
+    height: 38px;
+    width: 78%;
+    border-color: #2b2a29;
+}
+
+#btn-search {
+    height: 38px;
+    width: 17%;
+}
+
+#btn-search:hover {
+    background-color: #4C7A01;
+}
+
+.form-control {
+    width: 260px;
+}
+
+#section-list {
+    padding-top: 15px;
+
+}
+
+
+/*container*/
+#event-form-container {
+    width: 75%;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.card {
+    cursor: pointer;
+    margin: 15px;
+    width: 300px;
+    height: 520px;
+}
+
+.card-img-top {
+    height: 290px;
+    margin-bottom: 10px;
+}
+
+ #badge-cate {
+     background-color: #774B00;
+     color: #F5F5DC;
+     font-weight: bold;
+     font-size: 20px;
+     padding-right: 10px;
+     margin-bottom: 0;
+     margin-right: 10px;
+     margin-top: 0;
+     border-radius: 25px;
+     font-family: 'Cute Font', cursive;
+ }
+
+#title-event-bolder {
+    margin: 10px 0 10px 0;
+}
+
+#card-text-info {
+    white-space: pre-line;
+    word-break: break-word;
+}
+
+.date-start {
+    float:left;
+}
+
+.date-end {
+    float: right;
+}
+
+#btn-list {
+    float: right;
+}
+
+#btn-list:hover {
+    background-color: #4C7A01;
+}
+
+/*eventList*/
+ #event-pagination {
+     justify-content: center;
+     padding-right: 0;
+     width: 100%;
+ }
+
+ .page-number {
+     background-color: white;
+     margin-left: 5px;
+     border: none;
+     color: #2b2a29;
+     padding: 5px;
+     font-size: 15px;
+     font-weight: bold;
+ }

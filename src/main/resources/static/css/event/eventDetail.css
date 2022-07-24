@@ -1,0 +1,102 @@
+#eventDetailContainer {
+    width: 65%;
+    margin: auto;
+}
+
+#event-detail-header {
+    margin: 25px auto 25px auto;
+}
+
+.badge {
+    height: 32px;
+    width: 140px;
+}
+
+#event-detail-info {
+    margin-top: 20px;
+}
+
+#event-detail-row1 {
+    height: 650px;
+}
+
+.col-left {
+    width: 58%;
+    height: 100%;
+}
+
+
+#event-card  {
+    height: 99%
+}
+
+#event-card-body {
+    height: 100%;
+}
+
+#event-card-img {
+    height: 100%;
+
+}
+
+.col-right {
+    width: 38%;
+    margin-left : 30px;
+}
+
+#event-detail-information {
+    height: 90%;
+}
+
+#card-text-info {
+    height: 460px;
+    white-space: pre-line;
+}
+
+.eventBtn {
+    float: right;
+    margin: 0 5px 0 5px;
+}
+
+#staticMap {
+    width: 80%;
+}
+
+#card-cafe-detail {
+    height: 450px;
+}
+
+#event-btn {
+    background-color: #4C7A01;
+    color: white;
+    float: right;
+}
+
+#map-info {
+    margin-top: 70%;
+}
+
+.event-detail-poster div img {
+    width: 100%;
+}
+
+.event-detail-poster div h4 {
+    margin: 20px 10px 30px 10px;
+}
+
+#event-img-poster {
+    margin-bottom: 15px;
+}
+
+.card-info {
+    border: none;
+}
+
+#btn-top {
+    margin-bottom: 20px;
+    float: right;
+}
+
+#btn-top:hover {
+    background-color: #4C7A01;
+}
