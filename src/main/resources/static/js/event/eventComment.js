@@ -1,4 +1,4 @@
-function addComment(eventNumber) {
+function addComment() {
     let eventCmtContent = $("#textarea-box").val()
     if (eventCmtContent === "") {
         alert("댓글을 작성해주세요");
@@ -26,7 +26,7 @@ function getEventCmtList() {
     // 정렬 조건 추가하면 사용 // 카페 list 페이지에서 사용하는 것 참조
     // let sortStrategyKey = $("#sorting option:selected").val();
     let sortStrategyKey = "createdDateDesc";
-    dataSource = `/api/events/${id}/comment?sortStrategyKey=${sortStrategyKey}`;
+    dataSource = `/api/events/${eventNumber}/comment?sortStrategyKey=${sortStrategyKey}`;
 
     $('#comment-list-container').empty();
     $('#pagination').pagination({
@@ -50,7 +50,6 @@ function getEventCmtList() {
         callback: function (data, pagination) {
             $('#comment-list-container').empty();
             for (let comment of data) {
-                console.log(comment);
                 let tempHtml = makeHtmlComment(comment);
                 let userId = comment["userNumber"];
                 let eventCmtNumber = comment["eventCmtNumber"];
