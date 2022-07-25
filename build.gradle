@@ -48,7 +48,12 @@ dependencies {
     testImplementation 'org.springframework.security:spring-security-test'
 
     // https://mvnrepository.com/artifact/org.thymeleaf.extras/thymeleaf-extras-springsecurity5
+
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5:3.0.4.RELEASE'
+    //xss예방 - 네이버 filter
+    implementation 'com.navercorp.lucy:lucy-xss-servlet:2.0.0'
+    implementation 'com.navercorp.lucy:lucy-xss:1.6.3'
+
 }
 
 configurations {
