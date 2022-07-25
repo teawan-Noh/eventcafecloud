@@ -3,7 +3,10 @@ package com.eventcafecloud.cafe.dto;
 import com.eventcafecloud.cafe.domain.Cafe;
 import com.eventcafecloud.cafe.domain.CafeOption;
 import com.eventcafecloud.cafe.domain.CafeOptionType;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotEmpty;
@@ -12,6 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
+@AllArgsConstructor
+@Builder
+@NoArgsConstructor
 public class CafeUpdateRequestDto {
 
     @NotEmpty(message = "카페 이름은 필수 입니다.")
@@ -51,6 +57,8 @@ public class CafeUpdateRequestDto {
     private List<CafeOptionType> cafeOptions = new ArrayList<>();
     private List<MultipartFile> files;
 
+    private int statusCode;
+
     // update의 경우 dto를 양방향으로 사용하게 되는데 생성자로 만들경우 수정 요청시 파라미터에 호출될 떄 생성자가 호출되어 값을 넣어주지 못하여 null 관련 에러 발생
     public static CafeUpdateRequestDto toDto(Cafe cafe) {
         CafeUpdateRequestDto requestDto = new CafeUpdateRequestDto();
@@ -67,6 +75,8 @@ public class CafeUpdateRequestDto {
         requestDto.cafeWeekendPrice = cafe.getCafeWeekendPrice();
         requestDto.cafeOpenTime = cafe.getCafeOpenTime();
         requestDto.cafeCloseTime = cafe.getCafeCloseTime();
+        requestDto.statusCode = 200;
+
         // 보내기는 했는데 타임리프로 체크박스 체크 방법을 찾지 못함
 //        for (int i = 0; i < cafe.getCafeOptions().size(); i++) {
 //            System.out.println(cafe.getCafeOptions().get(i).getCafeOptionType());
