@@ -18,10 +18,10 @@ import java.util.TimeZone;
 })
 public class EventcafecloudApplication {
 
-//    @PostConstruct
-//    public void started() {
-//        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
-//    }
+    @PostConstruct
+    public void started() {
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
+    }
     public static void main(String[] args) {
         SpringApplication.run(EventcafecloudApplication.class, args);
     }
