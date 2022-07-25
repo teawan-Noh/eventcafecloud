@@ -43,7 +43,7 @@ public class PostService {
         Post post = postRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
         if (!Objects.equals(post.getUser().getId(), loginUser.getId())) {
-            return 200;
+            return 500;
         }
         post.updatePost(requestDto);
         return 200;
