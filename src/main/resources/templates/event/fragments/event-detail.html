@@ -99,7 +99,29 @@
                     </div>
                 </div>
                 <br>
+                <hr>
             </section>
+
+            <!--Event Comment-->
+            <section id="event-comments">
+                <h5> * 이벤트에 관한 댓글을 남겨주세요.</h5>
+                <div class="comment-input-box">
+                    <div class="textarea-box">
+                        <textarea class="form-control" id="textarea-box" placeholder="댓글을 작성해주세요! &#13;&#10;더욱 많은 이야기는 게시판을 이용해주세요." style="resize: none"></textarea>
+                    </div>
+                    <div>
+                        <div class="button-box" th:if="${userId != null}">
+                            <button onclick="addComment()" class="button-box">댓글 등록</button>
+                        </div>
+                        <div th:if="${userId == null}" class="button-box">
+                            <button onclick='alert("로그인 후 이용해주세요!")' class="button-box">댓글 등록</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="comment-list-container"></div>
+                <div id="pagination"></div>
+            </section>
+
             <hr>
             <div style="margin-bottom: 30px">
                 <button type="button" class="btn btn-outline-dark" id="btn-top"><a href = "#" style="text-decoration-line: none;" > TOP ▴ </a></button>

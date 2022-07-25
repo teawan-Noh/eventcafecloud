@@ -5,7 +5,7 @@
     <th:block th:replace="fragments/mainHeader :: mainHeader"/>
 
     <!--Import CSS-->
-    <Link rel="stylesheet" type="text/css" href="css/event.css">
+    <Link rel="stylesheet" type="text/css" href="css/event/event.css">
 </head>
 <body>
 <div th:replace="fragments/mainTop :: mainTop"/>
@@ -24,11 +24,11 @@
                 <div class="col">
                     <select class="category-order-select" id="category-select" th:name="eventCategory">
                         <option value="" selected="" style="color: grey;">카테고리를 선택 후 검색을 눌러주세요.</option>
-                        <option value="KPOP">KPOP</option>
-                        <option value="INFLUENCER">INFLUENCER</option>
-                        <option value="ANIMATION">ANIMATION</option>
-                        <option value="WEBTOON">WEBTOON</option>
-                        <option value="NOVEL">NOVEL</option>
+                        <option value="KPOP">케이팝 K-POP</option>
+                        <option value="INFLUENCER">인플루언서 Influencer</option>
+                        <option value="ANIMATION">애니메이션 Animation</option>
+                        <option value="WEBTOON">웹툰 Webtoon</option>
+                        <option value="NOVEL">소설 Novel</option>
                     </select>
                 </div>
                 <div class="col">
