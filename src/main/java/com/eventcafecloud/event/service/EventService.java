@@ -1,7 +1,6 @@
 package com.eventcafecloud.event.service;
 
 import com.eventcafecloud.cafe.domain.Cafe;
-import com.eventcafecloud.cafe.domain.CafeReview;
 import com.eventcafecloud.cafe.repository.CafeRepository;
 import com.eventcafecloud.cafe.sort.SortStrategy;
 import com.eventcafecloud.event.domain.Event;
@@ -14,6 +13,7 @@ import com.eventcafecloud.event.repository.EventRepository;
 import com.eventcafecloud.s3.S3Service;
 import com.eventcafecloud.user.domain.User;
 import com.eventcafecloud.user.repository.UserRepository;
+import com.nhncorp.lucy.security.xss.XssPreventer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -140,6 +140,7 @@ public class EventService {
         Event event = eventRepository.findById(eventNumber)
                 .orElseThrow(() -> new IllegalArgumentException(EVENT_NOT_FOUND.getMessage()));
 
+        requestDto.setEventCmtContent(XssPreventer.escape(requestDto.getEventCmtContent()));
         EventComment eventComment = new EventComment(requestDto);
         user.addEventComment(eventComment);
         event.addEventComment(eventComment);
@@ -158,7 +159,7 @@ public class EventService {
     }
 
     // 댓글 삭제
-    @org.springframework.transaction.annotation.Transactional
+    @Transactional
     public void removeEventCmtByCmtId(Long id) {
         eventCommentRepository.deleteById(id);
     }
