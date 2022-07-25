@@ -108,6 +108,4 @@ public class CafeController {
 
         return "redirect:/cafes/allList";
     }
-
-
 }
