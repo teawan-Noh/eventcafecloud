@@ -1,0 +1,22 @@
+.footer {
+    padding: 20px;
+    background-color: #774B00;
+    color: white;
+}
+.footer-ul {
+    padding: 0;
+}
+.footer-list {
+    display: inline-block;
+    padding: 5px 10px 10px 0;
+}
+.sns li{
+    margin-right: 25px;
+    float: right;
+    list-style-type: none;
+    text-decoration: none;
+    font-size: 22px;
+}
+.sns li:hover{
+    cursor: pointer;
+}

@@ -8,15 +8,15 @@
     <Link rel="stylesheet" type="text/css" href="css/event.css">
 </head>
 <body>
-  <div th:replace="fragments/mainTop :: mainTop"/>
+<div th:replace="fragments/mainTop :: mainTop"/>
 
-  <!--TOP Banner-->
-  <div class="topBanner">
-      <div class="topFont">이벤트</div>
-  </div>
+<!--TOP Banner-->
+<div class="topBanner">
+    <div class="topFont">이벤트</div>
+</div>
 
-  <!--Event List-->
-  <div id="eventListContainer" class="eventListContainer">
+<!--Event List-->
+<div id="eventListContainer" class="eventListContainer">
     <!--Event Container Top  -->
     <div class="container-top">
         <div class="row">
@@ -32,83 +32,91 @@
                     </select>
                 </div>
                 <div class="col">
-                    <input class="form-control mr-sm-2" id="input-search" name="keyword" type="search" placeholder="Search">
+                    <input class="form-control mr-sm-2" id="input-search" name="keyword" type="search"
+                           placeholder="Search">
                     <button class="btn btn-outline-success my-2 my-sm-0" id="btn-search" type="submit">검색</button>
                 </div>
             </form>
         </div>
     </div>
 
-      <!--Event List Body & Pagination-->
-      <div class="event-form">
-          <section class="py-5" id="section-list">
-              <div class="event-form-container" id="event-form-container">
-                  <div class="row">
-                      <!-- First Event -->
-                      <div class="col" th:each="eventListResponseDto : ${eventListResponseDtos}">
-                          <div class="card" id="eventlist-card" th:onclick="|location.href='@{/events/{eventNumber}/detail (eventNumber=${eventListResponseDto.getEventNumber()})}'|">
-                              <!-- Details-->
-                              <div class="card-body ">
-                                  <div class="text">
-                                      <!-- Event image, category, name, startdate, enddate -->
-                                      <img class="card-img-top" th:src="@{${eventListResponseDto.getEventImageUrls().get(0)}}" alt="..." />
-                                      <h5><span class="badge badge-secondary" id="badge-cate" ><p th:text="|${eventListResponseDto.getEventCategory()} |"> 이벤트 카테고리</p></span></h5>
-                                      <h4 class="title-event-bolder" id="title-event-bolder" th:text="${eventListResponseDto.getEventName()}">이벤트명</h4>
-                                      <div class="date-start">
-                                          <p th:text="${eventListResponseDto.getEventStartDate()} + ' ~ ' + ${eventListResponseDto.getEventEndDate()}"> 이벤트 기간</p>
-                                      </div>
-                                      <button type="button" class="btn btn-outline-dark" id="btn-list">
-                                          <a th:href = "@{/events/{eventNumber}/detail (eventNumber=${eventListResponseDto.getEventNumber()})}" style="text-decoration-line: none;">이벤트 상세보기</a>
-                                      </button>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </section>
+    <!--Event List Body & Pagination-->
+    <div class="event-form">
+        <section class="py-5" id="section-list">
+            <div class="event-form-container" id="event-form-container">
+                <div class="row">
+                    <!-- First Event -->
+                    <div class="col" th:each="eventListResponseDto : ${eventListResponseDtos}">
+                        <div class="card" id="eventlist-card"
+                             th:onclick="|location.href='@{/events/{eventNumber}/detail (eventNumber=${eventListResponseDto.getEventNumber()})}'|">
+                            <!-- Details-->
+                            <div class="card-body ">
+                                <div class="text">
+                                    <!-- Event image, category, name, startdate, enddate -->
+                                    <img class="card-img-top"
+                                         th:src="@{${eventListResponseDto.getEventImageUrls().get(0)}}" alt="..."/>
+                                    <h5><span class="badge badge-secondary" id="badge-cate"><p
+                                            th:text="|${eventListResponseDto.getEventCategory()} |"> 이벤트 카테고리</p></span>
+                                    </h5>
+                                    <h4 class="title-event-bolder" id="title-event-bolder"
+                                        th:text="${eventListResponseDto.getEventName()}">이벤트명</h4>
+                                    <div class="date-start">
+                                        <p th:text="${eventListResponseDto.getEventStartDate()} + ' ~ ' + ${eventListResponseDto.getEventEndDate()}">
+                                            이벤트 기간</p>
+                                    </div>
+                                    <button type="button" class="btn btn-outline-dark" id="btn-list">
+                                        <a th:href="@{/events/{eventNumber}/detail (eventNumber=${eventListResponseDto.getEventNumber()})}"
+                                           style="text-decoration-line: none;">이벤트 상세보기</a>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-          <!--Pagination-->
-          <nav class="page">
-              <ul class="pagination" id="event-pagination"
-                  th:with="start=${T(java.lang.Math).floor(eventListResponseDtos.number/10)*10 + 1},
+        <!--Pagination-->
+        <nav class="page">
+            <ul class="pagination" id="event-pagination"
+                th:with="start=${T(java.lang.Math).floor(eventListResponseDtos.number/10)*10 + 1},
                     last=(${start + 9 < eventListResponseDtos.totalPages ? start + 9 : eventListResponseDtos.totalPages})">
-                  <li>
-                      <a aria-label="First" class="page-number"
-                         th:href="@{/events(page=1)}">
-                          <span aria-hidden="true"><<</span>
-                      </a>
-                  </li>
-                  <li th:class="${eventListResponseDtos.first} ? 'disabled'">
-                      <a aria-label="Previous" class="page-number"
-                         th:href="${eventListResponseDtos.first} ? '#' : @{/events(page=${eventListResponseDtos.number})}">
-                          <span aria-hidden="true">&lt;</span>
-                      </a>
-                  </li>
+                <li>
+                    <a aria-label="First" class="page-number"
+                       th:href="@{/events(page=1)}">
+                        <span aria-hidden="true"><<</span>
+                    </a>
+                </li>
+                <li th:class="${eventListResponseDtos.first} ? 'disabled'">
+                    <a aria-label="Previous" class="page-number"
+                       th:href="${eventListResponseDtos.first} ? '#' : @{/events(page=${eventListResponseDtos.number})}">
+                        <span aria-hidden="true">&lt;</span>
+                    </a>
+                </li>
 
-                  <li th:class="${page == eventListResponseDtos.number + 1} ? 'active'"
-                      th:each="page: ${#numbers.sequence(start, last)}">
-                      <a class="page-number" th:href="@{/events(page=${page})}"
-                         th:text="${page}" style="font-weight: bolder"></a>
-                  </li>
+                <li th:class="${page == eventListResponseDtos.number + 1} ? 'active'"
+                    th:each="page: ${#numbers.sequence(start, last)}">
+                    <a class="page-number" th:href="@{/events(page=${page})}"
+                       th:text="${page}" style="font-weight: bolder"></a>
+                </li>
 
-                  <li th:class="${eventListResponseDtos.last} ? 'disabled'">
-                      <a aria-label="Next" class="page-number"
-                         th:href="${eventListResponseDtos.last} ? '#' : @{/events(page=${eventListResponseDtos.number + 2})}">
-                          <span aria-hidden="true">&gt;</span>
-                      </a>
-                  </li>
-                  <li>
-                      <a aria-label="Last" class="page-number"
-                         th:href="@{/events(page=${eventListResponseDtos.totalPages})}">
-                          <span aria-hidden="true">>></span>
-                      </a>
-                  </li>
-              </ul>
-              <br>
-          </nav>
-      </div>
+                <li th:class="${eventListResponseDtos.last} ? 'disabled'">
+                    <a aria-label="Next" class="page-number"
+                       th:href="${eventListResponseDtos.last} ? '#' : @{/events(page=${eventListResponseDtos.number + 2})}">
+                        <span aria-hidden="true">&gt;</span>
+                    </a>
+                </li>
+                <li>
+                    <a aria-label="Last" class="page-number"
+                       th:href="@{/events(page=${eventListResponseDtos.totalPages})}">
+                        <span aria-hidden="true">>></span>
+                    </a>
+                </li>
+            </ul>
+            <br>
+        </nav>
     </div>
-  </div>
+</div>
+<div th:replace="fragments/footer :: footer"/>
 </body>
 </html>
