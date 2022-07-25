@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.Objects;
+
 import static com.eventcafecloud.exception.ExceptionStatus.POST_NOT_FOUND;
 import static com.eventcafecloud.exception.ExceptionStatus.USER_NOT_FOUND;
 
@@ -37,10 +39,14 @@ public class PostService {
     }
 
     //게시글 업데이트
-    public void modifyPost(@PathVariable Long id, PostUpdateRequestDto requestDto){
+    public int modifyPost(@PathVariable Long id, PostUpdateRequestDto requestDto, User loginUser){
         Post post = postRepository.findById(id).orElseThrow(() ->
                 new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
+        if (!Objects.equals(post.getUser().getId(), loginUser.getId())) {
+            return 500;
+        }
         post.updatePost(requestDto);
+        return 200;
     }
 
     //게시글 삭제
@@ -52,10 +58,13 @@ public class PostService {
         }
     }
 
-    //PostId로 게시글 조회
-    public PostUpdateRequestDto findPostByIdForUpdate(Long id) {
+    //ID별 수정페이지 호출
+    public PostUpdateRequestDto findPostByIdForUpdate(Long id, User loginUser) {
         Post post = postRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
+        if (!Objects.equals(post.getUser().getId(), loginUser.getId())){
+            return null;
+        }
         return PostUpdateRequestDto.toDto(post);
     }
 
