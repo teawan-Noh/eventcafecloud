@@ -65,8 +65,11 @@ public class EventController {
 
     // 이벤트 수정
     @PostMapping("/events/{eventNumber}/detail")
-    public String updateEvent(@PathVariable Long eventNumber, @Validated @ModelAttribute EventUpdateRequestDto requestDto, BindingResult result) {
-        eventService.modifyEvent(eventNumber, requestDto);
+    public String updateEvent(@PathVariable Long eventNumber, @Validated @ModelAttribute EventUpdateRequestDto requestDto, BindingResult result, User loginUser) {
+        int statusCode = eventService.modifyEvent(eventNumber, requestDto, loginUser);
+        if (statusCode == 500) {
+            return "error/500";
+        }
         return "redirect:/events/{eventNumber}/detail";
     }
 
