@@ -46,7 +46,8 @@
                 <p th:if="${#fields.hasErrors('postContent')}" th:errors="*{postContent}"></p>
                 <div id="edit-buttons">
                     <a href="/posts" class="btn btn-default">목록으로</a>
-                    <button type="submit" class="btn btn-primary" id="insert">저장하기</button>
+                    <button type="submit" class="btn btn-primary" id="insert"
+                            th:data-confirm-create="|게시글을 작성하시겠습니까?|" onclick="return confirm(this.getAttribute('data-confirm-create'))">저장하기</button>
                 </div>
             </div>
         </form>

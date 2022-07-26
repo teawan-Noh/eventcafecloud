@@ -41,6 +41,7 @@
                 <tbody id="post_box">
                 <tr>
                     <td th:text="${post.id}"></td>
+                    <td th:text="${post.userNickname}"></td>
                     <td th:text="${post.postTitle}"></td>
                     <td th:text="${post.postCount}"></td>
                     <td th:text="${#temporals.format(post.createdDate,'yyyy-MM-dd')}"></td>
@@ -94,12 +95,10 @@
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">
                                         <label th:for="commentContent"></label>
-                                        <textarea th:field="*{commentContent}"
-                                                  placeholder="댓글 작성 시 타인에 대한 배려와 책임을 담아주세요." class="form-control"
-                                                  id="exampleFormControlTextarea1" rows="3" style="resize: none;"
-                                                  required maxlength="55"></textarea>
-                                        <button th:if="${userId != null}" type="submit" class="btn btn-dark mt-3">작성
-                                        </button>
+                                        <textarea th:field="*{commentContent}" placeholder="댓글 작성 시 타인에 대한 배려와 책임을 담아주세요." class="form-control"
+                                                  id="exampleFormControlTextarea1" rows="3" style="resize: none;" required maxlength="55"></textarea>
+                                        <button th:if="${userId != null}" type="submit" class="btn btn-dark mt-3"
+                                                th:data-confirm-create="|댓글을 작성하시겠습니까?|" onclick="return confirm(this.getAttribute('data-confirm-create'))">작성</button>
                                         <button th:if="${userId == null}" type="button" class="btn btn-dark mt-3"
                                                 onclick='alert("로그인 후 이용해주세요!")'>작성
                                         </button>
