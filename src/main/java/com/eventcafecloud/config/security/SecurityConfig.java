@@ -54,12 +54,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling()
                 .authenticationEntryPoint(new RestAuthenticationEntryPoint())
                 .accessDeniedHandler(tokenAccessDeniedHandler)
-//                .accessDeniedPage("/resources/static/401.png")
                 .and()
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
                 .antMatchers("/", "/favicon.ico", "/**/*.png", "/**/*.gif", "/**/*.svg", "/**/*.jpg", "/**/*.html", "/**/*.css", "/**/*.js").permitAll()
-//              .antMatchers("/**").permitAll()   //권한관리대상을 지정, URL, HTTP 메소드별로 관리 가능
                 .antMatchers("/register/**").hasAuthority(RoleType.NORMAL.getCode())
                 .antMatchers("/login").permitAll()
                 .antMatchers("/userLogout").permitAll()
