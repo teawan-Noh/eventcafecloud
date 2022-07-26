@@ -71,4 +71,14 @@ public class CafeApiController {
     public String deleteCafe(@PathVariable Long id, User loginUser) {
         return cafeService.removeCafe(id);
     }
+
+    @PostMapping("/cafes/{id}/bookmark")
+    public void createBookmark(@PathVariable Long id, User loginUser){
+        cafeService.saveCafeBookmark(id, loginUser);
+    }
+
+    @DeleteMapping("/cafes/{id}/bookmark")
+    public void deleteBookmark(@PathVariable Long id, User loginUser){
+        cafeService.removeCafeBookmark(id, loginUser);
+    }
 }

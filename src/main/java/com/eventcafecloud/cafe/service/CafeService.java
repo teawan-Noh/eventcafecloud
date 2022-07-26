@@ -43,6 +43,7 @@ public class CafeService {
     private final Map<String, SortStrategy> sortStrategyMap;
     private final CafeOptionRepository cafeOptionRepository;
     private final CafeImageRepository cafeImageRepository;
+    private final CafeBookmarkRepository cafeBookmarkRepository;
 
     @Transactional
     public void saveCafe(CafeCreateRequestDto requestDto, User securityUser) {
@@ -117,13 +118,18 @@ public class CafeService {
         return cafeRepository.findAllByUserId(id, pageable);
     }
 
-    public CafeDetailResponseDto findCafeByIdForDetail(Long id) {
-        Cafe cafe = cafeRepository.findById(id).orElseThrow(
+    public CafeDetailResponseDto findCafeByIdForDetail(Long cafeId, User loginUser) {
+        Cafe cafe = cafeRepository.findById(cafeId).orElseThrow(
                 () -> new IllegalArgumentException(CAFE_NOT_FOUND.getMessage()));
 
-//        System.out.println((double) (cafe.getCafeReviewScore() / cafe.getCafeReviews().size()));
+        boolean checkBookmarkByLoginUser;
+        if (loginUser != null){
+             checkBookmarkByLoginUser = cafeBookmarkRepository.existsByCafeIdAndUserId(cafeId, loginUser.getId());
+        }else {
+            checkBookmarkByLoginUser = false;
+        }
 
-        return new CafeDetailResponseDto(cafe);
+        return new CafeDetailResponseDto(cafe, checkBookmarkByLoginUser);
     }
 
     public CafeUpdateRequestDto findCafeByIdForUpdateForm(Long id, User loginUser) {
@@ -328,5 +334,23 @@ public class CafeService {
             }
         }
         return dates;
+    }
+
+    @Transactional
+    public void saveCafeBookmark(Long id, User loginUser) {
+        User user = userRepoistory.getById(loginUser.getId());
+        Cafe cafe = cafeRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException(CAFE_NOT_FOUND.getMessage()));
+
+        CafeBookmark cafeBookmark = CafeBookmark.builder()
+                .user(user)
+                .cafe(cafe)
+                .build();
+        cafeBookmarkRepository.save(cafeBookmark);
+    }
+
+    @Transactional
+    public void removeCafeBookmark(Long cafeId, User loginUser) {
+        cafeBookmarkRepository.deleteByCafeIdAndUserId(cafeId, loginUser.getId());
     }
 }

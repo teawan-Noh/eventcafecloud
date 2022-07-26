@@ -22,6 +22,24 @@
     font-weight: bold;
 }
 
+#cafeDetailTop .infoBox {
+    padding: 5px 0;
+}
+
+#cafeDetailTop .optionBoxContainer {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 5px;
+}
+
+#cafeDetailTop .bookMarkBox i{
+    font-size: 40px;
+}
+
+#cafeDetailTop .bookMarkBox:hover {
+    cursor: pointer;
+}
+
 #cafeDetailMiddle {
     display: flex;
     padding-top: 50px;
@@ -29,12 +47,11 @@
 
 #cafeDetailMiddle .leftImgBox {
     width: 65%;
-    /*height: 20%;*/
 }
 
 #cafeDetailMiddle .leftImgBox .carousel-inner div img {
     height: 600px;
-    width:100%;
+    width: 100%;
     object-fit: contain;
 }
 
@@ -68,29 +85,30 @@
     margin-top: 20px;
 }
 
-#cafeInfoDetail p{
+#cafeInfoDetail p {
     font-size: 19px;
     white-space: pre-line;
 }
 
-#openHour{
+#openHour {
     font-size: 25px;
     margin: 20px 0 20px 0;
 }
 
-#cafePrecaution{
+#cafePrecaution {
     margin-top: 30px;
 }
 
-#cafePrecaution p{
+#cafePrecaution p {
     white-space: pre-line;
     font-size: 19px;
 }
 
-#cafeLocationInfo{
+#cafeLocationInfo {
     margin-top: 40px;
 }
-#cafeLocationInfo .cafeAddress p{
+
+#cafeLocationInfo .cafeAddress p {
     font-size: 19px;
 }
 
@@ -118,7 +136,7 @@
     border-radius: 5px;
 }
 
-.inner-star::before{
+.inner-star::before {
     color: #FF9600;
 }
 

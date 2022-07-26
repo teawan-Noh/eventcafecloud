@@ -13,11 +13,14 @@
         let y = [[${cafeDetailResponseDto.getCafeY()}]];
         let id = [[${cafeDetailResponseDto.getCafeNumber()}]];
         let loginUserId = [[${userId}]];
+        let bookmarkByLoginUser = [[${cafeDetailResponseDto.getBookmarkByLoginUser()}]];
     </script>
     <script src="/js/cafe/cafeReview.js"></script>
+    <script src="/js/cafe/cafeBookmark.js"></script>
     <script>
         $(document).ready(function () {
             getCafeReviewList();
+            showBookmarkStatus();
         });
     </script>
 </head>
@@ -34,11 +37,18 @@
         <div class="infoBox">
             <h3 th:text="${cafeDetailResponseDto.getCafeInfo()}"></h3>
         </div>
-        <div class="optionBox">
-            <ul>
-                <li class="optionList" th:each="cafeOption : ${cafeDetailResponseDto.getCafeOptions()}"
-                    th:text="'#'+${cafeOption}"></li>
-            </ul>
+        <div class="optionBoxContainer">
+            <div class="optionBox">
+                <ul>
+                    <li class="optionList" th:each="cafeOption : ${cafeDetailResponseDto.getCafeOptions()}" th:text="'#'+${cafeOption}"></li>
+                </ul>
+            </div>
+            <div th:if="${userId} == null" onclick='alert("로그인 후 이용해주세요!")' class="bookMarkBox" >
+                <i class="fa-star"></i>
+            </div>
+            <div th:if="${userId} != null" onclick="bookmark()" class="bookMarkBox" >
+                <i class="fa-star"></i>
+            </div>
         </div>
     </section>
     <hr>
