@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.eventcafecloud.exception.ExceptionStatus.USER_NOT_FOUND;
@@ -76,8 +77,20 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
         MultipartFile file = requestDto.getUserImage();
-        String userImage = s3Service.upload(file, "userProfileImage");
-        user.updateProfile(requestDto, userImage);
+        if (file.isEmpty()) {
+            user.updateProfile(requestDto);
+        } else {
+            String userImage = s3Service.upload(file, "userProfileImage");
+            user.updateProfileIncludeImage(requestDto, userImage);
+        }
+    }
+
+    public UserRequestDto findUserForUpdate(Long id, User loginUser) {
+        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
+        if (!Objects.equals(user.getId(), loginUser.getId())) {
+            return null;
+        }
+        return UserRequestDto.toDto(user);
     }
 
     @Transactional
