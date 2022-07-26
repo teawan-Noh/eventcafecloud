@@ -56,6 +56,7 @@ function makeHtml(cafe) {
     const cafeInfo = cafe["cafeInfo"];
     const cafeWeekdayPrice = cafe["cafeWeekdayPrice"];
     const cafeImgUrl = cafe["cafeImgUrl"];
+    const cafeReviewCount = cafe["cafeReviewCount"]
 
     return `<div class="card" onclick="location.href='/cafes/${id}/detail'">
                         <div class="card-image">
@@ -66,8 +67,13 @@ function makeHtml(cafe) {
                         <div class="card-content" id="card-content">
                             <p id="title" class="title is-4">${cafeName}</p>
                             <p id="subTitle" class="subtitle is-6">${cafeInfo}</p>
-                            <div id="price">
-                                <p id="priceDetail">₩${cafeWeekdayPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>
+                            <div id="card-content-bottom">
+                                <div>
+                                    <i class="fa-regular fa-comment"></i> ${cafeReviewCount}
+                                </div>
+                                <div id="price">
+                                    <p id="priceDetail">₩${cafeWeekdayPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>
+                                </div>
                             </div>
                         </div>
                    </div>`;

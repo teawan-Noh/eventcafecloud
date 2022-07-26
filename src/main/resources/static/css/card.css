@@ -44,30 +44,39 @@
     color: #2b2a29;
     font-weight: bold;
     font-size: 20px;
-    margin: 0px;
+    margin: 0;
 }
 
 #subTitle {
     color: #9B9B9B;
-    margin: 0px;
+    margin: 0;
+}
+
+#card-content-bottom{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+#card-content-bottom div i{
+    font-size: 20px;
+    padding: 7px 0 0 15px;
 }
 
 #price {
-    float: right;
     background-color: #774B00;
     color: #F5F5DC;
     font-weight: bold;
     font-size: 20px;
-    padding-right: 10px;
-    margin-bottom: 0px;
-    margin-right: 10px;
-    margin-top: 10px;
     border-radius: 25px;
+    width: 50%;
+    padding-right: 7px;
+    margin-right: 10px;
     font-family: 'Cute Font', cursive;
 }
 
 #priceDetail {
-    margin: 0px;
+    margin: 0;
     padding-left: 10px;
 }
 
