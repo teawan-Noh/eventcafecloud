@@ -30,4 +30,27 @@
         var fileName = $("#file").val();
         $(".upload-name").val(fileName);
     });
+
+    function checkNick(e) {
+        var nickName = $('#userNickname').val();
+        $.ajax({
+            url: "/user/exists",
+            type: "GET",
+            data: {nick: nickName},
+            contentType: "application/json",
+            dataType: "json",
+            success: function (result) {
+                if (result === false) {
+                    $('.id_already').css("display", "none");
+                    $('#updateProfile').submit()
+                } else {
+                    $('.id_already').css("display", "inline-block");
+                    $('#userNickname').val('');
+                }
+            },
+            error: function () {
+                alert("에러입니다");
+            }
+        });
+    }
 </script>
