@@ -54,6 +54,8 @@ dependencies {
     implementation 'com.navercorp.lucy:lucy-xss-servlet:2.0.0'
     implementation 'com.navercorp.lucy:lucy-xss:1.6.3'
 
+    // Spring Boot Starter Mail
+    implementation 'org.springframework.boot:spring-boot-starter-mail:2.7.0'
 }
 
 configurations {

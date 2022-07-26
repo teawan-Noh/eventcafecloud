@@ -5,6 +5,8 @@ import com.eventcafecloud.cafe.service.CafeService;
 import com.eventcafecloud.event.domain.Event;
 import com.eventcafecloud.event.domain.type.EventCategory;
 import com.eventcafecloud.event.service.EventService;
+import com.eventcafecloud.mail.MailService;
+import com.eventcafecloud.mail.MailTO;
 import com.eventcafecloud.post.domain.Post;
 import com.eventcafecloud.post.domain.type.PostType;
 import com.eventcafecloud.post.service.PostService;
@@ -32,6 +34,7 @@ public class AdminController {
     private final PostService postService;
     private final CafeService cafeService;
     private final EventService eventService;
+    private final MailService mailService;
 
 
     @GetMapping("/users")
@@ -91,12 +94,28 @@ public class AdminController {
     @PostMapping("/hosts/{id}/pass")
     public String updateNormalUserToHostUser(@PathVariable Long id) {
         userService.modifyNormalUserToHostUser(id);
+        String userEmail = userService.getUserEmailById(id);
+
+        MailTO mail = new MailTO();
+        mail.setAddress(userEmail);
+        mail.setTitle("EC2 호스트 승인메일입니다.");
+        mail.setMessage("호스트로 승인 되셨습니다. 지금 EC2에 접속해 카페를 등록해보세요!");
+        mailService.sendMail(mail);
+
         return "redirect:/admin/hosts";
     }
 
     @PostMapping("/hosts/{id}/fail")
     public String updateApproveIsFail(@PathVariable Long id) {
         userService.approveIsFail(id);
+        String userEmail = userService.getHostUserEmailById(id);
+
+        MailTO mail = new MailTO();
+        mail.setAddress(userEmail);
+        mail.setTitle("EC2 호스트 승인메일입니다.");
+        mail.setMessage("호스트로 승인이 거절되었습니다. 사업자 등록증을 다시 확인하신 뒤 신청해주세요.");
+        mailService.sendMail(mail);
+
         return "redirect:/admin/hosts";
     }
 }

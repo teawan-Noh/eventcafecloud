@@ -38,6 +38,20 @@ public class UserService {
         return user;
     }
 
+    public String getUserEmailById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
+        String email = user.getUserEmail();
+        return email;
+    }
+
+    public String getHostUserEmailById(Long id) {
+        HostUser user = hostUserRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
+        String email = user.getUserEmail();
+        return email;
+    }
+
     public User findUserById(Long id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
