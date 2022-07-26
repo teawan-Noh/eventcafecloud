@@ -99,7 +99,7 @@ public class AdminController {
         MailTO mail = new MailTO();
         mail.setAddress(userEmail);
         mail.setTitle("EC2 호스트 승인메일입니다.");
-        mail.setMessage("호스트로 승인 되셨습니다. 지금 EC2에 접속해 카페를 등록해보세요!");
+        mail.setMessage("호스트로 승인 되셨습니다. 지금 EC2에 접속해 카페를 등록해보세요!\n www.eventcafecloud.com");
         mailService.sendMail(mail);
 
         return "redirect:/admin/hosts";
@@ -113,7 +113,7 @@ public class AdminController {
         MailTO mail = new MailTO();
         mail.setAddress(userEmail);
         mail.setTitle("EC2 호스트 승인메일입니다.");
-        mail.setMessage("호스트로 승인이 거절되었습니다. 사업자 등록증을 다시 확인하신 뒤 신청해주세요.");
+        mail.setMessage("호스트로 승인이 거절되었습니다. 사업자 등록증을 다시 확인하신 뒤 신청해주세요.\n www.eventcafecloud.com");
         mailService.sendMail(mail);
 
         return "redirect:/admin/hosts";
