@@ -144,7 +144,7 @@
 #card-event-top5 {
     /*margin: 20px;*/
     /*width: 300px;*/
-    height: 330px;
+    height: 350px;
 }
 
 #badge-cate {
@@ -163,8 +163,22 @@
 #title-event-top5 {
     color: #2b2a29;
     font-weight: bold;
-    font-size: 18px;
-    margin: 0;
+    font-size: 19px;
+    margin: 0 7px 0 7px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#period-event-top5 {
+    font-size: 15px;
+    color: #9B9B9B;
+}
+
+#cmt-count {
+    float: left;
+    margin-left: 10%;
+    margin-bottom: 10%;
 }
 
 #eventTop5 .eventMore {
