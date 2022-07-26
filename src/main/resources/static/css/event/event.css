@@ -1,4 +1,8 @@
- /*container top*/
+#eventListContainer {
+    margin: auto auto 90px auto;
+}
+
+/*container top*/
 .container-top {
     margin: 20px 250px 15px;
 }

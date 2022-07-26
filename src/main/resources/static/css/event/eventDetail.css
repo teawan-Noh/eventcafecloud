@@ -77,7 +77,8 @@
 }
 
 .event-detail-poster div img {
-    width: 100%;
+    width: 70%;
+    margin: 0 15% 0 15%;
 }
 
 .event-detail-poster div h4 {
