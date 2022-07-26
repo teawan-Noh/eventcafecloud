@@ -50,7 +50,10 @@ public class PostController {
                              BindingResult bindingResult, User loginUser) {
         if (loginUser == null || bindingResult.hasErrors())
             return "redirect:/posts/";
-        postService.modifyPost(id, requestDto);
+        int statusCode = postService.modifyPost(id, requestDto, loginUser);
+        if (statusCode == 500) {
+            return "error/500";
+        }
         return "redirect:/posts/" + id;
     }
 
@@ -96,10 +99,15 @@ public class PostController {
             model.addAttribute("userNick", loginUser.getUserNickname());
             model.addAttribute("userId", loginUser.getId());
         }
-        PostUpdateRequestDto postUpdateRequestDto = postService.findPostByIdForUpdate(id);
-        model.addAttribute("postId", id);
-        model.addAttribute("postUpdateRequestDto", postUpdateRequestDto);
-        return "post/editPostForm";
+        PostUpdateRequestDto postUpdateRequestDto = postService.findPostByIdForUpdate(id, loginUser);
+        if (postUpdateRequestDto != null) {
+            model.addAttribute("postId", id);
+            model.addAttribute("postUpdateRequestDto", postUpdateRequestDto);
+            return "post/editPostForm";
+        } else {
+            return "error/500";
+        }
+
     }
 
     // 유저게시판 전체 조회
