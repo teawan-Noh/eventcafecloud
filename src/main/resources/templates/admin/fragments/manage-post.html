@@ -51,6 +51,7 @@
                                     <th>수정일</th>
                                     <th>조회수</th>
                                     <th>글 내용</th>
+                                    <th>삭제</th>
                                 </tr>
                                 </thead>
                                 <tr th:each="post: ${posts}">
@@ -106,6 +107,16 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </form>
+                                    </td>
+                                    <td>
+                                        <form id="delete-form" method="post"
+                                              th:action="@{'/admin/posts/'+${post.getId}+'/delete'}">
+                                            <input name="_method" type="hidden" value="DELETE"/>
+                                            <button class="fail-button"
+                                                    onclick="return confirm(this.getAttribute('data-confirm-delete'))"
+                                                    th:data-confirm-delete="|정말 삭제하시겠습니까?|">삭제
+                                            </button>
                                         </form>
                                     </td>
                                 </tr>

@@ -56,6 +56,12 @@ public class AdminController {
         return "admin/admin-post";
     }
 
+    @DeleteMapping("/posts/{postId}/delete")
+    public String deletePostFromAdmin(@PathVariable Long postId) {
+        postService.removePost(postId);
+        return "redirect:/admin/posts";
+    }
+
     @GetMapping("/events")
     public String getEventsList(@PageableDefault Pageable pageable, @RequestParam(required = false, value = "eventCategory") EventCategory eventCategory, Model model) {
         Page<Event> eventList = eventService.findEventList(eventCategory, pageable);
