@@ -1,43 +1,50 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
-  <th:block th:replace="fragments/header :: header"/>
-  <th:block th:replace="fragments/mainHeader :: mainHeader"/>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-  <title>EventCafeCloud</title>
-  <link rel="stylesheet" href="/css/postForm.css">
+    <th:block th:replace="fragments/header :: header"/>
+    <th:block th:replace="fragments/mainHeader :: mainHeader"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>EventCafeCloud</title>
+    <link rel="stylesheet" href="/css/postForm.css">
+    <style>
+        .post-under {
+            display: flex;
+        }
+    </style>
 </head>
-
 <body>
 <div th:replace="fragments/mainTop :: mainTop"></div>
 <div class="topBanner">
-  <div class="topFont">게시판</div>
+    <div class="topFont">게시판</div>
 </div>
-<div class="left">
-  <div class="menuVar">
-    <ul>
-      <li><a class="menuVar-link" href="/posts/notice">공지게시판</a></li>
-      <li><a class="menuVar-link" href="/posts">유저게시판</a></li>
-    </ul>
-  </div>
-</div>
-<div class="right">
-<form role="form" th:action="@{/posts/update/{id}(id=${postId})}" th:object="${postUpdateRequestDto}"
-      method="post" enctype="multipart/form-data" style="margin-left: 20%;">
-  <input type="hidden" name="_method" value="put"/>
-  <div class="form-group" id="update-content-box">
-    <label th:for="postContent" style="font-size: 20px; margin-left: 20px;">내용</label>
-    <textarea type="text" th:field="*{postContent}" class="form-control" placeholder="내용을 입력하세요" required
-           th:class="${#fields.hasErrors('postContent')}? 'form-control fieldError' : 'form-control'" rows="10" style="resize: none; width: 70%;"></textarea>
-    <p th:if="${#fields.hasErrors('postContent')}" th:errors="*{postContent}"></p>
-    <div id="edit-buttons">
-      <a th:href="@{/posts/{id}(id=${postUpdateRequestDto.getPostId()})}" class="btn btn-default">돌아가기</a>
-      <button type="submit" class="btn btn-primary" id="insert">저장하기</button>
+<div class="post-under">
+    <div class="left">
+        <div class="menuVar">
+            <ul>
+                <li><a class="menuVar-link" href="/posts/notice">공지게시판</a></li>
+                <li><a class="menuVar-link" href="/posts">유저게시판</a></li>
+            </ul>
+        </div>
     </div>
-  </div>
-
-
-</form>
+    <div class="right">
+        <form role="form" th:action="@{/posts/update/{id}(id=${postId})}" th:object="${postUpdateRequestDto}"
+              method="post" enctype="multipart/form-data" style="margin-left: 20%;">
+            <input type="hidden" name="_method" value="put"/>
+            <div class="form-group" id="update-content-box">
+                <label th:for="postContent" style="font-size: 20px; margin-left: 20px;">내용</label>
+                <textarea type="text" th:field="*{postContent}" class="form-control" placeholder="내용을 입력하세요" required
+                          th:class="${#fields.hasErrors('postContent')}? 'form-control fieldError' : 'form-control'"
+                          rows="10" style="resize: none; width: 70%;"></textarea>
+                <p th:if="${#fields.hasErrors('postContent')}" th:errors="*{postContent}"></p>
+              <div id="edit-buttons">
+                <a th:href="@{/posts/{id}(id=${postUpdateRequestDto.getPostId()})}" class="btn btn-default">돌아가기</a>
+                <button type="submit" class="btn btn-primary" id="insert"
+                        th:data-confirm-create="|게시글을 수정하시겠습니까?|" onclick="return confirm(this.getAttribute('data-confirm-create'))">저장하기</button>
+              </div>
+            </div>
+        </form>
+    </div>
 </div>
+<div th:replace="fragments/footer :: footer"/>
 </body>
 </html>

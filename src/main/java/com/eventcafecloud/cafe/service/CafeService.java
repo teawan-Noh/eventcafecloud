@@ -126,10 +126,14 @@ public class CafeService {
         return new CafeDetailResponseDto(cafe);
     }
 
-    public CafeUpdateRequestDto findCafeByIdForUpdateForm(Long id) {
+    public CafeUpdateRequestDto findCafeByIdForUpdateForm(Long id, User loginUser) {
 
         Cafe cafe = cafeRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException(CAFE_NOT_FOUND.getMessage()));
+
+        if(!cafe.getUser().getId().equals(loginUser.getId())){
+            return CafeUpdateRequestDto.builder().statusCode(500).build();
+        }
 
         // Builder pattern으로 수정해보기
         return CafeUpdateRequestDto.toDto(cafe);
@@ -138,8 +142,11 @@ public class CafeService {
 
     // 카페 수정
     @Transactional
-    public void modifyCafe(Long id, CafeUpdateRequestDto requestDto) {
+    public int modifyCafe(Long id, CafeUpdateRequestDto requestDto, User loginUser) {
         Cafe cafe = cafeRepository.getById(id);
+        if (!cafe.getUser().getId().equals(loginUser.getId())){
+            return 500;
+        }
         cafe.updateCafeInfo(requestDto);
 
         if (requestDto.getCafeOptions() != null) {
@@ -177,6 +184,7 @@ public class CafeService {
                 cafe.addCafeImage(cafeImage);
             }
         }
+        return 200;
     }
 
     /**

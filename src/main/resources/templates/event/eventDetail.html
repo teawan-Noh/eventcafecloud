@@ -3,7 +3,25 @@
 <head>
     <th:block th:replace="fragments/header :: header"></th:block>
     <th:block th:replace="fragments/mainHeader :: mainHeader"></th:block>
+    <!--  paging  -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/event/eventComment.css">
+    <script src="/js/event/eventComment.js"></script>
+
+    <script th:inline="javascript">
+        let x = [[${eventReadResponseDto.getCafeX()}]];
+        let y = [[${eventReadResponseDto.getCafeY()}]];
+        let id = [[${eventReadResponseDto.getCafeNumber()}]];
+        let loginUserId = [[${userId}]];
+        let eventNumber = [[${event.getId()}]];
+    </script>
 </head>
+<script>
+    $(document).ready(function () {
+        getEventCmtList();
+    });
+</script>
 
 <body>
     <div th:replace="fragments/mainTop :: mainTop"></div>
@@ -22,11 +40,7 @@
     <div class="eventList">
         <div th:replace="event/fragments/event-detail :: eventDetail"></div>
     </div>
+    <div th:replace="fragments/footer :: footer"/>
 </body>
-<script th:inline="javascript">
-    let x = [[${eventReadResponseDto.getCafeX()}]];
-    let y = [[${eventReadResponseDto.getCafeY()}]];
-    let id = [[${eventReadResponseDto.getCafeNumber()}]];
-</script>
 <script src="/js/cafe/kakaoMapForDetail.js"></script>
 </html>

@@ -85,8 +85,11 @@ public class CafeController {
             model.addAttribute("userNick", loginUser.getUserNickname());
             model.addAttribute("userId", loginUser.getId());
         }
-        CafeUpdateRequestDto CafeUpdateRequestDto = cafeService.findCafeByIdForUpdateForm(id);
+        CafeUpdateRequestDto CafeUpdateRequestDto = cafeService.findCafeByIdForUpdateForm(id, loginUser);
 
+        if(CafeUpdateRequestDto.getStatusCode() == 500){
+            return "error/500";
+        }
         model.addAttribute("cafeUpdateRequestDto", CafeUpdateRequestDto);
         model.addAttribute("cafeId", id);
 
@@ -104,8 +107,10 @@ public class CafeController {
             model.addAttribute("cafeId", id);
             return "cafe/updateCafeForm";
         }
-        cafeService.modifyCafe(id, requestDto);
-
+        int statusCode = cafeService.modifyCafe(id, requestDto, loginUser);
+        if(statusCode != 200){
+            return "error/500";
+        }
         return "redirect:/cafes/allList";
     }
 }

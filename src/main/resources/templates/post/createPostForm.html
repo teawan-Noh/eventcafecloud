@@ -6,41 +6,53 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>EventCafeCloud</title>
     <link rel="stylesheet" href="/css/postForm.css">
+    <style>
+        .post-under {
+            display: flex;
+        }
+    </style>
 </head>
-
 <body>
 <div th:replace="fragments/mainTop :: mainTop"></div>
 <div class="topBanner">
     <div class="topFont">게시판</div>
 </div>
-<div class="left">
-    <div class="menuVar">
-        <ul>
-            <li><a class="menuVar-link" href="/posts/notice">공지게시판</a></li>
-            <li><a class="menuVar-link" href="/posts">유저게시판</a></li>
-        </ul>
-    </div>
-</div>
-<div class="right">
-<form role="form" th:action="@{/posts/registration/{postType}(postType=${postType})}" th:object="${postCreateRequestDto}"
-      method="post" enctype="multipart/form-data" style="margin-left: 20%;" id="create-content-box">
-    <div class="form-group">
-        <label th:for="postTitle" style="font-size: 20px; margin-left: 20px;">제목</label>
-        <input type="text" th:field="*{postTitle}" class="form-control" placeholder="제목을 입력하세요" required maxlength="53"
-               th:class="${#fields.hasErrors('postTitle')}? 'form-control fieldError' : 'form-control'" style="width: 70%;">
-        <p th:if="${#fields.hasErrors('postTitle')}" th:errors="*{postTitle}"></p>
-    </div>
-    <div class="form-group">
-        <label th:for="postContent" style="font-size: 20px; margin-left: 20px;">내용</label>
-        <textarea type="text" th:field="*{postContent}" class="form-control" placeholder="내용을 입력하세요" required
-                  th:class="${#fields.hasErrors('postContent')}? 'form-control fieldError' : 'form-control'" rows="10" style="resize: none; width: 70%;"></textarea>
-        <p th:if="${#fields.hasErrors('postContent')}" th:errors="*{postContent}"></p>
-        <div id="edit-buttons">
-            <a href="/posts" class="btn btn-default">목록으로</a>
-            <button type="submit" class="btn btn-primary" id="insert">저장하기</button>
+<div class="post-under">
+    <div class="left">
+        <div class="menuVar">
+            <ul>
+                <li><a class="menuVar-link" href="/posts/notice">공지게시판</a></li>
+                <li><a class="menuVar-link" href="/posts">유저게시판</a></li>
+            </ul>
         </div>
     </div>
-</form>
+    <div class="right">
+        <form role="form" th:action="@{/posts/registration/{postType}(postType=${postType})}"
+              th:object="${postCreateRequestDto}"
+              method="post" enctype="multipart/form-data" style="margin-left: 20%;" id="create-content-box">
+            <div class="form-group">
+                <label th:for="postTitle" style="font-size: 20px; margin-left: 20px;">제목</label>
+                <input type="text" th:field="*{postTitle}" class="form-control" placeholder="제목을 입력하세요" required
+                       maxlength="53"
+                       th:class="${#fields.hasErrors('postTitle')}? 'form-control fieldError' : 'form-control'"
+                       style="width: 70%;">
+                <p th:if="${#fields.hasErrors('postTitle')}" th:errors="*{postTitle}"></p>
+            </div>
+            <div class="form-group">
+                <label th:for="postContent" style="font-size: 20px; margin-left: 20px;">내용</label>
+                <textarea type="text" th:field="*{postContent}" class="form-control" placeholder="내용을 입력하세요" required
+                          th:class="${#fields.hasErrors('postContent')}? 'form-control fieldError' : 'form-control'"
+                          rows="10" style="resize: none; width: 70%;"></textarea>
+                <p th:if="${#fields.hasErrors('postContent')}" th:errors="*{postContent}"></p>
+                <div id="edit-buttons">
+                    <a href="/posts" class="btn btn-default">목록으로</a>
+                    <button type="submit" class="btn btn-primary" id="insert"
+                            th:data-confirm-create="|게시글을 작성하시겠습니까?|" onclick="return confirm(this.getAttribute('data-confirm-create'))">저장하기</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
+<div th:replace="fragments/footer :: footer"/>
 </body>
 </html>

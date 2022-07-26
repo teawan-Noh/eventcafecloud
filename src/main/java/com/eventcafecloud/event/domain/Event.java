@@ -1,6 +1,7 @@
 package com.eventcafecloud.event.domain;
 
 import com.eventcafecloud.cafe.domain.Cafe;
+import com.eventcafecloud.cafe.domain.CafeReview;
 import com.eventcafecloud.common.base.BaseTimeEntity;
 import com.eventcafecloud.event.domain.type.EventCategory;
 import com.eventcafecloud.event.dto.EventCreateRequestDto;
@@ -61,6 +62,9 @@ public class Event extends BaseTimeEntity {
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<EventImage> eventImages = new ArrayList<>();
 
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private List<EventComment> eventComments = new ArrayList<>();
+
     public Event(EventCreateRequestDto requestDto) {
         this.eventName = requestDto.getEventName();
         this.eventCategory = requestDto.getEventCategory();
@@ -95,6 +99,11 @@ public class Event extends BaseTimeEntity {
     public void addEventImage(EventImage eventImage) {
         eventImages.add(eventImage);
         eventImage.addEvent(this);
+    }
+
+    public void addEventComment(EventComment eventComment) {
+        eventComment.addEvent(this);
+        this.eventComments.add(eventComment);
     }
 }
 

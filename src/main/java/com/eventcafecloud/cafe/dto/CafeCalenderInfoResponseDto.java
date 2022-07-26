@@ -13,6 +13,7 @@ import java.util.Date;
 // 카페 상세페이지 달력에 이벤트 띄우기
 @Data
 public class CafeCalenderInfoResponseDto {
+    private Long id;
     private String title;
     private String start;
     private String end;
@@ -23,6 +24,7 @@ public class CafeCalenderInfoResponseDto {
     Calendar cal = Calendar.getInstance();
 
     public CafeCalenderInfoResponseDto(Event event) throws ParseException {
+        id = event.getId();
         title = event.getEventName();
         start = event.getEventStartDate();
         end = DateToString(event.getEventEndDate());

@@ -14,6 +14,7 @@ public class CafeListResponseDto {
     private String cafeInfo;
     private int cafeWeekdayPrice;
     private String cafeImgUrl;
+    private int cafeReviewCount;
     //여러장 보낼 때 사용
 //    private List<String> cafeImgUrls;
 
@@ -23,6 +24,7 @@ public class CafeListResponseDto {
         cafeInfo = cafe.getCafeInfo();
         cafeWeekdayPrice = cafe.getCafeWeekdayPrice();
         cafeImgUrl = cafe.getCafeImages().get(0).getCafeImageUrl();
+        cafeReviewCount = cafe.getCafeReviews().size();
         //여러장 보낼 때 사용
 //        cafeImgUrls = cafe.getCafeImages().stream()
 //                .map(i -> i.getCafeImageUrl())
