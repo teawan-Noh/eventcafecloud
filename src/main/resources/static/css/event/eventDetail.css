@@ -1,6 +1,6 @@
 #eventDetailContainer {
     width: 65%;
-    margin: auto;
+    margin: auto auto 90px auto;
 }
 
 #event-detail-header {
@@ -92,8 +92,11 @@
     border: none;
 }
 
+.event-detail-bottom {
+    margin-bottom: 30px;
+}
+
 #btn-top {
-    margin-bottom: 20px;
     float: right;
 }
 
