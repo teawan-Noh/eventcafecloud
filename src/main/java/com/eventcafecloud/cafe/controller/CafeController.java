@@ -51,8 +51,6 @@ public class CafeController {
         return "redirect:/";
     }
 
-
-
     // 카페 전체 조회 페이지 호출
     @GetMapping("/cafes/allList")
     public String getCafeListPage(User loginUser, Model model){
