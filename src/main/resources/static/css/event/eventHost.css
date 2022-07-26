@@ -1,0 +1,43 @@
+/* 이벤트 호스트 */
+#event-host {
+    margin: 70px 0 40px 0;
+}
+
+#event-host .host-container {
+    display: flex;
+    margin: 40px 0 70px 0;
+}
+
+#event-host .host-container .host-img img {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+#event-host .host-container .host-info {
+    padding: 0 20px;
+    width: 70%;
+}
+
+#event-host .host-container .host-info-top {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+#host-tag {
+    font-weight: bolder;
+    font-size: medium;
+    color: darkolivegreen;
+}
+
+#event-host .host-container .host-info-bottom {
+    display: flex;
+    justify-content: space-between;
+}
+
+#event-host .host-container .host-info-bottom .host-nickname {
+    font-weight: bolder;
+    font-size: 20px;
+}
