@@ -69,7 +69,7 @@ public class CafeApiController {
     // 카페 삭제
     @DeleteMapping("/cafes/{id}")
     public String deleteCafe(@PathVariable Long id, User loginUser) {
-        return cafeService.removeCafe(id);
+        return cafeService.removeCafe(id, loginUser);
     }
 
     @PostMapping("/cafes/{id}/bookmark")

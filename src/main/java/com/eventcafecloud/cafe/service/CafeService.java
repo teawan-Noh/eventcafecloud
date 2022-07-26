@@ -199,8 +199,11 @@ public class CafeService {
      * 현재 날짜 기준 뒤로 이벤트가 등록되어 있으면 삭제 불가
      */
     @Transactional
-    public String removeCafe(Long id) {
+    public String removeCafe(Long id, User loginUser) {
         Cafe cafe = cafeRepository.getById(id);
+        if (!cafe.getUser().getId().equals(loginUser.getId())){
+            return "삭제 실패 : 비정상적인 접근입니다.";
+        }
         LocalDate now = LocalDate.now();
         // 이벤트 존재 여부 확인
         Event hasEventAfterNow = eventRepository.findTop1ByCafeIdAndEventStartDateAfter(id, now.toString());
