@@ -20,6 +20,7 @@ public class EventReadResponseDto {
     private String eventInfo;
     private boolean isCancel;
     private Long userNumber;
+    private String userNickname;
     private Long cafeNumber;
     private String cafeName;
     private Integer cafeZonecode;
@@ -38,6 +39,7 @@ public class EventReadResponseDto {
         this.eventInfo = event.getEventInfo();
         this.isCancel = eventCancelAvail(event.getEventStartDate());
         this.userNumber = event.getUser().getId();
+        this.userNickname = event.getUser().getUserNickname();
         this.cafeNumber = event.getCafe().getId();
         this.cafeName = event.getCafe().getCafeName();
         this.cafeZonecode = event.getCafe().getCafeZonecode();

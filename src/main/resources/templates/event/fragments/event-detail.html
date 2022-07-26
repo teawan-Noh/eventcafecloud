@@ -99,10 +99,31 @@
                     </div>
                 </div>
                 <br>
-                <hr>
+            </section>
+
+            <!--Event Host-->
+            <section id="event-host">
+                <h4>이벤트 호스트</h4>
+                <div class="host-container">
+                    <div class="host-img">
+                        <img alt="호스트 이미지" th:src="${event.getUser().getUserImage()}">
+                    </div>
+                    <div class="host-info">
+                        <div class="host-info-top">
+                            <p></p>
+                        </div>
+                        <div class="host-info-middle" id="host-tag">HOST</div>
+                        <div class="host-info-bottom">
+                            <div class="host-nickname">
+                                <p th:text="${eventReadResponseDto.getUserNickname}">호스트 닉네임</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <!--Event Comment-->
+            <hr>
             <section id="event-comments">
                 <h5> * 이벤트에 관한 댓글을 남겨주세요.</h5>
                 <div class="comment-input-box">
@@ -123,7 +144,7 @@
             </section>
 
             <hr>
-            <div style="margin-bottom: 30px">
+            <div class="event-detail-bottom">
                 <button type="button" class="btn btn-outline-dark" id="btn-top"><a href = "#" style="text-decoration-line: none;" > TOP ▴ </a></button>
             </div>
             <br>

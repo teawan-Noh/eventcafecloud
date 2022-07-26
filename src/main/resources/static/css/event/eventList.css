@@ -1,0 +1,27 @@
+/*eventList*/
+
+#eventlist-card .card-body .card-body-bottom {
+    margin-top: 50px;
+}
+
+#eventlist-card .card-body .card-body-bottom #cmt-count {
+    margin-left: 10px;
+    font-weight: bolder;
+}
+
+
+#event-pagination {
+    justify-content: center;
+    padding-right: 0;
+    width: 100%;
+}
+
+.page-number {
+    background-color: white;
+    margin-left: 5px;
+    border: none;
+    color: #2b2a29;
+    padding: 5px;
+    font-size: 15px;
+    font-weight: bold;
+}
