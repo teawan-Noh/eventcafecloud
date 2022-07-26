@@ -63,6 +63,12 @@ public class AdminController {
         return "admin/admin-event";
     }
 
+    @DeleteMapping("/events/{eventId}/delete")
+    public String deleteEventFromAdmin(@PathVariable Long eventId) {
+        eventService.removeEvent(eventId);
+        return "redirect:/admin/events";
+    }
+
     @GetMapping("/cafes")
     public String getCafeList(@PageableDefault Pageable pageable, Model model) {
         Page<Cafe> cafeList = cafeService.findAllCafeList(pageable);
