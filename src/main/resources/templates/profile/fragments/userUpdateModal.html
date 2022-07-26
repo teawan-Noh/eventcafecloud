@@ -12,15 +12,17 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form enctype="multipart/form-data"
+                <form enctype="multipart/form-data" id="updateProfile"
                       method="post" th:action="@{/users/profile/{id}/info/update(id=${user.getId()})}"
                       th:object="${userRequestDto}">
                     <div class="modal-body">
                         <label>닉네임</label>
                         <input class="form-control" placeholder="변경할 닉네임을 입력하세요" required
                                th:class="${#fields.hasErrors('userNickname')}? 'form-control fieldError' : 'form-control'"
-                               th:field="*{userNickname}"
+                               id="userNickname" name="userNickname" th:value="${userNick}"
                                type="text">
+                        <small class="id_already" style="display: none; color: #ff4040;">이미 사용중인 닉네임입니다.</small>
+                        <br>
                         <p class="warning-message" th:errors="*{userNickname}"
                            th:if="${#fields.hasErrors('userNickname')}">Incorrect date</p>
                         <label>프로필 이미지</label>
@@ -40,7 +42,7 @@
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" data-dismiss="modal" type="button">닫기</button>
-                        <button class="btn btn-primary cafeBtn" type="submit">확인</button>
+                        <button class="btn btn-primary cafeBtn" onclick="checkNick()" type="button">확인</button>
                     </div>
                 </form>
             </div>

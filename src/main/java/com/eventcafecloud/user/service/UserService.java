@@ -151,4 +151,8 @@ public class UserService {
 
         return hostList.map(HostUserResponseDto::new);
     }
+
+    public boolean checkNicknameDuplicate(String nickName) {
+        return userRepository.existsByUserNickname(nickName);
+    }
 }
