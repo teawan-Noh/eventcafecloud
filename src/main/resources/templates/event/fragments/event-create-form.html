@@ -7,7 +7,7 @@
                 <div class="form-group-event">
                     <br />
                     <label th:for="eventCategory">이벤트 카테고리</label>
-                    <select th:field="*{eventCategory}" class="form-control">
+                    <select th:field="*{eventCategory}" class="form-control" required>
                         <option value="">카테고리를 선택하세요.</option>
                         <option th:each="eventCategory : ${T(com.eventcafecloud.event.domain.type.EventCategory).values()}"
                                 th:value="${eventCategory}"
@@ -18,14 +18,14 @@
                 <br />
                 <div class="form-group-event">
                     <label th:for="evnetName">이벤트 이름</label>
-                    <input type="text" th:field="*{eventName}" class="form-control" placeholder="이벤트 이름을 입력하세요." required maxlength="24"
+                    <input type="text" th:field="*{eventName}" class="form-control" placeholder="이벤트 이름을 입력하세요." maxlength="24" required
                            th:class="${#fields.hasErrors('eventName')}? 'form-control fieldError' : 'form-control'">
                     <p style="color: #ff4040" th:if="${#fields.hasErrors('eventName')}" th:errors="*{eventName}">Incorrect data</p>
                 </div>
                 <br />
                 <div class="form-group-event">
                     <label th:for="eventInfo">이벤트 소개 및 정보</label>
-                    <textarea id="text-info" th:field="*{eventInfo}" class="form-control" rows="6" placeholder="이벤트 소개를 입력하세요." required
+                    <textarea id="text-info" th:field="*{eventInfo}" class="form-control" rows="6" placeholder="이벤트 소개를 입력하세요." required minlength="1"
                               th:class="${#fields.hasErrors('eventInfo')}? 'form-control fieldError' : 'form-control'"></textarea>
                     <p style="color: #ff4040" th:if="${#fields.hasErrors('eventInfo')}" th:errors="*{eventInfo}">Incorrect data</p>
                 </div>
@@ -42,8 +42,8 @@
                 <div class="form-group-event">
                     <label th:for="eventStartDate">이벤트 기간</label>
                     <div class="input-group">
-                        <input id="datePicker-start" style="float: left; margin-right: 15px" type="text" th:field="*{eventStartDate}" class="form-control" placeholder="시작일" onchange="startCal()">
-                        <input id="datePicker-end" style="float: right" type="text" th:field="*{eventEndDate}" class="form-control" placeholder="종료일" onchange="startCal()" >
+                        <input id="datePicker-start" style="float: left; margin-right: 15px" type="text" th:field="*{eventStartDate}" class="form-control" placeholder="시작일" required onchange="startCal()">
+                        <input id="datePicker-end" style="float: right" type="text" th:field="*{eventEndDate}" class="form-control" placeholder="종료일" required onchange="startCal()" >
                     </div>
                 </div>
                 <br>

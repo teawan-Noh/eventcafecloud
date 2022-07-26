@@ -20,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -52,15 +53,15 @@ public class EventController {
 
     // 이벤트 예약
     @PostMapping("/events")
-    public String createEvent(User loginUser, @Validated @ModelAttribute EventCreateRequestDto requestDto, BindingResult result) {
+    public String createEvent(@Valid @ModelAttribute EventCreateRequestDto requestDto, BindingResult result, User loginUser) {
 
         eventService.saveEvent(requestDto, loginUser);
 
         if (result.hasErrors()) {
             return "event/createEventForm";
-        } else {
-            return "redirect:/cafes/" + requestDto.getCafeNumber()+ "/detail";
         }
+        eventService.saveEvent(requestDto, loginUser);
+        return "redirect:/cafes/" + requestDto.getCafeNumber()+ "/detail";
     }
 
     // 이벤트 수정
