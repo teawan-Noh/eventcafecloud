@@ -25,9 +25,10 @@
                            th:if="${#fields.hasErrors('userNickname')}">Incorrect date</p>
                         <label>프로필 이미지</label>
                         <div class="filebox">
-                            <input class="upload-name" placeholder="첨부파일" readonly th:value="*{userImage}">
+                            <input class="upload-name" placeholder="변경하시지 않을 경우 기본 프로필이 유지됩니다." readonly
+                                   th:value="*{userImage}">
                             <label for="file">파일찾기</label>
-                            <input id="file" name="attachFile" required
+                            <input id="file" name="attachFile"
                                    th:class="${#fields.hasErrors('userImage')}? 'form-control fieldError' : 'form-control'"
                                    th:field="*{userImage}"
                                    type="file">

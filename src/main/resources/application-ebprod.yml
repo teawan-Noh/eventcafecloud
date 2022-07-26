@@ -5,6 +5,17 @@ spring:
     password: ${rds.password}
     driver-class-name: ${rds.driver}
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${GOOGLE_EMAIL}
+    password: ${GOOGLE_APP_PW}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
   config:
     use-legacy-processing: true
@@ -16,8 +27,8 @@ spring:
 
   servlet:
     multipart:
-      maxFileSize : 3MB
-      maxRequestSize : 12MB
+      maxFileSize: 3MB
+      maxRequestSize: 12MB
 
   jpa:
     properties:
@@ -29,7 +40,7 @@ spring:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
     generate-ddl: true
-#    show-sql: true
+    #    show-sql: true
     hibernate:
       ddl-auto: none
 

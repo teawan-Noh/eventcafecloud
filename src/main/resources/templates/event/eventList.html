@@ -6,6 +6,7 @@
 
     <!--Import CSS-->
     <Link rel="stylesheet" type="text/css" href="css/event/event.css">
+    <Link rel="stylesheet" type="text/css" href="css/event/eventList.css">
 </head>
 <body>
 <div th:replace="fragments/mainTop :: mainTop"/>
@@ -64,10 +65,19 @@
                                         <p th:text="${eventListResponseDto.getEventStartDate()} + ' ~ ' + ${eventListResponseDto.getEventEndDate()}">
                                             이벤트 기간</p>
                                     </div>
-                                    <button type="button" class="btn btn-outline-dark" id="btn-list">
-                                        <a th:href="@{/events/{eventNumber}/detail (eventNumber=${eventListResponseDto.getEventNumber()})}"
-                                           style="text-decoration-line: none;">이벤트 상세보기</a>
-                                    </button>
+                                </div>
+                                <div class="card-body-bottom">
+                                    <div class="row">
+                                        <div class="col">
+                                            <i class="fa-regular fa-comment" th:text="| ${eventListResponseDto.getEventCmtCount()}|" style="font-size: 18px; margin-top: 10px"></i>
+                                        </div>
+                                        <div class="col">
+                                            <button type="button" class="btn btn-outline-dark" id="btn-list">
+                                                <a th:href="@{/events/{eventNumber}/detail (eventNumber=${eventListResponseDto.getEventNumber()})}"
+                                                   style="text-decoration-line: none;">이벤트 상세보기</a>
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
