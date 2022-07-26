@@ -1,10 +1,11 @@
 #event-comments {
-    margin-top: 40px;
+    margin-top: 70px;
+    margin-bottom: 40px;
 }
 
 #event-comments .comment-input-box {
     display: flex;
-    margin-top: 20px;
+    margin-top: 35px;
 }
 
 #event-comments .comment-input-box .textarea-box {
@@ -28,13 +29,13 @@
 
 #comment-list-container .comment-container {
     display: flex;
-    margin: 20px 0 5px 0;
+    margin: 40px 0 10px 0;
 }
 
 #comment-list-container .comment-container .user-img img {
-    width: 110px;
-    height: 110px;
-    border-radius: 10%;
+    width: 80px;
+    height: 80px;
+    border-radius: 15%;
     object-fit: cover;
 }
 
@@ -46,22 +47,24 @@
 #comment-list-container .comment-container .comment-info-top {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 #comment-list-container .comment-container .comment-info-top .comment-username {
-    font-weight: bold;
-    font-size: 20px;
+    font-weight: bolder;
+    font-size: 17px;
 }
 
 #comment-list-container .comment-container .comment-info-middle {
-    margin: 20px 0;
+    margin: 0 0;
 }
 
 #comment-list-container .comment-container .comment-info-bottom {
     display: flex;
     justify-content: space-between;
-    margin-top: 15px;
+    margin-top: 5px;
+    font-size: 13px;
+    color: darkgray;
 }
 
 #comment-list-container .comment-container .comment-delete .del button {

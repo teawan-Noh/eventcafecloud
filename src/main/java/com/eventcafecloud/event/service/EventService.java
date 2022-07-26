@@ -76,14 +76,18 @@ public class EventService {
 
     // 이벤트 수정
     @Transactional
-    public EventUpdateResponseDto modifyEvent(Long eventNumber, EventUpdateRequestDto requestDto) {
+    public int modifyEvent(Long eventNumber, EventUpdateRequestDto requestDto, User loginUser) {
         Event event = eventRepository.findById(eventNumber).orElseThrow(
                 () -> new IllegalArgumentException(EVENT_NOT_FOUND.getMessage())
         );
 
+        if (!event.getUser().getId().equals(loginUser.getId())){
+            return 500;
+        }
+
         event.updateEvent(requestDto);
         EventUpdateResponseDto eventUpdateResponse = new EventUpdateResponseDto(event.getEventName(), event.getEventInfo());
-        return eventUpdateResponse;
+        return 200;
     }
 
     // 이벤트 삭제

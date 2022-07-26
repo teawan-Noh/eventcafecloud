@@ -120,8 +120,12 @@ public class User extends BaseTimeEntity {
         this.role = role;
     }
 
-    public void updateProfile(UserRequestDto requestDto, String userImage) {
+    public void updateProfileIncludeImage(UserRequestDto requestDto, String userImage) {
         this.userImage = userImage;
+        this.userNickname = requestDto.getUserNickname();
+    }
+
+    public void updateProfile(UserRequestDto requestDto) {
         this.userNickname = requestDto.getUserNickname();
     }
 

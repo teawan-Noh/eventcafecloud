@@ -65,10 +65,20 @@
                                     <td th:if="${event.getEventCancelAvail}==true" th:text="가능"></td>
                                     <td th:if="${event.getEventCancelAvail}==false" th:text="불가"></td>
                                     <td>
-                                        <button class="pass-button" data-toggle="modal"
-                                                th:data-target="'#'+${event.getId}" type="button">
-                                            수정
-                                        </button>
+                                        <form id="delete-form" method="post"
+                                              th:action="@{'/admin/events/'+${event.getId}+'/delete'}">
+                                            <input name="_method" type="hidden" value="DELETE"/>
+                                            <button class="fail-button"
+                                                    onclick="return confirm(this.getAttribute('data-confirm-delete'))"
+                                                    th:data-confirm-delete="|정말 삭제하시겠습니까?|"
+                                                    th:if="${event.getEventCancelAvail==true}">삭제
+                                            </button>
+                                            <button class="fail-button"
+                                                    onclick="return confirm(this.getAttribute('data-confirm-delete'))"
+                                                    th:data-confirm-delete="|이벤트 시작일이 가깝습니다. 정말 삭제하시겠습니까?|"
+                                                    th:if="${event.getEventCancelAvail==false}">강제삭제
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             </table>
