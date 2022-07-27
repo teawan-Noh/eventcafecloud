@@ -25,7 +25,6 @@ public class CafeBookmarkService {
         int page = (pageable.getPageNumber() == 0) ? 0 : (pageable.getPageNumber() - 1);
         pageable = PageRequest.of(page, 6, Sort.Direction.DESC, "id");
         Page<CafeBookmark> result = cafeBookmarkRepository.findAllByUserId(userId, pageable);
-        result.getContent().get(0).getCafe().getId();
         return result.map(CafeBookmarkResponseDto::new);
     }
 }
