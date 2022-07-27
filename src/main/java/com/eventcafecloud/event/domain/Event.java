@@ -93,7 +93,7 @@ public class Event extends BaseTimeEntity {
 
     public void addCafe(Cafe cafe) {
         this.cafe = cafe;
-        cafe.getEvents().add(this);
+        cafe.getCafeEvents().add(this);
     }
 
     public void addEventImage(EventImage eventImage) {

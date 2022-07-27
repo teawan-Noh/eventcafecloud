@@ -80,7 +80,10 @@ public class Cafe extends BaseTimeEntity {
     private List<CafeSchedule> cafeSchedules = new ArrayList<>();
 
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
-    private List<Event> events = new ArrayList<>();
+    private List<Event> cafeEvents = new ArrayList<>();
+
+    @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
+    private List<CafeBookmark> cafeBookmarks = new ArrayList<>();
 
     public Cafe(CafeCreateRequestDto requestDto) {
         this.cafeName = requestDto.getCafeName();

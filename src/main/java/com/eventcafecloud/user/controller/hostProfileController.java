@@ -88,7 +88,7 @@ public class hostProfileController {
         model.addAttribute("userId", loginUser.getId());
         model.addAttribute("cafeId", cafeId);
         model.addAttribute("dates", dates);
-        model.addAttribute("cafeName", cafeService.findCafeByIdForDetail(cafeId).getCafeName());
+        model.addAttribute("cafeName", cafeService.findCafeByIdForDetail(cafeId, loginUser).getCafeName());
         //휴무일등록시, 등록 정보를 받아올 객체를 넘김
         model.addAttribute("requestDto", new CafeScheduleRequestDto());
 
