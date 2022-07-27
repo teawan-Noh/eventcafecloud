@@ -1,14 +1,19 @@
 /*eventList*/
-
 #eventlist-card .card-body .card-body-bottom {
     margin-top: 50px;
 }
 
 #eventlist-card .card-body .card-body-bottom #cmt-count {
     margin-left: 10px;
+    margin-top: 10px;
+    font-size: 18px;
     font-weight: bolder;
 }
 
+#cmt-count .fa-bookmark {
+    margin-left: 5px;
+    color: goldenrod;
+}
 
 #event-pagination {
     justify-content: center;

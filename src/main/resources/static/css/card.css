@@ -175,7 +175,7 @@
 }
 
 #period-event-top5 {
-    font-size: 15px;
+    font-size: 16px;
     color: #9B9B9B;
 }
 
@@ -183,6 +183,12 @@
     float: left;
     margin-left: 10%;
     margin-bottom: 10%;
+    font-size: 18px;
+}
+
+#cmt-count .fa-bookmark {
+    margin-left: 5px;
+    color: goldenrod;
 }
 
 #eventTop5 .eventMore {
