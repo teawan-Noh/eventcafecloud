@@ -60,11 +60,6 @@ public class Post extends BaseTimeEntity {
         this.user = user;
     }
 
-    public void addComment(Comment comment) {
-        comments.add(comment);
-        comment.addPost(this);
-    }
-
     public void updateCount(){
         this.postCount++;
     }

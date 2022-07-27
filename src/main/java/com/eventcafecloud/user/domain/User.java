@@ -134,11 +134,6 @@ public class User extends BaseTimeEntity {
         cafe.addUser(this);
     }
 
-    public void addComment(Comment comment) {
-        comments.add(comment);
-        comment.addUser(this);
-    }
-
     public void addCafeReview(CafeReview cafeReview) {
         cafeReview.addUser(this);
         this.cafeReviews.add(cafeReview);

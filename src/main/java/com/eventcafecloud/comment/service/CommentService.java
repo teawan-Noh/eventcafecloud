@@ -30,10 +30,9 @@ public class CommentService {
         Comment comment = new Comment(requestDto);
         Post post = postRepository.findById(postId).orElseThrow(() ->
                 new IllegalArgumentException(POST_NOT_FOUND.getMessage()));
-        post.addComment(comment);
         User user = userRepository.findByUserEmail(userEmail).orElseThrow(() ->
                 new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
-        user.addComment(comment);
+        comment.createComment(post,user);
         Comment commentResult = commentRepository.save(comment);
 
         CommentCreateResponseDto.builder()
