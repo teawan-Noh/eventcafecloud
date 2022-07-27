@@ -14,10 +14,10 @@
                     </div>
                     <div class="event-bookmark">
                         <div th:if="${userId} == null" onclick='alert("로그인 후 이용해주세요!")' class="bookmarkBox" >
-                            <i class="fa-bookmark" th:text="| ${eventReadResponseDto.getEventBookmarkCount()}|"></i>
+                            <i class="fa-bookmark"></i>
                         </div>
                         <div th:if="${userId} != null" onclick="bookmark()" class="bookmarkBox" >
-                            <i class="fa-bookmark" th:text="| ${eventReadResponseDto.getEventBookmarkCount()}|"></i>
+                            <i class="fa-bookmark"></i>
                         </div>
                     </div>
                 </div>

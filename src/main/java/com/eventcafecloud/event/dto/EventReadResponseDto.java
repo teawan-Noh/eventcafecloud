@@ -29,7 +29,6 @@ public class EventReadResponseDto {
     private double cafeX;
     private double cafeY;
     private List<String> eventImageUrls;
-    private int eventBookmarkCount;
     private String bookmarkByLoginUser;
 
 
@@ -53,7 +52,6 @@ public class EventReadResponseDto {
         eventImageUrls = event.getEventImages().stream()
                         .map(i -> i.getEventImageUrl())
                         .collect(Collectors.toList());
-        eventBookmarkCount = event.getEventBookmarks().size();
         bookmarkByLoginUser = String.valueOf(checkBookmarkByLoginUser);
 
     }
