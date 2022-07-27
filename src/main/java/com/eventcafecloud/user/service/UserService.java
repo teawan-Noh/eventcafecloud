@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import static com.eventcafecloud.exception.ExceptionStatus.USER_NOT_FOUND;
@@ -35,6 +36,20 @@ public class UserService {
         User user = userRepository.findByUserEmail(userEmail)
                 .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
         return user;
+    }
+
+    public String getUserEmailById(Long id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
+        String email = user.getUserEmail();
+        return email;
+    }
+
+    public String getHostUserEmailById(Long id) {
+        HostUser user = hostUserRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
+        String email = user.getUserEmail();
+        return email;
     }
 
     public User findUserById(Long id) {
@@ -76,8 +91,20 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
         MultipartFile file = requestDto.getUserImage();
-        String userImage = s3Service.upload(file, "userProfileImage");
-        user.updateProfile(requestDto, userImage);
+        if (file.isEmpty()) {
+            user.updateProfile(requestDto);
+        } else {
+            String userImage = s3Service.upload(file, "userProfileImage");
+            user.updateProfileIncludeImage(requestDto, userImage);
+        }
+    }
+
+    public UserRequestDto findUserForUpdate(Long id, User loginUser) {
+        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
+        if (!Objects.equals(user.getId(), loginUser.getId())) {
+            return null;
+        }
+        return UserRequestDto.toDto(user);
     }
 
     @Transactional
@@ -123,5 +150,9 @@ public class UserService {
         }
 
         return hostList.map(HostUserResponseDto::new);
+    }
+
+    public boolean checkNicknameDuplicate(String nickName) {
+        return userRepository.existsByUserNickname(nickName);
     }
 }

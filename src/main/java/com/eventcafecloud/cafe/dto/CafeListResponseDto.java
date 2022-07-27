@@ -3,9 +3,6 @@ package com.eventcafecloud.cafe.dto;
 import com.eventcafecloud.cafe.domain.Cafe;
 import lombok.Data;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Data
 public class CafeListResponseDto {
 
@@ -15,6 +12,7 @@ public class CafeListResponseDto {
     private int cafeWeekdayPrice;
     private String cafeImgUrl;
     private int cafeReviewCount;
+    private int cafeBookmarkCount;
     //여러장 보낼 때 사용
 //    private List<String> cafeImgUrls;
 
@@ -25,6 +23,7 @@ public class CafeListResponseDto {
         cafeWeekdayPrice = cafe.getCafeWeekdayPrice();
         cafeImgUrl = cafe.getCafeImages().get(0).getCafeImageUrl();
         cafeReviewCount = cafe.getCafeReviews().size();
+        cafeBookmarkCount = cafe.getCafeBookmarks().size();
         //여러장 보낼 때 사용
 //        cafeImgUrls = cafe.getCafeImages().stream()
 //                .map(i -> i.getCafeImageUrl())

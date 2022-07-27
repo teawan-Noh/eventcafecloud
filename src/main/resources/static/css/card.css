@@ -52,15 +52,19 @@
     margin: 0;
 }
 
-#card-content-bottom{
+#card-content-bottom {
     display: flex;
     justify-content: space-between;
     margin-top: 10px;
 }
 
-#card-content-bottom div i{
+#card-content-bottom div {
+    margin-left: 10px;
+}
+
+#card-content-bottom div i {
     font-size: 20px;
-    padding: 7px 0 0 15px;
+    padding: 7px 0 0 3px;
 }
 
 #price {

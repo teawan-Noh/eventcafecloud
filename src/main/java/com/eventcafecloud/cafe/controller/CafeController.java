@@ -71,7 +71,7 @@ public class CafeController {
             model.addAttribute("userNick", loginUser.getUserNickname());
             model.addAttribute("userId", loginUser.getId());
         }
-        CafeDetailResponseDto cafeDetailResponseDto = cafeService.findCafeByIdForDetail(id);
+        CafeDetailResponseDto cafeDetailResponseDto = cafeService.findCafeByIdForDetail(id, loginUser);
 
         model.addAttribute("cafeDetailResponseDto", cafeDetailResponseDto);
 

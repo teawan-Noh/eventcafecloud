@@ -41,7 +41,8 @@ public class hostProfileController {
     @GetMapping("/{id}/info")
     public String getUserProfileById(@PathVariable Long id, Model model, User loginUser) {
         //프로필 수정시, 수정 한 정보를 담아 올 request 객체를 넘김
-        model.addAttribute("userRequestDto", new UserRequestDto());
+        UserRequestDto userRequestDto = userService.findUserForUpdate(id, loginUser);
+        model.addAttribute("userRequestDto", userRequestDto);
         //id에 해당하는 유저의 정보를 넘김
         model.addAttribute("user", userService.findUserById(id));
         model.addAttribute("userNick", loginUser.getUserNickname());
@@ -87,7 +88,7 @@ public class hostProfileController {
         model.addAttribute("userId", loginUser.getId());
         model.addAttribute("cafeId", cafeId);
         model.addAttribute("dates", dates);
-        model.addAttribute("cafeName", cafeService.findCafeByIdForDetail(cafeId).getCafeName());
+        model.addAttribute("cafeName", cafeService.findCafeByIdForDetail(cafeId, loginUser).getCafeName());
         //휴무일등록시, 등록 정보를 받아올 객체를 넘김
         model.addAttribute("requestDto", new CafeScheduleRequestDto());
 
