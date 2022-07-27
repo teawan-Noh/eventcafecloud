@@ -70,8 +70,8 @@ function makeHtml(cafe) {
                             <p id="subTitle" class="subtitle is-6">${cafeInfo}</p>
                             <div id="card-content-bottom">
                                 <div>
-                                    <i class="fa-regular fa-comment"></i> ${cafeReviewCount}
-                                    <i class="fa-regular fa-bookmark"></i> ${cafeBookmarkCount}
+                                    <i style="color: lightgray" class="fa-solid fa-comment"></i> ${cafeReviewCount}
+                                    <i style="color: lightgray" class="fa-solid fa-bookmark"></i> ${cafeBookmarkCount}
                                 </div>
                                 <div id="price">
                                     <p id="priceDetail">₩${cafeWeekdayPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')}</p>

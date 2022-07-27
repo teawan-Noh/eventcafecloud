@@ -9,6 +9,7 @@ import com.eventcafecloud.user.domain.User;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,7 +23,8 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED) // 다른곳에서 생성자 못쓰도록 막아둠
 public class Cafe extends BaseTimeEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cafe_number")
     private Long id;
 
@@ -85,6 +87,9 @@ public class Cafe extends BaseTimeEntity {
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
     private final List<CafeBookmark> cafeBookmarks = new ArrayList<>();
 
+    @Formula("(select count(*) from cafe_bookmark where cafe_bookmark.cafe_number=cafe_number)")
+    private int cafeBookmarkCount;
+
     public Cafe(CafeCreateRequestDto requestDto) {
         this.cafeName = requestDto.getCafeName();
         this.cafeZonecode = requestDto.getCafeZonecode();
@@ -103,7 +108,7 @@ public class Cafe extends BaseTimeEntity {
     }
 
     //==연관관계 편의 메서드==//
-    public void addUser(User user){
+    public void addUser(User user) {
         this.user = user;
     }
 

@@ -1,6 +1,5 @@
 package com.eventcafecloud.cafe.sort;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
