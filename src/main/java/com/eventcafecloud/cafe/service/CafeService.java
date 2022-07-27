@@ -28,6 +28,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.eventcafecloud.exception.ExceptionStatus.CAFE_NOT_FOUND;
+import static com.eventcafecloud.exception.ExceptionStatus.USER_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -341,7 +342,8 @@ public class CafeService {
 
     @Transactional
     public void saveCafeBookmark(Long id, User loginUser) {
-        User user = userRepoistory.getById(loginUser.getId());
+        User user = userRepoistory.findById(loginUser.getId()).orElseThrow(
+                () -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
         Cafe cafe = cafeRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException(CAFE_NOT_FOUND.getMessage()));
 
