@@ -24,17 +24,17 @@ public class CafeApiController {
             @RequestParam("size") int size,
             @RequestParam("searchVal") String searchVal,
             @RequestParam("sortStrategyKey") String sortStrategyKey
-    ){
+    ) {
         return cafeService.findAllCafeList(page, size, searchVal, sortStrategyKey);
     }
 
     @GetMapping("/api/cafes/top5")
-    public List<CafeListResponseDto> ReadCafeTopFive(){
+    public List<CafeListResponseDto> ReadCafeTopFive() {
         return cafeService.findCafeTopFiveList();
     }
 
     @GetMapping("/api/cafes/calender")
-    public List<CafeCalenderInfoResponseDto> ReadCafeEventInfo(@RequestParam Long id){
+    public List<CafeCalenderInfoResponseDto> ReadCafeEventInfo(@RequestParam Long id) {
         return cafeService.findEventListForCalenderByCafeId(id);
     }
 
@@ -57,7 +57,7 @@ public class CafeApiController {
             @RequestParam("page") int page,
             @RequestParam("size") int size,
             @RequestParam("sortStrategyKey") String sortStrategyKey
-    ){
+    ) {
         return cafeService.findCafeReviewListByCafeId(id, page, size, sortStrategyKey);
     }
 

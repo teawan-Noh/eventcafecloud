@@ -367,7 +367,7 @@ public class CafeService {
     }
 
     @Transactional
-    public void saveCafeBookmark(Long id, User loginUser) {
+    public void saveCafeBookmark(Long id, @NotNull User loginUser) {
         User user = userRepoistory.getById(loginUser.getId());
         Cafe cafe = cafeRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException(CAFE_NOT_FOUND.getMessage()));
@@ -376,6 +376,7 @@ public class CafeService {
                 .user(user)
                 .cafe(cafe)
                 .build();
+        cafe.addCafeBookmark(cafeBookmark);
         cafeBookmarkRepository.save(cafeBookmark);
     }
 

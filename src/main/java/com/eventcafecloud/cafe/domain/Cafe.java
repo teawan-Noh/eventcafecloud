@@ -68,22 +68,22 @@ public class Cafe extends BaseTimeEntity {
     private User user;
 
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
-    private List<CafeOption> cafeOptions = new ArrayList<>();
+    private final List<CafeOption> cafeOptions = new ArrayList<>();
 
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
-    private List<CafeImage> cafeImages = new ArrayList<>();
+    private final List<CafeImage> cafeImages = new ArrayList<>();
 
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
-    private List<CafeReview> cafeReviews = new ArrayList<>();
+    private final List<CafeReview> cafeReviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
-    private List<CafeSchedule> cafeSchedules = new ArrayList<>();
+    private final List<CafeSchedule> cafeSchedules = new ArrayList<>();
 
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
-    private List<Event> cafeEvents = new ArrayList<>();
+    private final List<Event> cafeEvents = new ArrayList<>();
 
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
-    private List<CafeBookmark> cafeBookmarks = new ArrayList<>();
+    private final List<CafeBookmark> cafeBookmarks = new ArrayList<>();
 
     public Cafe(CafeCreateRequestDto requestDto) {
         this.cafeName = requestDto.getCafeName();
@@ -127,6 +127,11 @@ public class Cafe extends BaseTimeEntity {
         this.cafeSchedules.add(cafeSchedule);
     }
 
+    public void addCafeBookmark(CafeBookmark cafeBookmark) {
+        cafeBookmark.addCafe(this);
+        this.cafeBookmarks.add(cafeBookmark);
+    }
+
     public void updateCafeInfo(CafeUpdateRequestDto requestDto) {
         this.cafeName = requestDto.getCafeName();
         this.cafeZonecode = requestDto.getCafeZonecode();
@@ -145,7 +150,6 @@ public class Cafe extends BaseTimeEntity {
 
     public void updateCafeReviewScore(Integer newReviewScore) {
         cafeReviewScore = newReviewScore;
-
     }
 }
 
