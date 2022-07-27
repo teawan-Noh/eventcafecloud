@@ -70,22 +70,22 @@ public class Cafe extends BaseTimeEntity {
     private User user;
 
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
-    private List<CafeOption> cafeOptions = new ArrayList<>();
+    private final List<CafeOption> cafeOptions = new ArrayList<>();
 
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
-    private List<CafeImage> cafeImages = new ArrayList<>();
+    private final List<CafeImage> cafeImages = new ArrayList<>();
 
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
-    private List<CafeReview> cafeReviews = new ArrayList<>();
+    private final List<CafeReview> cafeReviews = new ArrayList<>();
 
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
-    private List<CafeSchedule> cafeSchedules = new ArrayList<>();
+    private final List<CafeSchedule> cafeSchedules = new ArrayList<>();
 
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
-    private List<Event> cafeEvents = new ArrayList<>();
+    private final List<Event> cafeEvents = new ArrayList<>();
 
     @OneToMany(mappedBy = "cafe", cascade = CascadeType.ALL)
-    private List<CafeBookmark> cafeBookmarks = new ArrayList<>();
+    private final List<CafeBookmark> cafeBookmarks = new ArrayList<>();
 
     @Formula("(select count(*) from cafe_bookmark where cafe_bookmark.cafe_number=cafe_number)")
     private int cafeBookmarkCount;
@@ -150,7 +150,6 @@ public class Cafe extends BaseTimeEntity {
 
     public void updateCafeReviewScore(Integer newReviewScore) {
         cafeReviewScore = newReviewScore;
-
     }
 }
 

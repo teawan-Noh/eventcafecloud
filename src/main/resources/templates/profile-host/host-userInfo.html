@@ -16,6 +16,7 @@
                 <li><a class="menuVar-link" th:href="@{/hosts/profile/{id}/info(id=${userId})}">내 프로필</a></li>
                 <li><a class="menuVar-link" th:href="@{/hosts/profile/{id}/host/posts(id=${userId})}">내 작성글</a></li>
                 <li><a class="menuVar-link" th:href="@{/hosts/profile/{id}/cafes(id=${userId})}">내 카페목록</a></li>
+                <li><a class="menuVar-link" th:href="@{/hosts/profile/{id}/host/bookmarks(id=${userId})}">내 북마크</a></li>
             </ul>
         </div>
     </div>
@@ -32,4 +33,31 @@
     });
 
     let id = document.location.href.split("/").reverse()[1]
+
+    function checkNick() {
+        var nickName = $('#userNickname').val();
+        $.ajax({
+            url: "/user/exists",
+            type: "GET",
+            data: {nick: nickName},
+            contentType: "application/json",
+            dataType: "json",
+            success: function (result) {
+                if (result === 1) {
+                    $('.id_already').css("display", "none");
+                    $('.id_already2').css("display", "inline-block");
+                } else if (result === 2) {
+                    $('.id_already').css("display", "inline-block");
+                    $('.id_already2').css("display", "none");
+                } else {
+                    $('.id_already').css("display", "none");
+                    $('.id_already2').css("display", "none");
+                    $('#updateProfile').submit()
+                }
+            },
+            error: function () {
+                alert("에러입니다");
+            }
+        });
+    }
 </script>
