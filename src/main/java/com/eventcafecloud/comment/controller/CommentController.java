@@ -28,12 +28,6 @@ public class CommentController {
         return "redirect:/posts/" + postId;
     }
 
-    @PutMapping("/comment/{id}")
-    @ResponseBody
-    public Long updateComment(@PathVariable Long id, @RequestBody CommentUpdateRequestDto requestDto) {
-        return commentService.updateComment(id, requestDto);
-    }
-
     @DeleteMapping("/{postId}/comment/{commentId}")
     public String deleteComment(@PathVariable Long commentId, @PathVariable Long postId) {
         commentService.deleteComment(commentId);

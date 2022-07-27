@@ -1,7 +1,6 @@
 package com.eventcafecloud.post.dto;
 
 import com.eventcafecloud.post.domain.Post;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
