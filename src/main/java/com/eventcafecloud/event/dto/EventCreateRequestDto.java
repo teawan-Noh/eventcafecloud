@@ -13,6 +13,7 @@ import java.util.List;
 @Data
 public class EventCreateRequestDto {
     @NotEmpty(message = "이벤트 이름은 필수입니다.")
+    @Length(min=1, max=22)
     private String eventName;
 
     private EventCategory eventCategory;
