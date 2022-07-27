@@ -49,17 +49,15 @@
                         <span aria-hidden="true">&lt;</span>
                     </a>
                 </li>
-
                 <li th:class="${page == bookmarks.number + 1} ? 'active'"
                     th:each="page: ${#numbers.sequence(start, last)}">
                     <a class="page-number"
                        th:href="@{/users/profile/{userId}/bookmarks(page=${page}, userId=${userId})}"
                        th:text="${page}"></a>
                 </li>
-
                 <li th:class="${bookmarks.last} ? 'disabled'">
                     <a aria-label="Next" class="page-number"
-                       th:href="${bookmarks.last} ? '#' : @{/users/profile/{userId}/bookmarks(page=${posts.number + 2}, userId=${userId})}">
+                       th:href="${bookmarks.last} ? '#' : @{/users/profile/{userId}/bookmarks(page=${bookmarks.number + 2}, userId=${userId})}">
                         <span aria-hidden="true">&gt;</span>
                     </a>
                 </li>

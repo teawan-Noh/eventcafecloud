@@ -39,13 +39,13 @@
                     last=(${start + 9 < bookmarks.totalPages ? start + 9 : bookmarks.totalPages})">
                 <li>
                     <a aria-label="First" class="page-number"
-                       th:href="@{/hosts/profile/{userId}/bookmarks(page=1, userId=${userId})}">
+                       th:href="@{/hosts/profile/{userId}/host/bookmarks(page=1, userId=${userId})}">
                         <span aria-hidden="true">First</span>
                     </a>
                 </li>
                 <li th:class="${bookmarks.first} ? 'disabled'">
                     <a aria-label="Previous" class="page-number"
-                       th:href="${bookmarks.first} ? '#' :@{/hosts/profile/{userId}/bookmarks(page=${bookmarks.number}, userId=${userId})}">
+                       th:href="${bookmarks.first} ? '#' :@{/hosts/profile/{userId}/host/bookmarks(page=${bookmarks.number}, userId=${userId})}">
                         <span aria-hidden="true">&lt;</span>
                     </a>
                 </li>
@@ -53,19 +53,19 @@
                 <li th:class="${page == bookmarks.number + 1} ? 'active'"
                     th:each="page: ${#numbers.sequence(start, last)}">
                     <a class="page-number"
-                       th:href="@{/hosts/profile/{userId}/bookmarks(page=${page}, userId=${userId})}"
+                       th:href="@{/hosts/profile/{userId}/host/bookmarks(page=${page}, userId=${userId})}"
                        th:text="${page}"></a>
                 </li>
 
                 <li th:class="${bookmarks.last} ? 'disabled'">
                     <a aria-label="Next" class="page-number"
-                       th:href="${bookmarks.last} ? '#' : @{/hosts/profile/{userId}/bookmarks(page=${posts.number + 2}, userId=${userId})}">
+                       th:href="${bookmarks.last} ? '#' : @{/hosts/profile/{userId}/host/bookmarks(page=${bookmarks.number + 2}, userId=${userId})}">
                         <span aria-hidden="true">&gt;</span>
                     </a>
                 </li>
                 <li>
                     <a aria-label="Last" class="page-number"
-                       th:href="@{/hosts/profile/{userId}/bookmarks(page=${bookmarks.totalPages}, userId=${userId})}">
+                       th:href="@{/hosts/profile/{userId}/host/bookmarks(page=${bookmarks.totalPages}, userId=${userId})}">
                         <span aria-hidden="true">Last</span>
                     </a>
                 </li>
