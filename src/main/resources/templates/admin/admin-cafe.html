@@ -3,9 +3,23 @@
 <head>
     <th:block th:replace="fragments/header :: header"/>
     <th:block th:replace="fragments/adminHeader :: adminHeader"/>
-    <script src="/js/cafe/cafeDelete.js"></script>
 </head>
 <body>
 <div th:replace="admin/fragments/manage-cafe :: manage-cafe"/>
 </body>
 </html>
+<script>
+    function deleteCafeByAdmin(cafeId) {
+        if (confirm("정말 삭제하시겠습니까?")) {
+            $.ajax({
+                type: "DELETE",
+                url: `/admin/cafes/${cafeId}`,
+                data: {},
+                success: function (response) {
+                    alert(response)
+                    location.reload(true);
+                }
+            })
+        }
+    }
+</script>
