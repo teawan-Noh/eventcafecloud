@@ -227,6 +227,9 @@ public class CafeService {
         }
     }
 
+    /**
+     * 어드민페이지용, 전체삭제 메소드
+     */
     @Transactional
     public String removeCafeByAdmin(Long id) {
         Cafe cafe = cafeRepository.getById(id);
@@ -367,7 +370,7 @@ public class CafeService {
     }
 
     @Transactional
-    public void saveCafeBookmark(Long id, @NotNull User loginUser) {
+    public void saveCafeBookmark(Long id, User loginUser) {
         User user = userRepoistory.getById(loginUser.getId());
         Cafe cafe = cafeRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException(CAFE_NOT_FOUND.getMessage()));
