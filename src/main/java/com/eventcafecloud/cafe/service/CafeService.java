@@ -224,7 +224,7 @@ public class CafeService {
             s3Service.deleteImages(imageKeys);
 
             cafeRepository.deleteById(id);
-            return "삭제 성공";
+           return "삭제 성공";
         }
     }
 
