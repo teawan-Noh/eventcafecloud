@@ -68,8 +68,9 @@
                                 </div>
                                 <div class="card-body-bottom">
                                     <div class="row">
-                                        <div class="col">
-                                            <i class="fa-regular fa-comment" th:text="| ${eventListResponseDto.getEventCmtCount()}|" style="font-size: 18px; margin-top: 10px"></i>
+                                        <div class="col" id="cmt-count">
+                                            <i class="fa-regular fa-comment" th:text="| ${eventListResponseDto.getEventCmtCount()}|"></i>
+                                            <i class="fa-regular fa-bookmark" th:text="| ${eventListResponseDto.getEventBookmarkCount()}|"></i>
                                         </div>
                                         <div class="col">
                                             <button type="button" class="btn btn-outline-dark" id="btn-list">

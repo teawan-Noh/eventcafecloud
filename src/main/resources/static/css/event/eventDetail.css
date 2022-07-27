@@ -5,11 +5,23 @@
 
 #event-detail-header {
     margin: 25px auto 25px auto;
+    height: 100px;
 }
 
 .badge {
     height: 32px;
     width: 140px;
+}
+
+#event-detail-header .detail-middle #h1-name {
+    float: left;
+}
+
+#event-detail-header .detail-middle .event-bookmark {
+    float: right;
+    margin-right: 20px;
+    font-size: 30px;
+    color: goldenrod;
 }
 
 #event-detail-info {

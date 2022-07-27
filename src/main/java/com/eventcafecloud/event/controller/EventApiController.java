@@ -45,4 +45,16 @@ public class EventApiController {
     public void deleteEventCmtByCommentId(@PathVariable Long id, User loginUser) {
         eventService.removeEventCmtByCmtId(id);
     }
+
+    // 북마크 등록
+    @PostMapping("/events/{eventNumber}/bookmark")
+    public void createBookmark(@PathVariable Long eventNumber, User loginUser){
+        eventService.saveEventBookmark(eventNumber, loginUser);
+    }
+
+    // 북마크 삭제
+    @DeleteMapping("/events/{eventNumber}/bookmark")
+    public void deleteBookmark(@PathVariable Long eventNumber, User loginUser){
+        eventService.removeEventBookmark(eventNumber, loginUser);
+    }
 }
