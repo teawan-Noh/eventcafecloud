@@ -1,6 +1,7 @@
 package com.eventcafecloud.event.domain;
 
 import com.eventcafecloud.cafe.domain.Cafe;
+import com.eventcafecloud.cafe.domain.CafeBookmark;
 import com.eventcafecloud.cafe.domain.CafeReview;
 import com.eventcafecloud.common.base.BaseTimeEntity;
 import com.eventcafecloud.event.domain.type.EventCategory;
@@ -64,6 +65,9 @@ public class Event extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<EventComment> eventComments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    private List<EventBookmark> eventBookmarks = new ArrayList<>();
 
     public Event(EventCreateRequestDto requestDto) {
         this.eventName = requestDto.getEventName();

@@ -29,9 +29,11 @@ public class EventReadResponseDto {
     private double cafeX;
     private double cafeY;
     private List<String> eventImageUrls;
+    private String bookmarkByLoginUser;
 
 
-    public EventReadResponseDto(Event event) {
+
+    public EventReadResponseDto(Event event, boolean checkBookmarkByLoginUser) {
         this.eventName = event.getEventName();
         this.eventCategory = event.getEventCategory();
         this.eventStartDate = event.getEventStartDate();
@@ -50,6 +52,8 @@ public class EventReadResponseDto {
         eventImageUrls = event.getEventImages().stream()
                         .map(i -> i.getEventImageUrl())
                         .collect(Collectors.toList());
+        bookmarkByLoginUser = String.valueOf(checkBookmarkByLoginUser);
+
     }
 
     public boolean eventCancelAvail(String eventStartDate) {

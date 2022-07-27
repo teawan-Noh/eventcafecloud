@@ -4,10 +4,12 @@ import com.eventcafecloud.cafe.domain.Cafe;
 import com.eventcafecloud.cafe.repository.CafeRepository;
 import com.eventcafecloud.cafe.sort.SortStrategy;
 import com.eventcafecloud.event.domain.Event;
+import com.eventcafecloud.event.domain.EventBookmark;
 import com.eventcafecloud.event.domain.EventComment;
 import com.eventcafecloud.event.domain.EventImage;
 import com.eventcafecloud.event.domain.type.EventCategory;
 import com.eventcafecloud.event.dto.*;
+import com.eventcafecloud.event.repository.EventBookmarkRepository;
 import com.eventcafecloud.event.repository.EventCommentRepository;
 import com.eventcafecloud.event.repository.EventRepository;
 import com.eventcafecloud.s3.S3Service;
@@ -41,6 +43,7 @@ public class EventService {
     private final CafeRepository cafeRepository;
     private final UserRepository userRepository;
     private final EventCommentRepository eventCommentRepository;
+    private final EventBookmarkRepository eventBookmarkRepository;
     private final Map<String, SortStrategy> sortStrategyMap;
     private final S3Service s3Service;
 
@@ -112,12 +115,22 @@ public class EventService {
         return eventListResponseDtos;
     }
 
-    // 이벤트 상세
-    public EventReadResponseDto findEvent(Long eventNumber) {
-        Event event = eventRepository.findById(eventNumber)
-                .orElseThrow(() -> new IllegalArgumentException(EVENT_NOT_FOUND.getMessage()));
-        EventReadResponseDto eventReadResponseDto = new EventReadResponseDto(event);
-        return eventReadResponseDto;
+
+    // 이벤트 상세 + 북마크
+    public EventReadResponseDto findEventByIdForDetail(Long eventNumber, User loginUser) {
+
+        Event event = eventRepository.findById(eventNumber).orElseThrow(
+                () -> new IllegalArgumentException(EVENT_NOT_FOUND.getMessage()));
+
+        boolean checkBookmarkByLoginUser;
+
+        if (loginUser != null){
+            checkBookmarkByLoginUser = eventBookmarkRepository.existsByEventIdAndUserId(eventNumber, loginUser.getId());
+        }else {
+            checkBookmarkByLoginUser = false;
+        }
+
+        return new EventReadResponseDto(event, checkBookmarkByLoginUser);
     }
 
     // 이벤트 넘버로 이벤트 가져오기
@@ -137,7 +150,9 @@ public class EventService {
         return eventListResponseDtos;
     }
 
-    // 댓글등록
+    /**
+     * 댓글
+     */
     @Transactional
     public void saveEventComment(EventCmtRequestDto requestDto, Long eventNumber, User securityUser) {
         User user = userRepository.getById(securityUser.getId());
@@ -166,6 +181,27 @@ public class EventService {
     @Transactional
     public void removeEventCmtByCmtId(Long id) {
         eventCommentRepository.deleteById(id);
+    }
+
+    /**
+     * 북마크
+     */
+    @Transactional
+    public void saveEventBookmark(Long eventNumber, User loginUser) {
+        User user = userRepository.getById(loginUser.getId());
+        Event event = eventRepository.findById(eventNumber).orElseThrow(
+                () -> new IllegalArgumentException(EVENT_NOT_FOUND.getMessage()));
+
+        EventBookmark eventBookmark = EventBookmark.builder()
+                .user(user)
+                .event(event)
+                .build();
+        eventBookmarkRepository.save(eventBookmark);
+    }
+
+    @Transactional
+    public void removeEventBookmark(Long eventNumber, User loginUser) {
+        eventBookmarkRepository.deleteByEventIdAndUserId(eventNumber, loginUser.getId());
     }
 
     /**

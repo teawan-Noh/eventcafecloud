@@ -16,7 +16,7 @@
                     <form role="form" th:action="@{/events/{eventNumber}/detail (eventNumber=${event.id})}" th:object="${eventUpdateRequestDto}" method="post">
                         <div class="modal-body">
                             <h5><label style= "float: left; font-weight: bold">이벤트 이름</label></h5>
-                            <input class="form-control" placeholder="변경할 이벤트 이름을 입력하세요" required maxlength="24"
+                            <input class="form-control" placeholder="변경할 이벤트 이름을 입력하세요" required maxlength="22"
                                    th:class="${#fields.hasErrors('eventName')}? 'form-control fieldError' : 'form-control'"
                                    th:field="*{eventName}"
                                    type="text">
