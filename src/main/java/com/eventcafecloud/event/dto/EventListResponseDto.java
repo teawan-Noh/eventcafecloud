@@ -20,6 +20,8 @@ public class EventListResponseDto {
     private String eventEndDate;
     private List<String> eventImageUrls;
     private int eventCmtCount;
+    private int eventBookmarkCount;
+
 
     public EventListResponseDto(Event event) {
         this.eventNumber = event.getId();
@@ -31,5 +33,6 @@ public class EventListResponseDto {
                 .map(i -> i.getEventImageUrl())
                 .collect(Collectors.toList());
         this.eventCmtCount = event.getEventComments().size();
+        eventBookmarkCount = event.getEventBookmarks().size();
     }
 }

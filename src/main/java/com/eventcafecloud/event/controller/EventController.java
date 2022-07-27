@@ -54,9 +54,7 @@ public class EventController {
     // 이벤트 예약
     @PostMapping("/events")
     public String createEvent(@Valid @ModelAttribute EventCreateRequestDto requestDto, BindingResult result, User loginUser) {
-
-        eventService.saveEvent(requestDto, loginUser);
-
+        
         if (result.hasErrors()) {
             return "event/createEventForm";
         }
@@ -124,7 +122,7 @@ public class EventController {
             model.addAttribute("userId", loginUser.getId());
         }
 
-        EventReadResponseDto eventReadResponseDto = eventService.findEvent(eventNumber);
+        EventReadResponseDto eventReadResponseDto = eventService.findEventByIdForDetail(eventNumber, loginUser);
         model.addAttribute("eventReadResponseDto", eventReadResponseDto);
         model.addAttribute("eventUpdateRequestDto", new EventUpdateRequestDto());
         model.addAttribute("event", eventService.findEventById(eventNumber));
