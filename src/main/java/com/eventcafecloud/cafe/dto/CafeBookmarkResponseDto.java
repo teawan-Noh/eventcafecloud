@@ -12,8 +12,8 @@ public class CafeBookmarkResponseDto {
     private String cafeInfo;
     private String cafeImgUrl;
     private int cafeWeekdayPrice;
-    private String cafeReviewCount;
-    private String cafeBookmarkCount;
+    private Integer cafeReviewCount;
+    private Integer cafeBookmarkCount;
 
     public CafeBookmarkResponseDto(CafeBookmark bookmark) {
         id = bookmark.getId();
@@ -22,7 +22,7 @@ public class CafeBookmarkResponseDto {
         cafeInfo = bookmark.getCafe().getCafeInfo();
         cafeImgUrl = bookmark.getCafe().getCafeImages().get(0).getCafeImageUrl();
         cafeWeekdayPrice = bookmark.getCafe().getCafeWeekdayPrice();
-        cafeReviewCount = String.valueOf(bookmark.getCafe().getCafeReviews().size());
-        cafeBookmarkCount = String.valueOf(bookmark.getCafe().getCafeBookmarks().size());
+        cafeReviewCount = bookmark.getCafe().getCafeReviews().size();
+        cafeBookmarkCount = bookmark.getCafe().getCafeBookmarks().size();
     }
 }
