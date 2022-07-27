@@ -127,11 +127,6 @@ public class Cafe extends BaseTimeEntity {
         this.cafeSchedules.add(cafeSchedule);
     }
 
-    public void addCafeBookmark(CafeBookmark cafeBookmark) {
-        cafeBookmark.addCafe(this);
-        this.cafeBookmarks.add(cafeBookmark);
-    }
-
     public void updateCafeInfo(CafeUpdateRequestDto requestDto) {
         this.cafeName = requestDto.getCafeName();
         this.cafeZonecode = requestDto.getCafeZonecode();

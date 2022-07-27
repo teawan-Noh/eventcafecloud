@@ -24,8 +24,4 @@ public class CafeBookmark {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_number")
     private User user;
-
-    public void addCafe(Cafe cafe) {
-        this.cafe = cafe;
-    }
 }

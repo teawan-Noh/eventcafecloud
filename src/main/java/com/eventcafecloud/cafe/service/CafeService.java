@@ -376,7 +376,6 @@ public class CafeService {
                 .user(user)
                 .cafe(cafe)
                 .build();
-        cafe.addCafeBookmark(cafeBookmark);
         cafeBookmarkRepository.save(cafeBookmark);
     }
 
