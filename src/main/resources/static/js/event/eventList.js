@@ -35,8 +35,8 @@ function createHtml(event) {
                                 <p id="title-event-top5" class="title is-4">${eventName}</p>
                                 <p id="period-event-top5" class="title is-4">${eventStartDate} ~ ${eventEndDate}</p>
                                 <div id="cmt-count">
-                                    <i class="fa-regular fa-comment"></i> ${eventCmtCount}
-                                    <i class="fa-regular fa-bookmark"></i> ${eventBookmarkCount}
+                                    <i style="color: lightgray" class="fa-solid fa-comment"></i> ${eventCmtCount}
+                                    <i style="color: lightgray" class="fa-solid fa-bookmark"></i> ${eventBookmarkCount}
                                 </div>
                             </div>
                        </div>`;
