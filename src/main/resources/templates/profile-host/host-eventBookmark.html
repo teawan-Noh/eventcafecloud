@@ -17,12 +17,15 @@
                 <li><a class="menuVar-link" th:href="@{/hosts/profile/{id}/info(id=${userId})}">내 프로필</a></li>
                 <li><a class="menuVar-link" th:href="@{/hosts/profile/{id}/host/posts(id=${userId})}">내 작성글</a></li>
                 <li><a class="menuVar-link" th:href="@{/hosts/profile/{id}/cafes(id=${userId})}">내 카페목록</a></li>
-                <li><a class="menuVar-link" th:href="@{/hosts/profile/{id}/host/bookmarks(id=${userId})}">내 북마크</a></li>
+                <li><a class="menuVar-link" th:href="@{/hosts/profile/{id}/host/bookmarks(id=${userId})}">북마크(카페)</a>
+                </li>
+                <li><a class="menuVar-link"
+                       th:href="@{/hosts/profile/{id}/host/event/bookmarks(id=${userId})}">북마크(이벤트)</a></li>
             </ul>
         </div>
     </div>
     <div class="right">
-        <div th:replace="profile/fragments/bookmarks :: bookmarks"/>
+        <div th:replace="profile-host/fragments/eventBookmarks :: eventBookmarks"/>
     </div>
 </div>
 </body>
