@@ -3,13 +3,13 @@
 <head>
     <th:block th:replace="fragments/header :: header"/>
     <th:block th:replace="fragments/mainHeader :: mainHeader"/>
-    <script src="/js/cafe/cafeDelete.js"></script>
+    <link href="/css/card.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div th:replace="fragments/mainTop :: mainTop"/>
 <div>
     <div class="topBanner">
-        <div class="topFont">호스트페이지</div>
+        <div class="topFont">마이페이지</div>
     </div>
     <div class="left">
         <div class="menuVar">
@@ -22,11 +22,8 @@
         </div>
     </div>
     <div class="right">
-        <div th:replace="profile-host/fragments/cafes :: cafes"/>
+        <div th:replace="profile/fragments/bookmarks :: bookmarks"/>
     </div>
 </div>
 </body>
 </html>
-<script>
-    let id = document.location.href.split("/").reverse()[1]
-</script>
