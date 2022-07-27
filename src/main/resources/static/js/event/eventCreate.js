@@ -28,12 +28,15 @@ function getDatesStartToLast() {
     }
 
     // 휴무일 및 예약된 날짜 포함 기간 설정 시
-    if (number == 0) {
+    if (number === 0) {
         findDate(results);
     } else {
         alert("휴무일 및 예약된 날짜가 포함되어있습니다!");
+        document.getElementById('datePicker-start').value = null;
+        document.getElementById('datePicker-end').value = null;
         $('#datePicker-start').focus();
         results = [];
+
     }
 }
 

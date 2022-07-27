@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="/css/event/eventComment.css">
     <link rel="stylesheet" type="text/css" href="/css/event/eventHost.css">
     <script src="/js/event/eventComment.js"></script>
+    <script src="/js/event/eventBookmark.js"></script>
 
     <script th:inline="javascript">
         let x = [[${eventReadResponseDto.getCafeX()}]];
@@ -16,12 +17,13 @@
         let id = [[${eventReadResponseDto.getCafeNumber()}]];
         let loginUserId = [[${userId}]];
         let eventNumber = [[${event.getId()}]];
-        // let hostNickname = [[${event.getUser().getUserNickname()}]];
+        let bookmarkByLoginUser = [[${eventReadResponseDto.getBookmarkByLoginUser()}]];
     </script>
 </head>
 <script>
     $(document).ready(function () {
         getEventCmtList();
+        showBookmarkStatus();
     });
 </script>
 

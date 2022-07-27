@@ -19,6 +19,10 @@ function createHtml(event) {
     const eventImageUrls = event["eventImageUrls"]
     const eventName = event["eventName"];
     const eventCategory = event["eventCategory"];
+    const eventStartDate = event["eventStartDate"];
+    const eventEndDate = event["eventEndDate"];
+    const eventCmtCount = event["eventCmtCount"]
+    const eventBookmarkCount = event["eventBookmarkCount"]
 
     return `<div class="card" id="card-event-top5" onclick="location.href='/events/${eventNumber}/detail'">
                             <div class="card-image">
@@ -29,6 +33,11 @@ function createHtml(event) {
                             <div class="card-content" id="card-content">
                                 <h5><span class="badge badge-secondary" id="badge-cate" >${eventCategory}</span></h5>
                                 <p id="title-event-top5" class="title is-4">${eventName}</p>
+                                <p id="period-event-top5" class="title is-4">${eventStartDate} ~ ${eventEndDate}</p>
+                                <div id="cmt-count">
+                                    <i class="fa-regular fa-comment"></i> ${eventCmtCount}
+                                    <i class="fa-regular fa-bookmark"></i> ${eventBookmarkCount}
+                                </div>
                             </div>
                        </div>`;
 }

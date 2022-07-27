@@ -2,8 +2,10 @@ package com.eventcafecloud.user.controller;
 
 import com.eventcafecloud.cafe.domain.Cafe;
 import com.eventcafecloud.cafe.domain.CafeSchedule;
+import com.eventcafecloud.cafe.dto.CafeBookmarkResponseDto;
 import com.eventcafecloud.cafe.dto.CafeCalenderInfoResponseDto;
 import com.eventcafecloud.cafe.dto.CafeScheduleRequestDto;
+import com.eventcafecloud.cafe.service.CafeBookmarkService;
 import com.eventcafecloud.cafe.service.CafeScheduleService;
 import com.eventcafecloud.cafe.service.CafeService;
 import com.eventcafecloud.event.domain.Event;
@@ -37,6 +39,7 @@ public class hostProfileController {
     private final CafeService cafeService;
     private final EventService eventService;
     private final CafeScheduleService cafeScheduleService;
+    private final CafeBookmarkService bookmarkService;
 
     @GetMapping("/{id}/info")
     public String getUserProfileById(@PathVariable Long id, Model model, User loginUser) {
@@ -50,6 +53,15 @@ public class hostProfileController {
         return "profile-host/host-userInfo";
     }
 
+    @GetMapping("/{id}/host/bookmarks")
+    public String getUserBookmarkById(@PageableDefault Pageable pageable, @PathVariable Long id, Model model, User loginUser) {
+        Page<CafeBookmarkResponseDto> bookmarkList = bookmarkService.findCafeBookmarkByUserId(id, pageable);
+        model.addAttribute("bookmarks", bookmarkList);
+        model.addAttribute("userNick", loginUser.getUserNickname());
+        model.addAttribute("userId", loginUser.getId());
+
+        return "profile/profile-bookmark";
+    }
 
     @PostMapping("/{id}/info/host/update")
     public String updateHostProfile(@PathVariable Long id, UserRequestDto requestDto) {
@@ -88,7 +100,7 @@ public class hostProfileController {
         model.addAttribute("userId", loginUser.getId());
         model.addAttribute("cafeId", cafeId);
         model.addAttribute("dates", dates);
-        model.addAttribute("cafeName", cafeService.findCafeByIdForDetail(cafeId).getCafeName());
+        model.addAttribute("cafeName", cafeService.findCafeByIdForDetail(cafeId, loginUser).getCafeName());
         //휴무일등록시, 등록 정보를 받아올 객체를 넘김
         model.addAttribute("requestDto", new CafeScheduleRequestDto());
 
@@ -100,7 +112,6 @@ public class hostProfileController {
         cafeScheduleService.saveCafeSchedule(requestDto, cafeId);
         return "redirect:/hosts/profile/" + userId + "/cafes/" + cafeId + "/schedule";
     }
-
 
     @PostMapping("/{id}/info/update")
     public String updateUserProfile(@PathVariable Long id, UserRequestDto requestDto) {

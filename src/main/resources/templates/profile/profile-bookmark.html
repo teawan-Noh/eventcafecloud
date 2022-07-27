@@ -3,6 +3,7 @@
 <head>
     <th:block th:replace="fragments/header :: header"/>
     <th:block th:replace="fragments/mainHeader :: mainHeader"/>
+    <link href="/css/card.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div th:replace="fragments/mainTop :: mainTop"/>
@@ -21,26 +22,8 @@
         </div>
     </div>
     <div class="right">
-        <div th:replace="profile/fragments/reservation :: reservation"/>
+        <div th:replace="profile/fragments/bookmarks :: bookmarks"/>
     </div>
 </div>
 </body>
 </html>
-<script>
-    let today = new Date();
-
-    let year = today.getFullYear();
-    let month = ('0' + (today.getMonth() + 1)).slice(-2);
-    let day = ('0' + today.getDate()).slice(-2);
-
-    let todayStr = year + '-' + month + '-' + day;
-
-    const getDateDiff = (d1, d2) => {
-        const date1 = new Date(d1);
-        const date2 = new Date(d2);
-
-        const diffDate = date1.getTime() - date2.getTime();
-
-        return Math.abs(diffDate / (1000 * 60 * 60 * 24)); // 밀리세컨 * 초 * 분 * 시 = 일
-    }
-</script>
