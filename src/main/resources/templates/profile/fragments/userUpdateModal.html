@@ -17,14 +17,11 @@
                       th:object="${userRequestDto}">
                     <div class="modal-body">
                         <label>닉네임</label>
-                        <input class="form-control" placeholder="변경할 닉네임을 입력하세요" required
-                               th:class="${#fields.hasErrors('userNickname')}? 'form-control fieldError' : 'form-control'"
-                               id="userNickname" name="userNickname" th:value="${userNick}"
-                               type="text">
+                        <input class="form-control" id="userNickname" name="userNickname" placeholder="변경할 닉네임을 입력하세요"
+                               th:value="${userNick}" type="text">
                         <small class="id_already" style="display: none; color: #ff4040;">이미 사용중인 닉네임입니다.</small>
+                        <small class="id_already2" style="display: none; color: #ff4040;">닉네임을 입력해주세요.</small>
                         <br>
-                        <p class="warning-message" th:errors="*{userNickname}"
-                           th:if="${#fields.hasErrors('userNickname')}">Incorrect date</p>
                         <label>프로필 이미지</label>
                         <div class="filebox">
                             <input class="upload-name" placeholder="변경하시지 않을 경우 기본 프로필이 유지됩니다." readonly

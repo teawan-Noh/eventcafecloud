@@ -24,17 +24,17 @@ public class CafeApiController {
             @RequestParam("size") int size,
             @RequestParam("searchVal") String searchVal,
             @RequestParam("sortStrategyKey") String sortStrategyKey
-    ){
+    ) {
         return cafeService.findAllCafeList(page, size, searchVal, sortStrategyKey);
     }
 
     @GetMapping("/api/cafes/top5")
-    public List<CafeListResponseDto> ReadCafeTopFive(){
+    public List<CafeListResponseDto> ReadCafeTopFive() {
         return cafeService.findCafeTopFiveList();
     }
 
     @GetMapping("/api/cafes/calender")
-    public List<CafeCalenderInfoResponseDto> ReadCafeEventInfo(@RequestParam Long id){
+    public List<CafeCalenderInfoResponseDto> ReadCafeEventInfo(@RequestParam Long id) {
         return cafeService.findEventListForCalenderByCafeId(id);
     }
 
@@ -57,18 +57,34 @@ public class CafeApiController {
             @RequestParam("page") int page,
             @RequestParam("size") int size,
             @RequestParam("sortStrategyKey") String sortStrategyKey
-    ){
+    ) {
         return cafeService.findCafeReviewListByCafeId(id, page, size, sortStrategyKey);
     }
 
     @DeleteMapping("/api/cafes/review/{id}")
-    public void deleteCafeReviewByReviewId(@PathVariable Long id){
+    public void deleteCafeReviewByReviewId(@PathVariable Long id) {
         cafeService.removeCafeReviewByReviewId(id);
     }
 
     // 카페 삭제
     @DeleteMapping("/cafes/{id}")
     public String deleteCafe(@PathVariable Long id, User loginUser) {
-        return cafeService.removeCafe(id);
+        return cafeService.removeCafe(id, loginUser);
+    }
+
+    @DeleteMapping("/admin/cafes/{id}")
+    public String deleteCafeByAdmin(@PathVariable Long id) {
+        return cafeService.removeCafeByAdmin(id);
+    }
+
+
+    @PostMapping("/cafes/{id}/bookmark")
+    public void createBookmark(@PathVariable Long id, User loginUser) {
+        cafeService.saveCafeBookmark(id, loginUser);
+    }
+
+    @DeleteMapping("/cafes/{id}/bookmark")
+    public void deleteBookmark(@PathVariable Long id, User loginUser) {
+        cafeService.removeCafeBookmark(id, loginUser);
     }
 }

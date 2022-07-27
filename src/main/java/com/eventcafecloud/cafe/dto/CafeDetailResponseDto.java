@@ -2,12 +2,15 @@ package com.eventcafecloud.cafe.dto;
 
 import com.eventcafecloud.cafe.domain.Cafe;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.text.DecimalFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Data
+@Getter
+@NoArgsConstructor
 public class CafeDetailResponseDto {
 
     private Long cafeNumber;
@@ -29,8 +32,9 @@ public class CafeDetailResponseDto {
     private List<String> cafeOptions;
     private List<String> cafeImgUrls;
     private String cafeAvgStarRate;
+    private String bookmarkByLoginUser;
 
-    public CafeDetailResponseDto(Cafe cafe) {
+    public CafeDetailResponseDto(Cafe cafe, boolean checkBookmarkByLoginUser) {
         cafeNumber = cafe.getId();
         cafeName = cafe.getCafeName();
         cafeZonecode = cafe.getCafeZonecode();
@@ -57,5 +61,6 @@ public class CafeDetailResponseDto {
             DecimalFormat df = new DecimalFormat("0.0");
             cafeAvgStarRate = df.format((float) cafe.getCafeReviewScore() / (float) cafe.getCafeReviews().size());
         }
+        bookmarkByLoginUser = String.valueOf(checkBookmarkByLoginUser);
     }
 }

@@ -4,7 +4,6 @@ import com.eventcafecloud.user.domain.User;
 import com.eventcafecloud.user.service.UserService;
 import com.eventcafecloud.utils.CookieUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,14 +31,21 @@ public class ApiController {
     }
 
     @GetMapping("/user/exists")
-    public ResponseEntity<Boolean> checkNickNameDuplicate(@RequestParam("nick") String nick, User loginUser) {
+    public int checkNickNameDuplicate(@RequestParam("nick") String nick, User loginUser) {
         String loginNick = loginUser.getUserNickname();
-        Boolean result;
-        if (loginNick.equals(nick)) {
-            result = false;
+        int result;
+        if (nick.isBlank()) {
+            result = 1;
+        } else if (loginNick.equals(nick)) {
+            result = 3;
         } else {
-            result = userService.checkNicknameDuplicate(nick);
+            Boolean type = userService.checkNicknameDuplicate(nick);
+            if (type == true) {
+                result = 2;
+            } else {
+                result = 3;
+            }
         }
-        return ResponseEntity.ok(result);
+        return result;
     }
 }
