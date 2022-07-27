@@ -84,16 +84,18 @@ public class CafeController {
         if (loginUser != null) {
             model.addAttribute("userNick", loginUser.getUserNickname());
             model.addAttribute("userId", loginUser.getId());
-        }
-        CafeUpdateRequestDto CafeUpdateRequestDto = cafeService.findCafeByIdForUpdateForm(id, loginUser);
 
-        if(CafeUpdateRequestDto.getStatusCode() == 500){
+            CafeUpdateRequestDto CafeUpdateRequestDto = cafeService.findCafeByIdForUpdateForm(id, loginUser);
+            if(CafeUpdateRequestDto.getStatusCode() == 500){
+                return "error/500";
+            }
+            model.addAttribute("cafeUpdateRequestDto", CafeUpdateRequestDto);
+            model.addAttribute("cafeId", id);
+
+            return "cafe/updateCafeForm";
+        } else {
             return "error/500";
         }
-        model.addAttribute("cafeUpdateRequestDto", CafeUpdateRequestDto);
-        model.addAttribute("cafeId", id);
-
-        return "cafe/updateCafeForm";
     }
 
     // 카페 수정
