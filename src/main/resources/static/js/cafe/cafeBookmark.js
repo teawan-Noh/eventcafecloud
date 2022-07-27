@@ -5,17 +5,17 @@ function showBookmarkStatus(){
     }else {
         class_bookmark = "fa-solid";
     }
-    $('.fa-star').addClass(class_bookmark);
+    $('.fa-bookmark').addClass(class_bookmark);
 }
 
 function bookmark(){
-    if ($('.fa-star').hasClass("fa-regular")){
+    if ($('.fa-bookmark').hasClass("fa-regular")){
         $.ajax({
             type: "POST",
             url: `/cafes/${id}/bookmark`,
             data: {},
             success: function (response) {
-                $('.fa-star').addClass("fa-solid").removeClass("fa-regular");
+                $('.fa-bookmark').addClass("fa-solid").removeClass("fa-regular");
             }
         })
     } else {
@@ -24,7 +24,7 @@ function bookmark(){
             url: `/cafes/${id}/bookmark`,
             data: {},
             success: function (response) {
-                $('.fa-star').addClass("fa-regular").removeClass("fa-solid");
+                $('.fa-bookmark').addClass("fa-regular").removeClass("fa-solid");
             }
         })
     }

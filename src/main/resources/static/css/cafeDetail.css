@@ -26,17 +26,18 @@
     padding: 5px 0;
 }
 
-#cafeDetailTop .optionBoxContainer {
+#cafeDetailTop .optionBoxAndBookmarkBoxContainer {
     display: flex;
     justify-content: space-between;
     padding-top: 5px;
 }
 
-#cafeDetailTop .bookMarkBox i{
+#cafeDetailTop .bookmarkBox i{
+    color: goldenrod;
     font-size: 40px;
 }
 
-#cafeDetailTop .bookMarkBox:hover {
+#cafeDetailTop .bookmarkBox:hover {
     cursor: pointer;
 }
 

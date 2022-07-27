@@ -37,17 +37,17 @@
         <div class="infoBox">
             <h3 th:text="${cafeDetailResponseDto.getCafeInfo()}"></h3>
         </div>
-        <div class="optionBoxContainer">
+        <div class="optionBoxAndBookmarkBoxContainer">
             <div class="optionBox">
                 <ul>
                     <li class="optionList" th:each="cafeOption : ${cafeDetailResponseDto.getCafeOptions()}" th:text="'#'+${cafeOption}"></li>
                 </ul>
             </div>
-            <div th:if="${userId} == null" onclick='alert("로그인 후 이용해주세요!")' class="bookMarkBox" >
-                <i class="fa-star"></i>
+            <div th:if="${userId} == null" onclick='alert("로그인 후 이용해주세요!")' class="bookmarkBox" >
+                <i class="fa-bookmark"></i>
             </div>
-            <div th:if="${userId} != null" onclick="bookmark()" class="bookMarkBox" >
-                <i class="fa-star"></i>
+            <div th:if="${userId} != null" onclick="bookmark()" class="bookmarkBox" >
+                <i class="fa-bookmark"></i>
             </div>
         </div>
     </section>
