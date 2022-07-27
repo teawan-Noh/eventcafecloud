@@ -18,7 +18,7 @@
                 <br />
                 <div class="form-group-event">
                     <label th:for="evnetName">이벤트 이름</label>
-                    <input type="text" th:field="*{eventName}" class="form-control" placeholder="이벤트 이름을 입력하세요." maxlength="24" required
+                    <input type="text" th:field="*{eventName}" class="form-control" placeholder="이벤트 이름을 입력하세요." maxlength="22" required
                            th:class="${#fields.hasErrors('eventName')}? 'form-control fieldError' : 'form-control'">
                     <p style="color: #ff4040" th:if="${#fields.hasErrors('eventName')}" th:errors="*{eventName}">Incorrect data</p>
                 </div>
