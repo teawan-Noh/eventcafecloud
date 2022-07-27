@@ -9,6 +9,8 @@ import com.eventcafecloud.cafe.service.CafeBookmarkService;
 import com.eventcafecloud.cafe.service.CafeScheduleService;
 import com.eventcafecloud.cafe.service.CafeService;
 import com.eventcafecloud.event.domain.Event;
+import com.eventcafecloud.event.dto.EventBookmarkResponseDto;
+import com.eventcafecloud.event.service.EventBookmarkService;
 import com.eventcafecloud.event.service.EventService;
 import com.eventcafecloud.post.domain.Post;
 import com.eventcafecloud.post.service.PostService;
@@ -40,6 +42,7 @@ public class hostProfileController {
     private final EventService eventService;
     private final CafeScheduleService cafeScheduleService;
     private final CafeBookmarkService bookmarkService;
+    private final EventBookmarkService eventBookmarkService;
 
     @GetMapping("/{id}/info")
     public String getUserProfileById(@PathVariable Long id, Model model, User loginUser) {
@@ -54,13 +57,23 @@ public class hostProfileController {
     }
 
     @GetMapping("/{id}/host/bookmarks")
-    public String getUserBookmarkById(@PageableDefault Pageable pageable, @PathVariable Long id, Model model, User loginUser) {
+    public String getUserCafeBookmarkById(@PageableDefault Pageable pageable, @PathVariable Long id, Model model, User loginUser) {
         Page<CafeBookmarkResponseDto> bookmarkList = bookmarkService.findCafeBookmarkByUserId(id, pageable);
         model.addAttribute("bookmarks", bookmarkList);
         model.addAttribute("userNick", loginUser.getUserNickname());
         model.addAttribute("userId", loginUser.getId());
 
-        return "profile/profile-bookmark";
+        return "profile-host/host-cafeBookmark";
+    }
+
+    @GetMapping("/{id}/host/event/bookmarks")
+    public String getUserEventBookmarkById(@PageableDefault Pageable pageable, @PathVariable Long id, Model model, User loginUser) {
+        Page<EventBookmarkResponseDto> bookmarkList = eventBookmarkService.findEventBookmarkByUserId(id, pageable);
+        model.addAttribute("bookmarks", bookmarkList);
+        model.addAttribute("userNick", loginUser.getUserNickname());
+        model.addAttribute("userId", loginUser.getId());
+
+        return "profile-host/host-eventBookmark";
     }
 
     @PostMapping("/{id}/info/host/update")

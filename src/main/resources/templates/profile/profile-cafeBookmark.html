@@ -3,6 +3,7 @@
 <head>
     <th:block th:replace="fragments/header :: header"/>
     <th:block th:replace="fragments/mainHeader :: mainHeader"/>
+    <link href="/css/card.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div th:replace="fragments/mainTop :: mainTop"/>
@@ -16,21 +17,16 @@
                 <li><a class="menuVar-link" th:href="@{/users/profile/{id}/info(id=${userId})}">내 프로필</a></li>
                 <li><a class="menuVar-link" th:href="@{/users/profile/{id}/reservation(id=${userId})}">예약내역</a></li>
                 <li><a class="menuVar-link" th:href="@{/users/profile/{id}/posts(id=${userId})}">내 작성글</a></li>
-                <li><a class="menuVar-link" th:href="@{/users/profile/{id}/bookmarks(id=${userId})}">북마크(카페)</a></li>
-                <li><a class="menuVar-link" th:href="@{/users/profile/{id}/event/bookmarks(id=${userId})}">북마크(이벤트)</a>
+                <li><a class="menuVar-link" th:href="@{/users/profile/{id}/bookmarks(id=${userId})}">북마크(카페)</a>
                 </li>
+                <li><a class="menuVar-link"
+                       th:href="@{/users/profile/{id}/event/bookmarks(id=${userId})}">북마크(이벤트)</a></li>
             </ul>
         </div>
     </div>
     <div class="right">
-        <div th:replace="profile/fragments/posts :: posts"/>
+        <div th:replace="profile/fragments/cafeBookmarks :: cafeBookmarks"/>
     </div>
 </div>
 </body>
 </html>
-<script>
-    $("#file").on('change', function () {
-        var fileName = $("#file").val();
-        $(".upload-name").val(fileName);
-    });
-</script>
