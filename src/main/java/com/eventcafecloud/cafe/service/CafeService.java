@@ -123,9 +123,9 @@ public class CafeService {
                 () -> new IllegalArgumentException(CAFE_NOT_FOUND.getMessage()));
 
         boolean checkBookmarkByLoginUser;
-        if (loginUser != null){
-             checkBookmarkByLoginUser = cafeBookmarkRepository.existsByCafeIdAndUserId(cafeId, loginUser.getId());
-        }else {
+        if (loginUser != null) {
+            checkBookmarkByLoginUser = cafeBookmarkRepository.existsByCafeIdAndUserId(cafeId, loginUser.getId());
+        } else {
             checkBookmarkByLoginUser = false;
         }
 
@@ -137,7 +137,7 @@ public class CafeService {
         Cafe cafe = cafeRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException(CAFE_NOT_FOUND.getMessage()));
 
-        if(!cafe.getUser().getId().equals(loginUser.getId())){
+        if (!cafe.getUser().getId().equals(loginUser.getId())) {
             return CafeUpdateRequestDto.builder().statusCode(500).build();
         }
 
@@ -150,7 +150,7 @@ public class CafeService {
     @Transactional
     public int modifyCafe(Long id, CafeUpdateRequestDto requestDto, User loginUser) {
         Cafe cafe = cafeRepository.getById(id);
-        if (!cafe.getUser().getId().equals(loginUser.getId())){
+        if (!cafe.getUser().getId().equals(loginUser.getId())) {
             return 500;
         }
         cafe.updateCafeInfo(requestDto);
@@ -201,9 +201,39 @@ public class CafeService {
     @Transactional
     public String removeCafe(Long id, User loginUser) {
         Cafe cafe = cafeRepository.getById(id);
-        if (!cafe.getUser().getId().equals(loginUser.getId())){
+        if (!cafe.getUser().getId().equals(loginUser.getId())) {
             return "삭제 실패 : 비정상적인 접근입니다.";
         }
+        LocalDate now = LocalDate.now();
+        // 이벤트 존재 여부 확인
+        Event hasEventAfterNow = eventRepository.findTop1ByCafeIdAndEventStartDateAfter(id, now.toString());
+
+        if (hasEventAfterNow != null) {
+            return "이벤트 예약내역이 존재하므로 삭제가 불가능합니다.";
+        } else {
+            List<CafeImage> cafeImages = cafe.getCafeImages();
+            List<String> imageKeys = new ArrayList<>();
+            for (CafeImage cafeImage : cafeImages) {
+                // 3번째 '/'의 위치를 찾아서 +1 번째 부터 문자열 반환받아 key값으로 사용
+                int location = cafeImage.getCafeImageUrl().indexOf("/", 10);
+                String imageKey = cafeImage.getCafeImageUrl().substring(location + 1);
+                imageKeys.add(imageKey);
+            }
+            // s3에 저장된 파일들 삭제
+            s3Service.deleteImages(imageKeys);
+
+            cafeRepository.deleteById(id);
+            return "삭제 성공";
+        }
+    }
+
+    /**
+     * 어드민페이지용, 전체삭제 메소드
+     */
+    @Transactional
+    public String removeCafeByAdmin(Long id) {
+        Cafe cafe = cafeRepository.getById(id);
+
         LocalDate now = LocalDate.now();
         // 이벤트 존재 여부 확인
         Event hasEventAfterNow = eventRepository.findTop1ByCafeIdAndEventStartDateAfter(id, now.toString());

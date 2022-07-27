@@ -1,5 +1,7 @@
 package com.eventcafecloud.user.controller;
 
+import com.eventcafecloud.cafe.dto.CafeBookmarkResponseDto;
+import com.eventcafecloud.cafe.service.CafeBookmarkService;
 import com.eventcafecloud.event.dto.EventResponseForProfileDto;
 import com.eventcafecloud.event.service.EventService;
 import com.eventcafecloud.post.domain.Post;
@@ -26,6 +28,7 @@ public class ProfileController {
     private final UserService userService;
     private final PostService postService;
     private final EventService eventService;
+    private final CafeBookmarkService bookmarkService;
 
     @GetMapping("/{id}/info")
     public String getUserProfileById(@PathVariable Long id, Model model, User loginUser) {
@@ -58,6 +61,16 @@ public class ProfileController {
         model.addAttribute("userId", loginUser.getId());
 
         return "profile/profile-posts";
+    }
+
+    @GetMapping("/{id}/bookmarks")
+    public String getUserBookmarkById(@PageableDefault Pageable pageable, @PathVariable Long id, Model model, User loginUser) {
+        Page<CafeBookmarkResponseDto> bookmarkList = bookmarkService.findCafeBookmarkByUserId(id, pageable);
+        model.addAttribute("bookmarks", bookmarkList);
+        model.addAttribute("userNick", loginUser.getUserNickname());
+        model.addAttribute("userId", loginUser.getId());
+
+        return "profile/profile-bookmark";
     }
 
     @PostMapping("/{id}/info/update")
