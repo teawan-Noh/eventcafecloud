@@ -22,7 +22,6 @@ public class EventListResponseDto {
     private int eventCmtCount;
     private int eventBookmarkCount;
 
-
     public EventListResponseDto(Event event) {
         this.eventNumber = event.getId();
         this.eventName = event.getEventName();
