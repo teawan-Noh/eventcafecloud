@@ -6,6 +6,6 @@ public interface SortStrategy {
     /*
      *  @return Pageable에 필요한 sort 반환
      * */
-    Sort sort();
+    Sort sort(String sortValue);
 
 }

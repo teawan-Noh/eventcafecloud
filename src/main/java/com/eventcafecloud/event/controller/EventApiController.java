@@ -17,7 +17,7 @@ public class EventApiController {
 
     private final EventService eventService;
 
-   // 이벤트 TOP 5 가져오기
+    // 이벤트 TOP 5 가져오기
     @GetMapping("/api/events/top5")
     public List<EventListResponseDto> ReadEventTopFive() {
         return eventService.findEventTopFiveList();
@@ -35,9 +35,10 @@ public class EventApiController {
             @PathVariable Long eventNumber,
             @RequestParam("page") int page,
             @RequestParam("size") int size,
-            @RequestParam("sortStrategyKey") String sortStrategyKey
-    ){
-        return eventService.findEventCmtListByEventId(eventNumber, page, size, sortStrategyKey);
+            @RequestParam("sortStrategyKey") String sortStrategyKey,
+            @RequestParam("sortStrategyValue") String sortStrategyValue
+    ) {
+        return eventService.findEventCmtListByEventId(eventNumber, page, size, sortStrategyKey, sortStrategyValue);
     }
 
     // 댓글 삭제
@@ -48,13 +49,13 @@ public class EventApiController {
 
     // 북마크 등록
     @PostMapping("/events/{eventNumber}/bookmark")
-    public void createBookmark(@PathVariable Long eventNumber, User loginUser){
+    public void createBookmark(@PathVariable Long eventNumber, User loginUser) {
         eventService.saveEventBookmark(eventNumber, loginUser);
     }
 
     // 북마크 삭제
     @DeleteMapping("/events/{eventNumber}/bookmark")
-    public void deleteBookmark(@PathVariable Long eventNumber, User loginUser){
+    public void deleteBookmark(@PathVariable Long eventNumber, User loginUser) {
         eventService.removeEventBookmark(eventNumber, loginUser);
     }
 }
