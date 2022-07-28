@@ -84,7 +84,7 @@ public class EventService {
                 () -> new IllegalArgumentException(EVENT_NOT_FOUND.getMessage())
         );
 
-        if (!event.getUser().getId().equals(loginUser.getId())){
+        if (!event.getUser().getId().equals(loginUser.getId())) {
             return 500;
         }
 
@@ -124,9 +124,9 @@ public class EventService {
 
         boolean checkBookmarkByLoginUser;
 
-        if (loginUser != null){
+        if (loginUser != null) {
             checkBookmarkByLoginUser = eventBookmarkRepository.existsByEventIdAndUserId(eventNumber, loginUser.getId());
-        }else {
+        } else {
             checkBookmarkByLoginUser = false;
         }
 
@@ -167,10 +167,10 @@ public class EventService {
         eventCommentRepository.save(eventComment);
     }
 
-    public Page<EventCmtResponseDto> findEventCmtListByEventId(Long eventNumber, int page, int size, String sortStrategyKey) {
+    public Page<EventCmtResponseDto> findEventCmtListByEventId(Long eventNumber, int page, int size, String sortStrategyKey, String sortStrategyValue) {
 
         SortStrategy sortStrategy = sortStrategyMap.get(sortStrategyKey);
-        Sort sort = sortStrategy.sort();
+        Sort sort = sortStrategy.sort(sortStrategyValue);
         Pageable pageable = PageRequest.of(page - 1, size, sort);
 
         Page<EventComment> all = eventCommentRepository.findAllByEventId(eventNumber, pageable);

@@ -25,8 +25,9 @@ function getEventCmtList() {
     let dataSource = null;
     // 정렬 조건 추가하면 사용 // 카페 list 페이지에서 사용하는 것 참조
     // let sortStrategyKey = $("#sorting option:selected").val();
-    let sortStrategyKey = "createdDateDesc";
-    dataSource = `/api/events/${eventNumber}/comment?sortStrategyKey=${sortStrategyKey}`;
+    let sortStrategyKey = "desc";
+    let sortStrategyValue = "createdDate"
+    dataSource = `/api/events/${eventNumber}/comment?sortStrategyKey=${sortStrategyKey}&sortStrategyValue=${sortStrategyValue}`;
 
     $('#comment-list-container').empty();
     $('#pagination').pagination({
