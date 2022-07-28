@@ -23,9 +23,10 @@ public class CafeApiController {
             @RequestParam("page") int page,
             @RequestParam("size") int size,
             @RequestParam("searchVal") String searchVal,
-            @RequestParam("sortStrategyKey") String sortStrategyKey
+            @RequestParam("sortStrategyKey") String sortStrategyKey,
+            @RequestParam("sortStrategyValue") String sortStrategyValue
     ) {
-        return cafeService.findAllCafeList(page, size, searchVal, sortStrategyKey);
+        return cafeService.findAllCafeList(page, size, searchVal, sortStrategyKey, sortStrategyValue);
     }
 
     @GetMapping("/api/cafes/top5")
@@ -56,9 +57,10 @@ public class CafeApiController {
             @PathVariable Long id,
             @RequestParam("page") int page,
             @RequestParam("size") int size,
-            @RequestParam("sortStrategyKey") String sortStrategyKey
+            @RequestParam("sortStrategyKey") String sortStrategyKey,
+            @RequestParam("sortStrategyValue") String sortStrategyValue
     ) {
-        return cafeService.findCafeReviewListByCafeId(id, page, size, sortStrategyKey);
+        return cafeService.findCafeReviewListByCafeId(id, page, size, sortStrategyKey, sortStrategyValue);
     }
 
     @DeleteMapping("/api/cafes/review/{id}")
@@ -67,23 +69,23 @@ public class CafeApiController {
     }
 
     // 카페 삭제
-    @DeleteMapping("/cafes/{id}")
+    @DeleteMapping("/api/cafes/{id}")
     public String deleteCafe(@PathVariable Long id, User loginUser) {
         return cafeService.removeCafe(id, loginUser);
     }
 
-    @DeleteMapping("/admin/cafes/{id}")
+    @DeleteMapping("/api/admin/cafes/{id}")
     public String deleteCafeByAdmin(@PathVariable Long id) {
         return cafeService.removeCafeByAdmin(id);
     }
 
 
-    @PostMapping("/cafes/{id}/bookmark")
+    @PostMapping("/api/cafes/{id}/bookmark")
     public void createBookmark(@PathVariable Long id, User loginUser) {
         cafeService.saveCafeBookmark(id, loginUser);
     }
 
-    @DeleteMapping("/cafes/{id}/bookmark")
+    @DeleteMapping("/api/cafes/{id}/bookmark")
     public void deleteBookmark(@PathVariable Long id, User loginUser) {
         cafeService.removeCafeBookmark(id, loginUser);
     }

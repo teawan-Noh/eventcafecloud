@@ -17,9 +17,11 @@ function getCafeTop5() {
 function getCafeList() {
     let dataSource = null;
     let searchVal = $("#searchBox input").val();
-    let sortStrategyKey = $("#sorting option:selected").val();
+    let sortVal = $("#sorting option:selected").val();
+    let sortStrategyKey = sortVal.split("-")[1];
+    let sortStrategyValue = sortVal.split("-")[0];
 
-    dataSource = `/api/cafes?searchVal=${searchVal}&sortStrategyKey=${sortStrategyKey}`;
+    dataSource = `/api/cafes?searchVal=${searchVal}&sortStrategyKey=${sortStrategyKey}&sortStrategyValue=${sortStrategyValue}`;
 
     $('#cafeListContainer').empty();
     $('#pagination').pagination({

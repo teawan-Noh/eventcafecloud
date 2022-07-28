@@ -44,14 +44,14 @@ body {
 }
 
 div.left {
-    width: 15%;
+    width: 18%;
     height: 100vh;
     float: left;
     box-sizing: border-box;
 }
 
 div.right {
-    width: 85%;
+    width: 80%;
     height: 100vh;
     float: right;
     box-sizing: border-box;
@@ -61,6 +61,7 @@ div.right {
     text-align: center;
     padding: 50px;
     font-weight: bold;
+    width: 90%;
 }
 
 ul {

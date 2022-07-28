@@ -4,10 +4,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PriceAsc implements SortStrategy{
-    @Override
-    public Sort sort() {
+public class Asc implements SortStrategy {
 
-        return Sort.by(Sort.Direction.ASC, "cafeWeekdayPrice");
+    @Override
+    public Sort sort(String sortValue) {
+        return Sort.by(Sort.Direction.ASC, sortValue);
     }
 }

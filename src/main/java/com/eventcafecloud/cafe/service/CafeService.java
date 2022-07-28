@@ -73,10 +73,10 @@ public class CafeService {
         cafeRepository.save(cafe);
     }
 
-    public Page<CafeListResponseDto> findAllCafeList(int page, int size, String searchVal, String sortStrategyKey) {
+    public Page<CafeListResponseDto> findAllCafeList(int page, int size, String searchVal, String sortStrategyKey, String sortStrategyValue) {
 
         SortStrategy sortStrategy = sortStrategyMap.get(sortStrategyKey);
-        Sort sort = sortStrategy.sort();
+        Sort sort = sortStrategy.sort(sortStrategyValue);
 
         Pageable pageable = PageRequest.of(page - 1, size, sort);
 
@@ -84,8 +84,8 @@ public class CafeService {
         if (searchVal.equals("")) {
             all = cafeRepository.findAll(pageable);
         } else {
-            all = cafeRepository.findAllByCafeNameContaining(searchVal, pageable);
             // like 대신 Containing
+            all = cafeRepository.findAllByCafeNameContaining(searchVal, pageable);
         }
 //        return all.map(cafe -> new CafeListResponseDto(cafe));
         // 위의 주석단 람다식을 아래의 식으로 치환
@@ -293,10 +293,10 @@ public class CafeService {
         cafeReviewRepository.save(cafeReview);
     }
 
-    public Page<CafeReviewResponseDto> findCafeReviewListByCafeId(Long cafeNumber, int page, int size, String sortStrategyKey) {
+    public Page<CafeReviewResponseDto> findCafeReviewListByCafeId(Long cafeNumber, int page, int size, String sortStrategyKey, String sortStrategyValue) {
 
         SortStrategy sortStrategy = sortStrategyMap.get(sortStrategyKey);
-        Sort sort = sortStrategy.sort();
+        Sort sort = sortStrategy.sort(sortStrategyValue);
         Pageable pageable = PageRequest.of(page - 1, size, sort);
 
         Page<CafeReview> all = cafeReviewRepository.findAllByCafeId(cafeNumber, pageable);
