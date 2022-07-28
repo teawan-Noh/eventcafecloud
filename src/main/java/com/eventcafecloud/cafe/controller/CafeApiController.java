@@ -69,23 +69,23 @@ public class CafeApiController {
     }
 
     // 카페 삭제
-    @DeleteMapping("/cafes/{id}")
+    @DeleteMapping("/api/cafes/{id}")
     public String deleteCafe(@PathVariable Long id, User loginUser) {
         return cafeService.removeCafe(id, loginUser);
     }
 
-    @DeleteMapping("/admin/cafes/{id}")
+    @DeleteMapping("/api/admin/cafes/{id}")
     public String deleteCafeByAdmin(@PathVariable Long id) {
         return cafeService.removeCafeByAdmin(id);
     }
 
 
-    @PostMapping("/cafes/{id}/bookmark")
+    @PostMapping("/api/cafes/{id}/bookmark")
     public void createBookmark(@PathVariable Long id, User loginUser) {
         cafeService.saveCafeBookmark(id, loginUser);
     }
 
-    @DeleteMapping("/cafes/{id}/bookmark")
+    @DeleteMapping("/api/cafes/{id}/bookmark")
     public void deleteBookmark(@PathVariable Long id, User loginUser) {
         cafeService.removeCafeBookmark(id, loginUser);
     }

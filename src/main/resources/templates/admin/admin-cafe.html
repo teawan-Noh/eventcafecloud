@@ -13,7 +13,7 @@
         if (confirm("정말 삭제하시겠습니까?")) {
             $.ajax({
                 type: "DELETE",
-                url: `/admin/cafes/${cafeId}`,
+                url: `/api/admin/cafes/${cafeId}`,
                 data: {},
                 success: function (response) {
                     alert(response)

@@ -54,7 +54,7 @@ public class CafeUpdateRequestDto {
     private String cafeOpenTime;
     private String cafeCloseTime;
 
-    private List<CafeOptionType> cafeOptions = new ArrayList<>();
+    private List<CafeOptionType> cafeOptions;
     private List<MultipartFile> files;
 
     private int statusCode;
