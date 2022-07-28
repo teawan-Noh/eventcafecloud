@@ -69,8 +69,12 @@
                                 <div class="card-body-bottom">
                                     <div class="row">
                                         <div class="col" id="cmt-count">
-                                            <i style="color: lightgray" class="fa-solid fa-comment" th:text="| ${eventListResponseDto.getEventCmtCount()}|"></i>
-                                            <i style="color: lightgray" class="fa-solid fa-bookmark" th:text="| ${eventListResponseDto.getEventBookmarkCount()}|"></i>
+                                            <i style="color: lightgray" class="fa-solid fa-comment">
+                                                <span style="color: black; font-weight: normal" class="event-comment" th:text="| ${eventListResponseDto.getEventCmtCount()}|"></span>
+                                            </i>
+                                            <i style="color: lightgray" class="fa-solid fa-bookmark">
+                                                <span style="color: black; font-weight: normal" class="event-bookmark" th:text="| ${eventListResponseDto.getEventBookmarkCount()}|"></span>
+                                            </i>
                                         </div>
                                         <div class="col">
                                             <button type="button" class="btn btn-outline-dark" id="btn-list">
