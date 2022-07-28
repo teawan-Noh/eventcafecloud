@@ -32,6 +32,23 @@ Event Cafe Cloud는 새로운 문화현상으로 급부상한 [이벤트카페]�
 
 [자세히보기](https://www.erdcloud.com/d/Lz8Xb2MtTkP9b3xxD)
 
+## ☕ 화면 구현 
+| **📋 메인 페이지** | **📋 로그인 페이지** |
+|----------|-----------|
+|![메인페이지](https://user-images.githubusercontent.com/101540771/181512329-3a2b70c9-d40a-462f-8777-aa8b27b30c92.gif)|![로그인페이지](https://user-images.githubusercontent.com/101540771/181514074-2ee0ca3a-3e37-45ee-9ccf-826a9f3172a1.gif)|
+
+| **📋 프로필 페이지** | **📋 카페 페이지** |
+|----------|-----------|
+|![프로필페이지](https://user-images.githubusercontent.com/101540771/181514180-0ddaac1f-3cb2-4894-87e4-95e6b9233f6d.gif)|![카페페이지](https://user-images.githubusercontent.com/101540771/181514369-254337b8-24ca-4433-baeb-e304e3cadf05.gif)|
+
+| **📋 어드민 페이지** | **📋 이벤트 페이지** |
+|----------|-----------|
+|![어드민](https://user-images.githubusercontent.com/101540771/181514270-8c67163f-5f9d-4d80-9e6a-98b8a96bdb8e.gif)|![이벤트](https://user-images.githubusercontent.com/101540771/181514441-43e20c35-e1fe-46b0-a5bb-a9dcf573b35f.gif)|
+
+
+| **📋 게시판 페이지** | **📋 에러 페이지** |
+|----------|-----------|
+|![게시판페이지](https://user-images.githubusercontent.com/101540771/181516164-706bcecf-bff6-419a-9f55-012565ed0ada.gif)|![에러페이지](https://user-images.githubusercontent.com/101540771/181516268-784e1231-3dc4-4391-a6ec-4652dcfc7129.gif)|
 
 ## 🔍 [기술 특장점](https://iridescent-alder-11d.notion.site/EC2-a5b2cf235a774823aba067a534f1826e)
 
