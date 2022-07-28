@@ -9,7 +9,6 @@ import com.eventcafecloud.user.domain.User;
 import com.eventcafecloud.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
@@ -51,14 +50,6 @@ public class CommentService {
             output.add(commentReadResponseDto);
         }
         return output;
-    }
-
-    @Transactional(readOnly = true)
-    public Long updateComment(@PathVariable Long id, CommentUpdateRequestDto requestDto) {
-        Comment comment = commentRepository.findById(id).orElseThrow(()
-                -> new IllegalArgumentException(COMMENT_NOT_FOUND.getMessage()));
-        comment.updateComment(requestDto);
-        return id;
     }
 
     public void deleteComment(Long id) {
