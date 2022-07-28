@@ -54,7 +54,6 @@ public class EventController {
     // 이벤트 예약
     @PostMapping("/events")
     public String createEvent(@Valid @ModelAttribute EventCreateRequestDto requestDto, BindingResult result, User loginUser) {
-        
         if (result.hasErrors()) {
             return "event/createEventForm";
         }

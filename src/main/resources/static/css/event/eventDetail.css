@@ -22,6 +22,7 @@
     margin-right: 20px;
     font-size: 30px;
     color: goldenrod;
+    cursor: pointer;
 }
 
 #event-detail-info {
