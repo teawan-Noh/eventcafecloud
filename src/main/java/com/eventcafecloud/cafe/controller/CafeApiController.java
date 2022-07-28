@@ -23,9 +23,10 @@ public class CafeApiController {
             @RequestParam("page") int page,
             @RequestParam("size") int size,
             @RequestParam("searchVal") String searchVal,
-            @RequestParam("sortStrategyKey") String sortStrategyKey
+            @RequestParam("sortStrategyKey") String sortStrategyKey,
+            @RequestParam("sortStrategyValue") String sortStrategyValue
     ) {
-        return cafeService.findAllCafeList(page, size, searchVal, sortStrategyKey);
+        return cafeService.findAllCafeList(page, size, searchVal, sortStrategyKey, sortStrategyValue);
     }
 
     @GetMapping("/api/cafes/top5")
@@ -56,9 +57,10 @@ public class CafeApiController {
             @PathVariable Long id,
             @RequestParam("page") int page,
             @RequestParam("size") int size,
-            @RequestParam("sortStrategyKey") String sortStrategyKey
+            @RequestParam("sortStrategyKey") String sortStrategyKey,
+            @RequestParam("sortStrategyValue") String sortStrategyValue
     ) {
-        return cafeService.findCafeReviewListByCafeId(id, page, size, sortStrategyKey);
+        return cafeService.findCafeReviewListByCafeId(id, page, size, sortStrategyKey, sortStrategyValue);
     }
 
     @DeleteMapping("/api/cafes/review/{id}")
