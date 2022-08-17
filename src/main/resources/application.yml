@@ -4,10 +4,10 @@ spring:
     username: ${rds.username}
     password: ${rds.password}
     driver-class-name: ${rds.driver}
-
-  mvc:
-    pathmatch:
-      matching-strategy: ant_path_matcher
+  #스웨거 설정
+#  mvc:
+#    pathmatch:
+#      matching-strategy: ant_path_matcher
 
   mail:
     host: smtp.gmail.com

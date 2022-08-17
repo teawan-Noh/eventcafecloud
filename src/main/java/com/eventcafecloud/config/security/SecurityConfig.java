@@ -66,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/cafes/**").permitAll()
                 .antMatchers("/posts/**").permitAll()
                 .antMatchers("/api/**").permitAll()
-                .antMatchers("/swagger-resources/**").permitAll()
+//                .antMatchers("/swagger-resources/**").permitAll()
                 .anyRequest().authenticated() //설정된 값 이외의 나머지 URL, 인증된 사용자, 로그인한 사용자만 볼 수 있음
                 .and()
                 .oauth2Login()  //Oauth2 로그인 기능에대한 여러가지 설정의 진입점
@@ -91,10 +91,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/static/css/**, /static/js/**, *.ico");
 
         // swagger
-        web.ignoring().antMatchers(
-                "/v2/api-docs",  "/configuration/ui",
-                "/swagger-resources", "/configuration/security",
-                "/swagger-ui.html", "/webjars/**","/swagger/**", "/swagger-ui/index.html");
+//        web.ignoring().antMatchers(
+//                "/v2/api-docs",  "/configuration/ui",
+//                "/swagger-resources", "/configuration/security",
+//                "/swagger-ui.html", "/webjars/**","/swagger/**", "/swagger-ui/index.html");
     }
 
     //auth 매니저 설정
