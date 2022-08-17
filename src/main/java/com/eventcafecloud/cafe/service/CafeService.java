@@ -276,7 +276,11 @@ public class CafeService {
 
     // 리뷰등록
     @Transactional
-    public void saveCafeReview(CafeReviewRequestDto requestDto, Long cafeNumber, User securityUser) {
+    public int saveCafeReview(CafeReviewRequestDto requestDto, Long cafeNumber, User securityUser) {
+        if(cafeReviewRepository.existsByCafeIdAndUserId(cafeNumber, securityUser.getId())){
+            return 500;
+        }
+
         User user = userRepoistory.getById(securityUser.getId());
         Cafe cafe = cafeRepository.findById(cafeNumber).orElseThrow(
                 () -> new IllegalArgumentException(CAFE_NOT_FOUND.getMessage())
@@ -291,6 +295,7 @@ public class CafeService {
         cafe.updateCafeReviewScore(newCafeReviewScore);
 
         cafeReviewRepository.save(cafeReview);
+        return 200;
     }
 
     public Page<CafeReviewResponseDto> findCafeReviewListByCafeId(Long cafeNumber, int page, int size, String sortStrategyKey, String sortStrategyValue) {

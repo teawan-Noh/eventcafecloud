@@ -19,6 +19,9 @@ function addReview() {
             },
             success: function (response) {
                 // console.log(response);
+                if (response === 500){
+                    alert("잘못된 요청입니다")
+                }
                 location.reload(true);
                 getCafeReviewList();
             }
@@ -66,10 +69,10 @@ function getCafeReviewList() {
                 if (loginUserId !== userId){
                     $(`.delete${cafeReviewNumber}`).hide();
                 }
-                if (loginUserId === userId){
-                    $('#reviews .review-input-box').hide();
-                    $('#reviews .star-box').hide();
-                }
+                // if (loginUserId === userId){
+                //     $('#reviews .review-input-box').hide();
+                //     $('#reviews .star-box').hide();
+                // }
             }
         }
     });
