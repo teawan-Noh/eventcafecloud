@@ -9,7 +9,7 @@ function addReview() {
         return;
     }
 
-    if(confirm("리뷰를 등록하시겠습니까?")){
+    if (confirm("리뷰를 등록하시겠습니까?")) {
         $.ajax({
             type: "POST",
             url: `/api/cafes/${id}/review`,
@@ -18,8 +18,7 @@ function addReview() {
                 reviewRating: reviewRating
             },
             success: function (response) {
-                // console.log(response);
-                if (response === 500){
+                if (response === 500) {
                     alert("잘못된 요청입니다")
                 }
                 location.reload(true);
@@ -31,7 +30,7 @@ function addReview() {
 }
 
 function getCafeReviewList() {
-    let dataSource = null;
+    let dataSource;
     // 정렬 조건 추가하면 사용 // 카페 list 페이지에서 사용하는 것 참조
     // let sortStrategyKey = $("#sorting option:selected").val();
     let sortStrategyKey = "desc";
@@ -65,14 +64,14 @@ function getCafeReviewList() {
                 let cafeReviewNumber = review["cafeReviewNumber"];
                 $('#review-list-container').append(tempHtml);
                 // 별표시
-                rateIt('#review'+ review["cafeReviewNumber"], review["cafeReviewRating"]);
-                if (loginUserId !== userId){
+                rateIt('#review' + review["cafeReviewNumber"], review["cafeReviewRating"]);
+                if (loginUserId !== userId) {
                     $(`.delete${cafeReviewNumber}`).hide();
                 }
-                // if (loginUserId === userId){
-                //     $('#reviews .review-input-box').hide();
-                //     $('#reviews .star-box').hide();
-                // }
+                if (loginUserId === userId) {
+                    $('#reviews .review-input-box').hide();
+                    $('#reviews .star-box').hide();
+                }
             }
         }
     });
@@ -125,7 +124,7 @@ function makeHtmlReview(review) {
 }
 
 function deleteReview(cafeReviewNumber) {
-    if(confirm("삭제 하시겠습니까?")){
+    if (confirm("삭제 하시겠습니까?")) {
         $.ajax({
             type: "DELETE",
             url: `/api/cafes/review/${cafeReviewNumber}`,
