@@ -29,11 +29,6 @@ spring:
       - oauth
       - s3
 
-  servlet:
-    multipart:
-      maxFileSize: 3MB
-      maxRequestSize: 12MB
-
   jpa:
     properties:
       hibernate:
