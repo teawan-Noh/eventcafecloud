@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CafeReviewRepository extends JpaRepository<CafeReview, Long> {
     Page<CafeReview> findAllByCafeId(Long cafeNumber, Pageable pageable);
+
+    boolean existsByCafeIdAndUserId(Long cafeNumber, Long userNumber);
 }

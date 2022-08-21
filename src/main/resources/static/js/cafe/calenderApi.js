@@ -21,7 +21,7 @@
                 const eventId = info.event.id;
                 window.open(`/events/${eventId}/detail`)
             },
-            // 이벤트
+            // 이벤트 표시
             eventSources: [
                 {
                     url: '/api/cafes/calender?id=' + id,

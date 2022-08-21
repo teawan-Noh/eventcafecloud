@@ -276,7 +276,11 @@ public class CafeService {
 
     // 리뷰등록
     @Transactional
-    public void saveCafeReview(CafeReviewRequestDto requestDto, Long cafeNumber, User securityUser) {
+    public int saveCafeReview(CafeReviewRequestDto requestDto, Long cafeNumber, User securityUser) {
+        if(cafeReviewRepository.existsByCafeIdAndUserId(cafeNumber, securityUser.getId())){
+            return 500;
+        }
+
         User user = userRepoistory.getById(securityUser.getId());
         Cafe cafe = cafeRepository.findById(cafeNumber).orElseThrow(
                 () -> new IllegalArgumentException(CAFE_NOT_FOUND.getMessage())
@@ -291,6 +295,7 @@ public class CafeService {
         cafe.updateCafeReviewScore(newCafeReviewScore);
 
         cafeReviewRepository.save(cafeReview);
+        return 200;
     }
 
     public Page<CafeReviewResponseDto> findCafeReviewListByCafeId(Long cafeNumber, int page, int size, String sortStrategyKey, String sortStrategyValue) {
@@ -371,10 +376,10 @@ public class CafeService {
     }
 
     @Transactional
-    public void saveCafeBookmark(Long id, User loginUser) {
+    public void saveCafeBookmark(Long cafeId, User loginUser) {
         User user = userRepoistory.findById(loginUser.getId()).orElseThrow(
                 () -> new IllegalArgumentException(USER_NOT_FOUND.getMessage()));
-        Cafe cafe = cafeRepository.findById(id).orElseThrow(
+        Cafe cafe = cafeRepository.findById(cafeId).orElseThrow(
                 () -> new IllegalArgumentException(CAFE_NOT_FOUND.getMessage()));
 
         CafeBookmark cafeBookmark = CafeBookmark.builder()

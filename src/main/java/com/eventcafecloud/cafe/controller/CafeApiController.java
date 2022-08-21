@@ -44,8 +44,8 @@ public class CafeApiController {
      * id = cafeId
      */
     @PostMapping("/api/cafes/{id}/review")
-    public void createCafeReview(User loginUser, @PathVariable Long id, CafeReviewRequestDto requestDto) {
-        cafeService.saveCafeReview(requestDto, id, loginUser);
+    public int createCafeReview(User loginUser, @PathVariable Long id, CafeReviewRequestDto requestDto) {
+       return cafeService.saveCafeReview(requestDto, id, loginUser);
     }
 
     /**
